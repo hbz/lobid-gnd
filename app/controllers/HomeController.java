@@ -51,7 +51,10 @@ public class HomeController extends Controller {
 	 * path of <code>/</code>.
 	 */
 	public Result index() {
-		return ok(views.html.index.render());
+		return ok(views.html.index.render(ImmutableMap.of(//
+				"London", controllers.routes.HomeController.authority("4074335-4").toString(), //
+				"hbz", controllers.routes.HomeController.authority("2047974-8").toString(), //
+				"Goethe", controllers.routes.HomeController.authority("118540238").toString())));
 	}
 
 	public Result authority(String name) {

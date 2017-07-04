@@ -1,5 +1,14 @@
-@()
+@(samples: Map[String,String])
 
-@main("Welcome to Play") {
-  <h1>Welcome to Play!</h1>
+@main("lobid-authorities") {
+  <h1>lobid-authorities</h1>
+
+  <p>GET by ID: <code>@Html(controllers.routes.HomeController.authority("&lt;id&gt;").toString)</code></p>
+
+  <dl>
+   @for((key,value) <- samples) {
+    <dt>@key</dt>
+    <dd><a href='@value'>@value</a></dd>
+   }
+  </dl>
 }
