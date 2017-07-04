@@ -1,0 +1,13 @@
+h1. About
+
+lobid-authorities: access GND data as JSON-LD over HTTP.
+
+h1. Setup
+
+Prerequisites: @sbt 0.13@ &mdash; "download sbt":http://www.scala-sbt.org/download.html
+
+@git clone https://github.com/hbz/lobid-authorities.git@
+@cd lobid-authorities@
+@sbt run@
+
+Open "http://localhost:9000/authorities":http://localhost:9000/authorities
