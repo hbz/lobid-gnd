@@ -763,7 +763,10 @@
       "dateOfProduction":"gnd:dateOfProduction",
       "dateOfPublication":"gnd:dateOfPublication",
       "dateOfTermination":"gnd:dateOfTermination",
-      "definition":"gnd:definition",
+      "definition": {
+        "@id": "gnd:definition",
+        "@container": "@language"
+      },
       "easternmostLongitude":"gnd:easternmostLongitude",
       "endOfPeriod":"gnd:endOfPeriod",
       "forename":"gnd:forename",
