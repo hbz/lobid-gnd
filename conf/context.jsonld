@@ -1,5 +1,7 @@
 {
    "@context":{
+      "type": "@type",
+      "id": "@id",
       "gnd":"http://d-nb.info/standards/elementset/gnd#",
       "AdministrativeUnit":"gnd:AdministrativeUnit",
       "AuthorityResource":"gnd:AuthorityResource",
@@ -37,6 +39,7 @@
       "OrganOfCorporateBody":"gnd:OrganOfCorporateBody",
       "Person":"gnd:Person",
       "PlaceOrGeographicName":"gnd:PlaceOrGeographicName",
+      "Point": "http://www.opengis.net/ont/sf#Point",
       "PreferredNameOfThePerson":"gnd:PreferredNameOfThePerson",
       "ProductNameOrBrandName":"gnd:ProductNameOrBrandName",
       "ProjectOrProgram":"gnd:ProjectOrProgram",
@@ -56,6 +59,7 @@
       "VariantNameOfThePerson":"gnd:VariantNameOfThePerson",
       "VersionOfAMusicalWork":"gnd:VersionOfAMusicalWork",
       "WayBorderOrLine":"gnd:WayBorderOrLine",
+      "WKTLiteral": "http://www.opengis.net/ont/geosparql#wktLiteral",
       "Work":"gnd:Work",
       "accordingWork":{
          "@id":"gnd:accordingWork",
@@ -245,6 +249,10 @@
          "@id":"gnd:dedicatee",
          "@type":"@id"
       },
+      "deprecatedUri": {
+        "@id": "http://d-nb.info/standards/elementset/dnb#deprecatedUri",
+        "@type": "@id"
+      },
       "designer":{
          "@id":"gnd:designer",
          "@type":"@id"
@@ -340,6 +348,10 @@
       "gndSubjectCategory":{
          "@id":"gnd:gndSubjectCategory",
          "@type":"@id"
+      },
+      "hasGeometry": {
+        "@id": "http://www.opengis.net/ont/geosparql#hasGeometry",
+        "@type": "@id"
       },
       "hierarchicalSuperior":{
          "@id":"gnd:hierarchicalSuperior",
@@ -736,6 +748,7 @@
       "academicDegree":"gnd:academicDegree",
       "affiliationAsLiteral":"gnd:affiliationAsLiteral",
       "associatedDate":"gnd:associatedDate",
+      "asWKT": "http://www.opengis.net/ont/geosparql#asWKT",
       "beginningOfPeriod":"gnd:beginningOfPeriod",
       "biographicalOrHistoricalInformation":"gnd:biographicalOrHistoricalInformation",
       "coordinates":"gnd:coordinates",
