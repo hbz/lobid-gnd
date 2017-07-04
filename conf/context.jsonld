@@ -249,9 +249,8 @@
          "@id":"gnd:dedicatee",
          "@type":"@id"
       },
-      "deprecatedUri": {
-        "@id": "http://d-nb.info/standards/elementset/dnb#deprecatedUri",
-        "@type": "@id"
+      "deprecatedUri": "http://d-nb.info/standards/elementset/dnb#deprecatedUri",
+        "@container": "@set"
       },
       "designer":{
          "@id":"gnd:designer",
