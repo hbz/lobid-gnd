@@ -249,7 +249,8 @@
          "@id":"gnd:dedicatee",
          "@type":"@id"
       },
-      "deprecatedUri": "http://d-nb.info/standards/elementset/dnb#deprecatedUri",
+      "deprecatedUri": {
+        "@id": "http://d-nb.info/standards/elementset/dnb#deprecatedUri",
         "@container": "@set"
       },
       "designer":{
@@ -749,7 +750,10 @@
       "associatedDate":"gnd:associatedDate",
       "asWKT": "http://www.opengis.net/ont/geosparql#asWKT",
       "beginningOfPeriod":"gnd:beginningOfPeriod",
-      "biographicalOrHistoricalInformation":"gnd:biographicalOrHistoricalInformation",
+      "biographicalOrHistoricalInformation": {
+        "@id": "gnd:biographicalOrHistoricalInformation",
+        "@container": "@language"
+      },
       "coordinates":"gnd:coordinates",
       "counting":"gnd:counting",
       "dateOfBirth":"gnd:dateOfBirth",
