@@ -3,6 +3,7 @@
       "type": "@type",
       "id": "@id",
       "gnd":"http://d-nb.info/standards/elementset/gnd#",
+      "skos":"http://www.w3.org/2004/02/skos/core#",
       "AdministrativeUnit":"gnd:AdministrativeUnit",
       "AuthorityResource":"gnd:AuthorityResource",
       "BuildingOrMemorial":"gnd:BuildingOrMemorial",
@@ -810,6 +811,9 @@
       "variantNameForThePlaceOrGeographicName":"gnd:variantNameForThePlaceOrGeographicName",
       "variantNameForTheSubjectHeading":"gnd:variantNameForTheSubjectHeading",
       "variantNameForTheWork":"gnd:variantNameForTheWork",
-      "westernmostLongitude":"gnd:westernmostLongitude"
+      "westernmostLongitude":"gnd:westernmostLongitude",
+      "exactMatch":"skos:exactMatch",
+      "broadMatch":"skos:broadMatch",
+      "relatedMatch":"skos:relatedMatch"
    }
 }
