@@ -3,3 +3,5 @@ target
 .project
 .settings/org.scala-ide.sdt.core.prefs
 logs
+/data
+/GND*

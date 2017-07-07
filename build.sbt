@@ -12,3 +12,7 @@ libraryDependencies += guice
 libraryDependencies += "com.github.jsonld-java" % "jsonld-java" % "0.10.0"
 
 libraryDependencies += "com.github.jsonld-java" % "jsonld-java-jena" % "0.4.1"
+
+libraryDependencies += "org.culturegraph" % "metafacture-core" % "4.0.0"
+
+libraryDependencies += "org.elasticsearch" % "elasticsearch" % "2.4.5"

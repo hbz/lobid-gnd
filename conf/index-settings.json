@@ -1,0 +1,75 @@
+{
+	"settings": {
+		"index": {
+			"max_result_window": "25000",
+			"analysis": {
+				"analyzer": {
+					"default": {
+						"type" : "custom",
+						"tokenizer" : "standard",
+						"filter": ["lowercase", "german_filter"]
+					},
+					"autocomplete": {
+						"tokenizer": "edge_ngram_tokenizer",
+						"filter": ["lowercase", "german_filter"]
+					}, 
+					"id": {
+						"tokenizer": "keyword",
+						"filter": "lowercase"
+					}
+				}, 
+				"tokenizer": {
+					"edge_ngram_tokenizer": {
+						"type": "edgeNGram", 
+						"min_gram": "1", 
+						"max_gram": "40", 
+						"token_chars": [
+							"letter", 
+							"digit"
+						]
+					}
+				},
+				"filter" : {
+					"german_filter" : {
+						"type" : "snowball",
+						"language" : "German2"
+					}
+				}
+			}
+		}
+	}, 
+	"mappings": {
+		"authority": {
+			"date_detection" : false,
+			"properties": {
+				"id": {
+					"type": "string",
+					"index": "not_analyzed"
+				},
+				"gndIdentifier": {
+					"type": "string",
+					"index": "not_analyzed"
+				},
+				"type" : {
+					"type": "string",
+					"fields": {
+						"raw": {
+							"type": "string",
+							"index": "not_analyzed"
+						}
+					}
+				},
+				"preferredName": {
+					"type": "string", 
+					"analyzer": "autocomplete", 
+					"search_analyzer": "default"
+				}, 
+				"variantName": {
+					"type": "string", 
+					"analyzer": "autocomplete", 
+					"search_analyzer": "default"
+				}
+			}
+		}
+	}
+}
