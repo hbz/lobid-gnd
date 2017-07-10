@@ -5,12 +5,21 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.index.query.QueryBuilders;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -19,6 +28,7 @@ import apps.Convert;
 import modules.IndexComponent;
 import play.Environment;
 import play.Logger;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -41,10 +51,15 @@ public class HomeController extends Controller {
 	 * path of <code>/</code>.
 	 */
 	public Result index() {
-		return ok(views.html.index.render(ImmutableMap.of(//
+		ImmutableMap<String, String> searchSamples = ImmutableMap.of(//
+				"All", controllers.routes.HomeController.search("*").toString(), //
+				"All fields", controllers.routes.HomeController.search("london").toString(), //
+				"Field search", controllers.routes.HomeController.search("type:CorporateBody").toString());
+		ImmutableMap<String, String> getSamples = ImmutableMap.of(//
 				"London", controllers.routes.HomeController.authority("4074335-4").toString(), //
 				"hbz", controllers.routes.HomeController.authority("2047974-8").toString(), //
-				"Goethe", controllers.routes.HomeController.authority("118540238").toString())));
+				"Goethe", controllers.routes.HomeController.authority("118540238").toString());
+		return ok(views.html.index.render(searchSamples, getSamples));
 	}
 
 	public Result authority(String id) {
@@ -79,5 +94,36 @@ public class HomeController extends Controller {
 		sourceModel.read(sourceUrl);
 		String jsonLd = Convert.toJsonLd(id, sourceModel, env.isDev());
 		return ok(jsonLd).as("application/json; charset=utf-8");
+	}
+
+	public Result search(String q) {
+		SearchResponse response = index.client().prepareSearch("authorities")
+				.setQuery(QueryBuilders.queryStringQuery(q)).get();
+		response().setHeader("Access-Control-Allow-Origin", "*");
+		return ok(returnAsJson(response)).as("application/json; charset=utf-8");
+	}
+
+	private static String returnAsJson(SearchResponse queryResponse) {
+		List<Map<String, Object>> hits = Arrays.asList(queryResponse.getHits().hits()).stream()
+				.map(hit -> hit.getSource()).collect(Collectors.toList());
+		ObjectNode object = Json.newObject();
+		object.put("@context", "http://" + request().host() + routes.HomeController.context());
+		object.put("id", "http://" + request().host() + request().uri());
+		object.put("totalItems", queryResponse.getHits().getTotalHits());
+		object.set("member", Json.toJson(hits));
+		JsonNode aggregations = Json.parse(queryResponse.toString()).get("aggregations");
+		if (aggregations != null) {
+			object.set("aggregation", aggregations);
+		}
+		return prettyJsonOk(object);
+	}
+
+	private static String prettyJsonOk(JsonNode jsonNode) {
+		try {
+			return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
+		} catch (JsonProcessingException x) {
+			x.printStackTrace();
+			return null;
+		}
 	}
 }

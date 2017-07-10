@@ -1,12 +1,21 @@
-@(samples: Map[String,String])
+@(searchSamples: Map[String,String], getSamples: Map[String,String])
 
 @main("lobid-authorities") {
   <h1>lobid-authorities</h1>
 
-  <p>GET by ID: <code>@Html(controllers.routes.HomeController.authority("&lt;id&gt;").toString)</code></p>
+  <h2>Search: <code>@Html(controllers.routes.HomeController.search("text").toString)</code></h2>
 
   <dl>
-   @for((key,value) <- samples) {
+   @for((key,value) <- searchSamples) {
+    <dt>@key</dt>
+    <dd><a href='@value'>@java.net.URLDecoder.decode(value)</a></dd>
+   }
+  </dl>
+
+  <h2>GET by ID: <code>@Html(controllers.routes.HomeController.authority("&lt;id&gt;").toString)</code></h2>
+
+  <dl>
+   @for((key,value) <- getSamples) {
     <dt>@key</dt>
     <dd><a href='@value'>@value</a></dd>
    }
