@@ -9,12 +9,16 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.elasticsearch.action.get.GetResponse;
+
 import com.google.common.collect.ImmutableMap;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import apps.Convert;
+import modules.IndexComponent;
 import play.Environment;
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -26,6 +30,9 @@ public class HomeController extends Controller {
 
 	@Inject
 	Environment env;
+
+	@Inject
+	IndexComponent index;
 
 	/**
 	 * An action that renders an HTML page with a welcome message. The
@@ -40,9 +47,14 @@ public class HomeController extends Controller {
 				"Goethe", controllers.routes.HomeController.authority("118540238").toString())));
 	}
 
-	public Result authority(String name) {
+	public Result authority(String id) {
+		GetResponse response = index.client().prepareGet("authorities", "authority", id).get();
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		String jsonLd = Convert.toJsonLd(name, sourceModel(name), env.isDev());
+		if (!response.isExists()) {
+			Logger.warn("{} does not exists in index, falling back to live version from GND", id);
+			return gnd(id);
+		}
+		String jsonLd = response.getSourceAsString();
 		return ok(jsonLd).as("application/json; charset=utf-8");
 	}
 
@@ -59,10 +71,13 @@ public class HomeController extends Controller {
 		return null;
 	}
 
-	private Model sourceModel(String gndId) {
+	// TODO add route or parameter for testing live version from GND
+	public Result gnd(String id) {
+		response().setHeader("Access-Control-Allow-Origin", "* ");
 		Model sourceModel = ModelFactory.createDefaultModel();
-		String sourceUrl = "http://d-nb.info/gnd/" + gndId + "/about/lds";
+		String sourceUrl = "http://d-nb.info/gnd/" + id + "/about/lds";
 		sourceModel.read(sourceUrl);
-		return sourceModel;
+		String jsonLd = Convert.toJsonLd(id, sourceModel, env.isDev());
+		return ok(jsonLd).as("application/json; charset=utf-8");
 	}
 }

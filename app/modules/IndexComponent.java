@@ -1,4 +1,4 @@
-package apps;
+package modules;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
@@ -12,6 +12,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
+
+import javax.inject.Inject;
 
 import org.elasticsearch.Version;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
@@ -29,8 +31,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import play.Logger;
+import play.inject.ApplicationLifecycle;
 
-public class Index {
+public interface IndexComponent {
+	Client client();
+}
+
+class EmbeddedIndex implements IndexComponent {
+
+	private static final String INDEX_NAME = "authorities";
+
+	private static final String INDEX_TYPE = "authority";
 
 	private static class ConfigurableNode extends Node {
 		public ConfigurableNode(Settings settings, Collection<Class<? extends Plugin>> classpathPlugins) {
@@ -38,27 +49,55 @@ public class Index {
 		}
 	}
 
-	private static Settings clientSettings = Settings.settingsBuilder().put("path.home", ".").put("http.port", "7111")
+	private Settings clientSettings = Settings.settingsBuilder().put("path.home", ".").put("http.port", "7111")
 			.put("transport.tcp.port", "7122").put("script.default_lang", "native").build();
 
-	private static Node node = new ConfigurableNode(
-			nodeBuilder().settings(clientSettings).local(true).getSettings().build(),
+	private Node node = new ConfigurableNode(nodeBuilder().settings(clientSettings).local(true).getSettings().build(),
 			Arrays.asList(/* BundlePlugin.class */)).start();
 
-	public static final Client CLIENT = node.client();
+	public final Client client = node.client();
 
-	private static final String INDEX_NAME = "authorities";
+	@Inject
+	public EmbeddedIndex(ApplicationLifecycle lifecycle) {
+		startup();
+		lifecycle.addStopHook(() -> {
+			node.close();
+			client.close();
+			return null;
+		});
+	}
 
-	private static final String INDEX_TYPE = "authority";
+	@Override
+	public Client client() {
+		return client;
+	}
 
-	public static void main(String[] args) throws IOException {
-		String pathToJson = "GND.jsonl";
-		if (!indexExists(CLIENT, INDEX_NAME)) {
-			createEmptyIndex(CLIENT, INDEX_NAME, "conf/index-settings.json");
-			indexData(CLIENT, pathToJson, INDEX_NAME);
+	private void startup() {
+		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
+		client.admin().indices().refresh(new RefreshRequest()).actionGet();
+		String pathToJson = "GND-test.jsonl";
+		if (!indexExists(client, INDEX_NAME)) {
+			try {
+				createEmptyIndex(client, INDEX_NAME, "conf/index-settings.json");
+				indexData(client, pathToJson, INDEX_NAME);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		} else {
-			System.out.println("Index exists. Delete the data/ directory to reindex from " + pathToJson);
+			Logger.info("Index exists. Delete the 'data/' directory to reindexfrom " + pathToJson);
 		}
+		Logger.info("Using Elasticsearch index settings: {}", clientSettings.getAsMap());
+	}
+
+	private static void deleteIndex(final Client client, final String index) {
+		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
+		if (indexExists(client, index)) {
+			client.admin().indices().delete(new DeleteIndexRequest(index)).actionGet();
+		}
+	}
+
+	private static boolean indexExists(final Client client, final String index) {
+		return client.admin().indices().prepareExists(index).execute().actionGet().isExists();
 	}
 
 	static void createEmptyIndex(final Client aClient, final String aIndexName, final String aPathToIndexSettings)
@@ -69,7 +108,7 @@ public class Index {
 			String settingsMappings = Files.lines(Paths.get(aPathToIndexSettings)).collect(Collectors.joining());
 			cirb.setSource(settingsMappings);
 		}
-		cirb.execute().actionGet();
+		cirb.execute().actionGet();//
 		aClient.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
@@ -127,16 +166,4 @@ public class Index {
 			Logger.info("Indexed 1000, took: " + bulkResponse.getTook());
 		}
 	}
-
-	private static void deleteIndex(final Client client, final String index) {
-		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
-		if (indexExists(client, index)) {
-			client.admin().indices().delete(new DeleteIndexRequest(index)).actionGet();
-		}
-	}
-
-	private static boolean indexExists(final Client client, final String index) {
-		return client.admin().indices().prepareExists(index).execute().actionGet().isExists();
-	}
-
 }

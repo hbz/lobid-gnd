@@ -5,3 +5,5 @@ target
 logs
 /data
 /GND*
+.cache*
+bin
