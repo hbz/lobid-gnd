@@ -83,7 +83,7 @@ public class Convert {
 								new StringReader("<?xml version = \"1.1\" encoding = \"UTF-8\"?>" + value))));
 			} catch (XPathExpressionException e) {
 				Logger.error("XPath evaluation failed for: {}", value, e);
-				id = "no-ID-" + System.currentTimeMillis();
+				return;
 			}
 			Model model = sourceModel(value);
 			String jsonLd = Convert.toJsonLd(id, model, false);
