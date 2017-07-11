@@ -6,8 +6,50 @@ h1. Setup
 
 Prerequisites: @sbt 0.13@ &mdash; "download sbt":http://www.scala-sbt.org/download.html
 
+Get the code and change into the project directory:
+
 @git clone https://github.com/hbz/lobid-authorities.git@
+
 @cd lobid-authorities@
+
+h2. Data
+
+Get the GND RDF/XML source data:
+
+@wget -O GND.rdf.gz http://datendienst.dnb.de/cgi-bin/mabit.pl?cmd=fetch&userID=opendata&pass=opendata&mabheft=GND.rdf.gz@
+
+@gunzip GND.rdf.gz@
+
+This should give you a local file called 'GND.rdf'. You can configure file names in 'conf/application.conf'.
+
+Convert the data to JSON-LD lines, the index data format:
+
+@sbt "runMain apps.Convert"@
+
+With the default 'conf/application.conf' this should give you a local file called 'GND.jsonl'.
+
+h2. Web
+
+In 'lobid-authorities', run the web application:
+
 @sbt run@
 
 Open "http://localhost:9000/authorities":http://localhost:9000/authorities
+
+If no local index exists, indexing will happen automatically on the first startup. See logs for details.
+
+h2. Eclipse
+
+To set up an Eclipse project, first generate the Eclipse config for your machine:
+
+@sbt "eclipse with-source=true"@
+
+Then install the Play 2 support from the "Scala IDE update site":http://scala-ide.org/download/current.html.
+
+E.g. for Eclipse 4.6 (Neon), choose "Help" > "Install New Software" and use:
+
+@http://download.scala-ide.org/sdk/lithium/e46/scala212/stable/site@
+
+Select the 'Play 2 support' feature.
+
+Then import the project in Eclipse: "File" > "Import" > "Existing Projects into Workspace".
