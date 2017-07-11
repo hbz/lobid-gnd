@@ -1,5 +1,6 @@
 package modules;
 
+import static controllers.HomeController.config;
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 import java.io.BufferedReader;
@@ -39,8 +40,6 @@ public interface IndexComponent {
 
 class EmbeddedIndex implements IndexComponent {
 
-	private static final String INDEX_NAME = "authorities";
-
 	private static final String INDEX_TYPE = "authority";
 
 	private static class ConfigurableNode extends Node {
@@ -49,8 +48,9 @@ class EmbeddedIndex implements IndexComponent {
 		}
 	}
 
-	private Settings clientSettings = Settings.settingsBuilder().put("path.home", ".").put("http.port", "7111")
-			.put("transport.tcp.port", "7122").put("script.default_lang", "native").build();
+	private Settings clientSettings = Settings.settingsBuilder().put("path.home", config("index.home"))
+			.put("http.port", config("index.port.http")).put("transport.tcp.port", config("index.port.tcp"))
+			.put("script.default_lang", "native").build();
 
 	private Node node = new ConfigurableNode(nodeBuilder().settings(clientSettings).local(true).getSettings().build(),
 			Arrays.asList(/* BundlePlugin.class */)).start();
@@ -75,11 +75,12 @@ class EmbeddedIndex implements IndexComponent {
 	private void startup() {
 		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 		client.admin().indices().refresh(new RefreshRequest()).actionGet();
-		String pathToJson = "GND-test.jsonl";
-		if (!indexExists(client, INDEX_NAME)) {
+		String pathToJson = config("data.jsonlines");
+		String indexName = config("index.name");
+		if (!indexExists(client, indexName)) {
 			try {
-				createEmptyIndex(client, INDEX_NAME, "conf/index-settings.json");
-				indexData(client, pathToJson, INDEX_NAME);
+				createEmptyIndex(client, indexName, config("index.settings"));
+				indexData(client, pathToJson, indexName);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -147,14 +148,18 @@ class EmbeddedIndex implements IndexComponent {
 			currentLine++;
 			pendingIndexRequests++;
 			if (pendingIndexRequests == 1000) {
-				executeBulk();
+				executeBulk(pendingIndexRequests);
 				bulkRequest = client.prepareBulk();
 				pendingIndexRequests = 0;
 			}
 		}
+		executeBulk(pendingIndexRequests);
 	}
 
-	private static void executeBulk() {
+	private static void executeBulk(int pendingIndexRequests) {
+		if (pendingIndexRequests == 0) {
+			return;
+		}
 		BulkResponse bulkResponse = bulkRequest.execute().actionGet();
 		if (bulkResponse.hasFailures()) {
 			bulkResponse.forEach(item -> {
@@ -162,8 +167,7 @@ class EmbeddedIndex implements IndexComponent {
 					Logger.error("Indexing {} failed: {}", item.getId(), item.getFailureMessage());
 				}
 			});
-		} else {
-			Logger.info("Indexed 1000, took: " + bulkResponse.getTook());
 		}
+		Logger.info("Indexed {} docs, took: {}", pendingIndexRequests, bulkResponse.getTook());
 	}
 }

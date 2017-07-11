@@ -1,6 +1,7 @@
 package apps;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
@@ -37,14 +38,19 @@ import com.github.jsonldjava.utils.JsonUtils;
 import com.google.common.collect.ImmutableMap;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 
 import play.Logger;
 import play.libs.Json;
 
 public class Convert {
 
-	private static final String AUTH_RESOURCE = //
-			"http://d-nb.info/standards/elementset/gnd#AuthorityResource";
+	private static final Config CONFIG = ConfigFactory.parseFile(new File("conf/application.conf"));
+
+	private static String config(String id) {
+		return CONFIG.getString(id);
+	}
 
 	private static final Map<String, Object> context = load();
 
@@ -59,11 +65,11 @@ public class Convert {
 		 */
 		splitter.setXmlDeclaration("");
 		ToAuthorityJson encodeJson = new ToAuthorityJson();
-		JsonToElasticsearchBulk bulk = new JsonToElasticsearchBulk("id", "authority", "authorities");
-		final ObjectWriter<String> writer = new ObjectWriter<>("GND.jsonl");
+		JsonToElasticsearchBulk bulk = new JsonToElasticsearchBulk("id", config("index.type"), config("index.name"));
+		final ObjectWriter<String> writer = new ObjectWriter<>(config("data.jsonlines"));
 		opener.setReceiver(new XmlDecoder()).setReceiver(splitter).setReceiver(encodeJson).setReceiver(bulk)
 				.setReceiver(writer);
-		opener.process("GND.rdf");
+		opener.process(config("data.rdfxml"));
 		opener.closeStream();
 	}
 
@@ -99,9 +105,8 @@ public class Convert {
 	}
 
 	public static String toJsonLd(String id, Model sourceModel, boolean dev) {
-		String contextUrl = dev ? "http://localhost:9000/authorities/context.jsonld"
-				: "https://raw.githubusercontent.com/hbz/lobid-authorities/master/conf/context.jsonld";
-		ImmutableMap<String, String> frame = ImmutableMap.of("@type", AUTH_RESOURCE);
+		String contextUrl = dev ? config("context.dev") : config("context.prod");
+		ImmutableMap<String, String> frame = ImmutableMap.of("@type", config("data.superclass"));
 		JsonLdOptions options = new JsonLdOptions();
 		options.setCompactArrays(false);
 		try {
@@ -118,7 +123,8 @@ public class Convert {
 
 	private static Map<String, Object> load() {
 		try {
-			JsonNode node = Json.parse(Files.lines(Paths.get("conf/context.jsonld")).collect(Collectors.joining("\n")));
+			JsonNode node = Json
+					.parse(Files.lines(Paths.get(config("context.file"))).collect(Collectors.joining("\n")));
 			@SuppressWarnings("unchecked")
 			Map<String, Object> map = Json.fromJson(node, Map.class);
 			return map;
@@ -156,7 +162,7 @@ public class Convert {
 			if (e.get("@id").toString().contains(id) && e.isObject()) {
 				@SuppressWarnings("unchecked") /* e.isObject() */
 				Map<String, Object> doc = Json.fromJson(e, Map.class);
-				doc.put("@type", addType(doc, AUTH_RESOURCE));
+				doc.put("@type", addType(doc, config("data.superclass")));
 				return Json.toJson(doc);
 			} else {
 				return e;

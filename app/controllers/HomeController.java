@@ -23,6 +23,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 
 import apps.Convert;
 import modules.IndexComponent;
@@ -44,6 +46,12 @@ public class HomeController extends Controller {
 	@Inject
 	IndexComponent index;
 
+	private static final Config CONFIG = ConfigFactory.load();
+
+	public static String config(String id) {
+		return CONFIG.getString(id);
+	}
+
 	/**
 	 * An action that renders an HTML page with a welcome message. The
 	 * configuration in the <code>routes</code> file means that this method will
@@ -63,23 +71,23 @@ public class HomeController extends Controller {
 	}
 
 	public Result authority(String id) {
-		GetResponse response = index.client().prepareGet("authorities", "authority", id).get();
+		GetResponse response = index.client().prepareGet(config("index.name"), config("index.type"), id).get();
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		if (!response.isExists()) {
 			Logger.warn("{} does not exists in index, falling back to live version from GND", id);
 			return gnd(id);
 		}
 		String jsonLd = response.getSourceAsString();
-		return ok(jsonLd).as("application/json; charset=utf-8");
+		return ok(jsonLd).as(config("index.content"));
 	}
 
 	public Result context() {
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		try {
-			File file = env.getFile("conf/context.jsonld");
+			File file = env.getFile(config("context.file"));
 			Path path = Paths.get(file.getAbsolutePath());
 			return ok(Files.readAllLines(path).stream().collect(Collectors.joining("\n")))
-					.as("application/ld+json; charset=utf-8");
+					.as(config("context.content"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -93,14 +101,14 @@ public class HomeController extends Controller {
 		String sourceUrl = "http://d-nb.info/gnd/" + id + "/about/lds";
 		sourceModel.read(sourceUrl);
 		String jsonLd = Convert.toJsonLd(id, sourceModel, env.isDev());
-		return ok(jsonLd).as("application/json; charset=utf-8");
+		return ok(jsonLd).as(config("index.content"));
 	}
 
 	public Result search(String q) {
-		SearchResponse response = index.client().prepareSearch("authorities")
+		SearchResponse response = index.client().prepareSearch(config("index.name"))
 				.setQuery(QueryBuilders.queryStringQuery(q)).get();
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		return ok(returnAsJson(response)).as("application/json; charset=utf-8");
+		return ok(returnAsJson(response)).as(config("index.content"));
 	}
 
 	private static String returnAsJson(SearchResponse queryResponse) {
