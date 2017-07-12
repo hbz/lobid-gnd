@@ -55,21 +55,18 @@ public class Convert {
 	private static final Map<String, Object> context = load();
 
 	public static void main(String[] args) {
+		String input = args.length == 2 ? args[0] : config("data.rdfxml");
+		String output = args.length == 2 ? args[1] : config("data.jsonlines");
 		FileOpener opener = new FileOpener();
 		XmlElementSplitter splitter = new XmlElementSplitter();
 		splitter.setElementName("Description");
 		splitter.setTopLevelElement("rdf:RDF");
-		/*
-		 * No declaration, so we can simple append 1.1 for xPath (can't just use
-		 * 1.1 here since it's not supported by Jena)
-		 */
-		splitter.setXmlDeclaration("");
 		ToAuthorityJson encodeJson = new ToAuthorityJson();
 		JsonToElasticsearchBulk bulk = new JsonToElasticsearchBulk("id", config("index.type"), config("index.name"));
-		final ObjectWriter<String> writer = new ObjectWriter<>(config("data.jsonlines"));
+		final ObjectWriter<String> writer = new ObjectWriter<>(output);
 		opener.setReceiver(new XmlDecoder()).setReceiver(splitter).setReceiver(encodeJson).setReceiver(bulk)
 				.setReceiver(writer);
-		opener.process(config("data.rdfxml"));
+		opener.process(input);
 		opener.closeStream();
 	}
 
@@ -83,10 +80,7 @@ public class Convert {
 			try {
 				id = xPath.evaluate(
 						"/*[local-name() = 'RDF']/*[local-name() = 'Description']/*[local-name() = 'gndIdentifier']",
-						new InputSource(new BufferedReader(
-								// Avoid invalid character references, see
-								// https://www.w3.org/TR/xml11/#sec-xml11
-								new StringReader("<?xml version = \"1.1\" encoding = \"UTF-8\"?>" + value))));
+						new InputSource(new BufferedReader(new StringReader(value))));
 			} catch (XPathExpressionException e) {
 				Logger.error("XPath evaluation failed for: {}", value, e);
 				return;
