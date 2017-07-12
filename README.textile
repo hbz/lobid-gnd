@@ -12,6 +12,10 @@ Get the code and change into the project directory:
 
 @cd lobid-authorities@
 
+@sbt test@
+
+"!https://secure.travis-ci.org/hbz/lobid-authorities.png?branch=master!":https://travis-ci.org/hbz/lobid-authorities
+
 h2. Data
 
 Get the GND RDF/XML source data:

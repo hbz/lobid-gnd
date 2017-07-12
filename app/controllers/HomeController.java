@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.apache.jena.atlas.web.HttpException;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -99,7 +100,11 @@ public class HomeController extends Controller {
 		response().setHeader("Access-Control-Allow-Origin", "* ");
 		Model sourceModel = ModelFactory.createDefaultModel();
 		String sourceUrl = "http://d-nb.info/gnd/" + id + "/about/lds";
-		sourceModel.read(sourceUrl);
+		try {
+			sourceModel.read(sourceUrl);
+		} catch (HttpException e) {
+			return status(e.getResponseCode(), e.getMessage());
+		}
 		String jsonLd = Convert.toJsonLd(id, sourceModel, env.isDev());
 		return ok(jsonLd).as(config("index.content"));
 	}
