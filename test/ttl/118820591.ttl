@@ -1,0 +1,63 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/118820591> a gndo:DifferentiatedPerson ;
+	foaf:page <http://de.wikipedia.org/wiki/Joseph_Weizenbaum> ;
+	owl:sameAs <http://dbpedia.org/resource/Joseph_Weizenbaum> , <http://viaf.org/viaf/52486307> ;
+	gndo:gndIdentifier "118820591" ;
+	gndo:oldAuthorityNumber "(DE-588)160049261" ;
+	owl:sameAs <http://d-nb.info/gnd/160049261> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/160049261" ;
+	gndo:oldAuthorityNumber "(DE-588a)160049261" , "(DE-588a)118820591" , "(DE-588c)4134573-3" ;
+	gndo:variantNameForThePerson "Weizenbaum, J." ;
+	gndo:variantNameEntityForThePerson _:node1bfme5hbbx62797306 .
+
+_:node1bfme5hbbx62797306 gndo:forename "J." ;
+	gndo:surname "Weizenbaum" .
+
+<http://d-nb.info/gnd/118820591> gndo:variantNameForThePerson "Weizenbaum, Josef" ;
+	gndo:variantNameEntityForThePerson _:node1bfme5hbbx62797307 .
+
+_:node1bfme5hbbx62797307 gndo:forename "Josef" ;
+	gndo:surname "Weizenbaum" .
+
+<http://d-nb.info/gnd/118820591> gndo:preferredNameForThePerson "Weizenbaum, Joseph" ;
+	gndo:preferredNameEntityForThePerson _:node1bfme5hbbx62797308 .
+
+_:node1bfme5hbbx62797308 gndo:forename "Joseph" ;
+	gndo:surname "Weizenbaum" .
+
+<http://d-nb.info/gnd/118820591> gndo:affiliation <http://d-nb.info/gnd/2179-9> ;
+	gndo:professionOrOccupation <http://d-nb.info/gnd/4139395-8> , <http://d-nb.info/gnd/4037945-0> ;
+	gndo:academicDegree "Prof." ;
+	gndo:gndSubjectCategory <http://d-nb.info/standards/vocab/gnd/gnd-sc#30p> , <http://d-nb.info/standards/vocab/gnd/gnd-sc#28p> ;
+	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XD-US> , <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DE> ;
+	gndo:biographicalOrHistoricalInformation "Informatiker"@de ;
+	gndo:placeOfBirth <http://d-nb.info/gnd/4005728-8> ;
+	gndo:placeOfDeath <http://d-nb.info/gnd/4005728-8> ;
+	owl:sameAs <http://www.filmportal.de/person/1EF3B0050420476FB8C4E9BD95F50AA0> ;
+	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#male> ;
+	gndo:dateOfBirth "1923-01-08"^^<http://www.w3.org/2001/XMLSchema#date> ;
+	gndo:dateOfDeath "2008-03-05"^^<http://www.w3.org/2001/XMLSchema#date> .
+

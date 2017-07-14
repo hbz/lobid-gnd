@@ -141,12 +141,12 @@ class EmbeddedIndex implements IndexComponent {
 				JsonNode index = rootNode.get("index");
 				idUriParts = index.findValue("_id").asText().split("/");
 				id = idUriParts[idUriParts.length - 1].replace("#!", "");
+				pendingIndexRequests++;
 			} else {
 				data = line;
 				bulkRequest.add(client.prepareIndex(aIndex, INDEX_TYPE, id).setSource(data));
 			}
 			currentLine++;
-			pendingIndexRequests++;
 			if (pendingIndexRequests == 1000) {
 				executeBulk(pendingIndexRequests);
 				bulkRequest = client.prepareBulk();

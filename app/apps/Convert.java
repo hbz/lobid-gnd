@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,6 +39,8 @@ import com.github.jsonldjava.utils.JsonUtils;
 import com.google.common.collect.ImmutableMap;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.Statement;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -104,7 +107,7 @@ public class Convert {
 		JsonLdOptions options = new JsonLdOptions();
 		options.setCompactArrays(false);
 		try {
-			Object jsonLd = JsonLdProcessor.fromRDF(sourceModel, new JenaRDFParser());
+			Object jsonLd = JsonLdProcessor.fromRDF(fixInconsistentTypes(sourceModel), new JenaRDFParser());
 			jsonLd = preprocess(jsonLd, id);
 			jsonLd = JsonLdProcessor.frame(jsonLd, new HashMap<>(frame), options);
 			jsonLd = JsonLdProcessor.compact(jsonLd, context, options);
@@ -113,6 +116,34 @@ public class Convert {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	private static Model fixInconsistentTypes(Model model) {
+		String academicDegree = "http://d-nb.info/standards/elementset/gnd#academicDegree";
+		String dateOfBirth = "http://d-nb.info/standards/elementset/gnd#dateOfBirth";
+		String dateOfDeath = "http://d-nb.info/standards/elementset/gnd#dateOfDeath";
+		List<Statement> toRemove = new ArrayList<>();
+		List<Statement> toAdd = new ArrayList<>();
+		model.listStatements().forEachRemaining(statement -> {
+			String p = statement.getPredicate().toString();
+			RDFNode o = statement.getObject();
+			if (p.equals(academicDegree) && o.isURIResource()) {
+				replaceObjectLiteral(model, statement, o.toString(), toRemove, toAdd);
+			} else if ((p.equals(dateOfBirth) || p.equals(dateOfDeath)) && o.isLiteral()
+					&& o.asLiteral().getDatatypeURI() != null) {
+				replaceObjectLiteral(model, statement, o.asLiteral().getString(), toRemove, toAdd);
+			}
+		});
+		toRemove.stream().forEach(e -> model.remove(e));
+		toAdd.stream().forEach(e -> model.add(e));
+		return model;
+	}
+
+	private static void replaceObjectLiteral(Model model, Statement statement, String newObjectLiteral,
+			List<Statement> toRemove, List<Statement> toAdd) {
+		toRemove.add(statement);
+		toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
+				model.createLiteral(newObjectLiteral)));
 	}
 
 	private static Map<String, Object> load() {

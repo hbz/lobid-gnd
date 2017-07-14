@@ -1,0 +1,134 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/100019552> a gndo:DifferentiatedPerson ;
+	foaf:page <http://de.wikipedia.org/wiki/Johann_Andreas_Frommann> ;
+	owl:sameAs <http://viaf.org/viaf/34793356> ;
+	gndo:gndIdentifier "100019552" ;
+	gndo:oldAuthorityNumber "(DE-588)1050472748" ;
+	owl:sameAs <http://d-nb.info/gnd/1050472748> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/1050472748" ;
+	gndo:oldAuthorityNumber "(DE-588)1032153881" ;
+	owl:sameAs <http://d-nb.info/gnd/1032153881> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/1032153881" ;
+	gndo:oldAuthorityNumber "(DE-588a)100019552" , "(DE-588c)4709301-8" ;
+	gndo:variantNameForThePerson "Fromann, Johann Andreas" ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712020 .
+
+_:node1bfmf4lbex68712020 gndo:forename "Johann Andreas" ;
+	gndo:surname "Fromann" .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Fromann, Johann Andreas, sen." ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712021 .
+
+_:node1bfmf4lbex68712021 gndo:forename "Johann Andreas" ;
+	gndo:surname "Fromann" ;
+	gndo:nameAddition "sen." .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Fromman, Johann Andreas" ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712022 .
+
+_:node1bfmf4lbex68712022 gndo:forename "Johann Andreas" ;
+	gndo:surname "Fromman" .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Fromman, Johannes Andreas" ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712023 .
+
+_:node1bfmf4lbex68712023 gndo:forename "Johannes Andreas" ;
+	gndo:surname "Fromman" .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Frommann, Joh. Andr." ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712024 .
+
+_:node1bfmf4lbex68712024 gndo:forename "Joh. Andr." ;
+	gndo:surname "Frommann" .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Frommann, Joh. Andreas" ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712025 .
+
+_:node1bfmf4lbex68712025 gndo:forename "Joh. Andreas" ;
+	gndo:surname "Frommann" .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Frommann, Johann A." ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712026 .
+
+_:node1bfmf4lbex68712026 gndo:forename "Johann A." ;
+	gndo:surname "Frommann" .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Frommann, Johan-Andreas" ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712027 .
+
+_:node1bfmf4lbex68712027 gndo:forename "Johan-Andreas" ;
+	gndo:surname "Frommann" .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Frommann, Johann-Andreas" ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712028 .
+
+_:node1bfmf4lbex68712028 gndo:forename "Johann-Andreas" ;
+	gndo:surname "Frommann" .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Frommann, Johannes Andreas" ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712029 .
+
+_:node1bfmf4lbex68712029 gndo:forename "Johannes Andreas" ;
+	gndo:surname "Frommann" .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Frommann, Joannes Andreas" ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712030 .
+
+_:node1bfmf4lbex68712030 gndo:forename "Joannes Andreas" ;
+	gndo:surname "Frommann" .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Frommann, Joh-Andreas" ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712031 .
+
+_:node1bfmf4lbex68712031 gndo:forename "Joh-Andreas" ;
+	gndo:surname "Frommann" .
+
+<http://d-nb.info/gnd/100019552> gndo:variantNameForThePerson "Frommannus, Johannes Andreas" ;
+	gndo:variantNameEntityForThePerson _:node1bfmf4lbex68712032 .
+
+_:node1bfmf4lbex68712032 gndo:forename "Johannes Andreas" ;
+	gndo:surname "Frommannus" .
+
+<http://d-nb.info/gnd/100019552> gndo:preferredNameForThePerson "Frommann, Johann Andreas" ;
+	gndo:preferredNameEntityForThePerson _:node1bfmf4lbex68712033 .
+
+_:node1bfmf4lbex68712033 gndo:forename "Johann Andreas" ;
+	gndo:surname "Frommann" .
+
+<http://d-nb.info/gnd/100019552> gndo:familialRelationship <http://d-nb.info/gnd/104156058> , <http://d-nb.info/gnd/13172293X> , <http://d-nb.info/gnd/131890476> , <http://d-nb.info/gnd/122499689> ;
+	gndo:affiliationAsLiteral "Universität Tübingen" ;
+	gndo:academicDegree <http://d-nb.info/gnd/4201591-1> ;
+	gndo:professionOrOccupation <http://d-nb.info/gnd/4029050-5> , <http://d-nb.info/gnd/4025243-7> ;
+	gndo:gndSubjectCategory <http://d-nb.info/standards/vocab/gnd/gnd-sc#7.14p> ;
+	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DE> ;
+	gndo:publication "Wurmser, Johann: Problemata canonica, ex materia iudic. citat. ... - 1653" , "Hypotyposis iuris furiosorum singularis. - 1655" , "Disputatio inauguralis de senatusconsulto Macedoniano. - 1668" ;
+	gndo:placeOfBirth <http://d-nb.info/gnd/4010325-0> ;
+	gndo:placeOfDeath <http://d-nb.info/gnd/4061147-4> ;
+	gndo:placeOfActivity <http://d-nb.info/gnd/4001388-1> , <http://d-nb.info/gnd/4057878-1> , <http://d-nb.info/gnd/4061147-4> ;
+	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#male> ;
+	gndo:dateOfBirth "1626-09-02"^^<http://www.w3.org/2001/XMLSchema#date> ;
+	gndo:dateOfDeath "1690-02-07"^^<http://www.w3.org/2001/XMLSchema#date> .
+
