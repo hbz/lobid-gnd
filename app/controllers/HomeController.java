@@ -79,7 +79,7 @@ public class HomeController extends Controller {
 			return gnd(id);
 		}
 		String jsonLd = response.getSourceAsString();
-		return ok(jsonLd).as(config("index.content"));
+		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
 	}
 
 	public Result context() {
@@ -106,7 +106,7 @@ public class HomeController extends Controller {
 			return status(e.getResponseCode(), e.getMessage());
 		}
 		String jsonLd = Convert.toJsonLd(id, sourceModel, env.isDev());
-		return ok(jsonLd).as(config("index.content"));
+		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
 	}
 
 	public Result search(String q) {
@@ -128,10 +128,10 @@ public class HomeController extends Controller {
 		if (aggregations != null) {
 			object.set("aggregation", aggregations);
 		}
-		return prettyJsonOk(object);
+		return prettyJsonString(object);
 	}
 
-	private static String prettyJsonOk(JsonNode jsonNode) {
+	private static String prettyJsonString(JsonNode jsonNode) {
 		try {
 			return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
 		} catch (JsonProcessingException x) {
