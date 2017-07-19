@@ -106,6 +106,7 @@ public class Convert {
 		ImmutableMap<String, String> frame = ImmutableMap.of("@type", config("data.superclass"));
 		JsonLdOptions options = new JsonLdOptions();
 		options.setCompactArrays(false);
+		options.setProcessingMode("json-ld-1.1");
 		try {
 			Object jsonLd = JsonLdProcessor.fromRDF(fixInconsistentTypes(sourceModel), new JenaRDFParser());
 			jsonLd = preprocess(jsonLd, id);

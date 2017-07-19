@@ -1,3 +1,11 @@
 language: scala
 scala: 2.12.2
 jdk: oraclejdk8
+
+# See https://github.com/jsonld-java/jsonld-java/pull/198
+before_install:
+  - git clone https://github.com/fsteeg/jsonld-java.git
+  - cd jsonld-java
+  - git checkout pruneBlankNodeIdentifiers
+  - mvn clean install -DskipTests=true
+  - cd ..
