@@ -9,7 +9,7 @@ GET     /authorities/context.jsonld controllers.HomeController.context()
 
 GET     /authorities/:id.json       controllers.HomeController.authority(id)
 
-GET     /authorities/search         controllers.HomeController.search(q ?= "*")
+GET     /authorities/search         controllers.HomeController.search(q ?= "*", from: Int ?= 0, size: Int ?= 10)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /authorities/assets/*file   controllers.Assets.versioned(path="/public", file: Asset)

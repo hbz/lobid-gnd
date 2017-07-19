@@ -61,9 +61,10 @@ public class HomeController extends Controller {
 	 */
 	public Result index() {
 		ImmutableMap<String, String> searchSamples = ImmutableMap.of(//
-				"All", controllers.routes.HomeController.search("*").toString(), //
-				"All fields", controllers.routes.HomeController.search("london").toString(), //
-				"Field search", controllers.routes.HomeController.search("type:CorporateBody").toString());
+				"All", controllers.routes.HomeController.search("*", 0, 10).toString(), //
+				"All fields", controllers.routes.HomeController.search("london", 0, 10).toString(), //
+				"Field search", controllers.routes.HomeController.search("type:CorporateBody", 0, 10).toString(), //
+				"Pagination", controllers.routes.HomeController.search("london", 50, 100).toString());
 		ImmutableMap<String, String> getSamples = ImmutableMap.of(//
 				"London", controllers.routes.HomeController.authority("4074335-4").toString(), //
 				"hbz", controllers.routes.HomeController.authority("2047974-8").toString(), //
@@ -109,9 +110,9 @@ public class HomeController extends Controller {
 		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
 	}
 
-	public Result search(String q) {
+	public Result search(String q, int from, int size) {
 		SearchResponse response = index.client().prepareSearch(config("index.name"))
-				.setQuery(QueryBuilders.queryStringQuery(q)).get();
+				.setQuery(QueryBuilders.queryStringQuery(q)).setFrom(from).setSize(size).get();
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		return ok(returnAsJson(response)).as(config("index.content"));
 	}
