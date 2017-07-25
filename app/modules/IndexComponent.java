@@ -4,6 +4,7 @@ import static controllers.HomeController.config;
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -76,16 +77,23 @@ class EmbeddedIndex implements IndexComponent {
 		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 		client.admin().indices().refresh(new RefreshRequest()).actionGet();
 		String pathToJson = config("data.jsonlines");
+		String pathToUpdates = config("data.updates.data");
 		String indexName = config("index.name");
-		if (!indexExists(client, indexName)) {
-			try {
+		try {
+			if (!indexExists(client, indexName)) {
 				createEmptyIndex(client, indexName, config("index.settings"));
-				indexData(client, pathToJson, indexName);
-			} catch (IOException e) {
-				e.printStackTrace();
+				if (new File(pathToJson).exists()) {
+					indexData(client, pathToJson, indexName);
+				}
+			} else {
+				Logger.info("Index exists. Delete the 'data/' directory to reindexfrom " + pathToJson);
 			}
-		} else {
-			Logger.info("Index exists. Delete the 'data/' directory to reindexfrom " + pathToJson);
+			if (new File(pathToUpdates).exists()) {
+				Logger.info("Indexing updates from " + pathToUpdates);
+				indexData(client, pathToUpdates, indexName);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		Logger.info("Using Elasticsearch index settings: {}", clientSettings.getAsMap());
 	}

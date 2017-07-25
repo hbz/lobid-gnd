@@ -17,4 +17,6 @@ libraryDependencies += "org.culturegraph" % "metafacture-core" % "4.0.0"
 
 libraryDependencies += "org.elasticsearch" % "elasticsearch" % "2.4.5"
 
+libraryDependencies += "org.dspace" % "oclc-harvester2" % "0.1.12"
+
 resolvers += Resolver.mavenLocal

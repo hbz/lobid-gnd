@@ -91,4 +91,8 @@
 	<gndo:periodOfActivity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1795-</gndo:periodOfActivity>
 	<gndo:gender rdf:resource="http://d-nb.info/standards/vocab/gnd/gender#notKnown"></gndo:gender>
 </rdf:Description>
+<rdf:Description rdf:about="http://d-nb.info/gnd/118846981">
+	<owl:sameAs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://d-nb.info/gnd/102421064</owl:sameAs>
+	<dnbt:canonicalUri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://d-nb.info/gnd/102421064</dnbt:canonicalUri>
+</rdf:Description>
 </rdf:RDF>

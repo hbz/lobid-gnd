@@ -1,9 +1,15 @@
 package apps;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -17,18 +23,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.culturegraph.mf.elasticsearch.JsonToElasticsearchBulk;
 import org.culturegraph.mf.framework.ObjectReceiver;
+import org.culturegraph.mf.framework.helpers.DefaultObjectPipe;
 import org.culturegraph.mf.framework.helpers.DefaultStreamPipe;
-import org.culturegraph.mf.io.FileOpener;
-import org.culturegraph.mf.io.ObjectWriter;
-import org.culturegraph.mf.xml.XmlDecoder;
-import org.culturegraph.mf.xml.XmlElementSplitter;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.jsonldjava.core.JsonLdError;
@@ -44,6 +49,7 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
+import ORG.oclc.oai.harvester2.app.RawWrite;
 import play.Logger;
 import play.libs.Json;
 
@@ -51,26 +57,53 @@ public class Convert {
 
 	private static final Config CONFIG = ConfigFactory.parseFile(new File("conf/application.conf"));
 
-	private static String config(String id) {
+	static String config(String id) {
 		return CONFIG.getString(id);
 	}
 
-	private static final Map<String, Object> context = load();
+	static final Map<String, Object> context = load();
 
-	public static void main(String[] args) {
-		String input = args.length == 2 ? args[0] : config("data.rdfxml");
-		String output = args.length == 2 ? args[1] : config("data.jsonlines");
-		FileOpener opener = new FileOpener();
-		XmlElementSplitter splitter = new XmlElementSplitter();
-		splitter.setElementName("Description");
-		splitter.setTopLevelElement("rdf:RDF");
-		ToAuthorityJson encodeJson = new ToAuthorityJson();
-		JsonToElasticsearchBulk bulk = new JsonToElasticsearchBulk("id", config("index.type"), config("index.name"));
-		final ObjectWriter<String> writer = new ObjectWriter<>(output);
-		opener.setReceiver(new XmlDecoder()).setReceiver(splitter).setReceiver(encodeJson).setReceiver(bulk)
-				.setReceiver(writer);
-		opener.process(input);
-		opener.closeStream();
+	static class OpenOaiPmh extends DefaultObjectPipe<String, ObjectReceiver<Reader>> {
+
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		private String from;
+		private String until;
+
+		public OpenOaiPmh(String from, String until) {
+			this.from = from;
+			this.until = until;
+		}
+
+		@Override
+		public void process(final String baseUrl) {
+			try {
+				RawWrite.run(baseUrl, from, until, "RDFxml", "authorities", stream);
+				getReceiver().process(
+						new InputStreamReader(new ByteArrayInputStream(stream.toByteArray()), StandardCharsets.UTF_8));
+				writeLastSuccessfulUpdate();
+			} catch (NoSuchFieldException | IOException | ParserConfigurationException | SAXException
+					| TransformerException e) {
+				e.printStackTrace();
+			}
+		}
+
+		private void writeLastSuccessfulUpdate() {
+			File file = new File(config("data.updates.last"));
+			file.delete();
+			try (FileWriter writer = new FileWriter(file)) {
+				writer.append(until);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	static class ToString extends DefaultStreamPipe<ObjectReceiver<String>> {
+		@Override
+		public void literal(String name, String value) {
+			getReceiver().process(value);
+		}
 	}
 
 	static class ToAuthorityJson extends DefaultStreamPipe<ObjectReceiver<String>> {
@@ -123,6 +156,7 @@ public class Convert {
 		String academicDegree = "http://d-nb.info/standards/elementset/gnd#academicDegree";
 		String dateOfBirth = "http://d-nb.info/standards/elementset/gnd#dateOfBirth";
 		String dateOfDeath = "http://d-nb.info/standards/elementset/gnd#dateOfDeath";
+		String sameAs = "http://www.w3.org/2002/07/owl#sameAs";
 		List<Statement> toRemove = new ArrayList<>();
 		List<Statement> toAdd = new ArrayList<>();
 		model.listStatements().forEachRemaining(statement -> {
@@ -130,9 +164,14 @@ public class Convert {
 			RDFNode o = statement.getObject();
 			if (p.equals(academicDegree) && o.isURIResource()) {
 				replaceObjectLiteral(model, statement, o.toString(), toRemove, toAdd);
-			} else if ((p.equals(dateOfBirth) || p.equals(dateOfDeath)) && o.isLiteral()
-					&& o.asLiteral().getDatatypeURI() != null) {
+			} else if ((p.equals(dateOfBirth) || p.equals(dateOfDeath)) //
+					&& o.isLiteral() && o.asLiteral().getDatatypeURI() != null) {
 				replaceObjectLiteral(model, statement, o.asLiteral().getString(), toRemove, toAdd);
+			} else if ((p.equals(sameAs)) //
+					&& o.isLiteral() && o.asLiteral().getDatatypeURI() != null) {
+				toRemove.add(statement);
+				toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
+						model.createResource(o.asLiteral().getString())));
 			}
 		});
 		toRemove.stream().forEach(e -> model.remove(e));

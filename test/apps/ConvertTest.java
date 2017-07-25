@@ -18,13 +18,13 @@ public class ConvertTest extends WithApplication {
 	}
 
 	@Test
-	public void testConvert() {
+	public void testConvertBaseline() {
 		String output = "test/GND.jsonl";
 		File file = new File(output);
 		if (file.exists()) {
 			file.delete();
 		}
-		Convert.main(new String[] { "test/GND.rdf", output });
+		ConvertBaseline.main(new String[] { "test/GND.rdf", output });
 		assertTrue("Output should exist", file.exists());
 	}
 

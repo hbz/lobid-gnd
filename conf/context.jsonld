@@ -814,6 +814,7 @@
       "westernmostLongitude":"gnd:westernmostLongitude",
       "exactMatch":"skos:exactMatch",
       "broadMatch":"skos:broadMatch",
-      "relatedMatch":"skos:relatedMatch"
+      "relatedMatch":"skos:relatedMatch",
+      "canonicalUri":"http://d-nb.info/standards/elementset/dnb#canonicalUri"
    }
 }
