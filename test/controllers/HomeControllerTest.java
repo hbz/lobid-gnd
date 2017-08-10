@@ -29,7 +29,7 @@ public class HomeControllerTest extends WithApplication {
 				{ routes.HomeController.authority("2-4").toString(), Status.OK }, //
 				{ routes.HomeController.authority("1077774206").toString(), Status.OK }, //
 				{ routes.HomeController.authority("1072719991").toString(), Status.OK }, //
-				{ routes.HomeController.search("*", 0, 10).toString(), Status.OK },
+				{ routes.HomeController.search("*", 0, 10, "json").toString(), Status.OK },
 				{ routes.HomeController.authority("---").toString(), Status.NOT_FOUND } });
 	}
 

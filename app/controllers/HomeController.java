@@ -2,6 +2,8 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -53,23 +55,29 @@ public class HomeController extends Controller {
 		return CONFIG.getString(id);
 	}
 
+	public Result index() {
+		return search("*", 0, 10, "html");
+	}
+
 	/**
 	 * An action that renders an HTML page with a welcome message. The
 	 * configuration in the <code>routes</code> file means that this method will
 	 * be called when the application receives a <code>GET</code> request with a
 	 * path of <code>/</code>.
 	 */
-	public Result index() {
+	public Result api() {
+		String format = "json";
 		ImmutableMap<String, String> searchSamples = ImmutableMap.of(//
-				"All", controllers.routes.HomeController.search("*", 0, 10).toString(), //
-				"All fields", controllers.routes.HomeController.search("london", 0, 10).toString(), //
-				"Field search", controllers.routes.HomeController.search("type:CorporateBody", 0, 10).toString(), //
-				"Pagination", controllers.routes.HomeController.search("london", 50, 100).toString());
+				"All", controllers.routes.HomeController.search("*", 0, 10, format).toString(), //
+				"All fields", controllers.routes.HomeController.search("london", 0, 10, format).toString(), //
+				"Field search",
+				controllers.routes.HomeController.search("type:CorporateBody", 0, 10, format).toString(), //
+				"Pagination", controllers.routes.HomeController.search("london", 50, 100, format).toString());
 		ImmutableMap<String, String> getSamples = ImmutableMap.of(//
 				"London", controllers.routes.HomeController.authority("4074335-4").toString(), //
 				"hbz", controllers.routes.HomeController.authority("2047974-8").toString(), //
 				"Goethe", controllers.routes.HomeController.authority("118540238").toString());
-		return ok(views.html.index.render(searchSamples, getSamples));
+		return ok(views.html.api.render(searchSamples, getSamples));
 	}
 
 	public Result authority(String id) {
@@ -110,11 +118,28 @@ public class HomeController extends Controller {
 		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
 	}
 
-	public Result search(String q, int from, int size) {
+	public Result search(String q, int from, int size, String format) {
 		SearchResponse response = index.client().prepareSearch(config("index.name"))
 				.setQuery(QueryBuilders.queryStringQuery(q)).setFrom(from).setSize(size).get();
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		return ok(returnAsJson(response)).as(config("index.content"));
+		return format.equals("html") ? htmlSearch(q, from, size, format, response)
+				: ok(returnAsJson(response)).as(config("index.content"));
+	}
+
+	private Result htmlSearch(String q, int from, int size, String format, SearchResponse response) {
+		return ok(views.html.search.render(q, from, size, returnAsJson(response), response.getHits().getTotalHits()));
+	}
+
+	/**
+	 * @return The current full URI, URL-encoded, or null.
+	 */
+	public static String currentUri() {
+		try {
+			return URLEncoder.encode(request().host() + request().uri(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			Logger.error("Could not get current URI", e);
+		}
+		return null;
 	}
 
 	private static String returnAsJson(SearchResponse queryResponse) {
