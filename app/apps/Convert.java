@@ -163,26 +163,32 @@ public class Convert {
 			String p = statement.getPredicate().toString();
 			RDFNode o = statement.getObject();
 			if (p.equals(academicDegree) && o.isURIResource()) {
+				// See https://github.com/hbz/lobid-authorities/commit/2cb4b9b
 				replaceObjectLiteral(model, statement, o.toString(), toRemove, toAdd);
 			} else if ((p.equals(dateOfBirth) || p.equals(dateOfDeath)) //
 					&& o.isLiteral() && o.asLiteral().getDatatypeURI() != null) {
+				// See https://github.com/hbz/lobid-authorities/commit/2cb4b9b
 				replaceObjectLiteral(model, statement, o.asLiteral().getString(), toRemove, toAdd);
 			} else if ((p.equals(sameAs)) //
 					&& o.isLiteral() && o.asLiteral().getDatatypeURI() != null) {
+				// See https://github.com/hbz/lobid-authorities/commit/00ca2a6
 				toRemove.add(statement);
 				toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
 						model.createResource(o.asLiteral().getString())));
 			} else if (p.startsWith(preferredName) || p.startsWith(variantName)) {
+				// See https://github.com/hbz/lobid-authorities/issues/3
 				toRemove.add(statement);
 				String general = p//
 						.replaceAll("preferredNameFor[^\"]+", "preferredName")
 						.replaceAll("variantNameFor[^\"]+", "variantName");
 				toAdd.add(model.createStatement(statement.getSubject(), model.createProperty(general), o));
 			} else if (p.equals(type) && o.toString().startsWith(gnd)) {
+				// https://github.com/hbz/lobid-authorities/issues/1#issuecomment-312597639
 				if (statement.getSubject().toString().equals("http://d-nb.info/gnd/" + id)) {
 					toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
 							model.createResource(config("data.superclass"))));
 				}
+				// See https://github.com/hbz/lobid-authorities/issues/2
 				String newType = secondLevelTypeFor(gnd, o.toString());
 				if (newType != null) {
 					toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
