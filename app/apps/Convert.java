@@ -157,6 +157,8 @@ public class Convert {
 		String dateOfBirth = "http://d-nb.info/standards/elementset/gnd#dateOfBirth";
 		String dateOfDeath = "http://d-nb.info/standards/elementset/gnd#dateOfDeath";
 		String sameAs = "http://www.w3.org/2002/07/owl#sameAs";
+		String preferredName = "http://d-nb.info/standards/elementset/gnd#preferredNameFor";
+		String variantName = "http://d-nb.info/standards/elementset/gnd#variantNameFor";
 		List<Statement> toRemove = new ArrayList<>();
 		List<Statement> toAdd = new ArrayList<>();
 		model.listStatements().forEachRemaining(statement -> {
@@ -172,6 +174,12 @@ public class Convert {
 				toRemove.add(statement);
 				toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
 						model.createResource(o.asLiteral().getString())));
+			} else if (p.startsWith(preferredName) || p.startsWith(variantName)) {
+				toRemove.add(statement);
+				String general = p//
+						.replaceAll("preferredNameFor[^\"]+", "preferredName")
+						.replaceAll("variantNameFor[^\"]+", "variantName");
+				toAdd.add(model.createStatement(statement.getSubject(), model.createProperty(general), o));
 			}
 		});
 		toRemove.stream().forEach(e -> model.remove(e));
