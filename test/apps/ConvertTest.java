@@ -52,13 +52,17 @@ public class ConvertTest extends WithApplication {
 	@Test
 	public void testSecondLevelTypePerson() throws FileNotFoundException {
 		String jsonLd = jsonLdFor("100002617");
-		assertTrue(Json.fromJson(Json.parse(jsonLd).get("type"), List.class).contains("Person"));
+		List<?> types = Json.fromJson(Json.parse(jsonLd).get("type"), List.class);
+		assertTrue(types.contains("AuthorityResource"));
+		assertTrue(types.contains("Person"));
 	}
 
 	@Test
 	public void testSecondLevelTypePlace() throws FileNotFoundException {
 		String jsonLd = jsonLdFor("4074335-4");
-		assertTrue(Json.fromJson(Json.parse(jsonLd).get("type"), List.class).contains("PlaceOrGeographicName"));
+		List<?> types = Json.fromJson(Json.parse(jsonLd).get("type"), List.class);
+		assertTrue(types.contains("AuthorityResource"));
+		assertTrue(types.contains("PlaceOrGeographicName"));
 	}
 
 	private String jsonLdFor(String id) throws FileNotFoundException {

@@ -13,15 +13,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -40,7 +36,6 @@ import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.jena.JenaRDFParser;
-import com.github.jsonldjava.utils.JsonUtils;
 import com.google.common.collect.ImmutableMap;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -142,8 +137,8 @@ public class Convert {
 		options.setCompactArrays(false);
 		options.setProcessingMode("json-ld-1.1");
 		try {
-			Object jsonLd = JsonLdProcessor.fromRDF(preprocessRdfModel(sourceModel), new JenaRDFParser());
-			jsonLd = preprocess(jsonLd, id);
+			Model model = preprocess(sourceModel, id);
+			Object jsonLd = JsonLdProcessor.fromRDF(model, new JenaRDFParser());
 			jsonLd = JsonLdProcessor.frame(jsonLd, new HashMap<>(frame), options);
 			jsonLd = JsonLdProcessor.compact(jsonLd, context, options);
 			return postprocess(contextUrl, jsonLd);
@@ -153,7 +148,7 @@ public class Convert {
 		}
 	}
 
-	private static Model preprocessRdfModel(Model model) {
+	private static Model preprocess(Model model, String id) {
 		String academicDegree = "http://d-nb.info/standards/elementset/gnd#academicDegree";
 		String dateOfBirth = "http://d-nb.info/standards/elementset/gnd#dateOfBirth";
 		String dateOfDeath = "http://d-nb.info/standards/elementset/gnd#dateOfDeath";
@@ -184,6 +179,10 @@ public class Convert {
 						.replaceAll("variantNameFor[^\"]+", "variantName");
 				toAdd.add(model.createStatement(statement.getSubject(), model.createProperty(general), o));
 			} else if (p.equals(type) && o.toString().startsWith(gnd)) {
+				if (statement.getSubject().toString().equals("http://d-nb.info/gnd/" + id)) {
+					toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
+							model.createResource(config("data.superclass"))));
+				}
 				String newType = secondLevelTypeFor(gnd, o.toString());
 				if (newType != null) {
 					toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
@@ -222,16 +221,6 @@ public class Convert {
 		}
 	}
 
-	private static Object preprocess(Object jsonLd, String gndId) {
-		List<JsonNode> processed = withSuperclass(Json.toJson(jsonLd), gndId);
-		try {
-			return JsonUtils.fromString(Json.toJson(processed).toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
 	private static String postprocess(String contextUrl, Object jsonLd) {
 		JsonNode in = Json.toJson(jsonLd);
 		JsonNode graph = in.get("@graph");
@@ -243,35 +232,5 @@ public class Convert {
 			return Json.stringify(Json.toJson(res));
 		}
 		return Json.stringify(in);
-	}
-
-	private static List<JsonNode> withSuperclass(JsonNode json, String id) {
-		Stream<JsonNode> stream = asStream(json.elements()).map(e -> {
-			if (e.get("@id").toString().contains(id) && e.isObject()) {
-				@SuppressWarnings("unchecked") /* e.isObject() */
-				Map<String, Object> doc = Json.fromJson(e, Map.class);
-				doc.put("@type", addType(doc, config("data.superclass")));
-				return Json.toJson(doc);
-			} else {
-				return e;
-			}
-		});
-		return stream.collect(Collectors.toList());
-	}
-
-	private static Object addType(Map<String, Object> doc, String newType) {
-		JsonNode json = Json.toJson(doc.get("@type"));
-		if (json != null && json.isArray()) {
-			@SuppressWarnings("unchecked") /* json.isArray() */
-			List<String> types = Json.fromJson(json, List.class);
-			types.add(newType);
-			return types;
-		}
-		return Json.toJson(Arrays.asList(newType));
-	}
-
-	private static <T> Stream<T> asStream(Iterator<T> elements) {
-		final Iterable<T> iterable = () -> elements;
-		return StreamSupport.stream(iterable.spliterator(), false);
 	}
 }
