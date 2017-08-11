@@ -48,6 +48,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.ConfigObject;
 
 import ORG.oclc.oai.harvester2.app.RawWrite;
 import play.Logger;
@@ -141,7 +142,7 @@ public class Convert {
 		options.setCompactArrays(false);
 		options.setProcessingMode("json-ld-1.1");
 		try {
-			Object jsonLd = JsonLdProcessor.fromRDF(fixInconsistentTypes(sourceModel), new JenaRDFParser());
+			Object jsonLd = JsonLdProcessor.fromRDF(preprocessRdfModel(sourceModel), new JenaRDFParser());
 			jsonLd = preprocess(jsonLd, id);
 			jsonLd = JsonLdProcessor.frame(jsonLd, new HashMap<>(frame), options);
 			jsonLd = JsonLdProcessor.compact(jsonLd, context, options);
@@ -152,13 +153,15 @@ public class Convert {
 		}
 	}
 
-	private static Model fixInconsistentTypes(Model model) {
+	private static Model preprocessRdfModel(Model model) {
 		String academicDegree = "http://d-nb.info/standards/elementset/gnd#academicDegree";
 		String dateOfBirth = "http://d-nb.info/standards/elementset/gnd#dateOfBirth";
 		String dateOfDeath = "http://d-nb.info/standards/elementset/gnd#dateOfDeath";
 		String sameAs = "http://www.w3.org/2002/07/owl#sameAs";
 		String preferredName = "http://d-nb.info/standards/elementset/gnd#preferredNameFor";
 		String variantName = "http://d-nb.info/standards/elementset/gnd#variantNameFor";
+		String type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+		String gnd = "http://d-nb.info/standards/elementset/gnd#";
 		List<Statement> toRemove = new ArrayList<>();
 		List<Statement> toAdd = new ArrayList<>();
 		model.listStatements().forEachRemaining(statement -> {
@@ -180,11 +183,23 @@ public class Convert {
 						.replaceAll("preferredNameFor[^\"]+", "preferredName")
 						.replaceAll("variantNameFor[^\"]+", "variantName");
 				toAdd.add(model.createStatement(statement.getSubject(), model.createProperty(general), o));
+			} else if (p.equals(type) && o.toString().startsWith(gnd)) {
+				String newType = secondLevelTypeFor(gnd, o.toString());
+				if (newType != null) {
+					toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
+							model.createResource(newType)));
+				}
 			}
 		});
 		toRemove.stream().forEach(e -> model.remove(e));
 		toAdd.stream().forEach(e -> model.add(e));
 		return model;
+	}
+
+	private static String secondLevelTypeFor(String gnd, String type) {
+		String key = type.substring(gnd.length());
+		ConfigObject object = CONFIG.getObject("types");
+		return object.containsKey(key) ? gnd + object.get(key).unwrapped().toString() : null;
 	}
 
 	private static void replaceObjectLiteral(Model model, Statement statement, String newObjectLiteral,

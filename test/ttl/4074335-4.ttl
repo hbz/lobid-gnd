@@ -1,0 +1,43 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/4074335-4> a gndo:TerritorialCorporateBodyOrAdministrativeUnit ;
+	gndo:gndIdentifier "4074335-4" ;
+	gndo:oldAuthorityNumber "(DE-588)1005809-6" ;
+	owl:sameAs <http://d-nb.info/gnd/1005809-6> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/1005809-6" ;
+	gndo:oldAuthorityNumber "(DE-588b)1005809-6" , "(DE-588c)4074335-4" ;
+	gndo:relatedDdcWithDegreeOfDeterminacy4 <http://dewey.info/class/2--421/> ;
+	owl:sameAs <http://sws.geonames.org/2643743> ;
+	geo:hasGeometry _:node1bn5ha6asx272970 .
+
+_:node1bn5ha6asx272970 geo:asWKT "Point ( -000.125740 +051.508530 )"^^geo:wktLiteral ;
+	a sf:Point .
+
+<http://d-nb.info/gnd/4074335-4> gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB> ;
+	gndo:homepage <http://www.london.gov.uk> ;
+	gndo:definition "Hauptstadt des Vereinigten Königreichs von Großbritannien und Nordirland, in Mittelsteinzeit besiedelt, 43 n.Chr. von Römern gegründet; das County of London war 1889-1965 Verwaltungsgrafschaft u. zeremonielle Grafschaft"@de ;
+	gndo:variantNameForThePlaceOrGeographicName "Londinium" , "Londyn" , "Landan" , "Lundun" , "Augusta Trinobantum" , "Londres" , "Londra" , "Londen" , "London (Great Britain)" , "Londinum" , "Lundonia" , "Westminster" , "Londinium" ;
+	gndo:preferredNameForThePlaceOrGeographicName "London" .
+

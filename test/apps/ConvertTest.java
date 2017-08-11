@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -14,6 +15,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import play.Application;
 import play.inject.guice.GuiceApplicationBuilder;
+import play.libs.Json;
 import play.test.WithApplication;
 
 public class ConvertTest extends WithApplication {
@@ -36,10 +38,7 @@ public class ConvertTest extends WithApplication {
 
 	@Test
 	public void testGeneralNames() throws FileNotFoundException {
-		String id = "100002617";
-		Model sourceModel = ModelFactory.createDefaultModel();
-		sourceModel.read(new FileReader("test/ttl/" + id + ".ttl"), null, "TTL");
-		String jsonLd = Convert.toJsonLd(id, sourceModel, true);
+		String jsonLd = jsonLdFor("100002617");
 		// Replace literal fields with general fields:
 		assertFalse(jsonLd.contains("preferredNameForThePerson"));
 		assertFalse(jsonLd.contains("variantNameForThePerson"));
@@ -50,4 +49,22 @@ public class ConvertTest extends WithApplication {
 		assertTrue(jsonLd.contains("variantNameEntityForThePerson"));
 	}
 
+	@Test
+	public void testSecondLevelTypePerson() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("100002617");
+		assertTrue(Json.fromJson(Json.parse(jsonLd).get("type"), List.class).contains("Person"));
+	}
+
+	@Test
+	public void testSecondLevelTypePlace() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("4074335-4");
+		assertTrue(Json.fromJson(Json.parse(jsonLd).get("type"), List.class).contains("PlaceOrGeographicName"));
+	}
+
+	private String jsonLdFor(String id) throws FileNotFoundException {
+		Model sourceModel = ModelFactory.createDefaultModel();
+		sourceModel.read(new FileReader("test/ttl/" + id + ".ttl"), null, "TTL");
+		String jsonLd = Convert.toJsonLd(id, sourceModel, true);
+		return jsonLd;
+	}
 }
