@@ -28,6 +28,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.ConfigObject;
 
 import apps.Convert;
 import modules.IndexComponent;
@@ -53,6 +54,11 @@ public class HomeController extends Controller {
 
 	public static String config(String id) {
 		return CONFIG.getString(id);
+	}
+
+	public static String configNested(String id, String sub) {
+		ConfigObject object = CONFIG.getObject(id);
+		return object.containsKey(sub) ? object.get(sub).unwrapped().toString() : null;
 	}
 
 	public Result index() {
