@@ -11,13 +11,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
 import org.apache.jena.atlas.web.HttpException;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -43,6 +49,8 @@ import play.mvc.Result;
  * application's home page.
  */
 public class HomeController extends Controller {
+
+	private static final String TYPE = "type";
 
 	@Inject
 	Environment env;
@@ -125,8 +133,10 @@ public class HomeController extends Controller {
 	}
 
 	public Result search(String q, int from, int size, String format) {
-		SearchResponse response = index.client().prepareSearch(config("index.name"))
-				.setQuery(QueryBuilders.queryStringQuery(q)).setFrom(from).setSize(size).get();
+		SearchRequestBuilder requestBuilder = index.client().prepareSearch(config("index.name"))
+				.setQuery(QueryBuilders.queryStringQuery(q)).setFrom(from).setSize(size);
+		requestBuilder.addAggregation(AggregationBuilders.terms(TYPE).field(TYPE + ".raw").size(1000));
+		SearchResponse response = requestBuilder.get();
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		return format.equals("html") ? htmlSearch(q, from, size, format, response)
 				: ok(returnAsJson(response)).as(config("index.content"));
@@ -156,10 +166,13 @@ public class HomeController extends Controller {
 		object.put("id", "http://" + request().host() + request().uri());
 		object.put("totalItems", queryResponse.getHits().getTotalHits());
 		object.set("member", Json.toJson(hits));
-		JsonNode aggregations = Json.parse(queryResponse.toString()).get("aggregations");
-		if (aggregations != null) {
-			object.set("aggregation", aggregations);
-		}
+		Aggregation aggregation = queryResponse.getAggregations().get(TYPE);
+		Terms terms = (Terms) aggregation;
+		Stream<Map<String, Object>> buckets = terms.getBuckets().stream().map((Bucket b) -> ImmutableMap.of(//
+				"key", b.getKeyAsString(), "doc_count", b.getDocCount()));
+		object.set("aggregation",
+				Json.toJson(ImmutableMap.of(TYPE, Json.toJson(buckets.collect(Collectors.toList())))));
+
 		return prettyJsonString(object);
 	}
 
