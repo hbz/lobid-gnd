@@ -42,6 +42,9 @@
                       <li @if(request.uri.toString() == routes.HomeController.index().toString()){ class="active" }>
                         <a href="@routes.HomeController.index()">authorities</a>
                       </li>
+                      <li @if(title=="lobid-authorities - search"){ class="active" }>
+                        <a href="@routes.HomeController.search()">Suchen</a>
+                      </li>
                       <li @if(title=="lobid-authorities - API"){class="active"}>
                         <a href="@routes.HomeController.api()">API</a>
                       </li>

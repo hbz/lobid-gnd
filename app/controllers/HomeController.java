@@ -70,7 +70,7 @@ public class HomeController extends Controller {
 	}
 
 	public Result index() {
-		return search("*", 0, 10, "html");
+		return ok(views.html.index.render());
 	}
 
 	/**

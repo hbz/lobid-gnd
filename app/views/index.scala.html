@@ -1,0 +1,31 @@
+@* Copyright 2017 Fabian Steeg, hbz. Licensed under the GPLv2 *@
+
+@()
+
+@import helper._
+
+@main("", "lobid-resources") {
+    <div class="page-header">
+        <img class="media-object nrw-logo pull-right" src="@controllers.routes.Assets.versioned("images/hbz.png")" alt="hbz">
+        <h1>lobid-authorities <small>&mdash; Rechercheoberfläche &amp; LOD-API für die GND</small></h1>
+    </div>
+    <div class="row">
+	    <div class="col-md-12 intro">
+	       <p class="lead">Die Gemeinsame Normdatei (GND) enthält über 14 Millionen Normdatensätze. Sie wird zur Katalogisierung von Literatur in Bibliotheken, sowie von Archiven, Museen, und verschiedenen Projekten genutzt.</p>
+	       <p>Die GND enthält normierte Einträge für Personen, Körperschaften, Kongresse, Geografika, Sachschlagwörter und Werktitel. Sie wird von der Deutschen Nationalbibliothek (DNB), den deutschsprachigen Bibliotheksverbünden, der Zeitschriftendatenbank (ZDB) und zahlreichen weiteren Institutionen kooperativ geführt. Die Daten sind unter CC0 lizenziert.</p>
+	       <p>lobid-authorities bietet <a href='@routes.HomeController.search("*")'>eine Rechercheobefläche zum Durchsuchen der GND</a> und <a href='@routes.HomeController.api()'>eine Web-API auf Basis von JSON-LD</a> zur Verwendung der Daten in neuen Kontexten.</p>
+	    </div>
+    </div>
+    <script type="application/ld+json">
+    {
+      "@@context": "http://schema.org",
+      "@@type": "WebSite",
+      "url": "http://lobid.org/authorities",
+      "potentialAction": {
+        "@@type": "SearchAction",
+        "target": "http://lobid.org/authorities/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+}
