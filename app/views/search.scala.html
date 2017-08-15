@@ -50,11 +50,24 @@
     </tr>
 }
 
+@links(buckets: Seq[JsValue], key: String) = {
+	@for(bucket <- buckets; term = (bucket \ "key").as[String]; if term != "AuthorityResource"; count = (bucket \ "doc_count").as[Int]) {
+		@if(q.contains(key+":\""+term+"\"")){
+		@term
+		<a href='@routes.HomeController.search()?from=@from&size=@size&q=@q.replace("AND "+key+":\""+term+"\"","").trim'>
+		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
+		</a>
+		} else {
+		<a href='@routes.HomeController.search()?from=@from&size=@size&q=@q.trim+AND+@key:"@term"'>@term (@count)</a>
+		}<br/>
+	}
+}
+
 @main(q, "lobid-authorities - search") {
   <!-- <code><pre>@result</pre></code>  -->
   @defining((Json.parse(result) \ "member").asOpt[Seq[JsValue]].getOrElse(Seq()).zipWithIndex) { hits =>
      <div class="row" id="search-results">
-         <div class="col-md-@if(allHits > 0){12}else{12}"> <!-- TODO: facets -->
+         <div class="col-md-@if(allHits > 0){8}else{12}">
          @if(hits.size>0){
              <div class="row hide-in-print" >
                  <div class="col-md-12">
@@ -101,6 +114,16 @@
            }
          }
         </div>
+        <div class="col-md-4" id="facets">
+			<p>
+				@defining(("type", (Json.parse(result) \ "aggregation" \ "type").asOpt[Seq[JsValue]].getOrElse(Seq()))) { case (jsKey, buckets) => 
+					@if(!buckets.isEmpty) {
+						<h4>Ergebnisse eingrenzen:</h4>
+						@links(buckets, "type")
+					}
+				}
+			</p>
+		</div>
       </div>
   }
 

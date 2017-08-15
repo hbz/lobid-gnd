@@ -139,11 +139,12 @@ public class HomeController extends Controller {
 		SearchResponse response = requestBuilder.get();
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		return format.equals("html") ? htmlSearch(q, from, size, format, response)
-				: ok(returnAsJson(response)).as(config("index.content"));
+				: ok(returnAsJson(q, response)).as(config("index.content"));
 	}
 
 	private Result htmlSearch(String q, int from, int size, String format, SearchResponse response) {
-		return ok(views.html.search.render(q, from, size, returnAsJson(response), response.getHits().getTotalHits()));
+		return ok(
+				views.html.search.render(q, from, size, returnAsJson(q, response), response.getHits().getTotalHits()));
 	}
 
 	/**
@@ -158,7 +159,7 @@ public class HomeController extends Controller {
 		return null;
 	}
 
-	private static String returnAsJson(SearchResponse queryResponse) {
+	private static String returnAsJson(String q, SearchResponse queryResponse) {
 		List<Map<String, Object>> hits = Arrays.asList(queryResponse.getHits().hits()).stream()
 				.map(hit -> hit.getSource()).collect(Collectors.toList());
 		ObjectNode object = Json.newObject();
@@ -168,7 +169,10 @@ public class HomeController extends Controller {
 		object.set("member", Json.toJson(hits));
 		Aggregation aggregation = queryResponse.getAggregations().get(TYPE);
 		Terms terms = (Terms) aggregation;
-		Stream<Map<String, Object>> buckets = terms.getBuckets().stream().map((Bucket b) -> ImmutableMap.of(//
+		Stream<Bucket> stream = q.contains("type:") ? terms.getBuckets().stream()
+				: terms.getBuckets().stream()
+						.filter(b -> CONFIG.getObject("icons").keySet().contains(b.getKeyAsString()));
+		Stream<Map<String, Object>> buckets = stream.map((Bucket b) -> ImmutableMap.of(//
 				"key", b.getKeyAsString(), "doc_count", b.getDocCount()));
 		object.set("aggregation",
 				Json.toJson(ImmutableMap.of(TYPE, Json.toJson(buckets.collect(Collectors.toList())))));
