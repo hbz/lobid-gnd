@@ -51,14 +51,17 @@
 }
 
 @links(buckets: Seq[JsValue], key: String) = {
-	@for(bucket <- buckets; term = (bucket \ "key").as[String]; if term != "AuthorityResource"; count = (bucket \ "doc_count").as[Int]) {
-		@if(q.contains(key+":\""+term+"\"")){
+	@for(bucket <- buckets; term = (bucket \ "key").as[String]; if term != "AuthorityResource"; count = (bucket \ "doc_count").as[Int]; selected = q.contains(key+":\""+term+"\"")) {
+		@if(!q.contains("type:") || selected) {
+		<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>
+		}
+		@if(selected){
 		@term
-		<a href='@routes.HomeController.search()?from=@from&size=@size&q=@q.replace("AND "+key+":\""+term+"\"","").trim'>
+		<a href='@routes.HomeController.search(q.replace("AND "+key+":\""+term+"\"","").trim, from, size, "html")'>
 		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 		} else {
-		<a href='@routes.HomeController.search()?from=@from&size=@size&q=@q.trim+AND+@key:"@term"'>@term (@count)</a>
+		<a href='@routes.HomeController.search()?q=@q.trim+AND+@key:"@term"&from=@from&size=@size'>@term (@count)</a>
 		}<br/>
 	}
 }
