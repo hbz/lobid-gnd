@@ -22,7 +22,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10">
     </head>
-    <body onload="var q = document.getElementById('resourcesQuery'); if(q!=null){ q.focus(); };">
+    <body>
         <div class="container">
             <p/>
             <div class="navbar navbar-default" role="navigation">
@@ -60,7 +60,7 @@
             </div>
             @helper.form(action = controllers.routes.HomeController.search(q), 'id -> "resources-form") {
                 <div class="input-group" id="search-simple">
-                  <input type="text" name="q" id="resourcesQuery" value="@q" class="form-control" autocomplete="off" 
+                  <input autofocus type="text" name="q" id="resourcesQuery" value="@q" class="form-control" autocomplete="off" 
                       title='Boolesche Operatoren: AND, OR, AND NOT; Phrasensuche mit ""; Trunkierung mit *'
                       placeholder='Suchen in lobid-authorities'/>
                   <span class="input-group-btn"><button class="btn btn-default" type="submit">
