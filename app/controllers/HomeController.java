@@ -37,6 +37,7 @@ import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
 import apps.Convert;
+import models.AuthorityResource;
 import modules.IndexComponent;
 import play.Environment;
 import play.Logger;
@@ -88,21 +89,33 @@ public class HomeController extends Controller {
 				controllers.routes.HomeController.search("type:CorporateBody", 0, 10, format).toString(), //
 				"Pagination", controllers.routes.HomeController.search("london", 50, 100, format).toString());
 		ImmutableMap<String, String> getSamples = ImmutableMap.of(//
-				"London", controllers.routes.HomeController.authority("4074335-4").toString(), //
-				"hbz", controllers.routes.HomeController.authority("2047974-8").toString(), //
-				"Goethe", controllers.routes.HomeController.authority("118540238").toString());
+				"London", controllers.routes.HomeController.authorityJson("4074335-4").toString(), //
+				"hbz", controllers.routes.HomeController.authorityJson("2047974-8").toString(), //
+				"Goethe", controllers.routes.HomeController.authorityJson("118540238").toString());
 		return ok(views.html.api.render(searchSamples, getSamples));
 	}
 
-	public Result authority(String id) {
+	public Result authorityJson(String id) {
+		String jsonLd = getAuthorityResource(id);
+		return jsonLd == null ? gnd(id) : ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
+	}
+
+	public Result authorityHtml(String id) {
+		String jsonLd = getAuthorityResource(id);
+		JsonNode json = Json.parse(jsonLd);
+		AuthorityResource entity = Json.fromJson(json, AuthorityResource.class);
+		entity.index = index;
+		return ok(views.html.details.render(entity));
+	}
+
+	private String getAuthorityResource(String id) {
 		GetResponse response = index.client().prepareGet(config("index.name"), config("index.type"), id).get();
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		if (!response.isExists()) {
 			Logger.warn("{} does not exists in index, falling back to live version from GND", id);
-			return gnd(id);
+			return null;
 		}
-		String jsonLd = response.getSourceAsString();
-		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
+		return response.getSourceAsString();
 	}
 
 	public Result context() {
@@ -188,4 +201,5 @@ public class HomeController extends Controller {
 			return null;
 		}
 	}
+
 }

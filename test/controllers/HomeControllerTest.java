@@ -26,11 +26,11 @@ public class HomeControllerTest extends WithApplication {
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] { //
 				{ routes.HomeController.index().toString(), Status.OK }, //
-				{ routes.HomeController.authority("2-4").toString(), Status.OK }, //
-				{ routes.HomeController.authority("1077774206").toString(), Status.OK }, //
-				{ routes.HomeController.authority("1072719991").toString(), Status.OK }, //
+				{ routes.HomeController.authorityJson("2-4").toString(), Status.OK }, //
+				{ routes.HomeController.authorityJson("1077774206").toString(), Status.OK }, //
+				{ routes.HomeController.authorityJson("1072719991").toString(), Status.OK }, //
 				{ routes.HomeController.search("*", 0, 10, "json").toString(), Status.OK },
-				{ routes.HomeController.authority("---").toString(), Status.NOT_FOUND } });
+				{ routes.HomeController.authorityJson("---").toString(), Status.NOT_FOUND } });
 	}
 
 	public HomeControllerTest(String route, int status) {

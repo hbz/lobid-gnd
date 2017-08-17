@@ -1,0 +1,29 @@
+@* Copyright 2017 Fabian Steeg, hbz. Licensed under the GPLv2 *@
+
+@(resource: models.AuthorityResource)
+
+@import play.api.libs.json._
+
+@main("", "lobid-resources - Details") {
+    <div class="page-header">
+        <h1>@resource.title <small>&mdash; @resource.subtitle  <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityJson(resource.getId)'><img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")'></a></small></h1>
+    </div>
+    <div class="row">
+        <div class="col-md-@if(resource.specialFields.size==0){12}else{6} intro">
+            <table class='table table-striped table-condensed'>
+            @for(f <- resource.generalFields) {
+                <tr><td>@f.getLeft</td><td>@Html(f.getRight)</td>
+            }
+            </table>
+        </div>
+        @if(resource.specialFields.size>0){
+        <div class="col-md-6 intro">
+            <table class='table table-striped table-condensed'>
+            @for(f <- resource.specialFields) {
+                <tr><td>@f.getLeft</td><td>@Html(f.getRight)</td>
+            }
+            </table>
+        </div>
+        }
+    </div>
+}
