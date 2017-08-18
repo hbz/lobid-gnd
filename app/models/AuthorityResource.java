@@ -3,10 +3,12 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.common.geo.GeoPoint;
 
 import controllers.HomeController;
 import modules.IndexComponent;
@@ -98,6 +100,33 @@ public class AuthorityResource {
 		return getType().stream().collect(Collectors.joining("; "));
 	}
 
+	public GeoPoint location() {
+		if (hasGeometry == null)
+			return null;
+		@SuppressWarnings("unchecked")
+		String geoString = ((List<Map<String, Object>>) hasGeometry.get(0).get("asWKT")).get(0).get("@value")
+				.toString();
+		List<Double> lonLat = scanGeoCoordinates(geoString);
+		if (lonLat.size() != 2) {
+			throw new IllegalArgumentException("Could not scan geo location from: " + geoString);
+		}
+		return new GeoPoint(lonLat.get(1), lonLat.get(0));
+	}
+
+	private List<Double> scanGeoCoordinates(String geoString) {
+		List<Double> lonLat = new ArrayList<Double>();
+		try (Scanner s = new Scanner(geoString)) {
+			while (s.hasNext()) {
+				if (s.hasNextDouble()) {
+					lonLat.add(s.nextDouble());
+				} else {
+					s.next();
+				}
+			}
+		}
+		return lonLat;
+	}
+
 	public List<Pair<String, String>> generalFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
 		add("Bevorzugter Name", preferredName, Values.JOINED, fields);
@@ -113,9 +142,6 @@ public class AuthorityResource {
 
 	public List<Pair<String, String>> specialFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
-		@SuppressWarnings("unchecked")
-		Map<String, Object> location = hasGeometry != null
-				? ((List<Map<String, Object>>) hasGeometry.get(0).get("asWKT")).get(0) : null;
 		add("Definition", definition, Values.JOINED, fields);
 		add("Oberbegriff partitiv", broaderTermPartitive, Values.MULTI_LINE, fields);
 		add("Oberbegriff instantiell", broaderTermInstantial, Values.MULTI_LINE, fields);
@@ -154,7 +180,6 @@ public class AuthorityResource {
 		add("Besetzung im Musikbereich", mediumOfPerformance, Values.MULTI_LINE, fields);
 		add("Erster Komponist", firstComposer, Values.MULTI_LINE, fields);
 		add("Erscheinungszeit", dateOfPublication, Values.MULTI_LINE, fields);
-		add("Ort", location, Values.MULTI_LINE, fields);
 		return fields;
 	}
 
