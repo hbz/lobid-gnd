@@ -17,11 +17,8 @@ import javax.inject.Inject;
 
 import org.apache.jena.atlas.web.HttpException;
 import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.Aggregation;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 
@@ -51,7 +48,7 @@ import play.mvc.Result;
  */
 public class HomeController extends Controller {
 
-	private static final String TYPE = "type";
+	public static final String TYPE = "type";
 
 	@Inject
 	Environment env;
@@ -146,10 +143,7 @@ public class HomeController extends Controller {
 	}
 
 	public Result search(String q, int from, int size, String format) {
-		SearchRequestBuilder requestBuilder = index.client().prepareSearch(config("index.name"))
-				.setQuery(QueryBuilders.queryStringQuery(q)).setFrom(from).setSize(size);
-		requestBuilder.addAggregation(AggregationBuilders.terms(TYPE).field(TYPE + ".raw").size(1000));
-		SearchResponse response = requestBuilder.get();
+		SearchResponse response = index.query(q, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		return format.equals("html") ? htmlSearch(q, from, size, format, response)
 				: ok(returnAsJson(q, response)).as(config("index.content"));

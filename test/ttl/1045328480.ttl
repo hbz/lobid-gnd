@@ -1,0 +1,37 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/1045328480> a gndo:BuildingOrMemorial ;
+	foaf:page <http://de.wikipedia.org/wiki/The_Shard> ;
+	gndo:gndIdentifier "1045328480" ;
+	gndo:architect <http://d-nb.info/gnd/11889787X> , <http://d-nb.info/gnd/5071828-9> ;
+	gndo:broaderTermInstantial <http://d-nb.info/gnd/4025210-3> ;
+	gndo:gndSubjectCategory <http://d-nb.info/standards/vocab/gnd/gnd-sc#31.3ab> ;
+	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB> ;
+	gndo:definition "72-stöckiges u. 310 m hohes, multifunktionales Hochhaus am Südufer d. Themse i.d. Nähe d. London Bridge in London-Southwark"@de ;
+	gndo:dateOfProduction "16.03.2009-01.02.2013" ;
+	gndo:variantNameForThePlaceOrGeographicName "London Bridge Tower (London)" , "Shard London Bridge (London)" , "Shard of Glass (London)" , "32 London Bridge (London)" , "Thirty-two London Bridge (London)" ;
+	gndo:preferredNameForThePlaceOrGeographicName "The Shard (London)" ;
+	gndo:place <http://d-nb.info/gnd/4074335-4> .
+

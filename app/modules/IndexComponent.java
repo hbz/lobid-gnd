@@ -23,20 +23,34 @@ import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.internal.InternalSettingsPreparer;
 import org.elasticsearch.plugins.Plugin;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import controllers.HomeController;
 import play.Logger;
 import play.inject.ApplicationLifecycle;
 
 public interface IndexComponent {
 	Client client();
+
+	SearchResponse query(String q, int from, int size);
+
+	public default SearchResponse query(String q) {
+		return query(q, 0, 10);
+	}
 }
 
 class EmbeddedIndex implements IndexComponent {
@@ -86,7 +100,8 @@ class EmbeddedIndex implements IndexComponent {
 					indexData(client, pathToJson, indexName);
 				}
 			} else {
-				Logger.info("Index exists. Delete the 'data/' directory to reindexfrom " + pathToJson);
+				Logger.info("Index exists. Delete the '" + config("index.home") + "/data' directory to reindex from "
+						+ pathToJson);
 			}
 			if (new File(pathToUpdates).exists()) {
 				Logger.info("Indexing updates from " + pathToUpdates);
@@ -177,5 +192,19 @@ class EmbeddedIndex implements IndexComponent {
 			});
 		}
 		Logger.info("Indexed {} docs, took: {}", pendingIndexRequests, bulkResponse.getTook());
+	}
+
+	@Override
+	public SearchResponse query(String q, int from, int size) {
+		MatchQueryBuilder preferredName = QueryBuilders.matchQuery("preferredName", q).boost(2);
+		QueryStringQueryBuilder queryStringQuery = QueryBuilders.queryStringQuery(q);
+		QueryBuilder query = QueryBuilders.boolQuery().should(preferredName).must(queryStringQuery)
+				.minimumNumberShouldMatch(0);
+		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name")).setQuery(query).setFrom(from)
+				.setSize(size);
+		requestBuilder.addAggregation(
+				AggregationBuilders.terms(HomeController.TYPE).field(HomeController.TYPE + ".raw").size(1000));
+		SearchResponse response = requestBuilder.get();
+		return response;
 	}
 }
