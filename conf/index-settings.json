@@ -66,12 +66,12 @@
 				"preferredName": {
 					"type": "string", 
 					"analyzer": "autocomplete", 
-					"search_analyzer": "default"
+					"search_analyzer": "autocomplete"
 				}, 
 				"variantName": {
 					"type": "string", 
 					"analyzer": "autocomplete", 
-					"search_analyzer": "default"
+					"search_analyzer": "autocomplete"
 				}
 			}
 		}
