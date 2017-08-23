@@ -210,15 +210,27 @@ public class AuthorityResource {
 	private String process(String string) {
 		String label = string;
 		String link = string;
+		String search = "";
 		if (string.startsWith(DNB_PREFIX)) {
 			label = labelFor(string.substring(DNB_PREFIX.length()));
 			link = string.replace(DNB_PREFIX, "/authorities/") + ".html";
+			search = controllers.routes.HomeController.search("\"" + string + "\"", 0, 10, "html").toString();
 			if (label == null) {
 				label = string;
 				link = string;
 			}
 		}
-		return string.startsWith("http") ? String.format("<a href='%s'>%s</a>", link, label) : link;
+		if (string.startsWith("http")) {
+			String result = String.format("<a title='Details zu \"%s\" anzeigen' href='%s'>%s</a>", label, link, label);
+			if (!search.isEmpty()) {
+				result = String.format(
+						"%s | <a title='Weitere Einträge mit \"%s\" suchen' href='%s'>"
+								+ "<i class='glyphicon glyphicon-search' aria-hidden='true'></i></a>",
+						result, label, search);
+			}
+			return result;
+		} else
+			return string;
 	}
 
 	public String labelFor(String id) {
