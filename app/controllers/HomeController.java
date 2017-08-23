@@ -35,6 +35,8 @@ import com.typesafe.config.ConfigObject;
 
 import apps.Convert;
 import models.AuthorityResource;
+import models.RdfConverter;
+import models.RdfConverter.RdfFormat;
 import modules.IndexComponent;
 import play.Environment;
 import play.Logger;
@@ -86,23 +88,41 @@ public class HomeController extends Controller {
 				controllers.routes.HomeController.search("type:CorporateBody", 0, 10, format).toString(), //
 				"Pagination", controllers.routes.HomeController.search("london", 50, 100, format).toString());
 		ImmutableMap<String, String> getSamples = ImmutableMap.of(//
-				"London", controllers.routes.HomeController.authorityJson("4074335-4").toString(), //
-				"hbz", controllers.routes.HomeController.authorityJson("2047974-8").toString(), //
-				"Goethe", controllers.routes.HomeController.authorityJson("118540238").toString());
+				"London", controllers.routes.HomeController.authorityDotFormat("4074335-4", "json").toString(), //
+				"hbz", controllers.routes.HomeController.authorityDotFormat("2047974-8", "json").toString(), //
+				"Goethe", controllers.routes.HomeController.authorityDotFormat("118540238", "json").toString());
 		return ok(views.html.api.render(searchSamples, getSamples));
 	}
 
-	public Result authorityJson(String id) {
-		String jsonLd = getAuthorityResource(id);
-		return jsonLd == null ? gnd(id) : ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
+	/**
+	 * @param id
+	 *            The authority ID.
+	 * @param format
+	 *            The response format (see {@code Accept.Format})
+	 * @return The details page for the authority with the given ID.
+	 */
+	public Result authorityDotFormat(final String id, String format) {
+		return authority(id, format);
 	}
 
-	public Result authorityHtml(String id) {
+	public Result authority(String id, String format) {
+		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		String jsonLd = getAuthorityResource(id);
-		JsonNode json = Json.parse(jsonLd);
-		AuthorityResource entity = Json.fromJson(json, AuthorityResource.class);
-		entity.index = index;
-		return ok(views.html.details.render(entity));
+		if (jsonLd == null) {
+			return gnd(id);
+		}
+		try {
+			JsonNode json = Json.parse(jsonLd);
+			if (responseFormat.equals("html")) {
+				AuthorityResource entity = Json.fromJson(json, AuthorityResource.class);
+				entity.index = index;
+				return ok(views.html.details.render(entity));
+			}
+			return responseFor(json, responseFormat);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return internalServerError(e.getMessage());
+		}
 	}
 
 	private String getAuthorityResource(String id) {
@@ -113,6 +133,33 @@ public class HomeController extends Controller {
 			return null;
 		}
 		return response.getSourceAsString();
+	}
+
+	private Result responseFor(JsonNode responseJson, String responseFormat) throws JsonProcessingException {
+		String content = "";
+		String contentType = "";
+		switch (responseFormat) {
+		case "rdf": {
+			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.RDF_XML);
+			contentType = Accept.Format.RDF_XML.types[0];
+			break;
+		}
+		case "ttl": {
+			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.TURTLE);
+			contentType = Accept.Format.TURTLE.types[0];
+			break;
+		}
+		case "nt": {
+			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.N_TRIPLE);
+			contentType = Accept.Format.N_TRIPLE.types[0];
+			break;
+		}
+		default: {
+			content = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(responseJson);
+			contentType = Accept.Format.JSON_LD.types[0];
+		}
+		}
+		return content.isEmpty() ? internalServerError("No content") : ok(content).as(contentType + "; charset=utf-8");
 	}
 
 	public Result context() {
@@ -143,9 +190,10 @@ public class HomeController extends Controller {
 	}
 
 	public Result search(String q, int from, int size, String format) {
+		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		SearchResponse response = index.query(q, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		return format.equals("html") ? htmlSearch(q, from, size, format, response)
+		return responseFormat.equals("html") ? htmlSearch(q, from, size, format, response)
 				: ok(returnAsJson(q, response)).as(config("index.content"));
 	}
 
@@ -183,7 +231,6 @@ public class HomeController extends Controller {
 				"key", b.getKeyAsString(), "doc_count", b.getDocCount()));
 		object.set("aggregation",
 				Json.toJson(ImmutableMap.of(TYPE, Json.toJson(buckets.collect(Collectors.toList())))));
-
 		return prettyJsonString(object);
 	}
 

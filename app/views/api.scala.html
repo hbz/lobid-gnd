@@ -12,7 +12,7 @@
    }
   </dl>
 
-  <h2>GET by ID: <code>@Html(controllers.routes.HomeController.authorityJson("&lt;id&gt;").toString)</code></h2>
+  <h2>GET by ID: <code>@Html(controllers.routes.HomeController.authorityDotFormat("&lt;id&gt;", "json").toString)</code></h2>
 
   <dl>
    @for((key,value) <- getSamples) {
@@ -20,4 +20,31 @@
     <dd><a href='@value'>@value</a></dd>
    }
   </dl>
+
+  <h2 id='content_types'>Inhaltstypen <small><a href='#content_types'><span class='glyphicon glyphicon-link'></span></a></small></h2>
+
+  <p>Standardmäßig liefert dieser Dienst strukturierte API-Antworten (als JSON):</p>
+  <p><code>curl http://test.lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p>Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json) oder HTML (text/html):</p>
+  <p><code>curl --header "Accept: application/json" http://test.lobid.org@routes.HomeController.search("london")</code></p>
+  <p>Der Query-Parameter "format" (Werte: html,json,bulk) kann verwendet werden, um den Accept-Header aufzuheben, z.B. zur Anzeige von JSON im Browser:</p>
+  <p><a href='@routes.HomeController.authority("4074335-4", format="json")'>@routes.HomeController.authority("4074335-4", format="json")</a></p>
+  <p>Der Wert des Format-Parameters kann für Einzeltreffer auch in URLs als Dateiendung verwendet werden:</p>
+  <p><a href='@routes.HomeController.authorityDotFormat("4074335-4", format="json")'>@routes.HomeController.authorityDotFormat("4074335-4", format="json")</a></p>
+  <p>Einzeltreffer unterstützen zudem verschiedene RDF-Serialisierungen (siehe <a href='#jsonld'>Abschnitt zu JSON-LD</a>).</p>
+
+  <h2 id='jsonld'>JSON-LD <small><a href='#jsonld'><span class='glyphicon glyphicon-link'></span></a></small></h2>
+
+  <p>JSON-API-Anfragen liefern <a href="http://json-ld.org/">JSON-LD</a>. Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="http://json-ld.org/playground/">JSON-LD Playground</a> einfügen.</p>
+  <dt>JSON-LD Context</dt> <dd><a href='@routes.HomeController.context'>@java.net.URLDecoder.decode(routes.HomeController.context.toString)</a></dd>
+  <dt>RDF-Konvertierung</dt><dd>Mit einem JSON-LD-Prozessor können sie API-Antworten in andere RDF-Serialisierungen umwandeln, z.B. in N-Quads mit <a href="https://github.com/digitalbazaar/jsonld-cli">jsonld-cli</a>:</dd>
+  <p><code>jsonld format --nquads http://test.lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p>Einzeltreffer können per <code>Accept</code> Header auch direkt als RDF/XML, Turtle oder N-Triples angefordert werden:</p>
+  <p><code>curl --header "Accept: application/rdf+xml" http://test.lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>curl --header "Accept: text/turtle" http://test.lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>curl --header "Accept: application/n-triples" http://test.lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p>Dabei werden wie <a href='#content_types'>im Abschnitt zu Inhaltstypen beschrieben</a> neben dem Format-Parameter auch URLs mit Formatendungen unterstützt:
+  <p><a href='@routes.HomeController.authorityDotFormat("4074335-4", format="rdf")'>@routes.HomeController.authorityDotFormat("4074335-4", format="rdf")</a></p>
+  <p><a href='@routes.HomeController.authorityDotFormat("4074335-4", format="ttl")'>@routes.HomeController.authorityDotFormat("4074335-4", format="ttl")</a></p>
+  <p><a href='@routes.HomeController.authorityDotFormat("4074335-4", format="nt")'>@routes.HomeController.authorityDotFormat("4074335-4", format="nt")</a></p>
 }

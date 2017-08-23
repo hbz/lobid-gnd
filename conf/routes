@@ -9,11 +9,11 @@ GET     /authorities/api            controllers.HomeController.api
 
 GET     /authorities/context.jsonld controllers.HomeController.context()
 
-GET     /authorities/:id.json       controllers.HomeController.authorityJson(id)
+GET     /authorities/search         controllers.HomeController.search(q ?= "*", from: Int ?= 0, size: Int ?= 10, format ?= null)
 
-GET     /authorities/:id.html       controllers.HomeController.authorityHtml(id)
+GET     /authorities/:id.:format           controllers.HomeController.authorityDotFormat(id, format)
 
-GET     /authorities/search         controllers.HomeController.search(q ?= "*", from: Int ?= 0, size: Int ?= 10, format ?= "html")
+GET     /authorities/:id                   controllers.HomeController.authority(id, format ?= null)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /authorities/assets/*file   controllers.Assets.versioned(path="/public", file: Asset)
