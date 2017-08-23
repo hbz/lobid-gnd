@@ -3,6 +3,7 @@ package models;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+import org.elasticsearch.common.geo.GeoPoint;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -22,6 +23,7 @@ public class ModelTest {
 		AuthorityResource res = Json.fromJson(json, AuthorityResource.class);
 		Assert.assertNotNull(res.getId());
 		Assert.assertNotNull(res.getType());
+		Assert.assertEquals(new GeoPoint(51.508530, -0.125740), res.location());
 	}
 
 	private String jsonLdFor(String id) throws FileNotFoundException {

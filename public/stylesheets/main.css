@@ -200,3 +200,8 @@ h5 {
 	float: right;
 	height: 1.4em
 }
+
+.authority-map {
+	width: 100%;
+	height: 400px
+}
