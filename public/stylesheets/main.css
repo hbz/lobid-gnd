@@ -89,6 +89,7 @@ ul.facet li {
 	.table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td,
 	.table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td {
 	padding: 3px !important;
+	vertical-align: bottom; !important;
 }
 
 .nrw-logo {
