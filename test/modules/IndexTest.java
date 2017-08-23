@@ -5,8 +5,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.elasticsearch.action.search.SearchResponse;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -56,11 +56,11 @@ public class IndexTest extends WithApplication {
 		}
 	}
 
-	@AfterClass
+	@BeforeClass
 	public static void cleanup() throws IOException {
 		// TODO: use separate dir, override config in provideApplication
 		// https://www.playframework.com/documentation/2.6.x/JavaTestingWithGuice#configuration
-		// FileUtils.deleteDirectory(new File("data"));
+		FileUtils.deleteDirectory(new File("data"));
 	}
 
 	@Before
@@ -88,7 +88,7 @@ public class IndexTest extends WithApplication {
 
 	@Test
 	public void testContextQuery() {
-		Assert.assertEquals(0, index.query("jsonld").getHits().getTotalHits());
+		Assert.assertEquals(0, index.query("context.jsonld").getHits().getTotalHits());
 	}
 
 	@Test

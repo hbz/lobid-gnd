@@ -44,7 +44,8 @@
 			"properties": {
 				"@context": {
 					"type": "string",
-					"index": "not_analyzed"
+					"include_in_all": false,
+					"index": "no"
 				},
 				"id": {
 					"type": "string",
