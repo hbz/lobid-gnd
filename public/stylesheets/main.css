@@ -89,6 +89,9 @@ ul.facet li {
 	.table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td,
 	.table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td {
 	padding: 3px !important;
+}
+
+.table-condensed>tbody>tr>td.field-value {
 	vertical-align: bottom; !important;
 }
 
