@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -31,7 +32,7 @@ public class AuthorityResource {
 	public Map<String, Object> biographicalOrHistoricalInformation;
 	public List<Map<String, Object>> hasGeometry;
 	public List<String> gndIdentifier;
-	public List<String> preferredName;
+	public String preferredName;
 	public List<String> variantName;
 	public List<String> sameAs;
 	public List<String> geographicAreaCode;
@@ -93,7 +94,7 @@ public class AuthorityResource {
 	}
 
 	public String title() {
-		return preferredName.get(0);
+		return preferredName;
 	}
 
 	public String subtitle() {
@@ -129,7 +130,7 @@ public class AuthorityResource {
 
 	public List<Pair<String, String>> generalFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
-		add("Bevorzugter Name", preferredName, Values.JOINED, fields);
+		add("Bevorzugter Name", Arrays.asList(preferredName), Values.JOINED, fields);
 		add("Varianter Name", variantName, Values.JOINED, fields);
 		add("Entitätstyp", getType(), Values.JOINED, fields);
 		add("GND-ID", gndIdentifier, Values.JOINED, fields);

@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
@@ -47,6 +48,13 @@ public class ConvertTest extends WithApplication {
 		// Don't replace entity fields:
 		assertTrue(jsonLd.contains("preferredNameEntityForThePerson"));
 		assertTrue(jsonLd.contains("variantNameEntityForThePerson"));
+	}
+
+	@Test
+	public void testPreferredNameIsTextual() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("100002617");
+		JsonNode jsonNode = Json.parse(jsonLd);
+		assertTrue(jsonNode.get("preferredName").isTextual());
 	}
 
 	@Test

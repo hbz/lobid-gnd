@@ -96,7 +96,7 @@ public class IndexTest extends WithApplication {
 		SearchResponse response = index.query("london");
 		Assert.assertEquals(2, response.getHits().getTotalHits());
 		Assert.assertEquals("London", Json.fromJson(Json.parse(response.getHits().getHits()[0].getSourceAsString()),
-				AuthorityResource.class).preferredName.get(0));
+				AuthorityResource.class).preferredName);
 	}
 
 }
