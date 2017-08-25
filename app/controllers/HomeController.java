@@ -120,7 +120,7 @@ public class HomeController extends Controller {
 			}
 			return responseFor(json, responseFormat);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("Could not create response", e);
 			return internalServerError(e.getMessage());
 		}
 	}
