@@ -241,9 +241,7 @@ public class AuthorityResource {
 			Logger.warn("{} does not exists in index", id);
 			return null;
 		}
-		@SuppressWarnings("unchecked")
-		List<String> preferredName = (List<String>) response.getSourceAsMap().get("preferredName");
-		return preferredName.get(0).toString();
+		return response.getSourceAsMap().get("preferredName").toString();
 	}
 
 }
