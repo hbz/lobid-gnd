@@ -235,11 +235,16 @@ public class Convert {
 			@SuppressWarnings("unchecked") /* first.isObject() */
 			Map<String, Object> res = Json.fromJson(first, TreeMap.class);
 			res.put("@context", contextUrl);
-			List<?> prefName = (List<?>) res.get("preferredName");
-			if (prefName != null && prefName.size() > 0)
-				res.put("preferredName", prefName.get(0));
+			arrayToSingleValue(res, "preferredName");
+			arrayToSingleValue(res, "preferredNameEntityForThePerson");
 			return Json.stringify(Json.toJson(res));
 		}
 		return Json.stringify(in);
+	}
+
+	private static void arrayToSingleValue(Map<String, Object> res, String key) {
+		List<?> val = (List<?>) res.get(key);
+		if (val != null && val.size() > 0)
+			res.put(key, val.get(0));
 	}
 }
