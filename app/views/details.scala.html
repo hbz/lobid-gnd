@@ -6,7 +6,13 @@
 
 @main("", "lobid-resources - Details") {
     <div class="page-header">
-        <h1>@resource.title <small>&mdash; @resource.subtitle  <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'><img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")'></a></small></h1>
+        <h1>@resource.title <small>&mdash; @resource.subtitle 
+            <div class='pull-right'>
+            <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'><img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")'/></a>
+            <a title="Im Katalog der DNB anzeigen" href='http://d-nb.info/gnd/@resource.getId'><span class="label label-primary">DNB</span></a>
+            </div>
+            </small>
+        </h1>
     </div>
     <div class="row">
         <div class="col-md-@if(resource.specialFields.size==0){12}else{6} intro">
