@@ -67,7 +67,7 @@
 	}
 }
 
-@main(q, "lobid-authorities - search") {
+@main(q, "lobid-gnd - search") {
   <!-- <code><pre>@result</pre></code>  -->
   @defining((Json.parse(result) \ "member").asOpt[Seq[JsValue]].getOrElse(Seq()).zipWithIndex) { hits =>
      <div class="row" id="search-results">

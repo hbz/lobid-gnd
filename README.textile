@@ -1,6 +1,6 @@
 h1. About
 
-lobid-authorities: access GND data as JSON-LD over HTTP.
+lobid-gnd: access GND data as JSON-LD over HTTP.
 
 h1. Setup
 
@@ -8,13 +8,13 @@ Prerequisites: @sbt 0.13@ &mdash; "download sbt":http://www.scala-sbt.org/downlo
 
 Get the code and change into the project directory:
 
-@git clone https://github.com/hbz/lobid-authorities.git@
+@git clone https://github.com/hbz/lobid-gnd.git@
 
-@cd lobid-authorities@
+@cd lobid-gnd@
 
 @sbt test@
 
-"!https://secure.travis-ci.org/hbz/lobid-authorities.png?branch=master!":https://travis-ci.org/hbz/lobid-authorities
+"!https://secure.travis-ci.org/hbz/lobid-gnd.png?branch=master!":https://travis-ci.org/hbz/lobid-gnd
 
 h2. Data
 
@@ -34,11 +34,11 @@ With the default 'conf/application.conf' this should give you a local file calle
 
 h2. Web
 
-In 'lobid-authorities', run the web application:
+In 'lobid-gnd', run the web application:
 
 @sbt run@
 
-Open "http://localhost:9000/authorities":http://localhost:9000/authorities
+Open "http://localhost:9000/gnd":http://localhost:9000/gnd
 
 If no local index exists, indexing will happen automatically on the first startup. See logs for details.
 

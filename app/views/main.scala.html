@@ -40,12 +40,12 @@
                   <div class="navbar-collapse collapse" id="resources-nav">
                     <ul class="nav navbar-nav">
                       <li @if(request.uri.toString() == routes.HomeController.index().toString()){ class="active" }>
-                        <a href="@routes.HomeController.index()">authorities</a>
+                        <a href="@routes.HomeController.index()">gnd</a>
                       </li>
-                      <li @if(title=="lobid-authorities - search"){ class="active" }>
+                      <li @if(title=="lobid-gnd - search"){ class="active" }>
                         <a href="@routes.HomeController.search()">Suchen</a>
                       </li>
-                      <li @if(title=="lobid-authorities - API"){class="active"}>
+                      <li @if(title=="lobid-gnd - API"){class="active"}>
                         <a href="@routes.HomeController.api()">API</a>
                       </li>
                     </ul>
@@ -54,7 +54,7 @@
                       <li @if(title.contains("Dataset")){class="active"} class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Info"><span class="glyphicon glyphicon-info-sign"></span><b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                          <li><a href="mailto:semweb@@hbz-nrw.de?subject=Feedback%20zu%20lobid-authorities,%20aktuelle%20URL%20@controllers.HomeController.currentUri()">Feedback zur aktuellen Seite</a></li>
+                          <li><a href="mailto:semweb@@hbz-nrw.de?subject=Feedback%20zu%20lobid-gnd,%20aktuelle%20URL%20@controllers.HomeController.currentUri()">Feedback zur aktuellen Seite</a></li>
                         </ul>
                       </li>
                     </ul>
@@ -65,7 +65,7 @@
                 <div class="input-group" id="search-simple">
                   <input autofocus type="text" name="q" id="resourcesQuery" value="@q" class="form-control" autocomplete="off" 
                       title='Boolesche Operatoren: AND, OR, AND NOT; Phrasensuche mit ""; Trunkierung mit *'
-                      placeholder='Suchen in lobid-authorities'/>
+                      placeholder='Suchen in lobid-gnd'/>
                   <span class="input-group-btn"><button class="btn btn-default" type="submit">
                     <span class="glyphicon glyphicon-search"></span></button></span>
                 </div>
@@ -75,12 +75,12 @@
               <div class="panel-body">
                 <span class="pull-left">
                     <img src='@controllers.routes.Assets.versioned("images/wappen.png")' alt="NRW-Wappen"/> &nbsp;
-                    lobid-authorities | ein LOD-Dienst des <a href='https://www.hbz-nrw.de/produkte/linked-open-data'>hbz — Hochschulbibliothekszentrum des Landes NRW</a>
+                    lobid-gnd | ein LOD-Dienst des <a href='https://www.hbz-nrw.de/produkte/linked-open-data'>hbz — Hochschulbibliothekszentrum des Landes NRW</a>
                 </span>
                 <span class="pull-right">
                     <a href="http://www.hbz-nrw.de/impressum">Impressum</a> | 
                     <a href="http://twitter.com/lobidorg"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a>&nbsp; 
-                    <a href="http://github.com/hbz/lobid-authorities"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>&nbsp; 
+                    <a href="http://github.com/hbz/lobid-gnd"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>&nbsp; 
                     <a href="http://blog.lobid.org"><i class="fa fa-pencil" aria-hidden="true"></i> Blog</a>
                 </span>
               </div>

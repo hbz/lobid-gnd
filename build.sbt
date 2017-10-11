@@ -1,4 +1,4 @@
-name := """lobid-authorities"""
+name := """lobid-gnd"""
 organization := "org.lobid"
 
 version := "1.0-SNAPSHOT"
