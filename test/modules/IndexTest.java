@@ -48,8 +48,9 @@ public class IndexTest extends WithApplication {
 				sourceModel.read(new FileReader(file), null, "TTL");
 				String id = file.getName().split("\\.")[0];
 				String jsonLd = Convert.toJsonLd(id, sourceModel, true);
-				String meta = Json.toJson(ImmutableMap.of("index",
-						ImmutableMap.of("_index", "authorities", "_type", "authority", "_id", id))).toString();
+				String meta = Json.toJson(
+						ImmutableMap.of("index", ImmutableMap.of("_index", "gnd", "_type", "authority", "_id", id)))
+						.toString();
 				out.write(meta + "\n");
 				out.write(jsonLd + "\n");
 			}

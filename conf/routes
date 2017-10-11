@@ -3,17 +3,17 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /authorities                controllers.HomeController.index
+GET     /gnd                controllers.HomeController.index
 
-GET     /authorities/api            controllers.HomeController.api
+GET     /gnd/api            controllers.HomeController.api
 
-GET     /authorities/context.jsonld controllers.HomeController.context()
+GET     /gnd/context.jsonld controllers.HomeController.context()
 
-GET     /authorities/search         controllers.HomeController.search(q ?= "*", from: Int ?= 0, size: Int ?= 10, format ?= null)
+GET     /gnd/search         controllers.HomeController.search(q ?= "*", from: Int ?= 0, size: Int ?= 10, format ?= null)
 
-GET     /authorities/:id.:format           controllers.HomeController.authorityDotFormat(id, format)
+GET     /gnd/:id.:format    controllers.HomeController.authorityDotFormat(id, format)
 
-GET     /authorities/:id                   controllers.HomeController.authority(id, format ?= null)
+GET     /gnd/:id            controllers.HomeController.authority(id, format ?= null)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /authorities/assets/*file   controllers.Assets.versioned(path="/public", file: Asset)
+GET     /gnd/assets/*file   controllers.Assets.versioned(path="/public", file: Asset)
