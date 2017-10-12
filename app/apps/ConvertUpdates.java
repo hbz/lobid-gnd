@@ -32,7 +32,7 @@ public class ConvertUpdates {
 			});
 		} else {
 			System.err.println(
-					"Pass either one argument, the date for getting updates, two, the start and the end date.");
+					"Pass either one argument, the start date for getting updates, or two, the start and the end date.");
 		}
 	}
 

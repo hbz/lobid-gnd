@@ -9,7 +9,7 @@ scalaVersion := "2.12.2"
 
 libraryDependencies += guice
 
-libraryDependencies += "com.github.jsonld-java" % "jsonld-java" % "0.11.0-SNAPSHOT"
+libraryDependencies += "com.github.jsonld-java" % "jsonld-java" % "0.11.1"
 
 libraryDependencies += "com.github.jsonld-java" % "jsonld-java-jena" % "0.4.1"
 
