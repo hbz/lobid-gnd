@@ -40,7 +40,7 @@
                   <div class="navbar-collapse collapse" id="resources-nav">
                     <ul class="nav navbar-nav">
                       <li @if(request.uri.toString() == routes.HomeController.index().toString()){ class="active" }>
-                        <a href="@routes.HomeController.index()">gnd</a>
+                        <a href="@routes.HomeController.index()">gnd <sup><span class="label label-primary">beta</span></sup></a>
                       </li>
                       <li @if(title=="lobid-gnd - search"){ class="active" }>
                         <a href="@routes.HomeController.search()">Suchen</a>
