@@ -19,4 +19,6 @@ libraryDependencies += "org.elasticsearch" % "elasticsearch" % "2.4.5"
 
 libraryDependencies += "org.dspace" % "oclc-harvester2" % "0.1.12"
 
+libraryDependencies += "xalan" % "xalan" % "2.7.2"
+
 resolvers += Resolver.mavenLocal
