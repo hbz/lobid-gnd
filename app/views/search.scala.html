@@ -58,11 +58,11 @@
 		}
 		@if(selected){
 		@term
-		<a href='@routes.HomeController.search(q, "", from, size, "html")'>
+		<a href='@routes.HomeController.search(q, "", from, size)'>
 		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 		} else {
-		<a href='@routes.HomeController.search(q, key+":"+term, from, size, "html")'>@term (@count)</a>
+		<a href='@routes.HomeController.search(q, key+":"+term, from, size)'>@term (@count)</a>
 		}<br/>
 	}
 }
