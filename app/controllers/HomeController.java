@@ -82,11 +82,11 @@ public class HomeController extends Controller {
 	public Result api() {
 		String format = "json";
 		ImmutableMap<String, String> searchSamples = ImmutableMap.of(//
-				"All", controllers.routes.HomeController.search("*", 0, 10, format).toString(), //
-				"All fields", controllers.routes.HomeController.search("london", 0, 10, format).toString(), //
+				"All", controllers.routes.HomeController.search("*", "", 0, 10, format).toString(), //
+				"All fields", controllers.routes.HomeController.search("london", "", 0, 10, format).toString(), //
 				"Field search",
-				controllers.routes.HomeController.search("type:CorporateBody", 0, 10, format).toString(), //
-				"Pagination", controllers.routes.HomeController.search("london", 50, 100, format).toString());
+				controllers.routes.HomeController.search("type:CorporateBody", "", 0, 10, format).toString(), //
+				"Pagination", controllers.routes.HomeController.search("london", "", 50, 100, format).toString());
 		ImmutableMap<String, String> getSamples = ImmutableMap.of(//
 				"London", controllers.routes.HomeController.authorityDotFormat("4074335-4", "json").toString(), //
 				"hbz", controllers.routes.HomeController.authorityDotFormat("2047974-8", "json").toString(), //
@@ -189,17 +189,17 @@ public class HomeController extends Controller {
 		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
 	}
 
-	public Result search(String q, int from, int size, String format) {
+	public Result search(String q, String filter, int from, int size, String format) {
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
-		SearchResponse response = index.query(q, from, size);
+		SearchResponse response = index.query(q, filter, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		return responseFormat.equals("html") ? htmlSearch(q, from, size, format, response)
+		return responseFormat.equals("html") ? htmlSearch(q, filter, from, size, format, response)
 				: ok(returnAsJson(q, response)).as(config("index.content"));
 	}
 
-	private Result htmlSearch(String q, int from, int size, String format, SearchResponse response) {
-		return ok(
-				views.html.search.render(q, from, size, returnAsJson(q, response), response.getHits().getTotalHits()));
+	private Result htmlSearch(String q, String type, int from, int size, String format, SearchResponse response) {
+		return ok(views.html.search.render(q, type, from, size, returnAsJson(q, response),
+				response.getHits().getTotalHits()));
 	}
 
 	/**

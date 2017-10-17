@@ -215,7 +215,7 @@ public class AuthorityResource {
 		if (string.startsWith(DNB_PREFIX)) {
 			label = labelFor(string.substring(DNB_PREFIX.length()));
 			link = string.replace(DNB_PREFIX, "/gnd/") + ".html";
-			search = controllers.routes.HomeController.search("\"" + string + "\"", 0, 10, "html").toString();
+			search = controllers.routes.HomeController.search("\"" + string + "\"", "", 0, 10, "html").toString();
 			if (label == null) {
 				label = string;
 				link = string;

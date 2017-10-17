@@ -1,4 +1,4 @@
-@(q: String, from: Int, size: Int, result: String, allHits: Long)
+@(q: String, f: String, from: Int, size: Int, result: String, allHits: Long)
 
 @import play.api.libs.json._
 
@@ -6,17 +6,17 @@
   <nav>
     <ul class="pagination">
       <li class="previous @if(from==0){disabled}">
-        <a href="@if(from==0){#} else {@routes.HomeController.search(q,from-size,size,"html")}">&larr;</a>
+        <a href="@if(from==0){#} else {@routes.HomeController.search(q,f,from-size,size,"html")}">&larr;</a>
       </li>
       @defining((((from+1)/size)+1,(if(allHits%size==0) allHits/size else allHits/size+1).toInt)) { case (currentPage,lastPage) =>
           @defining(Math.min(Math.max(1,currentPage-4)+9,lastPage)) { toPage =>
               @for(i <- Math.max(1,toPage-9) to toPage){
-                  <li @if(currentPage==i){class="active"}><a href="@routes.HomeController.search(q,(i*size)-size,size,"html")">@i</a></li>
+                  <li @if(currentPage==i){class="active"}><a href="@routes.HomeController.search(q,f,(i*size)-size,size,"html")">@i</a></li>
               }
           }
       }
       <li class="next @if(from+size >= allHits){disabled}">
-        <a href="@if(from+size >= allHits){#} else {@routes.HomeController.search(q,from+size,size,"html")}">&rarr;</a>
+        <a href="@if(from+size >= allHits){#} else {@routes.HomeController.search(q,f,from+size,size,"html")}">&rarr;</a>
       </li>
     </ul>
   </nav>
@@ -24,7 +24,7 @@
 
 @pageLink(num: Int)={
 <li @if(size==num){class="active"}>
-  <a href="@routes.HomeController.search(q,from,num,"html")">@num</a>
+  <a href="@routes.HomeController.search(q,f,from,num,"html")">@num</a>
 </li>
 }
 
@@ -52,17 +52,17 @@
 }
 
 @links(buckets: Seq[JsValue], key: String) = {
-	@for(bucket <- buckets; term = (bucket \ "key").as[String]; if term != "AuthorityResource"; count = (bucket \ "doc_count").as[Int]; selected = q.contains(key+":\""+term+"\"")) {
-		@if(!q.contains("type:") || selected) {
+	@for(bucket <- buckets; term = (bucket \ "key").as[String]; if term != "AuthorityResource"; count = (bucket \ "doc_count").as[Int]; selected = f.contains(key+":"+term)) {
+		@if(!f.contains(key+":") || selected) {
 		<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>
 		}
 		@if(selected){
 		@term
-		<a href='@routes.HomeController.search(q.replace("AND "+key+":\""+term+"\"","").trim, from, size, "html")'>
+		<a href='@routes.HomeController.search(q, "", from, size, "html")'>
 		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 		} else {
-		<a href='@routes.HomeController.search()?q=@q.trim+AND+@key:"@term"&from=@from&size=@size'>@term (@count)</a>
+		<a href='@routes.HomeController.search(q, key+":"+term, from, size, "html")'>@term (@count)</a>
 		}<br/>
 	}
 }
