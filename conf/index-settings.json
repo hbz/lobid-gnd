@@ -65,14 +65,24 @@
 					}
 				},
 				"preferredName": {
-					"type": "string", 
-					"analyzer": "autocomplete", 
-					"search_analyzer": "autocomplete"
+					"type": "string",
+					"fields": {
+						"ngrams": {
+							"type": "string",
+							"analyzer": "autocomplete",
+							"search_analyzer": "autocomplete"
+						}
+					}
 				}, 
 				"variantName": {
-					"type": "string", 
-					"analyzer": "autocomplete", 
-					"search_analyzer": "autocomplete"
+					"type": "string",
+					"fields": {
+						"ngrams": {
+							"type": "string",
+							"analyzer": "autocomplete",
+							"search_analyzer": "autocomplete"
+						}
+					}
 				}
 			}
 		}
