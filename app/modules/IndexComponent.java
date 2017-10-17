@@ -27,8 +27,6 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.node.Node;
@@ -196,10 +194,8 @@ class EmbeddedIndex implements IndexComponent {
 
 	@Override
 	public SearchResponse query(String q, int from, int size) {
-		MatchQueryBuilder preferredName = QueryBuilders.matchQuery("preferredName", q).boost(2);
-		QueryStringQueryBuilder queryStringQuery = QueryBuilders.queryStringQuery(q);
-		QueryBuilder query = QueryBuilders.boolQuery().should(preferredName).must(queryStringQuery)
-				.minimumNumberShouldMatch(0);
+		QueryStringQueryBuilder query = QueryBuilders.queryStringQuery(q).field("_all").field("preferredName", 5)
+				.field("variantName", 5);
 		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name")).setQuery(query).setFrom(from)
 				.setSize(size);
 		requestBuilder.addAggregation(
