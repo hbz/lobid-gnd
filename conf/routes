@@ -2,7 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# An example controller showing a sample home page
+# Handle trailing slashes
+GET     /*path/             controllers.HomeController.redirectSlash(path: String)
+
 GET     /gnd                controllers.HomeController.index
 
 GET     /gnd/api            controllers.HomeController.api

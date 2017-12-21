@@ -69,6 +69,14 @@ public class HomeController extends Controller {
 		return object.containsKey(sub) ? object.get(sub).unwrapped().toString() : null;
 	}
 
+	/**
+	 * @param path The path to redirect to
+	 * @return A 301 MOVED_PERMANENTLY redirect to the path
+	 */
+	public Result redirectSlash(String path) {
+		return movedPermanently("/" + path);
+	}
+
 	public Result index() {
 		return ok(views.html.index.render());
 	}
