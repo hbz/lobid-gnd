@@ -109,7 +109,7 @@ public class AuthorityResource {
 				.toString();
 		List<Double> lonLat = scanGeoCoordinates(geoString);
 		if (lonLat.size() != 2) {
-			throw new IllegalArgumentException("Could not scan geo location from: " + geoString);
+			throw new IllegalArgumentException("Could not scan geo location from: " + geoString + ", got: " + lonLat);
 		}
 		return new GeoPoint(lonLat.get(1), lonLat.get(0));
 	}
