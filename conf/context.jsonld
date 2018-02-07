@@ -2,6 +2,7 @@
    "@context":{
       "type": "@type",
       "id": "@id",
+      "dnba":"http://d-nb.info/standards/elementset/agrelon#",
       "gnd":"http://d-nb.info/standards/elementset/gnd#",
       "skos":"http://www.w3.org/2004/02/skos/core#",
       "AdministrativeUnit":"gnd:AdministrativeUnit",
@@ -353,6 +354,54 @@
       "hasGeometry": {
         "@id": "http://www.opengis.net/ont/geosparql#hasGeometry",
         "@type": "@id"
+      },
+      "hasAuntUncle": {
+         "@id":"dnba:hasAuntUncle",
+         "@type":"@id"
+      },
+      "hasChild": {
+         "@id":"dnba:hasChild",
+         "@type":"@id"
+      },
+      "hasColleague": {
+         "@id":"dnba:hasColleague",
+         "@type":"@id"
+      },
+      "hasFriend": {
+         "@id":"dnba:hasFriend",
+         "@type":"@id"
+      },
+      "hasGrandChild": {
+         "@id":"dnba:hasGrandChild",
+         "@type":"@id"
+      },
+      "hasGrandParent": {
+         "@id":"dnba:hasGrandParent",
+         "@type":"@id"
+      },
+      "hasNieceNephew": {
+         "@id":"dnba:hasNieceNephew",
+         "@type":"@id"
+      },
+      "hasParent": {
+         "@id":"dnba:hasParent",
+         "@type":"@id"
+      },
+      "hasSibling": {
+         "@id":"dnba:hasSibling",
+         "@type":"@id"
+      },
+      "hasSpouse": {
+         "@id":"dnba:hasSpouse",
+         "@type":"@id"
+      },
+      "hasStudent": {
+         "@id":"dnba:hasStudent",
+         "@type":"@id"
+      },
+      "hasTeacher": {
+         "@id":"dnba:hasTeacher",
+         "@type":"@id"
       },
       "hierarchicalSuperior":{
          "@id":"gnd:hierarchicalSuperior",
@@ -746,6 +795,9 @@
         "@id": "http://xmlns.com/foaf/0.1/page",
         "@type": "@id"
       },
+      "abbreviatedNameForTheConferenceOrEvent":"gnd:abbreviatedNameForTheConferenceOrEvent",
+      "abbreviatedNameForThePlaceOrGeographicName":"gnd:abbreviatedNameForThePlaceOrGeographicName",
+      "abbreviatedNameForTheWork":"gnd:abbreviatedNameForTheWork",
       "academicDegree":"gnd:academicDegree",
       "affiliationAsLiteral":"gnd:affiliationAsLiteral",
       "associatedDate":"gnd:associatedDate",
