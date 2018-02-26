@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -109,14 +110,15 @@ public class AuthorityResource {
 				.toString();
 		List<Double> lonLat = scanGeoCoordinates(geoString);
 		if (lonLat.size() != 2) {
-			throw new IllegalArgumentException("Could not scan geo location from: " + geoString);
+			throw new IllegalArgumentException("Could not scan geo location from: " + geoString + ", got: " + lonLat);
 		}
 		return new GeoPoint(lonLat.get(1), lonLat.get(0));
 	}
 
 	private List<Double> scanGeoCoordinates(String geoString) {
 		List<Double> lonLat = new ArrayList<Double>();
-		try (Scanner s = new Scanner(geoString)) {
+		try (@SuppressWarnings("resource") // it's the same scanner!
+		Scanner s = new Scanner(geoString).useLocale(Locale.US)) {
 			while (s.hasNext()) {
 				if (s.hasNextDouble()) {
 					lonLat.add(s.nextDouble());
