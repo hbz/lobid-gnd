@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -164,7 +166,8 @@ class EmbeddedIndex implements IndexComponent {
 				id = idUriParts[idUriParts.length - 1].replace("#!", "");
 				pendingIndexRequests++;
 			} else {
-				data = line;
+				Form nfc = Normalizer.Form.NFC;
+				data = Normalizer.isNormalized(line, nfc) ? line : Normalizer.normalize(line, nfc);
 				bulkRequest.add(client.prepareIndex(aIndex, INDEX_TYPE, id).setSource(data));
 			}
 			currentLine++;

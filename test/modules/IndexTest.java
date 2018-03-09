@@ -83,6 +83,7 @@ public class IndexTest extends WithApplication {
 
 	@Test
 	public void testFieldQuery() {
+		Assert.assertEquals(1, index.query("böll").getHits().getTotalHits());
 		Assert.assertEquals(1, index.query("preferredName:\"Weizenbaum, Joseph\"").getHits().getTotalHits());
 		Assert.assertEquals(0, index.query("id:\"Weizenbaum, Joseph\"").getHits().getTotalHits());
 	}

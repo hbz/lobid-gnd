@@ -1,0 +1,363 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vivo: <http://vivoweb.org/ontology/core#> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix ebu: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/118512676> a gndo:DifferentiatedPerson ;
+	gndo:gndIdentifier "118512676" ;
+	foaf:page <https://de.wikipedia.org/wiki/Heinrich_B%C3%B6ll> ;
+	owl:sameAs <http://dbpedia.org/resource/Heinrich_B%C3%B6ll> , <http://viaf.org/viaf/88858559> ;
+	gndo:oldAuthorityNumber "(DE-588a)118512676" , "(DE-588a)142641308" , "(DE-588a)134933796" , "(DE-588a)129695815" , "(DE-101c)310623790" , "(DE-588c)4007486-9" ;
+	gndo:variantNameForThePerson "Bel, Hainrîḵ" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063933 .
+
+_:node1c80d55akx9063933 gndo:forename "Hainrîḵ" ;
+	gndo:surname "Bel" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bioli, Hainrix" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063934 .
+
+_:node1c80d55akx9063934 gndo:forename "Hainrix" ;
+	gndo:surname "Bioli" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bel, Hainrikh" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063935 .
+
+_:node1c80d55akx9063935 gndo:forename "Hainrikh" ;
+	gndo:surname "Bel" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Belis, Heinrichas" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063936 .
+
+_:node1c80d55akx9063936 gndo:forename "Heinrichas" ;
+	gndo:surname "Belis" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bell, Hainrîḵ" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063937 .
+
+_:node1c80d55akx9063937 gndo:forename "Hainrîḵ" ;
+	gndo:surname "Bell" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Mpell, Chaïnrich" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063938 .
+
+_:node1c80d55akx9063938 gndo:forename "Chaïnrich" ;
+	gndo:surname "Mpell" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Mpell, Chainrich" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063939 .
+
+_:node1c80d55akx9063939 gndo:forename "Chainrich" ;
+	gndo:surname "Mpell" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Mpel, Chainrich" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063940 .
+
+_:node1c80d55akx9063940 gndo:forename "Chainrich" ;
+	gndo:surname "Mpel" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Poel, Haillihi" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063941 .
+
+_:node1c80d55akx9063941 gndo:forename "Haillihi" ;
+	gndo:surname "Poel" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bell, Haynrîk" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063942 .
+
+_:node1c80d55akx9063942 gndo:forename "Haynrîk" ;
+	gndo:surname "Bell" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bellʹ, Genrich" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063943 .
+
+_:node1c80d55akx9063943 gndo:forename "Genrich" ;
+	gndo:surname "Bellʹ" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bellʹ, Henrich" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063944 .
+
+_:node1c80d55akx9063944 gndo:forename "Henrich" ;
+	gndo:surname "Bellʹ" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bel', Genrich" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063945 .
+
+_:node1c80d55akx9063945 gndo:forename "Genrich" ;
+	gndo:surname "Bel'" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bël', Genrych" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063946 .
+
+_:node1c80d55akx9063946 gndo:forename "Genrych" ;
+	gndo:surname "Bël'" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bëllʹ, Genrich" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063947 .
+
+_:node1c80d55akx9063947 gndo:forename "Genrich" ;
+	gndo:surname "Bëllʹ" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bëllʹ, G." ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063948 .
+
+_:node1c80d55akx9063948 gndo:forename "G." ;
+	gndo:surname "Bëllʹ" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Böll-Wallraff, ..." ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063949 .
+
+_:node1c80d55akx9063949 gndo:forename "..." ;
+	gndo:surname "Böll-Wallraff" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Mpel, Chaïnrich" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063950 .
+
+_:node1c80d55akx9063950 gndo:forename "Chaïnrich" ;
+	gndo:surname "Mpel" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bol, Hā'inriš" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063951 .
+
+_:node1c80d55akx9063951 gndo:forename "Hā'inriš" ;
+	gndo:surname "Bol" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bo'er, Haiyinlixi" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063952 .
+
+_:node1c80d55akx9063952 gndo:forename "Haiyinlixi" ;
+	gndo:surname "Bo'er" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Haiyinlixi-Bo'er" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063953 .
+
+_:node1c80d55akx9063953 gndo:personalName "Haiyinlixi-Bo'er" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Po'er, Haiyinlixi" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063954 .
+
+_:node1c80d55akx9063954 gndo:forename "Haiyinlixi" ;
+	gndo:surname "Po'er" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Haiyinlixi-Po'er" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063955 .
+
+_:node1c80d55akx9063955 gndo:personalName "Haiyinlixi-Po'er" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bʹol, Chajnrich" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063956 .
+
+_:node1c80d55akx9063956 gndo:forename "Chajnrich" ;
+	gndo:surname "Bʹol" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bul, Hānrīš" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063957 .
+
+_:node1c80d55akx9063957 gndo:forename "Hānrīš" ;
+	gndo:surname "Bul" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bul, Hāynrīš" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063958 .
+
+_:node1c80d55akx9063958 gndo:forename "Hāynrīš" ;
+	gndo:surname "Bul" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Beru, Hainrihi" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063959 .
+
+_:node1c80d55akx9063959 gndo:forename "Hainrihi" ;
+	gndo:surname "Beru" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bells, Heinrihs" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063960 .
+
+_:node1c80d55akx9063960 gndo:forename "Heinrihs" ;
+	gndo:surname "Bells" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Böll" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063961 .
+
+_:node1c80d55akx9063961 gndo:personalName "Böll" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bioli, Hainrih" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063962 .
+
+_:node1c80d55akx9063962 gndo:forename "Hainrih" ;
+	gndo:surname "Bioli" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Beru, ..." ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063963 .
+
+_:node1c80d55akx9063963 gndo:forename "..." ;
+	gndo:surname "Beru" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Böll, Haynrix" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063964 .
+
+_:node1c80d55akx9063964 gndo:forename "Haynrix" ;
+	gndo:surname "Böll" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Heng li xi Bo er" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063965 .
+
+_:node1c80d55akx9063965 gndo:personalName "Heng li xi Bo er" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Henglixi-Boer" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063966 .
+
+_:node1c80d55akx9063966 gndo:personalName "Henglixi-Boer" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Boer, Henglixi" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063967 .
+
+_:node1c80d55akx9063967 gndo:forename "Henglixi" ;
+	gndo:surname "Boer" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Hai yin li xi Bo er" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063968 .
+
+_:node1c80d55akx9063968 gndo:personalName "Hai yin li xi Bo er" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Haiyinlixi-Boer" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063969 .
+
+_:node1c80d55akx9063969 gndo:personalName "Haiyinlixi-Boer" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Boer, Haiyinlixi" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063970 .
+
+_:node1c80d55akx9063970 gndo:forename "Haiyinlixi" ;
+	gndo:surname "Boer" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bel, Hajnrih" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063971 .
+
+_:node1c80d55akx9063971 gndo:forename "Hajnrih" ;
+	gndo:surname "Bel" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bëlʹ, Genrich" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063972 .
+
+_:node1c80d55akx9063972 gndo:forename "Genrich" ;
+	gndo:surname "Bëlʹ" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Bëllʹ, Genrich" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063973 .
+
+_:node1c80d55akx9063973 gndo:forename "Genrich" ;
+	gndo:surname "Bëllʹ" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Ha in li hi Boel" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063974 .
+
+_:node1c80d55akx9063974 gndo:personalName "Ha in li hi Boel" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Hainlihi-Boel" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063975 .
+
+_:node1c80d55akx9063975 gndo:personalName "Hainlihi-Boel" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Boel, Hainlihi" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063976 .
+
+_:node1c80d55akx9063976 gndo:forename "Hainlihi" ;
+	gndo:surname "Boel" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Poel, Haillihi" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063977 .
+
+_:node1c80d55akx9063977 gndo:forename "Haillihi" ;
+	gndo:surname "Poel" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "Бёлль, Генрих" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063978 .
+
+_:node1c80d55akx9063978 gndo:forename "Генрих" ;
+	gndo:surname "Бёлль" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "뵐, 하인리히" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063979 .
+
+_:node1c80d55akx9063979 gndo:forename "하인리히" ;
+	gndo:surname "뵐" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "בל, היינריך" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063980 .
+
+_:node1c80d55akx9063980 gndo:forename "היינריך" ;
+	gndo:surname "בל" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "伯爾, 海因里希" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063981 .
+
+_:node1c80d55akx9063981 gndo:forename "海因里希" ;
+	gndo:surname "伯爾" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "伯尔, 海因里希" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063982 .
+
+_:node1c80d55akx9063982 gndo:forename "海因里希" ;
+	gndo:surname "伯尔" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "海因里希.伯爾" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063983 .
+
+_:node1c80d55akx9063983 gndo:personalName "海因里希.伯爾" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "海因里希. 伯尔" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063984 .
+
+_:node1c80d55akx9063984 gndo:personalName "海因里希. 伯尔" .
+
+<http://d-nb.info/gnd/118512676> gndo:variantNameForThePerson "ベル, ハインリヒ" ;
+	gndo:variantNameEntityForThePerson _:node1c80d55akx9063985 .
+
+_:node1c80d55akx9063985 gndo:forename "ハインリヒ" ;
+	gndo:surname "ベル" .
+
+<http://d-nb.info/gnd/118512676> gndo:preferredNameForThePerson "Böll, Heinrich" ;
+	gndo:preferredNameEntityForThePerson _:node1c80d55akx9063986 .
+
+_:node1c80d55akx9063986 gndo:forename "Heinrich" ;
+	gndo:surname "Böll" .
+
+<http://d-nb.info/gnd/118512676> gndo:familialRelationship <http://d-nb.info/gnd/118512668> ;
+	dnba:hasSpouse <http://d-nb.info/gnd/118512668> ;
+	gndo:familialRelationship <http://d-nb.info/gnd/11935716X> ;
+	dnba:hasChild <http://d-nb.info/gnd/11935716X> ;
+	gndo:affiliation <http://d-nb.info/gnd/2164070-1> ;
+	gndo:professionOrOccupation <http://d-nb.info/gnd/4053309-8> , <http://d-nb.info/gnd/4061414-1> , <http://d-nb.info/gnd/4294338-3> , <http://d-nb.info/gnd/4042421-2> ;
+	gndo:gndSubjectCategory <http://d-nb.info/standards/vocab/gnd/gnd-sc#12.2p> , <http://d-nb.info/standards/vocab/gnd/gnd-sc#11.2p> , <http://d-nb.info/standards/vocab/gnd/gnd-sc#15.3p> ;
+	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DE> ;
+	gndo:languageCode <http://id.loc.gov/vocabulary/iso639-2/ger> ;
+	gndo:biographicalOrHistoricalInformation "Schriftsteller"@de ;
+	gndo:placeOfBirth <http://d-nb.info/gnd/4031483-2> ;
+	gndo:placeOfDeath <http://d-nb.info/gnd/4376133-1> ;
+	owl:sameAs <http://www.filmportal.de/person/81693B2D3DAD45F689C0158B25444BFF> ;
+	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#male> ;
+	gndo:dateOfBirth "1917-12-21"^^<http://www.w3.org/2001/XMLSchema#date> ;
+	gndo:dateOfDeath "1985-07-16"^^<http://www.w3.org/2001/XMLSchema#date> .
+
