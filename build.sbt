@@ -5,6 +5,9 @@ version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
+EclipseKeys.projectFlavor := EclipseProjectFlavor.Java
+EclipseKeys.createSrc := EclipseCreateSrc.ValueSet(EclipseCreateSrc.ManagedClasses, EclipseCreateSrc.ManagedResources)
+
 scalaVersion := "2.12.2"
 
 libraryDependencies += guice
