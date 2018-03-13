@@ -4,15 +4,15 @@ lobid-gnd: access GND data as JSON-LD over HTTP.
 
 h1. Setup
 
-Prerequisites: @sbt 0.13@ &mdash; "download sbt":http://www.scala-sbt.org/download.html
+Prerequisites: @sbt 0.13@ or newer &mdash; "download sbt":http://www.scala-sbt.org/download.html
 
-Get the code and change into the project directory:
+Get the code, change into the project directory, and run the tests:
 
-@git clone https://github.com/hbz/lobid-gnd.git@
+@git clone https://github.com/hbz/lobid-gnd.git ; cd lobid-gnd ; sbt test@
 
-@cd lobid-gnd@
+Fully rebuild the index data from the input files in @test/ttl@:
 
-@sbt test@
+@rm -rf data/ ; rm GND.jsonl ; sbt test@
 
 "!https://secure.travis-ci.org/hbz/lobid-gnd.png?branch=master!":https://travis-ci.org/hbz/lobid-gnd
 
