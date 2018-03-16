@@ -199,7 +199,7 @@ public class HomeController extends Controller {
 
 	public Result search(String q, String filter, int from, int size, String format) {
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
-		SearchResponse response = index.query(q, filter, from, size);
+		SearchResponse response = index.query(q.isEmpty() ? "*" : q, filter, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		return responseFormat.equals("html") ? htmlSearch(q, filter, from, size, format, response)
 				: ok(returnAsJson(q, response)).as(config("index.content"));
