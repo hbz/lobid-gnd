@@ -58,7 +58,7 @@ public class HomeController extends Controller {
 	@Inject
 	IndexComponent index;
 
-	private static final Config CONFIG = ConfigFactory.load();
+	public static final Config CONFIG = ConfigFactory.load();
 
 	public static String config(String id) {
 		return CONFIG.getString(id);
