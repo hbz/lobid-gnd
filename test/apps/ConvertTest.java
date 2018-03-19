@@ -73,6 +73,13 @@ public class ConvertTest extends WithApplication {
 		assertTrue(types.contains("PlaceOrGeographicName"));
 	}
 
+	@Test
+	public void testSpirit() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("7855044-0");
+		List<?> types = Json.fromJson(Json.parse(jsonLd).get("type"), List.class);
+		assertTrue(types.contains("Spirits"));
+	}
+
 	private String jsonLdFor(String id) throws FileNotFoundException {
 		Model sourceModel = ModelFactory.createDefaultModel();
 		sourceModel.read(new FileReader("test/ttl/" + id + ".ttl"), null, "TTL");

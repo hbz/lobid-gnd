@@ -1,6 +1,7 @@
 @(q: String, f: String, from: Int, size: Int, result: String, allHits: Long)
 
 @import play.api.libs.json._
+@import controllers.HomeController.CONFIG
 
 @pagination(hits:Int)={
   <nav>
@@ -36,15 +37,13 @@
 	}
 }
 
-@typeFor(types: Seq[String]) = {
-	@for(t <- types; icon = icons(t); if icon != null) {
-		@t
-	}
+@typesFor(doc: JsValue) = @{
+	(doc \ "type").as[Seq[String]].filter(_!="AuthorityResource").mkString(", ")
 }
 
 @result_short(id:String, doc: play.api.libs.json.JsValue, i: Int = -1) = {
     <tr>
-        <td><i class='@iconFor((doc \ "type").as[Seq[String]])' aria-hidden='true' title='@(typeFor((doc \ "type").as[Seq[String]]).toString.trim)'></i></td>
+        <td><i class='@iconFor((doc \ "type").as[Seq[String]])' aria-hidden='true' title='@typesFor(doc)'></i></td>
         <td class='text-left'><a href='@routes.HomeController.authority(id)'>@((doc \ "preferredName").asOpt[String].getOrElse(""))</a></td>
         <td class='text-right'>@((doc \ "variantName").asOpt[Seq[String]].getOrElse(Seq()).take(3).mkString("; "))</td>
         <td class='text-right'><a href='@((doc \ "id").asOpt[String].getOrElse(""))' title='DNB-Link'>@((doc \ "gndIdentifier").asOpt[Seq[String]].getOrElse(Seq()).take(1))</td>
@@ -52,7 +51,10 @@
 }
 
 @links(buckets: Seq[JsValue], key: String) = {
-	@for(bucket <- buckets; term = (bucket \ "key").as[String]; if term != "AuthorityResource"; count = (bucket \ "doc_count").as[Int]; selected = f.contains(key+":"+term)) {
+	@for(bucket <- buckets; term = (bucket \ "key").as[String];
+			if CONFIG.getStringList("topLevelTypes").contains(term);
+			count = (bucket \ "doc_count").as[Int];
+			selected = f.contains(key+":"+term)) {
 		@if(!f.contains(key+":") || selected) {
 		<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>
 		}
