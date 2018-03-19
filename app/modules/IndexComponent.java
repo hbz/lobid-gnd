@@ -29,8 +29,8 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.index.query.BoostingQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.internal.InternalSettingsPreparer;
 import org.elasticsearch.plugins.Plugin;
@@ -197,8 +197,10 @@ class EmbeddedIndex implements IndexComponent {
 
 	@Override
 	public SearchResponse query(String q, String filter, int from, int size) {
-		QueryStringQueryBuilder query = QueryBuilders.queryStringQuery(q).field("_all").field("preferredName", 5)
-				.field("variantName", 5);
+		BoostingQueryBuilder query = QueryBuilders.boostingQuery().negativeBoost(0.1f)
+				.negative(QueryBuilders.matchQuery("type", "UndifferentiatedPerson"))
+				.positive(QueryBuilders.queryStringQuery(q).field("_all").field("preferredName", 0.5f)
+						.field("variantName", 0.1f).field("gndIdentifier", 0.5f));
 		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name")).setQuery(query).setFrom(from)
 				.setSize(size);
 		requestBuilder.addAggregation(

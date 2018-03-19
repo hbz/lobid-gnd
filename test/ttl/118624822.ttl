@@ -1,0 +1,236 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vivo: <http://vivoweb.org/ontology/core#> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix ebu: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/118624822> a gndo:DifferentiatedPerson ;
+	gndo:gndIdentifier "118624822" ;
+	foaf:page <https://de.wikipedia.org/wiki/Mark_Twain> ;
+	owl:sameAs <http://dbpedia.org/resource/Mark_Twain> , <http://viaf.org/viaf/50566653> ;
+	gndo:oldAuthorityNumber "(DE-588a)118624822" , "(DE-588c)4061298-3" ;
+	gndo:variantNameForThePerson "Twain, Marc" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887872 .
+
+_:node1c84r27ngx2887872 gndo:forename "Marc" ;
+	gndo:surname "Twain" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Twayn, Mark" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887873 .
+
+_:node1c84r27ngx2887873 gndo:forename "Mark" ;
+	gndo:surname "Twayn" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tuwen, Make" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887874 .
+
+_:node1c84r27ngx2887874 gndo:forename "Make" ;
+	gndo:surname "Tuwen" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Towein, Māku" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887875 .
+
+_:node1c84r27ngx2887875 gndo:forename "Māku" ;
+	gndo:surname "Towein" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tvein, Marḳ" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887876 .
+
+_:node1c84r27ngx2887876 gndo:forename "Marḳ" ;
+	gndo:surname "Tvein" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tvėn, Mark" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887877 .
+
+_:node1c84r27ngx2887877 gndo:forename "Mark" ;
+	gndo:surname "Tvėn" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tvēns, Marks" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887878 .
+
+_:node1c84r27ngx2887878 gndo:forename "Marks" ;
+	gndo:surname "Tvēns" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tvens, M." ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887879 .
+
+_:node1c84r27ngx2887879 gndo:forename "M." ;
+	gndo:surname "Tvens" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Twen, Mark" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887880 .
+
+_:node1c84r27ngx2887880 gndo:forename "Mark" ;
+	gndo:surname "Twen" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Twens, Marks" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887881 .
+
+_:node1c84r27ngx2887881 gndo:forename "Marks" ;
+	gndo:surname "Twens" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Ṭvena, Marka" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887882 .
+
+_:node1c84r27ngx2887882 gndo:forename "Marka" ;
+	gndo:surname "Ṭvena" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tvenas, Markas" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887883 .
+
+_:node1c84r27ngx2887883 gndo:forename "Markas" ;
+	gndo:surname "Tvenas" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tvénas, Morkas" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887884 .
+
+_:node1c84r27ngx2887884 gndo:forename "Morkas" ;
+	gndo:surname "Tvénas" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Twayn, Mārk" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887885 .
+
+_:node1c84r27ngx2887885 gndo:forename "Mārk" ;
+	gndo:surname "Twayn" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tuwayn, Mārk" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887886 .
+
+_:node1c84r27ngx2887886 gndo:forename "Mārk" ;
+	gndo:surname "Tuwayn" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "T`u-wen, Ma-k`o" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887887 .
+
+_:node1c84r27ngx2887887 gndo:forename "Ma-k`o" ;
+	gndo:surname "T`u-wen" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Touein, Māku" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887888 .
+
+_:node1c84r27ngx2887888 gndo:forename "Māku" ;
+	gndo:surname "Touein" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Touen, Makū" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887889 .
+
+_:node1c84r27ngx2887889 gndo:forename "Makū" ;
+	gndo:surname "Touen" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Twain, Marek" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887890 .
+
+_:node1c84r27ngx2887890 gndo:forename "Marek" ;
+	gndo:surname "Twain" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tuein, Mark" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887891 .
+
+_:node1c84r27ngx2887891 gndo:forename "Mark" ;
+	gndo:surname "Tuein" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tven, Mark" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887892 .
+
+_:node1c84r27ngx2887892 gndo:forename "Mark" ;
+	gndo:surname "Tven" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tven, M." ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887893 .
+
+_:node1c84r27ngx2887893 gndo:forename "M." ;
+	gndo:surname "Tven" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Ṭṿain, Marḳ" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887894 .
+
+_:node1c84r27ngx2887894 gndo:forename "Marḳ" ;
+	gndo:surname "Ṭṿain" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Twėn, Mark" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887895 .
+
+_:node1c84r27ngx2887895 gndo:forename "Mark" ;
+	gndo:surname "Twėn" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Touein, Maku" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887896 .
+
+_:node1c84r27ngx2887896 gndo:forename "Maku" ;
+	gndo:surname "Touein" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Mark Twain" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887897 .
+
+_:node1c84r27ngx2887897 gndo:personalName "Mark Twain" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Mark Twėn" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887898 .
+
+_:node1c84r27ngx2887898 gndo:personalName "Mark Twėn" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Ma ke Tu wen" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887899 .
+
+_:node1c84r27ngx2887899 gndo:personalName "Ma ke Tu wen" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Make-Tuwen" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887900 .
+
+_:node1c84r27ngx2887900 gndo:personalName "Make-Tuwen" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "Tewin, Mark" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887901 .
+
+_:node1c84r27ngx2887901 gndo:forename "Mark" ;
+	gndo:surname "Tewin" .
+
+<http://d-nb.info/gnd/118624822> gndo:variantNameForThePerson "טווין, מארק" ;
+	gndo:variantNameEntityForThePerson _:node1c84r27ngx2887902 .
+
+_:node1c84r27ngx2887902 gndo:forename "מארק" ;
+	gndo:surname "טווין" .
+
+<http://d-nb.info/gnd/118624822> gndo:preferredNameForThePerson "Twain, Mark" ;
+	gndo:preferredNameEntityForThePerson _:node1c84r27ngx2887903 .
+
+_:node1c84r27ngx2887903 gndo:forename "Mark" ;
+	gndo:surname "Twain" .
+
+<http://d-nb.info/gnd/118624822> gndo:realIdentity <http://d-nb.info/gnd/1106405730> ;
+	gndo:pseudonym <http://d-nb.info/gnd/1106406737> , <http://d-nb.info/gnd/1106407008> ;
+	gndo:professionOrOccupation <http://d-nb.info/gnd/4053309-8> , <http://d-nb.info/gnd/4028781-6> , <http://d-nb.info/gnd/4013091-5> , <http://d-nb.info/gnd/4036380-6> , <http://d-nb.info/gnd/4055409-0> ;
+	gndo:functionOrRole <http://d-nb.info/gnd/4061414-1> ;
+	gndo:gndSubjectCategory <http://d-nb.info/standards/vocab/gnd/gnd-sc#12.2p> ;
+	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XD-US> ;
+	gndo:publication "The adventures of Huckleberry Finn (Tom Sawyer's comrade). - 1885" , "Christian science. - 1907" , "The adventures of Tom Sawyer. - 1876" , "The American claimant. - 1892" , "Der amerikanische Prätendent. - 1892" , "Bummel durch Europa. - 1922" , "The celebrated jumping frog of Calaveras County. - 1867" , "Durch dick und dünn. - 1995" , "The gilded age. - 1873" , "Im Gold- und Silberland und andere Erzählungen. - 1979" , "The innocents abroad. - 1872" , "Leben auf dem Mississippi. - 1888" , "The man that corrupted Hadleyburg. - 1900" , "The Prince and the Pauper" , "Der Querkopf Wilson. - 1898" , "Roughing it. - 1880" , "Selections from American humour. - 1888" , "The tragedy of Pudd'nhead Wilson. - 1894" , "A tramp abroad. - 1879" , "Ein Yankee am Hofe des Königs Artus. - 1923" , "Christian Science. - 1907" , "The Adventures of Huckleberry Finn (Tom Sawyer's comrade). - 1885" ;
+	gndo:biographicalOrHistoricalInformation "Amerikan. Schriftsteller, auch Übersetzungen und Reisebeschreibungen; zunächst Drucker, Lotse, Soldat, Journalist"@de ;
+	gndo:placeOfBirth <http://d-nb.info/gnd/110640968X> ;
+	gndo:placeOfDeath <http://d-nb.info/gnd/1025527097> ;
+	owl:sameAs <http://www.filmportal.de/person/5DF2180863F84E09B51D8C5DE7832A91> ;
+	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#male> ;
+	gndo:dateOfBirth "1835-11-30"^^<http://www.w3.org/2001/XMLSchema#date> ;
+	gndo:dateOfDeath "1910-04-21"^^<http://www.w3.org/2001/XMLSchema#date> .
+

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.apache.commons.io.FileUtils;
 import org.elasticsearch.action.search.SearchResponse;
@@ -12,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -99,6 +101,20 @@ public class IndexTest extends WithApplication {
 		Assert.assertEquals(2, response.getHits().getTotalHits());
 		Assert.assertEquals("London", Json.fromJson(Json.parse(response.getHits().getHits()[0].getSourceAsString()),
 				AuthorityResource.class).preferredName);
+	}
+
+	@Test
+	public void testBoosting() {
+		Assert.assertEquals("118624822", firstHit(index.query("Mark Twain")));
+		Assert.assertEquals("118624822", firstHit(index.query("118624822")));
+	}
+
+	private String firstHit(SearchResponse searchResponse) {
+		Assert.assertFalse("Hits should not be empty", searchResponse.getHits().getTotalHits() == 0);
+		JsonNode json = Json.parse(searchResponse.getHits().getAt(0).getSourceAsString());
+		Iterator<JsonNode> ids = json.get("gndIdentifier").elements();
+		Assert.assertTrue("First hit should have an ID", ids.hasNext());
+		return ids.next().asText();
 	}
 
 }
