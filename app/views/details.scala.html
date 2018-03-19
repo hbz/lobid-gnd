@@ -18,7 +18,15 @@
         <div class="col-md-@if(resource.specialFields.size==0){12}else{6} intro">
             <table class='table table-striped table-condensed'>
             @for(f <- resource.generalFields) {
-                <tr><td>@f.getLeft</td><td class='field-value'>@Html(f.getRight)</td>
+                <tr><td>@f.getLeft</td><td class='field-value'>
+                @if(f.getRight.endsWith("...")){
+                    @Html(f.getRight.replace("...", ""))
+                    <a title="Für alle Werte zu '@f.getLeft' JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
+                         <span class="octicon octicon-ellipsis"></span>
+                    </a>
+                } else {
+                    @Html(f.getRight)
+                }</td>
             }
             @if(resource.location != null) {
               @for(f <- resource.specialFields) {

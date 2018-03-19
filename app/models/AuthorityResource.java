@@ -140,6 +140,8 @@ public class AuthorityResource {
 		add("Siehe auch", sameAs != null
 				? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList()) : sameAs,
 				Values.MULTI_LINE, fields);
+		add("Wikipedia", wikipedia, Values.JOINED, fields);
+		add("Homepage", homepage, Values.JOINED, fields);
 		return fields;
 	}
 
@@ -156,9 +158,7 @@ public class AuthorityResource {
 		add("In Beziehung stehende Person", relatedPerson, Values.MULTI_LINE, fields);
 		add("Gründungsdatum", dateOfEstablishment, Values.JOINED, fields);
 		add("Sitz", placeOfBusiness, Values.MULTI_LINE, fields);
-		add("Wikipedia", wikipedia, Values.JOINED, fields);
 		add("Thema", topic, Values.JOINED, fields);
-		add("Homepage", homepage, Values.JOINED, fields);
 		add("Biografische oder historische Angaben", biographicalOrHistoricalInformation, Values.JOINED, fields);
 		add("Geschlecht", gender, Values.MULTI_LINE, fields);
 		add("Beruf oder Beschäftigung", professionOrOccupation, Values.MULTI_LINE, fields);
@@ -195,7 +195,9 @@ public class AuthorityResource {
 		if (list != null && list.size() > 0) {
 			switch (values) {
 			case JOINED: {
-				String value = list.stream().map(v -> process(v)).collect(Collectors.joining("; "));
+				List<String> vals = list.size() > 3 ? list.subList(0, 3) : list;
+				String value = vals.stream().map(v -> process(v)).collect(Collectors.joining("; "));
+				value = vals.size() != list.size() ? value + "..." : value;
 				result.add(Pair.of(label, value));
 				break;
 			}
