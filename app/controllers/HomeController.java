@@ -232,9 +232,8 @@ public class HomeController extends Controller {
 		object.set("member", Json.toJson(hits));
 		Aggregation aggregation = queryResponse.getAggregations().get(TYPE);
 		Terms terms = (Terms) aggregation;
-		Stream<Bucket> stream = q.contains("type:") ? terms.getBuckets().stream()
-				: terms.getBuckets().stream()
-						.filter(b -> CONFIG.getObject("icons").keySet().contains(b.getKeyAsString()));
+		Stream<Bucket> stream = terms.getBuckets().stream()
+				.filter(b -> !b.getKeyAsString().equals("AuthorityResource"));
 		Stream<Map<String, Object>> buckets = stream.map((Bucket b) -> ImmutableMap.of(//
 				"key", b.getKeyAsString(), "doc_count", b.getDocCount()));
 		object.set("aggregation",
