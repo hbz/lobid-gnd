@@ -195,9 +195,7 @@ public class AuthorityResource {
 		if (list != null && list.size() > 0) {
 			switch (values) {
 			case JOINED: {
-				List<String> vals = list.size() > 3 ? list.subList(0, 3) : list;
-				String value = vals.stream().map(v -> process(v)).collect(Collectors.joining("; "));
-				value = vals.size() != list.size() ? value + "..." : value;
+				String value = list.stream().map(v -> process(v)).collect(Collectors.joining("; "));
 				result.add(Pair.of(label, value));
 				break;
 			}
