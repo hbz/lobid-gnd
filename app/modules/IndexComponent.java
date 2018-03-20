@@ -29,6 +29,7 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.BoostingQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.node.Node;
@@ -197,17 +198,18 @@ class EmbeddedIndex implements IndexComponent {
 
 	@Override
 	public SearchResponse query(String q, String filter, int from, int size) {
-		BoostingQueryBuilder query = QueryBuilders.boostingQuery().negativeBoost(0.1f)
+		BoostingQueryBuilder boostQuery = QueryBuilders.boostingQuery().negativeBoost(0.1f)
 				.negative(QueryBuilders.matchQuery("type", "UndifferentiatedPerson"))
 				.positive(QueryBuilders.queryStringQuery(q).field("_all").field("preferredName", 0.5f)
 						.field("variantName", 0.1f).field("gndIdentifier", 0.5f));
+		BoolQueryBuilder query = QueryBuilders.boolQuery().must(boostQuery);
+		if (!filter.isEmpty()) {
+			query = query.filter(QueryBuilders.queryStringQuery(filter));
+		}
 		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name")).setQuery(query).setFrom(from)
 				.setSize(size);
 		requestBuilder.addAggregation(
 				AggregationBuilders.terms(HomeController.TYPE).field(HomeController.TYPE + ".raw").size(1000));
-		if (!filter.isEmpty()) {
-			requestBuilder.setPostFilter(QueryBuilders.queryStringQuery(filter));
-		}
 		SearchResponse response = requestBuilder.get();
 		return response;
 	}

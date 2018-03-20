@@ -52,7 +52,7 @@
 
 @links(buckets: Seq[JsValue], key: String) = {
 	@for(bucket <- buckets; term = (bucket \ "key").as[String];
-			if CONFIG.getStringList("topLevelTypes").contains(term);
+			if CONFIG.getStringList("topLevelTypes").contains(term) || f.contains("type:");
 			count = (bucket \ "doc_count").as[Int];
 			selected = f.contains(key+":"+term)) {
 		@if(!f.contains(key+":") || selected) {
