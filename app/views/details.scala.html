@@ -20,7 +20,7 @@
             @for(f <- resource.generalFields; values = f.getRight.split("; ")) {
                 <tr><td>@f.getLeft</td><td class='field-value'>
                 @if(values.length >= 3){
-                    @Html(values.take(3).mkString("; ")) <span title="@(f.getRight)" class="fa fa-plus-square-o"></span>
+                    @Html(values.take(3).mkString("; ")) <span title="@(f.getRight)" class="fa fa-ellipsis-h"></span>
                 } else {
                     @Html(f.getRight)
                 }</td>
