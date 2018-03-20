@@ -64,7 +64,7 @@
 		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 		} else {
-		<a href='@routes.HomeController.search(q, (if(!f.isEmpty){f+" AND "} else {""}) + key + ":" + term, from, size)'>@term (@count)</a>
+		@if(!f.isEmpty()){&rdsh;&nbsp;}<a href='@routes.HomeController.search(q, (if(!f.isEmpty){f+" AND "} else {""}) + key + ":" + term, from, size)'>@term (@count)</a>
 		}<br/>
 	}
 }
@@ -125,7 +125,7 @@
 				@defining(("type", (Json.parse(result) \ "aggregation" \ "type").asOpt[Seq[JsValue]].getOrElse(Seq()))) { case (jsKey, buckets) => 
 					@if(!buckets.isEmpty) {
 						<h4>Ergebnisse eingrenzen:</h4>
-						@links(buckets, "type")
+						@links(buckets.sortBy((bucket) => f.contains("type:"+(bucket \ "key").as[String]).toString + (bucket \ "doc_count").as[Int]).reverse, "type")
 					}
 				}
 			</p>
