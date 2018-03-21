@@ -52,7 +52,7 @@
 
 @selectedTerm(key: String, term: String) = {
 	@term
-	<a href='@routes.HomeController.search(q, f.replaceAll("( ?AND ?)?"+key+":"+term+"( ?AND ?)?", ""), from, size)'>
+	<a href='@routes.HomeController.search(q, f.replace(s"+($key:$term)", "").trim, from, size)'>
 	<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
 	</a>
 	<br/>
@@ -84,7 +84,7 @@
 			count = (bucket \ "doc_count").as[Int];
 			if !f.contains(key+":"+term)) {
 		@if(!f.contains(key+":")){<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>}
-		@if(!f.isEmpty()){&rdsh;&nbsp;}<a href='@routes.HomeController.search(q, (if(!f.isEmpty){f+" AND "} else {""}) + key + ":" + term, from, size)'>@term (@count)</a>
+		@if(!f.isEmpty()){&rdsh;&nbsp;}<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@term (@count)</a>
 		<br/>
 	}
 }
