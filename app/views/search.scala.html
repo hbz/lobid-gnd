@@ -50,22 +50,42 @@
     </tr>
 }
 
-@links(buckets: Seq[JsValue], key: String) = {
-	@for(bucket <- buckets; term = (bucket \ "key").as[String];
+@selectedTerm(key: String, term: String) = {
+	@term
+	<a href='@routes.HomeController.search(q, f.replace(s"+($key:$term)", "").trim, from, size)'>
+	<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
+	</a>
+	<br/>
+}
+
+@topLevelSelected(buckets: Seq[JsValue], key: String = "type") = {
+	@for(bucket <- buckets;
+			term = (bucket \ "key").as[String];
 			if CONFIG.getStringList("topLevelTypes").contains(term);
-			count = (bucket \ "doc_count").as[Int];
-			selected = f.contains(key+":"+term)) {
-		@if(!f.contains(key+":") || selected) {
+			if f.contains(key+":"+term)) {
 		<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>
-		}
-		@if(selected){
-		@term
-		<a href='@routes.HomeController.search(q, "", from, size)'>
-		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
-		</a>
-		} else {
-		<a href='@routes.HomeController.search(q, key+":"+term, from, size)'>@term (@count)</a>
-		}<br/>
+		@selectedTerm(key, term)
+	}
+}
+
+@subTypesSelected(buckets: Seq[JsValue], key: String = "type") = {
+	@for(bucket <- buckets;
+			term = (bucket \ "key").as[String];
+			if !CONFIG.getStringList("topLevelTypes").contains(term);
+			if f.contains(key+":"+term)) {
+		@selectedTerm(key, term)
+	}
+}
+
+@unselected(buckets: Seq[JsValue], key: String = "type") = {
+	@for(bucket <- buckets;
+			term = (bucket \ "key").as[String];
+			if CONFIG.getStringList("topLevelTypes").contains(term) || f.contains("type:");
+			count = (bucket \ "doc_count").as[Int];
+			if !f.contains(key+":"+term)) {
+		@if(!f.contains(key+":")){<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>}
+		@if(!f.isEmpty()){&rdsh;&nbsp;}<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@term (@count)</a>
+		<br/>
 	}
 }
 
@@ -125,7 +145,9 @@
 				@defining(("type", (Json.parse(result) \ "aggregation" \ "type").asOpt[Seq[JsValue]].getOrElse(Seq()))) { case (jsKey, buckets) => 
 					@if(!buckets.isEmpty) {
 						<h4>Ergebnisse eingrenzen:</h4>
-						@links(buckets, "type")
+						@topLevelSelected(buckets)
+						@subTypesSelected(buckets)
+						@unselected(buckets)
 					}
 				}
 			</p>
