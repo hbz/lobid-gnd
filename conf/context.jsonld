@@ -19,6 +19,7 @@
       "DifferentiatedPerson":"gnd:DifferentiatedPerson",
       "EarlierNameOfThePerson":"gnd:EarlierNameOfThePerson",
       "EthnographicName":"gnd:EthnographicName",
+      "Expression":"gnd:Expression",
       "ExtraterrestrialTerritory":"gnd:ExtraterrestrialTerritory",
       "Family":"gnd:Family",
       "FictiveCorporateBody":"gnd:FictiveCorporateBody",
