@@ -57,7 +57,7 @@
 		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 	} else {
-		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@term (@count)</a>
+		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@models.GndOntology.label(term) (@count)</a>
 	}
 	<br/>
 }
