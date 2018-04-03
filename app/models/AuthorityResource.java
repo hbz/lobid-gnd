@@ -37,6 +37,7 @@ public class AuthorityResource {
 	public List<String> variantName;
 	public List<String> sameAs;
 	public List<String> geographicAreaCode;
+	public List<String> gndSubjectCategory;
 	public List<String> relatedTerm;
 	public List<String> relatedPerson;
 	public List<String> relatedWork;
@@ -137,10 +138,7 @@ public class AuthorityResource {
 		add("type", getType(), Values.JOINED, fields);
 		add("gndIdentifier", gndIdentifier, Values.JOINED, fields);
 		add("geographicAreaCode", geographicAreaCode, Values.MULTI_LINE, fields);
-		add("sameAs",
-				sameAs != null ? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList())
-						: sameAs,
-				Values.MULTI_LINE, fields);
+		add("gndSubjectCategory", gndSubjectCategory, Values.MULTI_LINE, fields);
 		add("wikipedia", wikipedia, Values.JOINED, fields);
 		add("homepage", homepage, Values.JOINED, fields);
 		return fields;
@@ -148,6 +146,9 @@ public class AuthorityResource {
 
 	public List<Pair<String, String>> specialFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
+		add("sameAs", sameAs != null
+				? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList()) : sameAs,
+				Values.MULTI_LINE, fields);
 		add("definition", definition, Values.JOINED, fields);
 		add("broaderTermPartitive", broaderTermPartitive, Values.MULTI_LINE, fields);
 		add("broaderTermInstantial", broaderTermInstantial, Values.MULTI_LINE, fields);
