@@ -216,17 +216,11 @@ public class AuthorityResource {
 		String label = string;
 		String link = string;
 		String search = "";
-		if (string.startsWith(DNB_PREFIX)) {
-			label = labelFor(string.substring(DNB_PREFIX.length()));
-			link = string.replace(DNB_PREFIX, "/gnd/") + ".html";
-			search = controllers.routes.HomeController.search("\"" + string + "\"", "", 0, 10, "html").toString();
-			if (label == null) {
-				label = string;
-				link = string;
-			}
-		}
 		if (string.startsWith("http")) {
+			label = string.startsWith(DNB_PREFIX) ? labelFor(string.substring(DNB_PREFIX.length()))
+					: GndOntology.label(link);
 			String result = String.format("<a title='Details zu \"%s\" anzeigen' href='%s'>%s</a>", label, link, label);
+			search = controllers.routes.HomeController.search("\"" + string + "\"", "", 0, 10, "html").toString();
 			if (!search.isEmpty()) {
 				result = String.format(
 						"%s | <a title='Weitere Einträge mit \"%s\" suchen' href='%s'>"
@@ -243,7 +237,7 @@ public class AuthorityResource {
 				.prepareGet(HomeController.config("index.name"), HomeController.config("index.type"), id).get();
 		if (!response.isExists()) {
 			Logger.warn("{} does not exists in index", id);
-			return null;
+			return id;
 		}
 		return response.getSourceAsMap().get("preferredName").toString();
 	}
