@@ -220,13 +220,16 @@ public class AuthorityResource {
 		if (string.startsWith("http")) {
 			label = string.startsWith(DNB_PREFIX) ? labelFor(string.substring(DNB_PREFIX.length()))
 					: GndOntology.label(link);
-			String result = String.format("<a title='Details zu \"%s\" anzeigen' href='%s'>%s</a>", label, link, label);
+			link = string.startsWith(DNB_PREFIX) ? controllers.routes.HomeController
+					.authorityDotFormat(string.replace(DNB_PREFIX, ""), "html").toString() : string;
 			search = controllers.routes.HomeController.search("\"" + string + "\"", "", 0, 10, "html").toString();
+			String result = String.format("<a title='Weitere Einträge über \"%s\" suchen' href='%s'>%s</a>", label,
+					search, label);
 			if (!search.isEmpty()) {
 				result = String.format(
-						"%s | <a title='Weitere Einträge mit \"%s\" suchen' href='%s'>"
-								+ "<i class='glyphicon glyphicon-search' aria-hidden='true'></i></a>",
-						result, label, search);
+						"%s | <a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
+								+ "<i class='glyphicon glyphicon-link' aria-hidden='true'></i></a>",
+						result, label, link);
 			}
 			return result;
 		} else
