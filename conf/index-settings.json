@@ -55,6 +55,18 @@
 					"type": "string",
 					"index": "not_analyzed"
 				},
+				"geographicAreaCode": {
+					"type": "string",
+					"index": "not_analyzed"
+				},
+				"gndSubjectCategory": {
+					"type": "string",
+					"index": "not_analyzed"
+				},
+				"professionOrOccupation": {
+					"type": "string",
+					"index": "not_analyzed"
+				},
 				"type" : {
 					"type": "string",
 					"fields": {

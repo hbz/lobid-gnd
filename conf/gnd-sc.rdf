@@ -1,0 +1,2044 @@
+﻿<?xml version="1.0" encoding = "UTF-8"?>
+<rdf:RDF xmlns="http://www.w3.org/2004/02/skos/core#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+    <owl:Class rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#GndSubjectCategoryValue">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.w3.org/2004/02/skos/core#inScheme"/>
+                <owl:hasValue rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+    <!-- Scheme: GND Subject Categories -->
+    <skos:ConceptScheme rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc">
+        <dc:title xml:lang="en">GND Subject Categories</dc:title>
+        <dc:title xml:lang="de">GND-Sachgruppen</dc:title>
+    </skos:ConceptScheme>
+
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#00">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Unspezifische Allgemeinwörter</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#00m">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Maschinell eingespielte Datensätze
+            (Platzhalter)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#00p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sachlich nicht klassifizierbare Personen</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeines, Interdisziplinäre
+            Allgemeinwörter</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Schrift, Buch, Presse</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#2.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Schrift, Handschriftenkunde</skos:prefLabel>
+    </skos:Concept>    
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#2.1p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Schrift, Handschriftenkunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#2.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Buchwissenschaft, Buchhandel</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#2.2p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Buchwissenschaft, Buchhandel</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#2.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Presse</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#2.3p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Presse</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Religion</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeine und vergleichende Religionswissenschaft,
+            Nichtchristliche Religionen</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.1p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu allgemeiner und vergleichender
+            Religionswissenschaft, Personen zu nichtchristlichen Religionen</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.2-3.6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Christentum</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bibel</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.2a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Altes Testament</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.2aa">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Teile des Alten Testamentes</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.2b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Neues Testament</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.2ba">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Teile des Neuen Testamentes</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.2p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen der Bibel</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kirchengeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.3a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kirchengeschichte: Antike</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.3b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kirchengeschichte: Mittelalter</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.3c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kirchengeschichte: Neuzeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Systematische Theologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.4a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Systematische Theologie (Allgemeines),
+            Fundamentaltheologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.4b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Dogmatik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.4c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Theologische Anthropologie, Christliche Ethik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Praktische Theologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.5a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Liturgik, Frömmigkeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.5b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Homiletik, Katechetik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.5ba">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Homiletik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.5bb">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Katechetik, Christliche Erziehung, Kirchliche
+            Bildungsarbeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.5c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Seelsorge, Mission</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.5ca">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Seelsorge</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.5cb">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Mission, Kirchliche Sozialarbeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kirche und Konfession</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.6a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Katholische Kirche</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.6b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Evangelische Kirchen</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.6c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Ostkirchen und andere christliche Religionsgemeinschaften und
+            Sekten</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#3.6p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Kirchengeschichte, Systematischer und Praktischer
+            Theologie, Kirche und Konfession</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Philosophie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#4.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Philosophie (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#4.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Philosophiegeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#4.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Erkenntnistheorie, Logik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#4.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Metaphysik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#4.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Ethik, Philosophische Anthropologie,
+            Sozialphilosophie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#4.6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Ästhetik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#4.7">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kulturphilosophie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#4.7p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Philosophie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Psychologie, Esoterik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Psychologie allgemein, Tests</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Psychologie (Allgemeines), Experimentelle
+            Psychologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Psychologische Diagnostik, Tests</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Entwicklungspsychologie, Vergleichende
+            Psychologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozial-, Kultur- und Völkerpsychologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Tiefenpsychologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Angewandte Psychologie, Psychohygiene</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5.5p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Psychologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5.6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Parapsychologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5.7">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Esoterik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#5.7p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Parapsychologie, Esoterik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kultur, Erziehung, Bildung, Wissenschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kultur und Künste, Geistes- und
+            Kulturgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kultur, Künste allgemein</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geistes- und Kulturgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.1p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Kultur und Künsten, Geistes- und
+            Kulturgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bildungswesen allgemein, Geschichte des
+            Bildungswesens</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.2a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bildungswesen (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.2b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geschichte des Bildungswesens</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Schule, Berufsausbildung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.3a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Schule</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.3b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Berufsausbildung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Unterricht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.4p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Bildungswesen</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wissenschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Hochschule</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.7">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bibliothek, Information und Dokumentation</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.7p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Bibliothek, Information und
+            Dokumentation</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.8">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Archiv, Museum</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#6.8p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Archiv, Museum</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Recht, Allgemeine Verwaltung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Recht allgemein, Öffentliches Recht allgemein, Privatrecht
+            allgemein, Rechtsvergleich</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Recht allgemein, Rechtsphilosophie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Rechtsvergleich</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Rechtsgeschichte, Verfassungsgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.2a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Rechtsgeschichte, Verfassungsgeschichte:
+            Altertum</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.2b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Rechtsgeschichte, Verfassungsgeschichte:
+            Mittelalter</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.2c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Rechtsgeschichte, Verfassungsgeschichte:
+            Neuzeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Staatsrecht, Verfassungsrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeines Verwaltungsrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Besonderes Verwaltungsrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.5a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Dienstrecht (auch Richter)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.5b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kommunalrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.5c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Baurecht, Raumordnung, Bodenrecht, Umweltrecht,
+            Naturschutzrecht, Denkmalschutz</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.5d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kulturrecht, Presserecht, Rundfunkrecht, Bildungswesen und
+            Forschung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.5e">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Straßen- und Wegerecht, Verkehrsrecht,
+            Telekommunikationsrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.5f">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wehrrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Polizeirecht, Gesundheitsrecht, Kriminologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.6a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Polizeirecht, Ordnungsrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.6b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Gesundheitsrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.6c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kriminologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.7">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Strafrecht, Strafvollzug</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.7a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Strafrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.7b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Strafvollzug</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.8">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Rechtspflege, Prozessrecht, Rechtsmedizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.8a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Rechtspflege, Prozessrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.8b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Rechtsmedizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.9">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Finanzrecht, Steuerrecht, Zollrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.9a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Finanzrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.9b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Steuerrecht, Zollrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.10">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaftsrecht, Gewerblicher Rechtsschutz</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.10a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaftsrecht, Wirtschaftsaufsicht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.10b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Gewerblicher Rechtsschutz, Urheberrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.11">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Arbeitsrecht, Sozialrecht, Gebührenrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.11a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Arbeitsrecht, Sozialrecht, Recht der
+            Tarifverträge</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.11b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Berufsrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.11c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Gebührenrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.12">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bürgerliches Recht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.12a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeiner Teil des Bürgerlichen Rechts</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.12b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Schuldrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.12c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sachenrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.12d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Familienrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.12e">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Erbrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.13">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Religionsrecht, Kirchenrecht,
+            Staatskirchenrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.14">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Internationales Recht (einschließlich Völkerrecht und Recht
+            der Europäischen Gemeinschaften, Europäischen Union), Kollisionsrecht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.14p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Recht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.15">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Öffentliche Verwaltung, Geschichte der Öffentlichen
+            Verwaltung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.15a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Öffentliche Verwaltung, Öffentlicher Dienst</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.15b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geschichte der Öffentlichen Verwaltung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.15p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu öffentlicher Verwaltung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#8">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Politik, Militär</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#8.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Politik (Allgemeines), Politische Theorie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#8.1p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen (Politologen, Staatstheoretiker)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#8.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Innenpolitik, Parteien</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#8.2a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Innenpolitik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#8.2b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Parteien, Politische Organisationen</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#8.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Außenpolitik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#8.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Militär</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#8.4p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu politischer Theorie, Militär</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Soziologie, Gesellschaft, Arbeit,
+            Sozialgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialgeschichte: Altertum</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialgeschichte: Mittelalter</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.1c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialgeschichte: Neuzeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialwissenschaften allgemein, Soziologische Theorien,
+            Statistik in den Sozialwissenschaften</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.2a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialwissenschaften allgemein, Soziologische
+            Theorien</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.2b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Methoden und Techniken der empirischen Sozialforschung,
+            Statistik in den Sozialwissenschaften, Mathematische Statistik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialstruktur, Soziales Leben, Bevölkerung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.3a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Soziales Leben, Bevölkerung (Allgemeines), Gesellschaft
+            allgemein</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.3b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bevölkerung, Sozialstruktur, Soziale Situation, Soziale
+            Bewegungen</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.3c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Gruppe, Organisationssoziologie, Interaktion</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.3d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialisation, Sozialverhalten</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.3e">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kommunikation, Meinungsbildung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Arbeit, Arbeitswelt, Gewerkschaften</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.4a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Arbeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.4ab">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">"Einzelne Berufe, Tätigkeiten, Funktionen;
+            Religionszugehörigkeit, Weltanschauung"</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.4b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Mitbestimmung, Gewerkschaften</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialpolitik, Sozialarbeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.5a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialpolitik, Entwicklungshilfe</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.5b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialversicherung und Gesetzliche
+            Krankenversicherung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.5c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sozialarbeit, Sozialhilfe</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#9.5p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Soziologie, Gesellschaft, Arbeit,
+            Sozialgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaft, Verkehr, Umweltschutz,
+            Raumordnung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaftsgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaftsgeschichte: Altertum</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaftsgeschichte: Mittelalter</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.1c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaftsgeschichte: Neuzeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.1p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Wirtschaftsgeschichte (bis ca.
+            1900)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaft, Volkswirtschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaft, Volkswirtschaft (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2aa">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Volkswirtschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2ab">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaftssystem</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2ac">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Mathematische Methoden, Information,
+            Entscheidung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Haushalt, Verbraucher</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Mikroökonomie, Wettbewerb</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Konjunktur, Verteilung, Wirtschaftsstruktur</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2da">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaftskreislauf, Konjunktur</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2db">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Verteilung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2dc">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaftsstruktur</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2dp">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Wirtschaftswissenschaften</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2e">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Außenwirtschaft, Außenhandel</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2ea">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Außenwirtschaft, Außenhandel
+            gesamtwirtschaftlich</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2eb">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Außenwirtschaft, Außenhandel betrieblich</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.2ep">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Außenwirtschaft, Außenhandel</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Öffentliche Aufgaben, Öffentliche Wirtschaft, Energie- und
+            Rohstoffwirtschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.3a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Öffentliche Aufgaben</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.3b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Öffentliche Wirtschaft, Abfallwirtschaft,
+            Gesundheitsökonomie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.3c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Energie- und Wasserwirtschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.3d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Rohstoffwirtschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.3p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu öffentlichen Aufgaben, Öffentlicher Wirtschaft,
+            Energie- und Rohstoffwirtschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Wirtschaftspolitik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.4p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Wirtschaftspolitik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Finanzwirtschaft, Finanzpolitik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.5p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Finanzwirtschaft, Finanzpolitik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Telekommunikation und Verkehr, Fremdenverkehr</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.6a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Telekommunikation und Verkehr</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.6b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Fremdenverkehr, Hotel- und Gaststättengewerbe</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.6p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Telekommunikation und Verkehr,
+            Fremdenverkehr</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.7">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Umweltschutz, Raumordnung,
+            Landschaftsgestaltung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.7a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Umweltschutz, Umweltbelastung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.7b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Raumordnung, Stadtplanung,
+            Landschaftsgestaltung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.7p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Umweltschutz, Raumordnung,
+            Landschaftsgestaltung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.8">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bau und Boden</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.8a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Öffentliche und private Bautätigkeit, Bau- und
+            Bodenpolitik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.8b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bauwirtschaft, Baubetrieb und Bodenmarkt</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.8p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Bau, Boden</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.9">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geld, Bank, Börse</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.9a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geldtheorie, Geldpolitik, Währung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.9b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bank</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.9c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kapitalmarkt, Börse, Kapitalanlage</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.9p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Geld, Bank, Börse</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.10">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Genossenschaft, Gemeinwirtschaft, Alternative
+            Wirtschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.10p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Genossenschaft, Gemeinwirtschaft, Alternativer
+            Wirtschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Betriebswirtschaftslehre</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Betriebswirtschaftslehre (Allgemeines), Unternehmen,
+            Management</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Mathematische Methoden, Information,
+            Entscheidung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Beschaffung, Produktion</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kosten</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11e">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Marketing, Wettbewerb</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11f">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Rechnungswesen, Steuer, Revision</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11g">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Investition, Finanzierung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11h">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personalpolitik, Arbeitsgestaltung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11i">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Büro, Bürokommunikation</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11m">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Spezielle Informationssysteme, Programme</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.11p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Betriebswirtschaftslehre</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.12">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Gewerbe allgemein, Industrie, Handwerk</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.12a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Industrie, Industriebetrieb, Handwerk</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.12b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Einzelne Branchen der Industrie und des
+            Handwerks</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.12p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Gewerbe allgemein, Industrie,
+            Handwerk</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.13">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Handel, Dienstleistung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.13a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Handel allgemein, Dienstleistung allgemein</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.13b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Handel einzelner Branchen, Dienstleistung einzelner
+            Branchen</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.13p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Handel, Dienstleistung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.14">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Versicherung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.14p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Versicherung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.15">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Werbewirtschaft, Öffentlichkeitsarbeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#10.15p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Werbewirtschaft,
+            Öffentlichkeitsarbeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sprache</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sprache (Allgemeines), Historische Sprachwissenschaft,
+            Sprachliche Technik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sprache (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Historische Sprachwissenschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.1c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sprachliche Technik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sprachtheorie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.2a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeine Sprachtheorie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.2b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Grammatik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.2c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Phonetik, Phonologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.2p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Sprache</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Lexikologie, Namenkunde, Fachsprache</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.3a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Lexikologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.3b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Namenkunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.3c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Fachsprache</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#11.3d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Anonymes Werk als Sprachdenkmal</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Literatur</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Literatur (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeine Literaturwissenschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Literarisches Leben</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.1p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Literaturwissenschaft
+            (Literaturwissenschaftler)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Literaturgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.2a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Literaturgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.2b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Anonyme literarische Werke</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.2p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Literaturgeschichte
+            (Schriftsteller)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Literaturgattung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Literarische Motive, Stoffe, Gestalten</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.4p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen als literarisches Motiv</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#12.4y">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geografische Namen als literarisches Motiv</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bildende Kunst, Fotografie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bildende Kunst, Kunstgeschichte, Motive</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bildende Kunst</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kunstgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.1bp">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Kunstwissenschaft,
+            Kunsthistoriker</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.1c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sachliche Motive in der Kunst</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.1cp">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen als künstlerisches Motiv</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.1cy">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geografische Namen als künstlerisches Motiv</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Plastik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.2p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Plastik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Malerei</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Zeichnung, Grafik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.4p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Malerei, Zeichnung, Grafik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Fotografie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.5p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Fotografie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kunsthandwerk</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.6p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Kunsthandwerk</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.7">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Neue Formen der Kunst</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#13.7p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu neuen Formen der Kunst</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#14">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Musik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#14.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Musik (Allgemeines), Musikgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#14.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Musikalische Form, Musikgattung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#14.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Musikinstrumentenkunde, Musikinstrumentenbau</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#14.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Systematische und Angewandte
+            Musikwissenschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#14.4p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Musik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#15">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Theater, Tanz, Film, Rundfunk</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#15.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Theater, Tanz</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#15.1p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Theater, Tanz</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#15.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kabarett, Zirkus, Varieté</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#15.2p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Kabarett, Zirkus, Varieté</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#15.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Film</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#15.3p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Film</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#15.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Rundfunk, Neue Medien</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#15.4p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Rundfunk, Neuen Medien</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geschichte (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16.1p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen der Geschichtswissenschaft (Historiker,
+            Archäologen)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Quellen und Historische Hilfswissenschaften</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Archäologie, Vor- und Frühgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geschichte überregionaler Gebiete</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16.4a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geschichte überregionaler Gebiete: Altertum</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16.4b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geschichte überregionaler Gebiete:
+            Mittelalter</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16.4c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geschichte überregionaler Gebiete: Neuzeit</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16.4d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geschichte überregionaler Gebiete:
+            Zeitgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geschichte einzelner Länder und Völker</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#16.5p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen der Geschichte (Politiker und historische
+            Persönlichkeiten)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#17">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Volkskunde, Völkerkunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#17.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Volkskunde, Völkerkunde (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#17.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Brauchtum, Volksglaube</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#17.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sachkultur, Volkskunst</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#17.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Volksliteratur, Volksmusik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#17.4p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Volkskunde, Völkerkunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#18">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Natur, Naturwissenschaften allgemein</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#18p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Natur, Naturwissenschaften
+            allgemein</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geowissenschaften</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geografie, Heimat- und Länderkunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geografie, Heimat- und Länderkunde
+            (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Physische Geografie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.1c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Anthropogeografie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.1d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Reise</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.1dp">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Geografie, Heimat- und
+            Länderkunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geodäsie, Kartografie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.2p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Geodäsie, Kartografie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Hydrologie, Meereskunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.3p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Hydrologie, Meereskunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geologie, Mineralogie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.4a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeine Geologie, Geophysik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.4b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Historische Geologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.4c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Mineralogie, Boden-, Gesteins- und
+            Lagerstättenkunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.4d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Paläontologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.4p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Geologie, Mineralogie, Historischer Geologie,
+            Boden-, Gesteins- und Lagerstättenkunde, Paläontologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Meteorologie, Klimatologie, Hochatmosphäre,
+            Magnetosphäre</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#19.5p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Meteorologie, Klimatologie, Hochatmosphäre,
+            Magnetosphäre</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#20">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Astronomie, Weltraumforschung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#20p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Astronomie, Weltraumforschung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#21">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Physik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#21.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Physik (Allgemeines), Mathematische Physik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#21.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Mechanik, Wärme, Akustik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#21.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Elektrizität, Magnetismus, Optik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#21.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Elementarteilchen, Kern-, Atom-,
+            Molekularphysik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#21.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Plasma, Gas, Flüssigkeit, Festkörper</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#21.5p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Physik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#22">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Chemie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#22.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Chemie (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#22.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Theoretische und Physikalische Chemie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#22.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Analytische Chemie und Untersuchungsmethoden</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#22.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Anorganische Chemie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#22.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Organische Chemie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#22.5p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Chemie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#23">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeine Biologie, Mikrobiologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#23.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeine Biologie, Mikrobiologie
+            (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#23.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Biologie allgemein</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#23.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Genetik, Evolution</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#23.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Biochemie, Biophysik, Zytologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#23.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Mikrobiologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#23.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Untersuchungsmethoden (Biologie)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#23.4p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu allgemeiner Biologie,
+            Mikrobiologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#24">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Botanik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#24.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Botanik (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#24.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeine Botanik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#24.2a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Pflanzenanatomie, Pflanzenphysiologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#24.2b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Pflanzensoziologie, Pflanzenökologie,
+            Pflanzengeografie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#24.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Spezielle Botanik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#24.3p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Botanik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#25">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Zoologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#25.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Zoologie (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#25.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeine Zoologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#25.2a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Anatomie, Tierphysiologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#25.2b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Tiersoziologie, Tierökologie, Tiergeografie,
+            Verhaltensforschung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#25.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Spezielle Zoologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#25.3p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Zoologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#26">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Anthropologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#26p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Anthropologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Medizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Medizin (Allgemeines), Medizingeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Medizin (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Medizingeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Anatomie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Physiologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.3a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Physiologie (Allgemeines), Physiologische
+            Chemie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.3b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Blut, Kardiovaskuläres System, Atmungsorgan</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.3c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Ernährung, Stoffwechsel, Inkretion</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.3d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Haut, Knochen, Nerven, Muskeln, Sinnesorgane</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.3e">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Harn- und Geschlechtsorgane</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeine Pathologie, Onkologie, Experimentelle
+            Medizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeine Diagnostik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Medizinische Radiologie, Nuklearmedizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.7">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Allgemeine Therapie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.8">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Pharmazie, Pharmakologie, Toxikologie,
+            Immunologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.8a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Pharmazie, Pharmakologie, Toxikologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.8b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Immunologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.9">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Innere Medizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.9a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Hämatologie, Kardiologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.9b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Pulmonologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.9c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Gastroenterologie, Endokrinopathie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.9d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Urologie, Nephrologie, Andrologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.9e">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Knochen, Gelenke, Muskeln</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.9f">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Infektionen</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.10">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Chirurgie, Orthopädie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.11">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Gynäkologie, Geburtshilfe</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.12">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kinderheilkunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.13">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Neurologie, Psychiatrie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.14">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Dermatologie, Venerologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.15">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Hals-Nasen-Ohren-Heilkunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.16">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Augenheilkunde</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.17">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Zahnmedizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.18">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sexualmedizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.19">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sondergebiete der Medizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.20">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Hygiene, Gesundheitswesen</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.20p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Medizin, Tiermedizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#27.21">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Tiermedizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#28">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Mathematik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#28p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Mathematik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#29">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Stochastik, Operations Research</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#29p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Stochastik, Operations Research</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#30">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Informatik, Datenverarbeitung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#30m">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Informatikprodukte (Hardware- und
+            Softwareprodukte)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#30p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Informatik, Datenverarbeitung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Technik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Technik (Allgemeines), Technikgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Technik (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Technische Physik, Technische Mathematik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.1c">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Mess-, Steuerungs- und Regelungstechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.1d">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Werkstoffkunde, Werkstoffprüfung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.1e">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Technikgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sanitärtechnik, Umwelttechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Architektur, Bautechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.3a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Architektur</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.3ab">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Ortsgebundene Bauwerke</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.3b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bautechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.3p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Architektur, Bautechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Bergbau, Hüttentechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Energietechnik, Kerntechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Maschinenbau</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.7">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Fahrzeugbau, Fördertechnik, Raumfahrttechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.8">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Fertigungstechnik, Feinwerktechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.8a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Fertigungstechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.8b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Feinwerktechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.9">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Elektrotechnik, Elektronik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.9a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Elektrotechnik, Elektrische Energietechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.9b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Elektronik, Nachrichtentechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.10">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Verfahrenstechnik, Technische Chemie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.11">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Lebensmitteltechnologie</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.12">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Textiltechnik, Gummi- und Lederverarbeitung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.13">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Holzbearbeitung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.14">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Papierherstellung, Grafische Technik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.15">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Glas, Keramik, Steine und Erden</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.16">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Militärtechnik</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#31.16p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Technik (ohne Architektur,
+            Bautechnik)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Landwirtschaft, Garten</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Landwirtschaft (Allgemeines),
+            Landwirtschaftsgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.1a">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Landwirtschaft allgemein</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.1b">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Landwirtschaftsgeschichte</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Agrarpolitik, Agrarmarkt, Landwirtschaftliche
+            Betriebslehre</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Ackerbau</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.4">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Gartenbau, Obstbau</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.5">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Phytomedizin</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.6">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Tierzucht, Tierhaltung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.7">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Milchwirtschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.8">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Forstwirtschaft</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.9">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Jagd</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.10">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Fischerei, Fischzucht</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#32.10p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Landwirtschaft, Garten</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#33">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Hauswirtschaft, Körperpflege, Mode, Kleidung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#33.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Hauswirtschaft, Körperpflege</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#33.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Kochen, Backen, Lebens- und Genussmittel,
+            Küchengerät</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#33.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Mode, Kleidung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#33.3p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Hauswirtschaft, Körperpflege, Mode,
+            Kleidung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#34">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sport</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#34.1">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Sport (Allgemeines)</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#34.2">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Geschichte des Sports</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#34.3">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Einzelne Sportarten</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#34.3p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Sport</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#35">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Spiel, Unterhaltung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#35p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Spiel, Unterhaltung</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#36">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Basteln, Handarbeiten, Heimwerken</skos:prefLabel>
+    </skos:Concept>
+    <skos:Concept rdf:about="http://d-nb.info/standards/vocab/gnd/gnd-sc#36p">
+        <skos:inScheme rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc"/>
+        <skos:prefLabel xml:lang="de">Personen zu Basteln, Handarbeiten, Heimwerken</skos:prefLabel>
+    </skos:Concept>
+</rdf:RDF>

@@ -37,6 +37,7 @@ public class AuthorityResource {
 	public List<String> variantName;
 	public List<String> sameAs;
 	public List<String> geographicAreaCode;
+	public List<String> gndSubjectCategory;
 	public List<String> relatedTerm;
 	public List<String> relatedPerson;
 	public List<String> relatedWork;
@@ -137,10 +138,7 @@ public class AuthorityResource {
 		add("type", getType(), Values.JOINED, fields);
 		add("gndIdentifier", gndIdentifier, Values.JOINED, fields);
 		add("geographicAreaCode", geographicAreaCode, Values.MULTI_LINE, fields);
-		add("sameAs",
-				sameAs != null ? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList())
-						: sameAs,
-				Values.MULTI_LINE, fields);
+		add("gndSubjectCategory", gndSubjectCategory, Values.MULTI_LINE, fields);
 		add("wikipedia", wikipedia, Values.JOINED, fields);
 		add("homepage", homepage, Values.JOINED, fields);
 		return fields;
@@ -148,6 +146,10 @@ public class AuthorityResource {
 
 	public List<Pair<String, String>> specialFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
+		add("sameAs",
+				sameAs != null ? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList())
+						: sameAs,
+				Values.MULTI_LINE, fields);
 		add("definition", definition, Values.JOINED, fields);
 		add("broaderTermPartitive", broaderTermPartitive, Values.MULTI_LINE, fields);
 		add("broaderTermInstantial", broaderTermInstantial, Values.MULTI_LINE, fields);
@@ -192,19 +194,19 @@ public class AuthorityResource {
 				joined, fields);
 	}
 
-	private void add(String label, List<String> list, Values values, List<Pair<String, String>> result) {
-		label = GndOntology.label(label);
+	private void add(String field, List<String> list, Values values, List<Pair<String, String>> result) {
+		String label = GndOntology.label(field);
 		if (list != null && list.size() > 0) {
 			switch (values) {
 			case JOINED: {
-				String value = list.stream().map(v -> process(v)).collect(Collectors.joining("; "));
+				String value = list.stream().map(v -> process(field, label, v)).collect(Collectors.joining("; "));
 				result.add(Pair.of(label, value));
 				break;
 			}
 			case MULTI_LINE: {
-				result.add(Pair.of(label, process(list.get(0))));
+				result.add(Pair.of(label, process(field, label, list.get(0))));
 				list.subList(1, list.size()).forEach(e -> {
-					result.add(Pair.of("", process(e)));
+					result.add(Pair.of("", process(field, label, e)));
 				});
 				break;
 			}
@@ -212,30 +214,30 @@ public class AuthorityResource {
 		}
 	}
 
-	private String process(String string) {
-		String label = string;
-		String link = string;
+	private String process(String field, String fieldLabel, String value) {
+		String label = value;
+		String link = value;
 		String search = "";
-		if (string.startsWith(DNB_PREFIX)) {
-			label = labelFor(string.substring(DNB_PREFIX.length()));
-			link = string.replace(DNB_PREFIX, "/gnd/") + ".html";
-			search = controllers.routes.HomeController.search("\"" + string + "\"", "", 0, 10, "html").toString();
-			if (label == null) {
-				label = string;
-				link = string;
-			}
-		}
-		if (string.startsWith("http")) {
-			String result = String.format("<a title='Details zu \"%s\" anzeigen' href='%s'>%s</a>", label, link, label);
+		if (value.startsWith("http")) {
+			label = value.startsWith(DNB_PREFIX) ? labelFor(value.substring(DNB_PREFIX.length()))
+					: GndOntology.label(link);
+			link = value.startsWith(DNB_PREFIX)
+					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
+							.toString()
+					: value;
+			search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 15, "html")
+					.toString();
+			String result = String.format("<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>",
+					fieldLabel, label, search, label);
 			if (!search.isEmpty()) {
 				result = String.format(
-						"%s | <a title='Weitere Einträge mit \"%s\" suchen' href='%s'>"
-								+ "<i class='glyphicon glyphicon-search' aria-hidden='true'></i></a>",
-						result, label, search);
+						"%s | <a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
+								+ "<i class='glyphicon glyphicon-link' aria-hidden='true'></i></a>",
+						result, label, link);
 			}
 			return result;
 		} else
-			return GndOntology.label(string);
+			return GndOntology.label(value);
 	}
 
 	public String labelFor(String id) {
@@ -243,7 +245,7 @@ public class AuthorityResource {
 				.prepareGet(HomeController.config("index.name"), HomeController.config("index.type"), id).get();
 		if (!response.isExists()) {
 			Logger.warn("{} does not exists in index", id);
-			return null;
+			return id;
 		}
 		return response.getSourceAsMap().get("preferredName").toString();
 	}
