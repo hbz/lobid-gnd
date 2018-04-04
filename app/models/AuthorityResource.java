@@ -199,14 +199,14 @@ public class AuthorityResource {
 		if (list != null && list.size() > 0) {
 			switch (values) {
 			case JOINED: {
-				String value = list.stream().map(v -> process(field, v)).collect(Collectors.joining("; "));
+				String value = list.stream().map(v -> process(field, label, v)).collect(Collectors.joining("; "));
 				result.add(Pair.of(label, value));
 				break;
 			}
 			case MULTI_LINE: {
-				result.add(Pair.of(label, process(field, list.get(0))));
+				result.add(Pair.of(label, process(field, label, list.get(0))));
 				list.subList(1, list.size()).forEach(e -> {
-					result.add(Pair.of("", process(field, e)));
+					result.add(Pair.of("", process(field, label, e)));
 				});
 				break;
 			}
@@ -214,7 +214,7 @@ public class AuthorityResource {
 		}
 	}
 
-	private String process(String field, String value) {
+	private String process(String field, String fieldLabel, String value) {
 		String label = value;
 		String link = value;
 		String search = "";
@@ -227,8 +227,8 @@ public class AuthorityResource {
 					: value;
 			search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 10, "html")
 					.toString();
-			String result = String.format("<a title='Weitere Einträge über \"%s\" suchen' href='%s'>%s</a>", label,
-					search, label);
+			String result = String.format("<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>",
+					fieldLabel, label, search, label);
 			if (!search.isEmpty()) {
 				result = String.format(
 						"%s | <a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
