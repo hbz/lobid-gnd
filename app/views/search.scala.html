@@ -79,7 +79,7 @@
 							onclick="$('.@bIndex-more-item').hide(); $('#@bIndex-more-link').show(); $('#@bIndex-less-link').hide();">
 						<span class="octicon octicon-diff-removed" aria-hidden="true"></span><br/>
 					</a>
-				}
+				} else {<br/>}
 				@for(
 						sub <- subs;
 						subTerm  = (sub \ "key").as[String];
