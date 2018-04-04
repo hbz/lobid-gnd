@@ -84,7 +84,7 @@
 						sub <- subs;
 						subTerm  = (sub \ "key").as[String];
 						subCount = (sub \ "doc_count").as[Int]){
-					<span @if(!f.contains(subTerm)){style="display:none" class="@bIndex-more-item"}>
+					<span @if(f.isEmpty){style="display:none" class="@bIndex-more-item"}>
 						&rdsh;&nbsp; @facetLink(key, subTerm, subCount) <br/>
 					</span>
 				}
