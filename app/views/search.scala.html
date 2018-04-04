@@ -65,17 +65,33 @@
 @facetLinks(buckets: Seq[JsValue], key: String = "type") = { 
 	@defining(buckets.groupBy((bucket:JsValue) => HomeController.configNested("types",(bucket \ "key").as[String]))) { grouped =>
 		@for(
-				bucket <- grouped.get(null).getOrElse(Seq());
+				(bucket, bIndex) <- grouped.get(null).getOrElse(Seq()).zipWithIndex;
 				term = (bucket \ "key").as[String];
 				count = (bucket \ "doc_count").as[Int]) {
+			<p>
 			<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>
 			@facetLink(key, term, count)
-			@for(
-					sub <- grouped.get(term).getOrElse(Seq());
-					subTerm  = (sub \ "key").as[String];
-					subCount = (sub \ "doc_count").as[Int]){
-				&rdsh;&nbsp; @facetLink(key, subTerm, subCount)
+			@defining(grouped.get(term).getOrElse(Seq()).zipWithIndex) { subs =>
+				@for(
+						(sub, sIndex) <- subs;
+						subTerm  = (sub \ "key").as[String];
+						subCount = (sub \ "doc_count").as[Int]){
+					<span @if(sIndex > 2){style="display:none" class="@bIndex-more-item"}>
+						&rdsh;&nbsp; @facetLink(key, subTerm, subCount)
+					</span>
+				}
+				@if(subs.size>3){
+					<a id="@bIndex-more-link" href="javascript:void(0)" 
+							onclick="$('.@bIndex-more-item').show(); $('#@bIndex-more-link').hide(); $('#@bIndex-less-link').show();">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Mehr Untertypen zu @term anzeigen<br/>
+					</a>
+					<a id="@bIndex-less-link" href="javascript:void(0)" style="display:none"
+							onclick="$('.@bIndex-more-item').hide(); $('#@bIndex-more-link').show(); $('#@bIndex-less-link').hide();">
+						<span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Weniger Untertypen zu @term anzeigen<br/>
+					</a>
+				}
 			}
+			</p>
 		}
 	}
 }
