@@ -146,8 +146,9 @@ public class AuthorityResource {
 
 	public List<Pair<String, String>> specialFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
-		add("sameAs", sameAs != null
-				? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList()) : sameAs,
+		add("sameAs",
+				sameAs != null ? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList())
+						: sameAs,
 				Values.MULTI_LINE, fields);
 		add("definition", definition, Values.JOINED, fields);
 		add("broaderTermPartitive", broaderTermPartitive, Values.MULTI_LINE, fields);
@@ -193,19 +194,19 @@ public class AuthorityResource {
 				joined, fields);
 	}
 
-	private void add(String label, List<String> list, Values values, List<Pair<String, String>> result) {
-		label = GndOntology.label(label);
+	private void add(String field, List<String> list, Values values, List<Pair<String, String>> result) {
+		String label = GndOntology.label(field);
 		if (list != null && list.size() > 0) {
 			switch (values) {
 			case JOINED: {
-				String value = list.stream().map(v -> process(v)).collect(Collectors.joining("; "));
+				String value = list.stream().map(v -> process(field, v)).collect(Collectors.joining("; "));
 				result.add(Pair.of(label, value));
 				break;
 			}
 			case MULTI_LINE: {
-				result.add(Pair.of(label, process(list.get(0))));
+				result.add(Pair.of(label, process(field, list.get(0))));
 				list.subList(1, list.size()).forEach(e -> {
-					result.add(Pair.of("", process(e)));
+					result.add(Pair.of("", process(field, e)));
 				});
 				break;
 			}
@@ -213,16 +214,19 @@ public class AuthorityResource {
 		}
 	}
 
-	private String process(String string) {
-		String label = string;
-		String link = string;
+	private String process(String field, String value) {
+		String label = value;
+		String link = value;
 		String search = "";
-		if (string.startsWith("http")) {
-			label = string.startsWith(DNB_PREFIX) ? labelFor(string.substring(DNB_PREFIX.length()))
+		if (value.startsWith("http")) {
+			label = value.startsWith(DNB_PREFIX) ? labelFor(value.substring(DNB_PREFIX.length()))
 					: GndOntology.label(link);
-			link = string.startsWith(DNB_PREFIX) ? controllers.routes.HomeController
-					.authorityDotFormat(string.replace(DNB_PREFIX, ""), "html").toString() : string;
-			search = controllers.routes.HomeController.search("\"" + string + "\"", "", 0, 10, "html").toString();
+			link = value.startsWith(DNB_PREFIX)
+					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
+							.toString()
+					: value;
+			search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 10, "html")
+					.toString();
 			String result = String.format("<a title='Weitere Einträge über \"%s\" suchen' href='%s'>%s</a>", label,
 					search, label);
 			if (!search.isEmpty()) {
@@ -233,7 +237,7 @@ public class AuthorityResource {
 			}
 			return result;
 		} else
-			return GndOntology.label(string);
+			return GndOntology.label(value);
 	}
 
 	public String labelFor(String id) {
