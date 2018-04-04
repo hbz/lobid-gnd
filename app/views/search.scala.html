@@ -59,7 +59,6 @@
 	} else {
 		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@term (@count)</a>
 	}
-	<br/>
 }
 
 @facetLinks(buckets: Seq[JsValue], key: String = "type") = { 
@@ -68,30 +67,28 @@
 				(bucket, bIndex) <- grouped.get(null).getOrElse(Seq()).zipWithIndex;
 				term = (bucket \ "key").as[String];
 				count = (bucket \ "doc_count").as[Int]) {
-			<p>
 			<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>
 			@facetLink(key, term, count)
-			@defining(grouped.get(term).getOrElse(Seq()).zipWithIndex) { subs =>
+			@defining(grouped.get(term).getOrElse(Seq())) { subs =>
+				@if(subs.size>0){ 
+					<a id="@bIndex-more-link" href="javascript:void(0)" title="Untertypen einblenden"
+							onclick="$('.@bIndex-more-item').show(); $('#@bIndex-more-link').hide(); $('#@bIndex-less-link').show();">
+						<span class="octicon octicon-diff-added" aria-hidden="true"></span><br/>
+					</a>
+					<a id="@bIndex-less-link" href="javascript:void(0)" style="display:none" title="Untertypen ausblenden"
+							onclick="$('.@bIndex-more-item').hide(); $('#@bIndex-more-link').show(); $('#@bIndex-less-link').hide();">
+						<span class="octicon octicon-diff-removed" aria-hidden="true"></span><br/>
+					</a>
+				}
 				@for(
-						(sub, sIndex) <- subs;
+						sub <- subs;
 						subTerm  = (sub \ "key").as[String];
 						subCount = (sub \ "doc_count").as[Int]){
-					<span @if(sIndex > 2){style="display:none" class="@bIndex-more-item"}>
-						&rdsh;&nbsp; @facetLink(key, subTerm, subCount)
+					<span @if(!f.contains(subTerm)){style="display:none" class="@bIndex-more-item"}>
+						&rdsh;&nbsp; @facetLink(key, subTerm, subCount) <br/>
 					</span>
 				}
-				@if(subs.size>3){
-					<a id="@bIndex-more-link" href="javascript:void(0)" 
-							onclick="$('.@bIndex-more-item').show(); $('#@bIndex-more-link').hide(); $('#@bIndex-less-link').show();">
-						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Mehr Untertypen anzeigen<br/>
-					</a>
-					<a id="@bIndex-less-link" href="javascript:void(0)" style="display:none"
-							onclick="$('.@bIndex-more-item').hide(); $('#@bIndex-more-link').show(); $('#@bIndex-less-link').hide();">
-						<span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Weniger Untertypen anzeigen<br/>
-					</a>
-				}
 			}
-			</p>
 		}
 	}
 }
