@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.elasticsearch.action.search.SearchResponse;
@@ -115,6 +116,16 @@ public class IndexTest extends WithApplication {
 		Iterator<JsonNode> ids = json.get("gndIdentifier").elements();
 		Assert.assertTrue("First hit should have an ID", ids.hasNext());
 		return ids.next().asText();
+	}
+
+	@Test
+	public void testAggregations() {
+		Set<String> keySet = index.query("*").getAggregations().asMap().keySet();
+		Assert.assertTrue(keySet.contains("type"));
+		Assert.assertTrue(keySet.contains("gndSubjectCategory"));
+		Assert.assertTrue(keySet.contains("geographicAreaCode"));
+		Assert.assertTrue(keySet.contains("professionOrOccupation"));
+		Assert.assertTrue(keySet.contains("dateOfBirth"));
 	}
 
 }
