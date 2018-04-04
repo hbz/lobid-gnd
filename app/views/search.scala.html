@@ -52,12 +52,12 @@
 
 @facetLink(key: String, term: String, count: Int) = {
 	@if(f.contains(key+":"+term)){
-		@term
+		@models.GndOntology.label(term)
 		<a href='@routes.HomeController.search(q, f.replace(s"+($key:$term)", "").replace(s"$key:$term","").trim, from, size)'>
 		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 	} else {
-		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@term (@count)</a>
+		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@models.GndOntology.label(term) (@count)</a>
 	}
 }
 

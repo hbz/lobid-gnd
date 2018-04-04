@@ -24,4 +24,6 @@ libraryDependencies += "org.dspace" % "oclc-harvester2" % "0.1.12"
 
 libraryDependencies += "xalan" % "xalan" % "2.7.2"
 
+libraryDependencies += "org.jooq" % "joox-java-6" % "1.6.0"
+
 resolvers += Resolver.mavenLocal
