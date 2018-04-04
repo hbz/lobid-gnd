@@ -71,11 +71,11 @@
 			@facetLink(key, term, count)
 			@defining(grouped.get(term).getOrElse(Seq())) { subs =>
 				@if(subs.size>0){ 
-					<a id="@bIndex-more-link" href="javascript:void(0)" title="Untertypen einblenden"
+					<a id="@bIndex-more-link" href="javascript:void(0)" @if(!f.isEmpty){style="display:none"} title="Untertypen einblenden"
 							onclick="$('.@bIndex-more-item').show(); $('#@bIndex-more-link').hide(); $('#@bIndex-less-link').show();">
 						<span class="octicon octicon-diff-added" aria-hidden="true"></span><br/>
 					</a>
-					<a id="@bIndex-less-link" href="javascript:void(0)" style="display:none" title="Untertypen ausblenden"
+					<a id="@bIndex-less-link" href="javascript:void(0)" @if(f.isEmpty){style="display:none"} title="Untertypen ausblenden"
 							onclick="$('.@bIndex-more-item').hide(); $('#@bIndex-more-link').show(); $('#@bIndex-less-link').hide();">
 						<span class="octicon octicon-diff-removed" aria-hidden="true"></span><br/>
 					</a>
@@ -84,7 +84,7 @@
 						sub <- subs;
 						subTerm  = (sub \ "key").as[String];
 						subCount = (sub \ "doc_count").as[Int]){
-					<span @if(f.isEmpty){style="display:none" class="@bIndex-more-item"}>
+					<span @if(f.isEmpty){style="display:none"} class="@bIndex-more-item">
 						&rdsh;&nbsp; @facetLink(key, subTerm, subCount) <br/>
 					</span>
 				}
