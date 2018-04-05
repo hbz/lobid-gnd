@@ -99,7 +99,7 @@ public class AuthorityResource {
 	}
 
 	public String subtitle() {
-		return getType().stream().collect(Collectors.joining("; "));
+		return getType().stream().map(t -> GndOntology.label(t)).collect(Collectors.joining("; "));
 	}
 
 	public GeoPoint location() {
@@ -132,57 +132,58 @@ public class AuthorityResource {
 
 	public List<Pair<String, String>> generalFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
-		add("Bevorzugter Name", Arrays.asList(preferredName), Values.JOINED, fields);
-		add("Varianter Name", variantName, Values.JOINED, fields);
-		add("Entitätstyp", getType(), Values.JOINED, fields);
-		add("GND-ID", gndIdentifier, Values.JOINED, fields);
-		add("Ländercode", geographicAreaCode, Values.MULTI_LINE, fields);
-		add("Siehe auch", sameAs != null
-				? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList()) : sameAs,
+		add("preferredName", Arrays.asList(preferredName), Values.JOINED, fields);
+		add("variantName", variantName, Values.JOINED, fields);
+		add("type", getType(), Values.JOINED, fields);
+		add("gndIdentifier", gndIdentifier, Values.JOINED, fields);
+		add("geographicAreaCode", geographicAreaCode, Values.MULTI_LINE, fields);
+		add("sameAs",
+				sameAs != null ? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList())
+						: sameAs,
 				Values.MULTI_LINE, fields);
-		add("Wikipedia", wikipedia, Values.JOINED, fields);
-		add("Homepage", homepage, Values.JOINED, fields);
+		add("wikipedia", wikipedia, Values.JOINED, fields);
+		add("homepage", homepage, Values.JOINED, fields);
 		return fields;
 	}
 
 	public List<Pair<String, String>> specialFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
-		add("Definition", definition, Values.JOINED, fields);
-		add("Oberbegriff partitiv", broaderTermPartitive, Values.MULTI_LINE, fields);
-		add("Oberbegriff instantiell", broaderTermInstantial, Values.MULTI_LINE, fields);
-		add("Oberbegriff allgemein", broaderTermGeneral, Values.MULTI_LINE, fields);
-		add("Verwandter Begriff", relatedTerm, Values.MULTI_LINE, fields);
-		add("Veranstalungsdaten", dateOfConferenceOrEvent, Values.MULTI_LINE, fields);
-		add("Veranstaltungsort", placeOfConferenceOrEvent, Values.MULTI_LINE, fields);
-		add("Geographischer Wirkungsbereich", spatialAreaOfActivity, Values.MULTI_LINE, fields);
-		add("In Beziehung stehende Person", relatedPerson, Values.MULTI_LINE, fields);
-		add("Gründungsdatum", dateOfEstablishment, Values.JOINED, fields);
-		add("Sitz", placeOfBusiness, Values.MULTI_LINE, fields);
-		add("Thema", topic, Values.JOINED, fields);
-		add("Biografische oder historische Angaben", biographicalOrHistoricalInformation, Values.JOINED, fields);
-		add("Geschlecht", gender, Values.MULTI_LINE, fields);
-		add("Beruf oder Beschäftigung", professionOrOccupation, Values.MULTI_LINE, fields);
-		add("Vorheriges Geografikum", precedingPlaceOrGeographicName, Values.MULTI_LINE, fields);
-		add("Nachfolgendes Geografikum", succeedingPlaceOrGeographicName, Values.MULTI_LINE, fields);
-		add("Auflösungsdatum", dateOfTermination, Values.JOINED, fields);
-		add("Akademischer Grad", academicDegree, Values.JOINED, fields);
-		add("Bekannt mit", acquaintanceshipOrFriendship, Values.MULTI_LINE, fields);
-		add("Beziehung, Bekanntschaft, Freundschaft", familialRelationship, Values.MULTI_LINE, fields);
-		add("Wirkungsort", placeOfActivity, Values.MULTI_LINE, fields);
-		add("Geburtsdatum", dateOfBirth, Values.JOINED, fields);
-		add("Geburtsort", placeOfBirth, Values.JOINED, fields);
-		add("Sterbedatum", dateOfDeath, Values.JOINED, fields);
-		add("Sterbeort", placeOfDeath, Values.JOINED, fields);
-		add("In Beziehung stehendes Werk", relatedWork, Values.MULTI_LINE, fields);
-		add("Beruflich Beziehung", professionalRelationship, Values.MULTI_LINE, fields);
-		add("Erste Verfasserschaft", firstAuthor, Values.MULTI_LINE, fields);
-		add("Administrative Überordnung der Körperschaft", hierarchicalSuperiorOfTheCorporateBody, Values.MULTI_LINE,
+		add("definition", definition, Values.JOINED, fields);
+		add("broaderTermPartitive", broaderTermPartitive, Values.MULTI_LINE, fields);
+		add("broaderTermInstantial", broaderTermInstantial, Values.MULTI_LINE, fields);
+		add("broaderTermGeneral", broaderTermGeneral, Values.MULTI_LINE, fields);
+		add("relatedTerm", relatedTerm, Values.MULTI_LINE, fields);
+		add("dateOfConferenceOrEvent", dateOfConferenceOrEvent, Values.MULTI_LINE, fields);
+		add("placeOfConferenceOrEvent", placeOfConferenceOrEvent, Values.MULTI_LINE, fields);
+		add("spatialAreaOfActivity", spatialAreaOfActivity, Values.MULTI_LINE, fields);
+		add("relatedPerson", relatedPerson, Values.MULTI_LINE, fields);
+		add("dateOfEstablishment", dateOfEstablishment, Values.JOINED, fields);
+		add("placeOfBusiness", placeOfBusiness, Values.MULTI_LINE, fields);
+		add("topic", topic, Values.JOINED, fields);
+		add("biographicalOrHistoricalInformation", biographicalOrHistoricalInformation, Values.JOINED, fields);
+		add("gender", gender, Values.MULTI_LINE, fields);
+		add("professionOrOccupation", professionOrOccupation, Values.MULTI_LINE, fields);
+		add("precedingPlaceOrGeographicName", precedingPlaceOrGeographicName, Values.MULTI_LINE, fields);
+		add("succeedingPlaceOrGeographicName", succeedingPlaceOrGeographicName, Values.MULTI_LINE, fields);
+		add("dateOfTermination", dateOfTermination, Values.JOINED, fields);
+		add("academicDegree", academicDegree, Values.JOINED, fields);
+		add("acquaintanceshipOrFriendship", acquaintanceshipOrFriendship, Values.MULTI_LINE, fields);
+		add("familialRelationship", familialRelationship, Values.MULTI_LINE, fields);
+		add("placeOfActivity", placeOfActivity, Values.MULTI_LINE, fields);
+		add("dateOfBirth", dateOfBirth, Values.JOINED, fields);
+		add("placeOfBirth", placeOfBirth, Values.JOINED, fields);
+		add("dateOfDeath", dateOfDeath, Values.JOINED, fields);
+		add("placeOfDeath", placeOfDeath, Values.JOINED, fields);
+		add("relatedWork", relatedWork, Values.MULTI_LINE, fields);
+		add("professionalRelationship", professionalRelationship, Values.MULTI_LINE, fields);
+		add("firstAuthor", firstAuthor, Values.MULTI_LINE, fields);
+		add("hierarchicalSuperiorOfTheCorporateBody", hierarchicalSuperiorOfTheCorporateBody, Values.MULTI_LINE,
 				fields);
-		add("Titelangabe", publication, Values.MULTI_LINE, fields);
-		add("Erstellungszeit", dateOfProduction, Values.MULTI_LINE, fields);
-		add("Besetzung im Musikbereich", mediumOfPerformance, Values.MULTI_LINE, fields);
-		add("Erster Komponist", firstComposer, Values.MULTI_LINE, fields);
-		add("Erscheinungszeit", dateOfPublication, Values.MULTI_LINE, fields);
+		add("publication", publication, Values.MULTI_LINE, fields);
+		add("dateOfProduction", dateOfProduction, Values.MULTI_LINE, fields);
+		add("mediumOfPerformance", mediumOfPerformance, Values.MULTI_LINE, fields);
+		add("firstComposer", firstComposer, Values.MULTI_LINE, fields);
+		add("dateOfPublication", dateOfPublication, Values.MULTI_LINE, fields);
 		return fields;
 	}
 
@@ -192,6 +193,7 @@ public class AuthorityResource {
 	}
 
 	private void add(String label, List<String> list, Values values, List<Pair<String, String>> result) {
+		label = GndOntology.label(label);
 		if (list != null && list.size() > 0) {
 			switch (values) {
 			case JOINED: {
@@ -233,7 +235,7 @@ public class AuthorityResource {
 			}
 			return result;
 		} else
-			return string;
+			return GndOntology.label(string);
 	}
 
 	public String labelFor(String id) {
