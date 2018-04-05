@@ -50,25 +50,51 @@
     </tr>
 }
 
-@facetLink(key: String, term: String, count: Int) = {
+@facetLink(key: String, term: String, label:String, count: Int) = {
 	@if(f.contains(key+":"+term)){
-		@models.GndOntology.label(term)
+		@label
 		<a href='@routes.HomeController.search(q, f.replace(s"+($key:$term)", "").replace(s"$key:$term","").trim, from, size)'>
 		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 	} else {
-		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@models.GndOntology.label(term) (@count)</a>
+		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@label (@count)</a>
 	}
 }
 
-@facetLinks(buckets: Seq[JsValue], key: String = "type") = { 
+@facet(key: String) = {
+	@defining((Json.parse(result) \ "aggregation" \ key).asOpt[Seq[JsValue]].getOrElse(Seq())) { buckets =>
+		@if(!buckets.isEmpty) {
+			<h5>@models.GndOntology.label(key) @if(buckets.size>3){ 
+				<a id="@key-more-link" href="javascript:void(0)" title="Mehr Werte anzeigen"
+						onclick="$('.@key-more-item').show(); $('#@key-more-link').hide(); $('#@key-less-link').show();">
+					<span class="octicon octicon-diff-added" aria-hidden="true"></span>
+				</a>
+				<a id="@key-less-link" href="javascript:void(0)" style="display:none" title="Weniger Werte anzeigen"
+						onclick="$('.@key-more-item').hide(); $('#@key-more-link').show(); $('#@key-less-link').hide();">
+					<span class="octicon octicon-diff-removed" aria-hidden="true"></span>
+				</a>
+			}</h5>
+			@for(
+						(bucket, bIndex) <- buckets.zipWithIndex;
+						term = (bucket \ "key").as[String];
+						count = (bucket \ "doc_count").as[Int]) {
+					<span @if(bIndex>2){style="display:none" class="@key-more-item"}>
+						@facetLink(key, "\"" + term + "\"", models.GndOntology.label(term), count) <br/>
+					</span>
+			}
+		}
+	}
+}
+
+@typeFacet(buckets: Seq[JsValue], key: String = "type") = {
+	<h5>@models.GndOntology.label("type")</h5>
 	@defining(buckets.groupBy((bucket:JsValue) => HomeController.configNested("types",(bucket \ "key").as[String]))) { grouped =>
 		@for(
 				(bucket, bIndex) <- grouped.get(null).getOrElse(Seq()).zipWithIndex;
 				term = (bucket \ "key").as[String];
 				count = (bucket \ "doc_count").as[Int]) {
 			<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>
-			@facetLink(key, term, count)
+			@facetLink(key, term, models.GndOntology.label(term), count)
 			@defining(grouped.get(term).getOrElse(Seq())) { subs =>
 				@if(subs.size>0){ 
 					<a id="@bIndex-more-link" href="javascript:void(0)" @if(!f.isEmpty){style="display:none"} title="Untertypen einblenden"
@@ -85,7 +111,7 @@
 						subTerm  = (sub \ "key").as[String];
 						subCount = (sub \ "doc_count").as[Int]){
 					<span @if(f.isEmpty){style="display:none"} class="@bIndex-more-item">
-						&rdsh;&nbsp; @facetLink(key, subTerm, subCount) <br/>
+						&rdsh; @facetLink(key, subTerm, models.GndOntology.label(subTerm), subCount) <br/>
 					</span>
 				}
 			}
@@ -149,7 +175,11 @@
 				@defining(("type", (Json.parse(result) \ "aggregation" \ "type").asOpt[Seq[JsValue]].getOrElse(Seq()))) { case (jsKey, buckets) => 
 					@if(!buckets.isEmpty) {
 						<h4>Ergebnisse eingrenzen:</h4>
-						@facetLinks(buckets)
+						@typeFacet(buckets)
+						@facet("gndSubjectCategory")
+						@facet("geographicAreaCode")
+						@facet("professionOrOccupation")
+						@facet("dateOfBirth")
 					}
 				}
 			</p>

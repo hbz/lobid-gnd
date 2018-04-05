@@ -10,8 +10,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.elasticsearch.action.get.GetResponse;
 import org.joox.Match;
 import org.xml.sax.SAXException;
+
+import controllers.HomeController;
+import modules.IndexComponent;
+import play.Logger;
 
 public class GndOntology {
 
@@ -23,6 +28,8 @@ public class GndOntology {
 			put("type", "Entitätstyp");
 		}
 	};
+
+	public static IndexComponent index;
 
 	static {
 		try {
@@ -46,13 +53,28 @@ public class GndOntology {
 	 * @param id
 	 *            The full URI or substring after # for an element in one vocab
 	 *            (e.g. CollectiveManuscript)
-	 * @return The German label for sortId (e.g. Sammelhandschrift) if a label
-	 *         was found, or the passed id
+	 * @return The German label for sortId (e.g. Sammelhandschrift) if a label was
+	 *         found, or the passed id
 	 */
 	public static String label(String id) {
+		return id.startsWith(AuthorityResource.DNB_PREFIX) ? indexLabel(id) : ontologyLabel(id);
+	}
+
+	private static String ontologyLabel(String id) {
 		String key = id.contains("#") ? id.split("#")[1] : id;
 		String result = labels.get(key);
 		return result == null ? id : result;
+	}
+
+	private static String indexLabel(String id) {
+		id = id.substring(AuthorityResource.DNB_PREFIX.length());
+		GetResponse response = index.client()
+				.prepareGet(HomeController.config("index.name"), HomeController.config("index.type"), id).get();
+		if (!response.isExists()) {
+			Logger.warn("{} does not exists in index", id);
+			return id;
+		}
+		return response.getSourceAsMap().get("preferredName").toString();
 	}
 
 	private static void process(String f) throws SAXException, IOException {
