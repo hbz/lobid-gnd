@@ -211,7 +211,9 @@ public class AuthorityResource {
 		String label = value;
 		String link = value;
 		String search = "";
-		if (value.startsWith("http")) {
+		if (Arrays.asList("wikipedia", "sameAs").contains(field)) {
+			return String.format("<a href='%s'>%s</a>", value, value);
+		} else if (value.startsWith("http")) {
 			label = GndOntology.label(link);
 			link = value.startsWith(DNB_PREFIX)
 					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
