@@ -50,42 +50,46 @@
     </tr>
 }
 
-@selectedTerm(key: String, term: String) = {
-	@term
-	<a href='@routes.HomeController.search(q, f.replace(s"+($key:$term)", "").replace(s"$key:$term","").trim, from, size)'>
-	<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
-	</a>
-	<br/>
-}
-
-@topLevelSelected(buckets: Seq[JsValue], key: String = "type") = {
-	@for(bucket <- buckets;
-			term = (bucket \ "key").as[String];
-			if CONFIG.getStringList("topLevelTypes").contains(term);
-			if f.contains(key+":"+term)) {
-		<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>
-		@selectedTerm(key, term)
+@facetLink(key: String, term: String, count: Int) = {
+	@if(f.contains(key+":"+term)){
+		@term
+		<a href='@routes.HomeController.search(q, f.replace(s"+($key:$term)", "").replace(s"$key:$term","").trim, from, size)'>
+		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
+		</a>
+	} else {
+		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@term (@count)</a>
 	}
 }
 
-@subTypesSelected(buckets: Seq[JsValue], key: String = "type") = {
-	@for(bucket <- buckets;
-			term = (bucket \ "key").as[String];
-			if !CONFIG.getStringList("topLevelTypes").contains(term);
-			if f.contains(key+":"+term)) {
-		@selectedTerm(key, term)
-	}
-}
-
-@unselected(buckets: Seq[JsValue], key: String = "type") = {
-	@for(bucket <- buckets;
-			term = (bucket \ "key").as[String];
-			if CONFIG.getStringList("topLevelTypes").contains(term) || f.contains("type:");
-			count = (bucket \ "doc_count").as[Int];
-			if !f.contains(key+":"+term)) {
-		@if(!f.contains(key+":")){<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>}
-		@if(!f.isEmpty()){&rdsh;&nbsp;}<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@term (@count)</a>
-		<br/>
+@facetLinks(buckets: Seq[JsValue], key: String = "type") = { 
+	@defining(buckets.groupBy((bucket:JsValue) => HomeController.configNested("types",(bucket \ "key").as[String]))) { grouped =>
+		@for(
+				(bucket, bIndex) <- grouped.get(null).getOrElse(Seq()).zipWithIndex;
+				term = (bucket \ "key").as[String];
+				count = (bucket \ "doc_count").as[Int]) {
+			<i class='@iconFor(Seq(term))' aria-hidden='true' title='@term'></i>
+			@facetLink(key, term, count)
+			@defining(grouped.get(term).getOrElse(Seq())) { subs =>
+				@if(subs.size>0){ 
+					<a id="@bIndex-more-link" href="javascript:void(0)" @if(!f.isEmpty){style="display:none"} title="Untertypen einblenden"
+							onclick="$('.@bIndex-more-item').show(); $('#@bIndex-more-link').hide(); $('#@bIndex-less-link').show();">
+						<span class="octicon octicon-diff-added" aria-hidden="true"></span><br/>
+					</a>
+					<a id="@bIndex-less-link" href="javascript:void(0)" @if(f.isEmpty){style="display:none"} title="Untertypen ausblenden"
+							onclick="$('.@bIndex-more-item').hide(); $('#@bIndex-more-link').show(); $('#@bIndex-less-link').hide();">
+						<span class="octicon octicon-diff-removed" aria-hidden="true"></span><br/>
+					</a>
+				} else {<br/>}
+				@for(
+						sub <- subs;
+						subTerm  = (sub \ "key").as[String];
+						subCount = (sub \ "doc_count").as[Int]){
+					<span @if(f.isEmpty){style="display:none"} class="@bIndex-more-item">
+						&rdsh;&nbsp; @facetLink(key, subTerm, subCount) <br/>
+					</span>
+				}
+			}
+		}
 	}
 }
 
@@ -99,8 +103,8 @@
                  <div class="col-md-12">
                    <ul class="nav nav-pills" style="display:inline-block" role="tablist">
                      <li class="disabled">  <a href="#">Treffer pro Seite:</a> </li>
-                     @pageLink(10)
-                     @pageLink(20)
+                     @pageLink(15)
+                     @pageLink(30)
                      @pageLink(50)
                      @pageLink(100)
                    </ul>
@@ -145,9 +149,7 @@
 				@defining(("type", (Json.parse(result) \ "aggregation" \ "type").asOpt[Seq[JsValue]].getOrElse(Seq()))) { case (jsKey, buckets) => 
 					@if(!buckets.isEmpty) {
 						<h4>Ergebnisse eingrenzen:</h4>
-						@topLevelSelected(buckets)
-						@subTypesSelected(buckets)
-						@unselected(buckets)
+						@facetLinks(buckets)
 					}
 				}
 			</p>
