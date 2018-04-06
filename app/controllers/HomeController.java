@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,6 +36,7 @@ import com.typesafe.config.ConfigObject;
 
 import apps.Convert;
 import models.AuthorityResource;
+import models.GndOntology;
 import models.RdfConverter;
 import models.RdfConverter.RdfFormat;
 import modules.IndexComponent;
@@ -50,7 +52,8 @@ import play.mvc.Result;
  */
 public class HomeController extends Controller {
 
-	public static final String TYPE = "type";
+	public static final String[] AGGRAGATIONS = new String[] { "type", "gndSubjectCategory", "geographicAreaCode",
+			"professionOrOccupation", "dateOfBirth" };
 
 	@Inject
 	Environment env;
@@ -70,7 +73,8 @@ public class HomeController extends Controller {
 	}
 
 	/**
-	 * @param path The path to redirect to
+	 * @param path
+	 *            The path to redirect to
 	 * @return A 301 MOVED_PERMANENTLY redirect to the path
 	 */
 	public Result redirectSlash(String path) {
@@ -82,10 +86,10 @@ public class HomeController extends Controller {
 	}
 
 	/**
-	 * An action that renders an HTML page with a welcome message. The
-	 * configuration in the <code>routes</code> file means that this method will
-	 * be called when the application receives a <code>GET</code> request with a
-	 * path of <code>/</code>.
+	 * An action that renders an HTML page with a welcome message. The configuration
+	 * in the <code>routes</code> file means that this method will be called when
+	 * the application receives a <code>GET</code> request with a path of
+	 * <code>/</code>.
 	 */
 	public Result api() {
 		String format = "json";
@@ -114,6 +118,7 @@ public class HomeController extends Controller {
 	}
 
 	public Result authority(String id, String format) {
+		GndOntology.index = index;
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		String jsonLd = getAuthorityResource(id);
 		if (jsonLd == null) {
@@ -123,7 +128,6 @@ public class HomeController extends Controller {
 			JsonNode json = Json.parse(jsonLd);
 			if (responseFormat.equals("html")) {
 				AuthorityResource entity = Json.fromJson(json, AuthorityResource.class);
-				entity.index = index;
 				return ok(views.html.details.render(entity));
 			}
 			return responseFor(json, responseFormat);
@@ -198,6 +202,7 @@ public class HomeController extends Controller {
 	}
 
 	public Result search(String q, String filter, int from, int size, String format) {
+		GndOntology.index = index;
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		SearchResponse response = index.query(q.isEmpty() ? "*" : q, filter, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
@@ -230,14 +235,18 @@ public class HomeController extends Controller {
 		object.put("id", "http://" + request().host() + request().uri());
 		object.put("totalItems", queryResponse.getHits().getTotalHits());
 		object.set("member", Json.toJson(hits));
-		Aggregation aggregation = queryResponse.getAggregations().get(TYPE);
-		Terms terms = (Terms) aggregation;
-		Stream<Bucket> stream = terms.getBuckets().stream()
-				.filter(b -> !b.getKeyAsString().equals("AuthorityResource"));
-		Stream<Map<String, Object>> buckets = stream.map((Bucket b) -> ImmutableMap.of(//
-				"key", b.getKeyAsString(), "doc_count", b.getDocCount()));
-		object.set("aggregation",
-				Json.toJson(ImmutableMap.of(TYPE, Json.toJson(buckets.collect(Collectors.toList())))));
+
+		Map<String, Object> map = new HashMap<>();
+		for (String a : AGGRAGATIONS) {
+			Aggregation aggregation = queryResponse.getAggregations().get(a);
+			Terms terms = (Terms) aggregation;
+			Stream<Bucket> stream = terms.getBuckets().stream()
+					.filter(b -> !b.getKeyAsString().equals("AuthorityResource"));
+			Stream<Map<String, Object>> buckets = stream.map((Bucket b) -> ImmutableMap.of(//
+					"key", b.getKeyAsString(), "doc_count", b.getDocCount()));
+			map.put(a, Json.toJson(buckets.collect(Collectors.toList())));
+		}
+		object.set("aggregation", Json.toJson(map));
 		return prettyJsonString(object);
 	}
 

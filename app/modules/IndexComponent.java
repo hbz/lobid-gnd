@@ -208,8 +208,9 @@ class EmbeddedIndex implements IndexComponent {
 		}
 		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name")).setQuery(query).setFrom(from)
 				.setSize(size);
-		requestBuilder
-				.addAggregation(AggregationBuilders.terms(HomeController.TYPE).field(HomeController.TYPE).size(1000));
+		for (String a : HomeController.AGGRAGATIONS) {
+			requestBuilder.addAggregation(AggregationBuilders.terms(a).field(a).size(1000));
+		}
 		SearchResponse response = requestBuilder.get();
 		return response;
 	}

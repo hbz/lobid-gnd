@@ -9,22 +9,15 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.common.geo.GeoPoint;
-
-import controllers.HomeController;
-import modules.IndexComponent;
-import play.Logger;
 
 public class AuthorityResource {
 
-	private final static String DNB_PREFIX = "http://d-nb.info/gnd/";
+	final static String DNB_PREFIX = "http://d-nb.info/gnd/";
 
 	public enum Values {
 		JOINED, MULTI_LINE
 	}
-
-	public IndexComponent index;
 
 	private String id;
 	private List<String> type;
@@ -221,8 +214,7 @@ public class AuthorityResource {
 		if (Arrays.asList("wikipedia", "sameAs").contains(field)) {
 			return String.format("<a href='%s'>%s</a>", value, value);
 		} else if (value.startsWith("http")) {
-			label = value.startsWith(DNB_PREFIX) ? labelFor(value.substring(DNB_PREFIX.length()))
-					: GndOntology.label(link);
+			label = GndOntology.label(link);
 			link = value.startsWith(DNB_PREFIX)
 					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
 							.toString()
@@ -240,16 +232,6 @@ public class AuthorityResource {
 			return result;
 		} else
 			return GndOntology.label(value);
-	}
-
-	public String labelFor(String id) {
-		GetResponse response = index.client()
-				.prepareGet(HomeController.config("index.name"), HomeController.config("index.type"), id).get();
-		if (!response.isExists()) {
-			Logger.warn("{} does not exists in index", id);
-			return id;
-		}
-		return response.getSourceAsMap().get("preferredName").toString();
 	}
 
 }
