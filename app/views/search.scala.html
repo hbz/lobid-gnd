@@ -42,7 +42,7 @@
 }
 
 @field( doc: play.api.libs.json.JsValue, f: String) = {
-	@for(v <- (doc \ f).asOpt[Seq[String]]){@models.GndOntology.label(f): @(v.take(3).map(models.GndOntology.label(_)).mkString("; "))<br/>}
+	@for(v <- (doc \ f).asOpt[Seq[String]]){@models.GndOntology.label(f): @Html(v.take(3).map(models.GndOntology.label(_)).mkString("; "))<br/>}
 }
 
 @result_short(id:String, doc: play.api.libs.json.JsValue, i: Int = -1) = {
@@ -60,15 +60,13 @@
             @field(doc, "firstAuthor")
             @field(doc, "firstComposer")
           }
-          @if(opt.contains("PlaceOrGeographicName")) {
-            @field(doc, "geographicAreaCode")
-          }
           @if(opt.contains("Person")) {
             @field(doc, "professionOrOccupation")
             @field(doc, "dateOfBirth")
             @field(doc, "dateOfDeath")
           } else {
             @field(doc, "gndSubjectCategory")
+            @field(doc, "geographicAreaCode")
           }
         }
         </td>
