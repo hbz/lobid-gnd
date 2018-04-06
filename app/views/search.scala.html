@@ -38,15 +38,41 @@
 }
 
 @typesFor(doc: JsValue) = @{
-	(doc \ "type").as[Seq[String]].filter(_!="AuthorityResource").mkString(", ")
+	(doc \ "type").as[Seq[String]].filter(_!="AuthorityResource").map(models.GndOntology.label(_)).mkString(", ")
+}
+
+@field( doc: play.api.libs.json.JsValue, f: String) = {
+	@for(v <- (doc \ f).asOpt[Seq[String]]){@models.GndOntology.label(f): @(v.take(3).map(models.GndOntology.label(_)).mkString("; "))<br/>}
 }
 
 @result_short(id:String, doc: play.api.libs.json.JsValue, i: Int = -1) = {
     <tr>
         <td><i class='@iconFor((doc \ "type").as[Seq[String]])' aria-hidden='true' title='@typesFor(doc)'></i></td>
         <td class='text-left'><a href='@routes.HomeController.authority(id)'>@((doc \ "preferredName").asOpt[String].getOrElse(""))</a></td>
-        <td class='text-right'>@((doc \ "variantName").asOpt[Seq[String]].getOrElse(Seq()).take(3).mkString("; "))</td>
-        <td class='text-right'><a href='@((doc \ "id").asOpt[String].getOrElse(""))' title='DNB-Link'>@((doc \ "gndIdentifier").asOpt[Seq[String]].getOrElse(Seq()).take(1))</td>
+        <td class='text-right'> @for(opt <- (doc \ "type").asOpt[Seq[String]]) {
+          @if(opt.contains("ConferenceOrEvent")) {
+            @field(doc, "placeOfConferenceOrEvent")
+          }
+          @if(opt.contains("CorporateBody")) {
+            @field(doc, "placeOfBusiness")
+          }
+          @if(opt.contains("Work")) {
+            @field(doc, "firstAuthor")
+            @field(doc, "firstComposer")
+          }
+          @if(opt.contains("PlaceOrGeographicName")) {
+            @field(doc, "geographicAreaCode")
+          }
+          @if(opt.contains("Person")) {
+            @field(doc, "professionOrOccupation")
+            @field(doc, "dateOfBirth")
+            @field(doc, "dateOfDeath")
+          } else {
+            @field(doc, "gndSubjectCategory")
+          }
+        }
+        </td>
+        <td class='text-center text-muted'>&nbsp;@((doc \ "gndIdentifier").asOpt[Seq[String]].getOrElse(Seq()).take(1))</td>
     </tr>
 }
 
@@ -129,7 +155,7 @@
                  <div class="col-md-12">
                    <ul class="nav nav-pills" style="display:inline-block" role="tablist">
                      <li class="disabled">  <a href="#">Treffer pro Seite:</a> </li>
-                     @pageLink(15)
+                     @pageLink(10)
                      @pageLink(30)
                      @pageLink(50)
                      @pageLink(100)
@@ -147,6 +173,7 @@
                  </div>
                  </div>
                  <table class="table table-striped table-condensed">
+                 <tr><th style="width:5%"/><th style="width:20%"/><th style="width:65%"/><th style="width:10%"/></tr>
                  @for((doc,i) <- hits; id = (doc\"gndIdentifier")(0).as[String]) {
                     @result_short(id,doc,i-1)
                  }
