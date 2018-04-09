@@ -41,33 +41,40 @@
 	(doc \ "type").as[Seq[String]].filter(_!="AuthorityResource").map(models.GndOntology.label(_)).mkString(", ")
 }
 
-@field( doc: play.api.libs.json.JsValue, f: String) = {
-	@for(v <- (doc \ f).asOpt[Seq[String]]){@models.GndOntology.label(f): @Html(v.take(3).map(models.GndOntology.label(_)).mkString("; "))<br/>}
+@field(types: Seq[String], t: String, doc: play.api.libs.json.JsValue, field: String) = {
+	@if(t == "*" || types.contains(t)) {
+		@for(v <- (doc \ field).asOpt[Seq[String]]){@Html(v.map(models.GndOntology.label(_)).mkString(", ")) <br/>}
+	}
+}
+
+@cleanDate(s: String) = @{
+	s.replace("[", "").replace("]", "").split("-").head
 }
 
 @result_short(id:String, doc: play.api.libs.json.JsValue, i: Int = -1) = {
     <tr>
         <td><i class='@iconFor((doc \ "type").as[Seq[String]])' aria-hidden='true' title='@typesFor(doc)'></i></td>
-        <td class='text-left'><a href='@routes.HomeController.authority(id)'>@((doc \ "preferredName").asOpt[String].getOrElse(""))</a></td>
-        <td class='text-right'> @for(opt <- (doc \ "type").asOpt[Seq[String]]) {
-          @if(opt.contains("ConferenceOrEvent")) {
-            @field(doc, "placeOfConferenceOrEvent")
-          }
-          @if(opt.contains("CorporateBody")) {
-            @field(doc, "placeOfBusiness")
-          }
-          @if(opt.contains("Work")) {
-            @field(doc, "firstAuthor")
-            @field(doc, "firstComposer")
-          }
-          @if(opt.contains("Person")) {
-            @field(doc, "professionOrOccupation")
-            @field(doc, "dateOfBirth")
-            @field(doc, "dateOfDeath")
-          } else {
-            @field(doc, "gndSubjectCategory")
-            @field(doc, "geographicAreaCode")
-          }
+        <td class='text-left'><a href='@routes.HomeController.authority(id)' title='@((doc \ "variantName").asOpt[Seq[String]].getOrElse(Seq()).mkString(", "))'>@((doc \ "preferredName").asOpt[String].getOrElse(""))</a></td>
+        <td class='text-right'>
+        @for(types <- (doc \ "type").asOpt[Seq[String]]) {
+          @field(types, "*", doc, "broaderTermInstantial")
+
+          @field(types, "ConferenceOrEvent", doc, "geographicAreaCode")
+
+          @field(types, "CorporateBody", doc, "placeOfBusiness")
+
+          @field(types, "CorporateBody", doc, "geographicAreaCode")
+          @field(types, "Family", doc, "geographicAreaCode")
+          @field(types, "PlaceOrGeographicName", doc, "geographicAreaCode")
+          @field(types, "SubjectHeading", doc, "geographicAreaCode")
+
+          @field(types, "Work", doc, "firstAuthor")
+          @field(types, "Work", doc, "firstComposer")
+          @field(types, "Work", doc, "dateOfProduction")
+
+          @field(types, "Person", doc, "professionOrOccupation")
+          @for(v <- (doc \ "dateOfBirth").asOpt[Seq[String]]){@Html(cleanDate(v.head)) &ndash; }
+          @for(v <- (doc \ "dateOfDeath").asOpt[Seq[String]]){@Html(cleanDate(v.head))}
         }
         </td>
         <td class='text-center text-muted'>&nbsp;@((doc \ "gndIdentifier").asOpt[Seq[String]].getOrElse(Seq()).take(1))</td>
