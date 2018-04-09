@@ -55,10 +55,8 @@
     <tr>
         <td><i class='@iconFor((doc \ "type").as[Seq[String]])' aria-hidden='true' title='@typesFor(doc)'></i></td>
         <td class='text-left'><a href='@routes.HomeController.authority(id)' title='@((doc \ "variantName").asOpt[Seq[String]].getOrElse(Seq()).mkString(", "))'>@((doc \ "preferredName").asOpt[String].getOrElse(""))</a></td>
-        <td class='text-right'>
         @for(types <- (doc \ "type").asOpt[Seq[String]]) {
-          @field(types, "*", doc, "broaderTermInstantial")
-
+          <td class='text-right' id='@id-details'>
           @field(types, "ConferenceOrEvent", doc, "geographicAreaCode")
 
           @field(types, "CorporateBody", doc, "placeOfBusiness")
@@ -75,8 +73,15 @@
           @field(types, "Person", doc, "professionOrOccupation")
           @for(v <- (doc \ "dateOfBirth").asOpt[Seq[String]]){@Html(cleanDate(v.head)) &ndash; }
           @for(v <- (doc \ "dateOfDeath").asOpt[Seq[String]]){@Html(cleanDate(v.head))}
+          </td>
+          <script>
+            var details = $('#@id-details').text().trim();
+            if(details.length == 0){
+              $('#@id-details')
+                .text('@(types.filter(!Seq("AuthorityResource", "Person").contains(_)).map(models.GndOntology.label(_)).mkString(", "))');
+            }
+          </script>
         }
-        </td>
         <td class='text-center text-muted'>&nbsp;@((doc \ "gndIdentifier").asOpt[Seq[String]].getOrElse(Seq()).take(1))</td>
     </tr>
 }
