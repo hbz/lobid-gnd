@@ -2,6 +2,8 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -66,6 +68,7 @@ public class AuthorityResource {
 	public List<String> mediumOfPerformance;
 	public List<String> firstComposer;
 	public List<String> dateOfPublication;
+	public EntityFacts entityFacts;
 
 	public String getId() {
 		return id.substring(DNB_PREFIX.length());
@@ -134,15 +137,18 @@ public class AuthorityResource {
 		add("gndSubjectCategory", gndSubjectCategory, Values.MULTI_LINE, fields);
 		add("wikipedia", wikipedia, Values.JOINED, fields);
 		add("homepage", homepage, Values.JOINED, fields);
+		List<String> links = new ArrayList<>(
+				sameAs != null ? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList())
+						: Collections.emptyList());
+		links.addAll(entityFacts.getLinks());
+		add("sameAs", new ArrayList<>(new HashSet<>(links)), Values.MULTI_LINE, fields);
 		return fields;
 	}
 
 	public List<Pair<String, String>> specialFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
-		add("sameAs",
-				sameAs != null ? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList())
-						: sameAs,
-				Values.MULTI_LINE, fields);
+		String image = entityFacts.getImage();
+		add("depiction", image.isEmpty() ? Arrays.asList() : Arrays.asList(image), Values.MULTI_LINE, fields);
 		add("definition", definition, Values.JOINED, fields);
 		add("broaderTermPartitive", broaderTermPartitive, Values.MULTI_LINE, fields);
 		add("broaderTermInstantial", broaderTermInstantial, Values.MULTI_LINE, fields);
@@ -211,14 +217,12 @@ public class AuthorityResource {
 		String label = value;
 		String link = value;
 		String search = "";
-		if (Arrays.asList("wikipedia", "sameAs").contains(field)) {
+		if (Arrays.asList("wikipedia", "sameAs", "depiction").contains(field)) {
 			return String.format("<a href='%s'>%s</a>", value, value);
 		} else if (value.startsWith("http")) {
 			label = GndOntology.label(link);
-			link = value.startsWith(DNB_PREFIX)
-					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
-							.toString()
-					: value;
+			link = value.startsWith(DNB_PREFIX) ? controllers.routes.HomeController
+					.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html").toString() : value;
 			search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 10, "html")
 					.toString();
 			String result = String.format("<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>",

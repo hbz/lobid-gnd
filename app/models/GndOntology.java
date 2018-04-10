@@ -23,6 +23,7 @@ public class GndOntology {
 	@SuppressWarnings("serial")
 	private static Map<String, String> labels = new HashMap<String, String>() {
 		{
+			put("depiction", "Darstellung");
 			put("wikipedia", "Wikipedia");
 			put("sameAs", "Siehe auch");
 			put("type", "Entitätstyp");
@@ -53,8 +54,8 @@ public class GndOntology {
 	 * @param id
 	 *            The full URI or substring after # for an element in one vocab
 	 *            (e.g. CollectiveManuscript)
-	 * @return The German label for sortId (e.g. Sammelhandschrift) if a label was
-	 *         found, or the passed id
+	 * @return The German label for sortId (e.g. Sammelhandschrift) if a label
+	 *         was found, or the passed id
 	 */
 	public static String label(String id) {
 		return id.startsWith(AuthorityResource.DNB_PREFIX) ? indexLabel(id) : ontologyLabel(id);
