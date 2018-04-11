@@ -20,7 +20,7 @@
         </h1>
     </div>
     <div class="row">
-        <div class="col-md-@(if(resource.location == null && resource.entityFacts.depiction == null){12}else{6}) intro">
+        <div class="col-md-@(if(resource.location == null && resource.entityFacts.depiction == null){12}else{(if(resource.location != null && resource.entityFacts.depiction != null){6}else{7})}) intro">
             <table class='table table-striped table-condensed'>
             @for(f <- resource.generalFields; values = f.getRight.split("; ")) {
                 <tr><td>@f.getLeft</td><td class='field-value'>
@@ -36,7 +36,7 @@
             </table>
         </div>
         @if(resource.location != null){
-        <div class="col-md-@if(resource.location != null && resource.entityFacts.depiction != null){3}else{6} intro">
+        <div class="col-md-@if(resource.location != null && resource.entityFacts.depiction != null){3}else{5} intro">
             @if(resource.location != null) {
             <link rel="stylesheet" href='@controllers.routes.Assets.versioned("stylesheets/leaflet.css")' />
             <script src='@controllers.routes.Assets.versioned("javascripts/leaflet.js")'></script>
@@ -66,7 +66,7 @@
         </div>
         }
         @if(resource.entityFacts.depiction != null){
-             <div class="col-md-@if(resource.location != null){3}else{6} intro">
+             <div class="col-md-@if(resource.location != null){3}else{5} intro">
                  @image()
              </div>
         }
