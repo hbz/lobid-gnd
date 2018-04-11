@@ -18,10 +18,6 @@ public class AuthorityResource {
 
 	final static String DNB_PREFIX = "http://d-nb.info/gnd/";
 
-	public enum Values {
-		JOINED, MULTI_LINE
-	}
-
 	private String id;
 	private List<String> type;
 
@@ -130,49 +126,46 @@ public class AuthorityResource {
 
 	public List<Pair<String, String>> generalFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
-		add("preferredName", Arrays.asList(preferredName), Values.JOINED, fields);
-		add("biographicalOrHistoricalInformation", biographicalOrHistoricalInformation, Values.JOINED, fields);
-		add("definition", definition, Values.JOINED, fields);
-		add("variantName", variantName, Values.JOINED, fields);
-		add("type", getType(), Values.JOINED, fields);
-		add("gndIdentifier", gndIdentifier, Values.JOINED, fields);
-		add("geographicAreaCode", geographicAreaCode, Values.MULTI_LINE, fields);
-		add("gndSubjectCategory", gndSubjectCategory, Values.MULTI_LINE, fields);
-		add("homepage", homepage, Values.JOINED, fields);
-		add("broaderTermPartitive", broaderTermPartitive, Values.MULTI_LINE, fields);
-		add("broaderTermInstantial", broaderTermInstantial, Values.MULTI_LINE, fields);
-		add("broaderTermGeneral", broaderTermGeneral, Values.MULTI_LINE, fields);
-		add("relatedTerm", relatedTerm, Values.MULTI_LINE, fields);
-		add("dateOfConferenceOrEvent", dateOfConferenceOrEvent, Values.MULTI_LINE, fields);
-		add("placeOfConferenceOrEvent", placeOfConferenceOrEvent, Values.MULTI_LINE, fields);
-		add("spatialAreaOfActivity", spatialAreaOfActivity, Values.MULTI_LINE, fields);
-		add("relatedPerson", relatedPerson, Values.MULTI_LINE, fields);
-		add("dateOfEstablishment", dateOfEstablishment, Values.JOINED, fields);
-		add("placeOfBusiness", placeOfBusiness, Values.MULTI_LINE, fields);
-		add("topic", topic, Values.JOINED, fields);
-		add("gender", gender, Values.MULTI_LINE, fields);
-		add("professionOrOccupation", professionOrOccupation, Values.MULTI_LINE, fields);
-		add("precedingPlaceOrGeographicName", precedingPlaceOrGeographicName, Values.MULTI_LINE, fields);
-		add("succeedingPlaceOrGeographicName", succeedingPlaceOrGeographicName, Values.MULTI_LINE, fields);
-		add("dateOfTermination", dateOfTermination, Values.JOINED, fields);
-		add("academicDegree", academicDegree, Values.JOINED, fields);
-		add("acquaintanceshipOrFriendship", acquaintanceshipOrFriendship, Values.MULTI_LINE, fields);
-		add("familialRelationship", familialRelationship, Values.MULTI_LINE, fields);
-		add("placeOfActivity", placeOfActivity, Values.MULTI_LINE, fields);
-		add("dateOfBirth", dateOfBirth, Values.JOINED, fields);
-		add("placeOfBirth", placeOfBirth, Values.JOINED, fields);
-		add("dateOfDeath", dateOfDeath, Values.JOINED, fields);
-		add("placeOfDeath", placeOfDeath, Values.JOINED, fields);
-		add("relatedWork", relatedWork, Values.MULTI_LINE, fields);
-		add("professionalRelationship", professionalRelationship, Values.MULTI_LINE, fields);
-		add("firstAuthor", firstAuthor, Values.MULTI_LINE, fields);
-		add("hierarchicalSuperiorOfTheCorporateBody", hierarchicalSuperiorOfTheCorporateBody, Values.MULTI_LINE,
-				fields);
-		add("publication", publication, Values.MULTI_LINE, fields);
-		add("dateOfProduction", dateOfProduction, Values.MULTI_LINE, fields);
-		add("mediumOfPerformance", mediumOfPerformance, Values.MULTI_LINE, fields);
-		add("firstComposer", firstComposer, Values.MULTI_LINE, fields);
-		add("dateOfPublication", dateOfPublication, Values.MULTI_LINE, fields);
+		add("preferredName", Arrays.asList(preferredName), fields);
+		add("biographicalOrHistoricalInformation", biographicalOrHistoricalInformation, fields);
+		add("definition", definition, fields);
+		add("type", getType(), fields);
+		add("gndIdentifier", gndIdentifier, fields);
+		add("geographicAreaCode", geographicAreaCode, fields);
+		add("gndSubjectCategory", gndSubjectCategory, fields);
+		add("homepage", homepage, fields);
+		add("broaderTermPartitive", broaderTermPartitive, fields);
+		add("broaderTermInstantial", broaderTermInstantial, fields);
+		add("broaderTermGeneral", broaderTermGeneral, fields);
+		add("relatedTerm", relatedTerm, fields);
+		add("dateOfConferenceOrEvent", dateOfConferenceOrEvent, fields);
+		add("placeOfConferenceOrEvent", placeOfConferenceOrEvent, fields);
+		add("spatialAreaOfActivity", spatialAreaOfActivity, fields);
+		add("relatedPerson", relatedPerson, fields);
+		add("dateOfEstablishment", dateOfEstablishment, fields);
+		add("placeOfBusiness", placeOfBusiness, fields);
+		add("topic", topic, fields);
+		add("gender", gender, fields);
+		add("professionOrOccupation", professionOrOccupation, fields);
+		add("precedingPlaceOrGeographicName", precedingPlaceOrGeographicName, fields);
+		add("succeedingPlaceOrGeographicName", succeedingPlaceOrGeographicName, fields);
+		add("dateOfTermination", dateOfTermination, fields);
+		add("academicDegree", academicDegree, fields);
+		add("acquaintanceshipOrFriendship", acquaintanceshipOrFriendship, fields);
+		add("familialRelationship", familialRelationship, fields);
+		add("placeOfActivity", placeOfActivity, fields);
+		add("dateOfBirth", dateOfBirth, fields);
+		add("placeOfBirth", placeOfBirth, fields);
+		add("dateOfDeath", dateOfDeath, fields);
+		add("placeOfDeath", placeOfDeath, fields);
+		add("relatedWork", relatedWork, fields);
+		add("professionalRelationship", professionalRelationship, fields);
+		add("firstAuthor", firstAuthor, fields);
+		add("hierarchicalSuperiorOfTheCorporateBody", hierarchicalSuperiorOfTheCorporateBody, fields);
+		add("dateOfProduction", dateOfProduction, fields);
+		add("mediumOfPerformance", mediumOfPerformance, fields);
+		add("firstComposer", firstComposer, fields);
+		add("dateOfPublication", dateOfPublication, fields);
 		return fields;
 	}
 
@@ -180,10 +173,8 @@ public class AuthorityResource {
 		ArrayList<Link> links = new ArrayList<>(new TreeSet<>(entityFacts.getLinks()));
 		List<Pair<String, String>> result = new ArrayList<>();
 		if (!links.isEmpty()) {
-			result.add(Pair.of(GndOntology.label("sameAs"), html(links.get(0))));
-			links.subList(1, links.size()).forEach((Link link) -> {
-				result.add(Pair.of("", html(link)));
-			});
+			String value = links.stream().map(v -> html(v)).collect(Collectors.joining(" | "));
+			result.add(Pair.of(GndOntology.label("sameAs"), value));
 		}
 		return result;
 	}
@@ -193,28 +184,16 @@ public class AuthorityResource {
 				link.url, link.image, link.label);
 	}
 
-	private void add(String label, Map<String, Object> map, Values joined, List<Pair<String, String>> fields) {
+	private void add(String label, Map<String, Object> map, List<Pair<String, String>> fields) {
 		add(label, map != null ? map.values().stream().map(Object::toString).collect(Collectors.toList()) : null,
-				joined, fields);
+				fields);
 	}
 
-	private void add(String field, List<String> list, Values values, List<Pair<String, String>> result) {
+	private void add(String field, List<String> list, List<Pair<String, String>> result) {
 		String label = GndOntology.label(field);
 		if (list != null && list.size() > 0) {
-			switch (values) {
-			case JOINED: {
-				String value = list.stream().map(v -> process(field, label, v)).collect(Collectors.joining("; "));
-				result.add(Pair.of(label, value));
-				break;
-			}
-			case MULTI_LINE: {
-				result.add(Pair.of(label, process(field, label, list.get(0))));
-				list.subList(1, list.size()).forEach(e -> {
-					result.add(Pair.of("", process(field, label, e)));
-				});
-				break;
-			}
-			}
+			String value = list.stream().map(v -> process(field, label, v)).collect(Collectors.joining(" | "));
+			result.add(Pair.of(label, value));
 		}
 	}
 
@@ -226,15 +205,17 @@ public class AuthorityResource {
 			return String.format("<a href='%s'>%s</a>", value, value);
 		} else if (value.startsWith("http")) {
 			label = GndOntology.label(link);
-			link = value.startsWith(DNB_PREFIX) ? controllers.routes.HomeController
-					.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html").toString() : value;
+			link = value.startsWith(DNB_PREFIX)
+					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
+							.toString()
+					: value;
 			search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 10, "html")
 					.toString();
 			String result = String.format("<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>",
 					fieldLabel, label, search, label);
 			if (!search.isEmpty()) {
 				result = String.format(
-						"%s | <a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
+						"%s&nbsp;<a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
 								+ "<i class='glyphicon glyphicon-link' aria-hidden='true'></i></a>",
 						result, label, link);
 			}

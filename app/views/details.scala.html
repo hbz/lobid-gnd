@@ -23,15 +23,10 @@
         <div class="col-md-@(if(resource.location == null && resource.entityFacts.depiction == null){12}else{(if(resource.location != null && resource.entityFacts.depiction != null){6}else{7})}) intro">
             <table class='table table-striped table-condensed'>
             @for(f <- resource.generalFields; values = f.getRight.split("; ")) {
-                <tr><td>@f.getLeft</td><td class='field-value'>
-                @if(values.length > 3){
-                    @Html(values.take(3).mkString("; ")) <span title="@(f.getRight)" class="fa fa-ellipsis-h"></span>
-                } else {
-                    @Html(f.getRight)
-                }</td>
+                <tr><td>@f.getLeft</td><td class='field-value'>@Html(f.getRight)</td></tr>
             }
             @for(f <- resource.additionalLinks) {
-              <tr><td>@f.getLeft</td><td>@Html(f.getRight)</td>
+              <tr><td>@f.getLeft</td><td>@Html(f.getRight)</td></tr>
             }
             </table>
         </div>
