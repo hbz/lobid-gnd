@@ -1,6 +1,6 @@
 package models;
 
-import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
@@ -43,12 +43,17 @@ public class EntityFactsTest {
 
 	@Test
 	public void testLinks() {
-		assertThat(LONDON.getLinks(), hasItem("https://de.wikisource.org/wiki/London"));
+		assertThat(LONDON.getLinks().toString(), containsString("https://de.wikisource.org/wiki/London"));
 	}
 
 	@Test
 	public void testImage() {
-		assertThat(LONDON.getImage(), startsWith("https://commons.wikimedia.org/wiki/Special:FilePath/"));
+		assertThat(LONDON.getImage().image, startsWith("https://commons.wikimedia.org/wiki/Special:FilePath/"));
+	}
+
+	@Test
+	public void testImageAttribution() {
+		assertThat(LONDON.imageAttribution, notNullValue());
 	}
 
 }

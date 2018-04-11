@@ -2,16 +2,17 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.common.geo.GeoPoint;
+
+import models.EntityFacts.Link;
 
 public class AuthorityResource {
 
@@ -130,26 +131,14 @@ public class AuthorityResource {
 	public List<Pair<String, String>> generalFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
 		add("preferredName", Arrays.asList(preferredName), Values.JOINED, fields);
+		add("biographicalOrHistoricalInformation", biographicalOrHistoricalInformation, Values.JOINED, fields);
+		add("definition", definition, Values.JOINED, fields);
 		add("variantName", variantName, Values.JOINED, fields);
 		add("type", getType(), Values.JOINED, fields);
 		add("gndIdentifier", gndIdentifier, Values.JOINED, fields);
 		add("geographicAreaCode", geographicAreaCode, Values.MULTI_LINE, fields);
 		add("gndSubjectCategory", gndSubjectCategory, Values.MULTI_LINE, fields);
-		add("wikipedia", wikipedia, Values.JOINED, fields);
 		add("homepage", homepage, Values.JOINED, fields);
-		List<String> links = new ArrayList<>(
-				sameAs != null ? sameAs.stream().filter(v -> !v.startsWith(DNB_PREFIX)).collect(Collectors.toList())
-						: Collections.emptyList());
-		links.addAll(entityFacts.getLinks());
-		add("sameAs", new ArrayList<>(new HashSet<>(links)), Values.MULTI_LINE, fields);
-		return fields;
-	}
-
-	public List<Pair<String, String>> specialFields() {
-		List<Pair<String, String>> fields = new ArrayList<>();
-		String image = entityFacts.getImage();
-		add("depiction", image.isEmpty() ? Arrays.asList() : Arrays.asList(image), Values.MULTI_LINE, fields);
-		add("definition", definition, Values.JOINED, fields);
 		add("broaderTermPartitive", broaderTermPartitive, Values.MULTI_LINE, fields);
 		add("broaderTermInstantial", broaderTermInstantial, Values.MULTI_LINE, fields);
 		add("broaderTermGeneral", broaderTermGeneral, Values.MULTI_LINE, fields);
@@ -161,7 +150,6 @@ public class AuthorityResource {
 		add("dateOfEstablishment", dateOfEstablishment, Values.JOINED, fields);
 		add("placeOfBusiness", placeOfBusiness, Values.MULTI_LINE, fields);
 		add("topic", topic, Values.JOINED, fields);
-		add("biographicalOrHistoricalInformation", biographicalOrHistoricalInformation, Values.JOINED, fields);
 		add("gender", gender, Values.MULTI_LINE, fields);
 		add("professionOrOccupation", professionOrOccupation, Values.MULTI_LINE, fields);
 		add("precedingPlaceOrGeographicName", precedingPlaceOrGeographicName, Values.MULTI_LINE, fields);
@@ -186,6 +174,23 @@ public class AuthorityResource {
 		add("firstComposer", firstComposer, Values.MULTI_LINE, fields);
 		add("dateOfPublication", dateOfPublication, Values.MULTI_LINE, fields);
 		return fields;
+	}
+
+	public List<Pair<String, String>> additionalLinks() {
+		ArrayList<Link> links = new ArrayList<>(new TreeSet<>(entityFacts.getLinks()));
+		List<Pair<String, String>> result = new ArrayList<>();
+		if (!links.isEmpty()) {
+			result.add(Pair.of(GndOntology.label("sameAs"), html(links.get(0))));
+			links.subList(1, links.size()).forEach((Link link) -> {
+				result.add(Pair.of("", html(link)));
+			});
+		}
+		return result;
+	}
+
+	private String html(Link link) {
+		return String.format("<a href='%s'><img src='%s' style='height:1em'/>&nbsp;%s</a>", //
+				link.url, link.image, link.label);
 	}
 
 	private void add(String label, Map<String, Object> map, Values joined, List<Pair<String, String>> fields) {
