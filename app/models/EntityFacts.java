@@ -151,28 +151,42 @@ public class EntityFacts {
 		return node != null ? node.get("value").asText().replace("\n", " ").trim() : "";
 	}
 
-	private static JsonNode json(WSClient client, String gndNumber) {
-		gndNumber = gndNumber.replace(URI_PREFIX, "");
+	public static JsonNode json(WSClient client, String id) {
+		String gndNumber = id.replace(URI_PREFIX, "");
 		String queryString = String.format("@id:\"" + URI_PREFIX + "%s\"", gndNumber);
 		try {
 			JsonNode result = client//
-					.url(HomeController.config("data.entityfacts"))//
+					.url(HomeController.config("entityfacts.index"))//
 					.addQueryParameter("q", queryString)//
-					.setFollowRedirects(true).get().thenApply(r -> {
-						String body = r.getBody();
-						JsonNode hits = Json.parse(body).findValue("hits");
-						long total = hits.findValue("total").asLong();
-						if (total > 0) {
-							return hits.findValue("hits").elements().next().findValue("_source");
-						} else {
-							Logger.debug("No result for query {}, response {}", queryString, body);
-							return Json.newObject();
-						}
-					}).toCompletableFuture().get();
-			// TODO: handle java.net.ConnectException: Connection refused
+					.setFollowRedirects(true).get()//
+					.thenApply(r -> processBody(queryString, r))//
+					.exceptionally(e -> fallback(client, gndNumber, e)).toCompletableFuture().get();
 			return result;
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
+		}
+		return Json.newObject();
+	}
+
+	private static JsonNode processBody(String queryString, WSResponse r) {
+		String body = r.getBody();
+		JsonNode hits = Json.parse(body).findValue("hits");
+		long total = hits.findValue("total").asLong();
+		if (total > 0) {
+			return hits.findValue("hits").elements().next().findValue("_source");
+		} else {
+			Logger.debug("No result for query {}, response {}", queryString, body);
+			return Json.newObject();
+		}
+	}
+
+	private static JsonNode fallback(WSClient client, String gndNumber, Throwable e) {
+		Logger.error("Could not load data from internal entityfacts index ({}), trying live", e);
+		try {
+			String url = HomeController.config("entityfacts.live") + gndNumber;
+			return client.url(url).get().toCompletableFuture().get().asJson();
+		} catch (InterruptedException | ExecutionException e1) {
+			e1.printStackTrace();
 		}
 		return Json.newObject();
 	}

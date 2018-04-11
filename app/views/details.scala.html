@@ -13,8 +13,8 @@
     <div class="page-header">
         <h1>@resource.title <small>&mdash; @resource.subtitle 
             <div class='pull-right'>
-            <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'><img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")'/></a>
-            <a title="Im Katalog der DNB anzeigen" href='http://d-nb.info/gnd/@resource.getId'><span class="label label-primary">DNB</span></a>
+            <a title="JSON-LD in Lobid-GND anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'><img class='json-ld-icon' src='@routes.Assets.versioned("images/favicon.png")'/></a>
+            <a title="JSON-LD in EntityFacts anzeigen" href='@(controllers.HomeController.config("entityfacts.live")+resource.getId)'><img class='json-ld-icon' src='@routes.Assets.versioned("images/entityfacts.png")'/></a>
             </div>
             </small>
         </h1>
