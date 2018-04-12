@@ -28,6 +28,12 @@
               <tr><td>@f.getLeft</td><td>@Html(f.getRight)</td></tr>
             }
             </table>
+            <div class="text-center small">
+              Daten aus der <a title='RDF-XML aus GND anzeigen' href='https://d-nb.info/gnd/@resource.getId()/about/lds.rdf'>GND</a> 
+              @if(resource.entityFacts.sameAs!=null||resource.entityFacts.depiction!=null){
+                und <a title="JSON-LD in EntityFacts anzeigen" href='@(controllers.HomeController.config("entityfacts.live")+resource.getId)'>EntityFacts</a>
+              } unter <a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>
+            </div>
         </div>
         @if(resource.location != null){
         <div class="col-md-@if(resource.location != null && resource.entityFacts.depiction != null){3}else{5} intro">
@@ -64,11 +70,5 @@
                  @image()
              </div>
         }
-    </div>
-    <div class="text-center small">
-      Daten aus der <a title='RDF-XML aus GND anzeigen' href='https://d-nb.info/gnd/@resource.getId()/about/lds.rdf'>GND</a> 
-      @if(resource.entityFacts.sameAs!=null||resource.entityFacts.depiction!=null){
-        und <a title="JSON-LD in EntityFacts anzeigen" href='@(controllers.HomeController.config("entityfacts.live")+resource.getId)'>EntityFacts</a>
-      } unter <a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>
     </div>
 }
