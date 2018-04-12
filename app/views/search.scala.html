@@ -56,7 +56,17 @@
         <td><i class='@iconFor((doc \ "type").as[Seq[String]])' aria-hidden='true' title='@typesFor(doc)'></i></td>
         <td class='text-left'><a href='@routes.HomeController.authority(id)' title='@((doc \ "variantName").asOpt[Seq[String]].getOrElse(Seq()).mkString(", "))'>@((doc \ "preferredName").asOpt[String].getOrElse(""))</a></td>
         @for(types <- (doc \ "type").asOpt[Seq[String]]) {
+          <td class='text-left'>
+            @for(v <- (doc \ "type").asOpt[Seq[String]]; f = v.filter(!(controllers.HomeController.CONFIG.getStringList("topLevelTypes")).contains(_))){
+              @if(!f.isEmpty){
+                @Html(f.map(models.GndOntology.label(_)).mkString(", ")) <br/>
+              } else {
+                @(types.filter(!Seq("AuthorityResource").contains(_)).map(models.GndOntology.label(_)).mkString(", "))
+              }
+            }
+          </td>
           <td class='text-right' id='@id-details'>
+
           @field(types, "ConferenceOrEvent", doc, "geographicAreaCode")
 
           @field(types, "CorporateBody", doc, "placeOfBusiness")
@@ -74,13 +84,6 @@
           @for(v <- (doc \ "dateOfBirth").asOpt[Seq[String]]){@Html(cleanDate(v.head)) &ndash; }
           @for(v <- (doc \ "dateOfDeath").asOpt[Seq[String]]){@Html(cleanDate(v.head))}
           </td>
-          <script>
-            var details = $('#@id-details').text().trim();
-            if(details.length == 0){
-              $('#@id-details')
-                .text('@(types.filter(!Seq("AuthorityResource", "Person").contains(_)).map(models.GndOntology.label(_)).mkString(", "))');
-            }
-          </script>
         }
         <td class='text-center text-muted'>&nbsp;@((doc \ "gndIdentifier").asOpt[Seq[String]].getOrElse(Seq()).take(1))</td>
     </tr>
@@ -183,6 +186,7 @@
                  </div>
                  </div>
                  <table class="table table-striped table-condensed">
+                 <tr><th /><th style='min-width:25%'/><th /><th /><th style='min-width:10%'/></tr>
                  @for((doc,i) <- hits; id = (doc\"gndIdentifier")(0).as[String]) {
                     @result_short(id,doc,i-1)
                  }
