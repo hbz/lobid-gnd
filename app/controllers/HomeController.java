@@ -36,6 +36,7 @@ import com.typesafe.config.ConfigObject;
 
 import apps.Convert;
 import models.AuthorityResource;
+import models.EntityFacts;
 import models.GndOntology;
 import models.RdfConverter;
 import models.RdfConverter.RdfFormat;
@@ -43,6 +44,9 @@ import modules.IndexComponent;
 import play.Environment;
 import play.Logger;
 import play.libs.Json;
+import play.libs.ws.WSBodyReadables;
+import play.libs.ws.WSBodyWritables;
+import play.libs.ws.WSClient;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -50,7 +54,13 @@ import play.mvc.Result;
  * This controller contains an action to handle HTTP requests to the
  * application's home page.
  */
-public class HomeController extends Controller {
+public class HomeController extends Controller implements WSBodyReadables, WSBodyWritables {
+	private final WSClient httpClient;
+
+	@Inject
+	public HomeController(WSClient httpClient) {
+		this.httpClient = httpClient;
+	}
 
 	public static final String[] AGGRAGATIONS = new String[] { "type", "gndSubjectCategory", "geographicAreaCode",
 			"professionOrOccupation", "dateOfBirth" };
@@ -86,10 +96,10 @@ public class HomeController extends Controller {
 	}
 
 	/**
-	 * An action that renders an HTML page with a welcome message. The configuration
-	 * in the <code>routes</code> file means that this method will be called when
-	 * the application receives a <code>GET</code> request with a path of
-	 * <code>/</code>.
+	 * An action that renders an HTML page with a welcome message. The
+	 * configuration in the <code>routes</code> file means that this method will
+	 * be called when the application receives a <code>GET</code> request with a
+	 * path of <code>/</code>.
 	 */
 	public Result api() {
 		String format = "json";
@@ -128,6 +138,7 @@ public class HomeController extends Controller {
 			JsonNode json = Json.parse(jsonLd);
 			if (responseFormat.equals("html")) {
 				AuthorityResource entity = Json.fromJson(json, AuthorityResource.class);
+				entity.entityFacts = EntityFacts.entity(httpClient, id);
 				return ok(views.html.details.render(entity));
 			}
 			return responseFor(json, responseFormat);
