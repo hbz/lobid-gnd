@@ -186,6 +186,7 @@
                  </div>
                  </div>
                  <table class="table table-striped table-condensed">
+                 <tr><th /><th style='min-width:25%'/><th /><th /><th style='min-width:10%'/></tr>
                  @for((doc,i) <- hits; id = (doc\"gndIdentifier")(0).as[String]) {
                     @result_short(id,doc,i-1)
                  }
