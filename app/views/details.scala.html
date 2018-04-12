@@ -13,8 +13,7 @@
     <div class="page-header">
         <h1>@resource.title <small>&mdash; @resource.subtitle 
             <div class='pull-right'>
-            <a title="JSON-LD in Lobid-GND anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'><img class='json-ld-icon' src='@routes.Assets.versioned("images/favicon.png")'/></a>
-            <a title="JSON-LD in EntityFacts anzeigen" href='@(controllers.HomeController.config("entityfacts.live")+resource.getId)'><img class='json-ld-icon' src='@routes.Assets.versioned("images/entityfacts.png")'/></a>
+            <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'><img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")'/></a>
             </div>
             </small>
         </h1>
@@ -65,5 +64,11 @@
                  @image()
              </div>
         }
+    </div>
+    <div class="text-center small">
+      Daten aus der <a title='RDF-XML aus GND anzeigen' href='https://d-nb.info/gnd/@resource.getId()/about/lds.rdf'>GND</a> 
+      @if(resource.entityFacts.sameAs!=null||resource.entityFacts.depiction!=null){
+        und <a title="JSON-LD in EntityFacts anzeigen" href='@(controllers.HomeController.config("entityfacts.live")+resource.getId)'>EntityFacts</a>
+      } unter <a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>
     </div>
 }
