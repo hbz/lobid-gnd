@@ -11,7 +11,7 @@ GET     /gnd/api            controllers.HomeController.api
 
 GET     /gnd/context.jsonld controllers.HomeController.context()
 
-GET     /gnd/search         controllers.HomeController.search(q ?= "*", filter ?= "", from: Int ?= 0, size: Int ?= 15, format ?= null)
+GET     /gnd/search         controllers.HomeController.search(q ?= "*", filter ?= "", from: Int ?= 0, size: Int ?= 10, format ?= null)
 
 GET     /gnd/:id.:format    controllers.HomeController.authorityDotFormat(id, format)
 

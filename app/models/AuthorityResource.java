@@ -219,7 +219,7 @@ public class AuthorityResource {
 					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
 							.toString()
 					: value;
-			search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 15, "html")
+			search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 10, "html")
 					.toString();
 			String result = String.format("<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>",
 					fieldLabel, label, search, label);
