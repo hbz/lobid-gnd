@@ -9,9 +9,9 @@
     <div class='text-center small'><br/>@Html(resource.entityFacts.getImage.label)</div>
 }
 
-@main("", "lobid-gnd - Details") {
+@main("", resource.preferredName) {
     <div class="page-header">
-        <h1>@resource.title <small>&mdash; @resource.subtitle 
+        <h1>@resource.title <small>
             <div class='pull-right'>
             <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'><img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")'/></a>
             </div>

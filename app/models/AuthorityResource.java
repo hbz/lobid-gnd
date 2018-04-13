@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.common.geo.GeoPoint;
 
+import controllers.HomeController;
 import models.EntityFacts.Link;
 
 public class AuthorityResource {
@@ -92,10 +93,6 @@ public class AuthorityResource {
 		return preferredName;
 	}
 
-	public String subtitle() {
-		return getType().stream().map(t -> GndOntology.label(t)).collect(Collectors.joining("; "));
-	}
-
 	public GeoPoint location() {
 		if (hasGeometry == null)
 			return null;
@@ -126,7 +123,7 @@ public class AuthorityResource {
 
 	public List<Pair<String, String>> generalFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
-		add("preferredName", Arrays.asList(preferredName), fields);
+		add("type", typeLinks(), fields);
 		add("gndIdentifier", gndIdentifier, fields);
 		add("definition", definition, fields);
 		add("biographicalOrHistoricalInformation", biographicalOrHistoricalInformation, fields);
@@ -165,6 +162,18 @@ public class AuthorityResource {
 		add("dateOfProduction", dateOfProduction, fields);
 		add("dateOfPublication", dateOfPublication, fields);
 		return fields;
+	}
+
+	private List<String> typeLinks() {
+		List<String> subTypes = getType().stream()
+				.filter(t -> HomeController.CONFIG.getObject("types").keySet().contains(t))
+				.collect(Collectors.toList());
+		List<String> typeLinks = (subTypes.isEmpty() ? getType() : subTypes).stream()
+				.map(t -> String.format("<a href='%s'>%s</a>",
+						controllers.routes.HomeController.search("", "+(type:" + t + ")", 0, 10, "").toString(),
+						models.GndOntology.label(t)))
+				.collect(Collectors.toList());
+		return typeLinks;
 	}
 
 	public List<Pair<String, String>> additionalLinks() {
