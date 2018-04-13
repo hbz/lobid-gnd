@@ -170,7 +170,7 @@ public class AuthorityResource {
 				.collect(Collectors.toList());
 		List<String> typeLinks = (subTypes.isEmpty() ? getType() : subTypes).stream()
 				.map(t -> String.format("<a href='%s'>%s</a>",
-						controllers.routes.HomeController.search("", "type:" + t, 0, 10, "").toString(),
+						controllers.routes.HomeController.search("", "+(type:" + t + ")", 0, 10, "").toString(),
 						models.GndOntology.label(t)))
 				.collect(Collectors.toList());
 		return typeLinks;
