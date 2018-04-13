@@ -1,0 +1,48 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vivo: <http://vivoweb.org/ontology/core#> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix ebu: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/4000003-5> a gndo:TerritorialCorporateBodyOrAdministrativeUnit ;
+	gndo:gndIdentifier "4000003-5" ;
+	owl:sameAs <http://viaf.org/viaf/125435778> ;
+	gndo:oldAuthorityNumber "(DE-588)2027976-0" ;
+	owl:sameAs <http://d-nb.info/gnd/2027976-0> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/2027976-0" ;
+	gndo:oldAuthorityNumber "(DE-588b)2027976-0" , "(DE-588c)4000003-5" ;
+	gndo:relatedDdcWithDegreeOfDeterminacy4 <http://dewey.info/class/2--435511/> ;
+	owl:sameAs <http://sws.geonames.org/3247449> ;
+	geo:hasGeometry _:node1c9gq7csbx4897365 .
+
+_:node1c9gq7csbx4897365 geo:asWKT "Point ( +006.083333 +050.776388 )"^^geo:wktLiteral ;
+	a sf:Point .
+
+<http://d-nb.info/gnd/4000003-5> gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DE-NW> ;
+	gndo:homepage <http://www.aachen.de> ;
+	gndo:biographicalOrHistoricalInformation "Kreisfreie Stadt im Regierungsbezirk Köln, von Kelten besiedelt, 765 urkundl. erwähnt"@de ;
+	gndo:variantNameForThePlaceOrGeographicName "Aquae Granni" , "Aquisgran" , "Aken (Aachen)" , "Aix-la-Chapelle" , "Bad Aachen" , "Aquisgranum" , "Stadt Aachen" ;
+	gndo:preferredNameForThePlaceOrGeographicName "Aachen" .
+
