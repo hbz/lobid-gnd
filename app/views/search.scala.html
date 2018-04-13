@@ -2,6 +2,7 @@
 
 @import play.api.libs.json._
 @import controllers.HomeController.CONFIG
+@import controllers.HomeController.formatCount
 
 @pagination(hits:Int)={
   <nav>
@@ -96,7 +97,7 @@
 		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 	} else {
-		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@Html(label) (@count)</a>
+		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@Html(label) (@formatCount(count))</a>
 	}
 }
 
@@ -181,7 +182,7 @@
                  <div class="row">
                     <!-- <div class="col-md-1"></div>  -->
                     <div class="col-md-12">
-                     @allHits Treffer, zeige @(from+1) bis @(Math.min(from+hits.size,from+size)):
+                     @formatCount(allHits) Treffer, zeige @formatCount(from+1) bis @formatCount(Math.min(from+hits.size,from+size)):
                     </div>
                  </div>
                  </div>
