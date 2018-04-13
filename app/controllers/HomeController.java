@@ -7,9 +7,12 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -268,6 +271,14 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			x.printStackTrace();
 			return null;
 		}
+	}
+
+	public static String formatCount(long count) {
+		DecimalFormat df = (DecimalFormat) (DecimalFormat.getInstance(Locale.GERMAN));
+		DecimalFormatSymbols symbols = df.getDecimalFormatSymbols();
+		symbols.setGroupingSeparator('.');
+		df.setDecimalFormatSymbols(symbols);
+		return df.format(count);
 	}
 
 }

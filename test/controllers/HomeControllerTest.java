@@ -1,6 +1,9 @@
 package controllers;
 
+import static controllers.HomeController.formatCount;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static play.test.Helpers.GET;
 import static play.test.Helpers.route;
 
@@ -51,6 +54,15 @@ public class HomeControllerTest extends WithApplication {
 		Http.RequestBuilder request = new Http.RequestBuilder().method(GET).uri(route);
 		Result result = route(app, request);
 		assertEquals(status, result.status());
+	}
+
+	@Test
+	public void testFormatCount() {
+		assertThat(formatCount(100), equalTo("100"));
+		assertThat(formatCount(1000), equalTo("1.000"));
+		assertThat(formatCount(10000), equalTo("10.000"));
+		assertThat(formatCount(100000), equalTo("100.000"));
+		assertThat(formatCount(1000000), equalTo("1.000.000"));
 	}
 
 }
