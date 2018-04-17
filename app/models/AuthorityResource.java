@@ -36,6 +36,7 @@ public class AuthorityResource {
 	public List<String> relatedWork;
 	public List<String> broaderTermInstantial;
 	public List<String> broaderTermGeneral;
+	public List<String> broaderTermGeneric;
 	public List<String> broaderTermPartitive;
 	public List<String> dateOfConferenceOrEvent;
 	public List<String> placeOfConferenceOrEvent;
@@ -140,6 +141,7 @@ public class AuthorityResource {
 		add("broaderTermPartitive", broaderTermPartitive, fields);
 		add("broaderTermInstantial", broaderTermInstantial, fields);
 		add("broaderTermGeneral", broaderTermGeneral, fields);
+		add("broaderTermGeneric", broaderTermGeneric, fields);
 		add("relatedTerm", relatedTerm, fields);
 		add("dateOfConferenceOrEvent", dateOfConferenceOrEvent, fields);
 		add("placeOfConferenceOrEvent", placeOfConferenceOrEvent, fields);
