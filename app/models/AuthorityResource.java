@@ -163,6 +163,7 @@ public class AuthorityResource {
 		add("dateOfTermination", dateOfTermination, fields);
 		add("dateOfProduction", dateOfProduction, fields);
 		add("dateOfPublication", dateOfPublication, fields);
+		add("variantName", variantName, fields);
 		return fields;
 	}
 
