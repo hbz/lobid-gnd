@@ -18,7 +18,7 @@ import models.EntityFacts.Link;
 
 public class AuthorityResource {
 
-	private static final int SHORTEN = 5;
+	private static final int SHORTEN = 10;
 
 	final static String DNB_PREFIX = "http://d-nb.info/gnd/";
 
