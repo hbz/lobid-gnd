@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.common.geo.GeoPoint;
@@ -16,6 +17,8 @@ import controllers.HomeController;
 import models.EntityFacts.Link;
 
 public class AuthorityResource {
+
+	private static final int SHORTEN = 5;
 
 	final static String DNB_PREFIX = "http://d-nb.info/gnd/";
 
@@ -183,15 +186,19 @@ public class AuthorityResource {
 		ArrayList<Link> links = new ArrayList<>(new TreeSet<>(entityFacts.getLinks()));
 		List<Pair<String, String>> result = new ArrayList<>();
 		if (!links.isEmpty()) {
-			String value = links.stream().map(v -> html(v)).collect(Collectors.joining(" | "));
-			result.add(Pair.of(GndOntology.label("sameAs"), value));
+			String field = "sameAs";
+			String value = IntStream.range(0, links.size()).mapToObj(i -> html(field, links, i))
+					.collect(Collectors.joining(" | "));
+			result.add(Pair.of(field, value));
 		}
 		return result;
 	}
 
-	private String html(Link link) {
-		return String.format("<a href='%s'><img src='%s' style='height:1em'/>&nbsp;%s</a>", //
+	private String html(String field, ArrayList<Link> links, int i) {
+		Link link = links.get(i);
+		String result = String.format("<a href='%s'><img src='%s' style='height:1em'/>&nbsp;%s</a>", //
 				link.url, link.image, link.label);
+		return withDefaultHidden(field, links.size(), i, result);
 	}
 
 	private void add(String label, Map<String, Object> map, List<Pair<String, String>> fields) {
@@ -200,38 +207,41 @@ public class AuthorityResource {
 	}
 
 	private void add(String field, List<String> list, List<Pair<String, String>> result) {
-		String label = GndOntology.label(field);
 		if (list != null && list.size() > 0) {
-			String value = list.stream().map(v -> process(field, label, v)).collect(Collectors.joining(" | "));
-			result.add(Pair.of(label, value));
+			String value = IntStream.range(0, list.size()).mapToObj(i -> process(field, list, i))
+					.collect(Collectors.joining(" | "));
+			result.add(Pair.of(field, value));
 		}
 	}
 
-	private String process(String field, String fieldLabel, String value) {
-		String label = value;
-		String link = value;
-		String search = "";
+	private String process(String field, List<String> list, int i) {
+		String value = list.get(i);
+		String label = GndOntology.label(value);
+		String result = label;
 		if (Arrays.asList("wikipedia", "sameAs", "depiction", "homepage").contains(field)) {
-			return String.format("<a href='%s'>%s</a>", value, value);
+			result = String.format("<a href='%s'>%s</a>", value, value);
 		} else if (value.startsWith("http")) {
-			label = GndOntology.label(link);
-			link = value.startsWith(DNB_PREFIX)
-					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
-							.toString()
-					: value;
-			search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 10, "html")
+			String link = value.startsWith(DNB_PREFIX) ? controllers.routes.HomeController
+					.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html").toString() : value;
+			String search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 10, "html")
 					.toString();
-			String result = String.format("<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>",
-					fieldLabel, label, search, label);
-			if (!search.isEmpty()) {
-				result = String.format(
-						"%s&nbsp;<a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
-								+ "<i class='glyphicon glyphicon-link' aria-hidden='true'></i></a>",
-						result, label, link);
-			}
-			return result;
-		} else
-			return GndOntology.label(value);
+			result = String.format(
+					"<a id='%s-%s' title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>&nbsp;"
+							+ "<a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
+							+ "<i class='glyphicon glyphicon-link' aria-hidden='true'></i></a>",
+					field, i, field, label, search, label, label, link);
+		}
+		return withDefaultHidden(field, list.size(), i, result);
+	}
+
+	private String withDefaultHidden(String field, int size, int i, String result) {
+		if (i == SHORTEN) {
+			result = String.format("<span id='%s-hide-by-default' style='display: none;'>", field) + result;
+		}
+		if (i >= SHORTEN && i == size - 1) {
+			result = result + "</span>";
+		}
+		return result;
 	}
 
 }
