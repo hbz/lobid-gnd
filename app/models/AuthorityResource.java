@@ -20,7 +20,7 @@ public class AuthorityResource {
 
 	private static final int SHORTEN = 10;
 
-	final static String DNB_PREFIX = "http://d-nb.info/gnd/";
+	public final static String DNB_PREFIX = "http://d-nb.info/gnd/";
 
 	private String id;
 	private List<String> type;
@@ -71,6 +71,8 @@ public class AuthorityResource {
 	public List<String> firstComposer;
 	public List<String> dateOfPublication;
 	public EntityFacts entityFacts;
+
+	public List<String> creatorOf;
 
 	public String getId() {
 		return id.substring(DNB_PREFIX.length());
@@ -167,6 +169,7 @@ public class AuthorityResource {
 		add("dateOfProduction", dateOfProduction, fields);
 		add("dateOfPublication", dateOfPublication, fields);
 		add("variantName", variantName, fields);
+		add("creatorOf", creatorOf, fields);
 		return fields;
 	}
 
@@ -218,8 +221,8 @@ public class AuthorityResource {
 		String value = list.get(i);
 		String label = GndOntology.label(value);
 		String result = label;
-		if (Arrays.asList("wikipedia", "sameAs", "depiction", "homepage").contains(field)) {
-			result = String.format("<a href='%s'>%s</a>", value, value);
+		if (Arrays.asList("wikipedia", "sameAs", "depiction", "homepage", "creatorOf").contains(field)) {
+			result = String.format("<a href='%s'>%s</a>", value, label);
 		} else if (value.startsWith("http")) {
 			String link = value.startsWith(DNB_PREFIX) ? controllers.routes.HomeController
 					.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html").toString() : value;
