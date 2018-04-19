@@ -142,6 +142,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			if (responseFormat.equals("html")) {
 				AuthorityResource entity = Json.fromJson(json, AuthorityResource.class);
 				entity.entityFacts = EntityFacts.entity(httpClient, id);
+				entity.creatorOf = creatorOf(id);
 				return ok(views.html.details.render(entity));
 			}
 			return responseFor(json, responseFormat);
@@ -149,6 +150,14 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			Logger.error("Could not create response", e);
 			return internalServerError(e.getMessage());
 		}
+	}
+
+	private List<String> creatorOf(String id) {
+		String q = String.format("firstAuthor:\"%s\" OR firstComposer:\"%s\"", id, id);
+		SearchResponse response = index.query(q, "", 0, 1000);
+		Stream<String> ids = Arrays.asList(response.getHits().hits()).stream()
+				.map(hit -> AuthorityResource.DNB_PREFIX + hit.getId());
+		return ids.collect(Collectors.toList());
 	}
 
 	private String getAuthorityResource(String id) {

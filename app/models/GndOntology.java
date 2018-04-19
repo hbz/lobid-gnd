@@ -27,6 +27,7 @@ public class GndOntology {
 			put("wikipedia", "Wikipedia");
 			put("sameAs", "Siehe auch");
 			put("type", "Entitätstyp");
+			put("creatorOf", "Werke");
 		}
 	};
 
