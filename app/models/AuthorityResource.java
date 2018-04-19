@@ -28,7 +28,7 @@ public class AuthorityResource {
 	public Map<String, Object> definition;
 	public Map<String, Object> biographicalOrHistoricalInformation;
 	public List<Map<String, Object>> hasGeometry;
-	public List<String> gndIdentifier;
+	public String gndIdentifier;
 	public String preferredName;
 	public List<String> variantName;
 	public List<String> sameAs;
@@ -130,7 +130,7 @@ public class AuthorityResource {
 	public List<Pair<String, String>> generalFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
 		add("type", typeLinks(), fields);
-		add("gndIdentifier", gndIdentifier, fields);
+		add("gndIdentifier", Arrays.asList(gndIdentifier), fields);
 		add("definition", definition, fields);
 		add("biographicalOrHistoricalInformation", biographicalOrHistoricalInformation, fields);
 		add("firstAuthor", firstAuthor, fields);
