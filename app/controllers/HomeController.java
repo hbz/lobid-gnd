@@ -154,7 +154,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	private List<String> creatorOf(String id) {
 		String q = String.format("firstAuthor:\"%s\" OR firstComposer:\"%s\"", id, id);
-		SearchResponse response = index.query(q);
+		SearchResponse response = index.query(q, "", 0, 1000);
 		Stream<String> ids = Arrays.asList(response.getHits().hits()).stream()
 				.map(hit -> AuthorityResource.DNB_PREFIX + hit.getId());
 		return ids.collect(Collectors.toList());

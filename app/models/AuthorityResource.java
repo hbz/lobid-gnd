@@ -221,8 +221,11 @@ public class AuthorityResource {
 		String value = list.get(i);
 		String label = GndOntology.label(value);
 		String result = label;
-		if (Arrays.asList("wikipedia", "sameAs", "depiction", "homepage", "creatorOf").contains(field)) {
-			result = String.format("<a href='%s'>%s</a>", value, label);
+		if ("creatorOf".equals(field)) {
+			result = String.format("<a href='%s'>%s</a>",
+					controllers.routes.HomeController.authority(value.replace(DNB_PREFIX, ""), null), label);
+		} else if (Arrays.asList("wikipedia", "sameAs", "depiction", "homepage").contains(field)) {
+			result = String.format("<a href='%s'>%s</a>", value, value);
 		} else if (value.startsWith("http")) {
 			String link = value.startsWith(DNB_PREFIX) ? controllers.routes.HomeController
 					.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html").toString() : value;
