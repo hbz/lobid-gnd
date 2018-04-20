@@ -1,5 +1,6 @@
 package apps;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -8,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -77,6 +79,42 @@ public class ConvertTest {
 		String jsonLd = jsonLdFor("7855044-0");
 		List<?> types = Json.fromJson(Json.parse(jsonLd).get("type"), List.class);
 		assertTrue(types.contains("Spirits"));
+	}
+
+	@Test
+	public void testGeographicAreaCodeIsArray() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("7855044-0");
+		assertTrue(Json.parse(jsonLd).get("geographicAreaCode").isArray());
+	}
+
+	@Test
+	@Ignore // FIXME: fix issue, in jsonld-java/jena?
+	public void testPlaceOfBirthObjects() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("118820591");
+		assertTrue(Json.parse(jsonLd).get("placeOfBirth").elements().next().isObject());
+	}
+
+	@Test
+	@Ignore // FIXME: fix issue, in jsonld-java/jena?
+	public void testPlaceOfDeathObjects() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("118820591");
+		assertTrue(Json.parse(jsonLd).get("placeOfDeath").elements().next().isObject());
+	}
+
+	@Test
+	public void testIriFieldStructure() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("7855044-0");
+		JsonNode terms = Json.parse(jsonLd).get("broaderTermGeneral");
+		assertTrue(terms.isArray());
+		assertTrue(terms.elements().hasNext());
+		JsonNode first = terms.elements().next();
+		assertTrue(first.isObject());
+		assertTrue(first.has("id"));
+		assertEquals("http://d-nb.info/gnd/4074854-6", first.get("id").textValue());
+		assertTrue(first.has("label"));
+		JsonNode label = first.get("label");
+		assertTrue(label.isTextual());
+		assertTrue(!label.toString().isEmpty());
 	}
 
 	private String jsonLdFor(String id) throws FileNotFoundException {

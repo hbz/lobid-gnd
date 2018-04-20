@@ -4,7 +4,9 @@
       "id": "@id",
       "dnba":"http://d-nb.info/standards/elementset/agrelon#",
       "gnd":"http://d-nb.info/standards/elementset/gnd#",
+      "dnb":"http://d-nb.info/standards/elementset/dnb#",
       "skos":"http://www.w3.org/2004/02/skos/core#",
+      "rdfs":"http://www.w3.org/2000/01/rdf-schema#",
       "AdministrativeUnit":"gnd:AdministrativeUnit",
       "AuthorityResource":"gnd:AuthorityResource",
       "BuildingOrMemorial":"gnd:BuildingOrMemorial",
@@ -68,65 +70,84 @@
       "WayBorderOrLine":"gnd:WayBorderOrLine",
       "WKTLiteral": "http://www.opengis.net/ont/geosparql#wktLiteral",
       "Work":"gnd:Work",
+      "gndIdentifier": "gnd:gndIdentifier",
+      "preferredName": "gnd:preferredName",
+      "preferredNameEntityForThePerson":"gnd:preferredNameEntityForThePerson",
+      "label": "rdfs:label",
       "accordingWork":{
          "@id":"gnd:accordingWork",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "accreditedArtist":{
          "@id":"gnd:accreditedArtist",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "accreditedAuthor":{
          "@id":"gnd:accreditedAuthor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "accreditedComposer":{
          "@id":"gnd:accreditedComposer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "acquaintanceshipOrFriendship":{
          "@id":"gnd:acquaintanceshipOrFriendship",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "addressee":{
          "@id":"gnd:addressee",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "affiliation":{
          "@id":"gnd:affiliation",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "annotator":{
          "@id":"gnd:annotator",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "architect":{
          "@id":"gnd:architect",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "arranger":{
          "@id":"gnd:arranger",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "artist":{
          "@id":"gnd:artist",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "associatedPlace":{
          "@id":"gnd:associatedPlace",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "author":{
          "@id":"gnd:author",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "benefactor":{
          "@id":"gnd:benefactor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "bookbinder":{
          "@id":"gnd:bookbinder",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "bookdesigner":{
          "@id":"gnd:bookdesigner",
@@ -134,35 +155,43 @@
       },
       "broaderTermGeneral":{
          "@id":"gnd:broaderTermGeneral",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "broaderTermGeneric":{
          "@id":"gnd:broaderTermGeneric",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "broaderTermInstantial":{
          "@id":"gnd:broaderTermInstantial",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "broaderTermPartitive":{
          "@id":"gnd:broaderTermPartitive",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "broaderTermWithMoreThanOneElement":{
          "@id":"gnd:broaderTermWithMoreThanOneElement",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "buildingOwner":{
          "@id":"gnd:buildingOwner",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "cartographer":{
          "@id":"gnd:cartographer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "celebratedCorporateBody":{
          "@id":"gnd:celebratedCorporateBody",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "celebratedFamily":{
          "@id":"gnd:celebratedFamily",
@@ -170,708 +199,1049 @@
       },
       "celebratedPerson":{
          "@id":"gnd:celebratedPerson",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "celebratedTopic":{
          "@id":"gnd:celebratedTopic",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "characteristicPlace":{
          "@id":"gnd:characteristicPlace",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "choreographer":{
          "@id":"gnd:choreographer",
-         "@type":"@id"
+         "@type":"@id",
+        "@container":"@set"
       },
       "citedArtist":{
          "@id":"gnd:citedArtist",
-         "@type":"@id"
+          "@type":"@id"
       },
       "citedAuthor":{
          "@id":"gnd:citedAuthor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "citedComposer":{
          "@id":"gnd:citedComposer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "collector":{
          "@id":"gnd:collector",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "compiler":{
          "@id":"gnd:compiler",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "complexSeeReferenceSubject":{
          "@id":"gnd:complexSeeReferenceSubject",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "composer":{
          "@id":"gnd:composer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "conferrer":{
          "@id":"gnd:conferrer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "contributingCorporateBody":{
          "@id":"gnd:contributingCorporateBody",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "contributingFamily":{
          "@id":"gnd:contributingFamily",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "contributingPerson":{
          "@id":"gnd:contributingPerson",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "contributingPlaceOrGeographicName":{
          "@id":"gnd:contributingPlaceOrGeographicName",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "copist":{
          "@id":"gnd:copist",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "corporateBodyIsMember":{
          "@id":"gnd:corporateBodyIsMember",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "correspondent":{
          "@id":"gnd:correspondent",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "creator":{
          "@id":"gnd:creator",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "curator":{
          "@id":"gnd:curator",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "dedicatee":{
          "@id":"gnd:dedicatee",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "deprecatedUri": {
-        "@id": "http://d-nb.info/standards/elementset/dnb#deprecatedUri",
+        "@id": "dnb:deprecatedUri",
+        "@type":"@id",
         "@container": "@set"
       },
       "designer":{
          "@id":"gnd:designer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "director":{
          "@id":"gnd:director",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "directorOfPhotography":{
          "@id":"gnd:directorOfPhotography",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "doubtfulArtist":{
          "@id":"gnd:doubtfulArtist",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "doubtfulAuthor":{
          "@id":"gnd:doubtfulAuthor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "doubtfulComposer":{
          "@id":"gnd:doubtfulComposer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "editor":{
          "@id":"gnd:editor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "engraver":{
          "@id":"gnd:engraver",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "etcher":{
          "@id":"gnd:etcher",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "exhibitor":{
          "@id":"gnd:exhibitor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "familialRelationship":{
          "@id":"gnd:familialRelationship",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "fictitiousAuthor":{
          "@id":"gnd:fictitiousAuthor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "fieldOfActivity":{
          "@id":"gnd:fieldOfActivity",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "fieldOfStudy":{
          "@id":"gnd:fieldOfStudy",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "firstArtist":{
          "@id":"gnd:firstArtist",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "firstAuthor":{
          "@id":"gnd:firstAuthor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "firstComposer":{
          "@id":"gnd:firstComposer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "formOfWorkAndExpression":{
          "@id":"gnd:formOfWorkAndExpression",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "formerOwner":{
          "@id":"gnd:formerOwner",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "founder":{
          "@id":"gnd:founder",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "functionOrRole":{
          "@id":"gnd:functionOrRole",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "gender":{
          "@id":"gnd:gender",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "geographicAreaCode":{
          "@id":"gnd:geographicAreaCode",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "gndSubjectCategory":{
          "@id":"gnd:gndSubjectCategory",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasGeometry": {
         "@id": "http://www.opengis.net/ont/geosparql#hasGeometry",
-        "@type": "@id"
+        "@type":"@id",
+         "@container":"@set"
       },
       "hasAuntUncle": {
          "@id":"dnba:hasAuntUncle",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasChild": {
          "@id":"dnba:hasChild",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasColleague": {
          "@id":"dnba:hasColleague",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasFriend": {
          "@id":"dnba:hasFriend",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasGrandChild": {
          "@id":"dnba:hasGrandChild",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasGrandParent": {
          "@id":"dnba:hasGrandParent",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasNieceNephew": {
          "@id":"dnba:hasNieceNephew",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasParent": {
          "@id":"dnba:hasParent",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasSibling": {
          "@id":"dnba:hasSibling",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasSpouse": {
          "@id":"dnba:hasSpouse",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasStudent": {
          "@id":"dnba:hasStudent",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hasTeacher": {
          "@id":"dnba:hasTeacher",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hierarchicalSuperior":{
          "@id":"gnd:hierarchicalSuperior",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hierarchicalSuperiorOfPlaceOrGeographicName":{
          "@id":"gnd:hierarchicalSuperiorOfPlaceOrGeographicName",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hierarchicalSuperiorOfTheConferenceOrEvent":{
          "@id":"gnd:hierarchicalSuperiorOfTheConferenceOrEvent",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "hierarchicalSuperiorOfTheCorporateBody":{
          "@id":"gnd:hierarchicalSuperiorOfTheCorporateBody",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "homepage":{
          "@id":"gnd:homepage",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "illustratorOrIlluminator":{
          "@id":"gnd:illustratorOrIlluminator",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "initiator":{
          "@id":"gnd:initiator",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "instrument":{
          "@id":"gnd:instrument",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "instrumentalist":{
          "@id":"gnd:instrumentalist",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "inventor":{
          "@id":"gnd:inventor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "language":{
          "@id":"gnd:language",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "languageCode":{
          "@id":"gnd:languageCode",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "librettist":{
          "@id":"gnd:librettist",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "literarySource":{
          "@id":"gnd:literarySource",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "lithographer":{
          "@id":"gnd:lithographer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "manufacturer":{
          "@id":"gnd:manufacturer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "mediumOfPerformance":{
          "@id":"gnd:mediumOfPerformance",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "member":{
          "@id":"gnd:member",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "memberOfTheFamily":{
          "@id":"gnd:memberOfTheFamily",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "musician":{
          "@id":"gnd:musician",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "narrator":{
          "@id":"gnd:narrator",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "narrowerTermGeneral":{
          "@id":"gnd:narrowerTermGeneral",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "narrowerTermGeneric":{
          "@id":"gnd:narrowerTermGeneric",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "narrowerTermInstantial":{
          "@id":"gnd:narrowerTermInstantial",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "narrowerTermPartitive":{
          "@id":"gnd:narrowerTermPartitive",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "occasion":{
          "@id":"gnd:occasion",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "occasionOfTheSubjectHeading":{
          "@id":"gnd:occasionOfTheSubjectHeading",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "occasionOfTheWork":{
          "@id":"gnd:occasionOfTheWork",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "organizerOrHost":{
          "@id":"gnd:organizerOrHost",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "otherPlace":{
          "@id":"gnd:otherPlace",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "owner":{
          "@id":"gnd:owner",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "painter":{
          "@id":"gnd:painter",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "photographer":{
          "@id":"gnd:photographer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "place":{
          "@id":"gnd:place",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "placeOfActivity":{
          "@id":"gnd:placeOfActivity",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "placeOfBirth":{
          "@id":"gnd:placeOfBirth",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "placeOfBusiness":{
          "@id":"gnd:placeOfBusiness",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "placeOfConferenceOrEvent":{
          "@id":"gnd:placeOfConferenceOrEvent",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "placeOfCustody":{
          "@id":"gnd:placeOfCustody",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "placeOfDeath":{
          "@id":"gnd:placeOfDeath",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "placeOfDiscovery":{
          "@id":"gnd:placeOfDiscovery",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "placeOfExile":{
          "@id":"gnd:placeOfExile",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "placeOfManufacture":{
          "@id":"gnd:placeOfManufacture",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "placeOrGeographicNameIsMember":{
          "@id":"gnd:placeOrGeographicNameIsMember",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "playedInstrument":{
          "@id":"gnd:playedInstrument",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "poet":{
          "@id":"gnd:poet",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "precedingConferenceOrEvent":{
          "@id":"gnd:precedingConferenceOrEvent",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "precedingCorporateBody":{
          "@id":"gnd:precedingCorporateBody",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "precedingPlaceOrGeographicName":{
          "@id":"gnd:precedingPlaceOrGeographicName",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "precedingSubject":{
          "@id":"gnd:precedingSubject",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "precedingWork":{
          "@id":"gnd:precedingWork",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "predecessor":{
          "@id":"gnd:predecessor",
-         "@type":"@id"
-      },
-      "preferredNameEntityForThePerson":{
-         "@id":"gnd:preferredNameEntityForThePerson",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "printer":{
          "@id":"gnd:printer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "professionOrOccupation":{
          "@id":"gnd:professionOrOccupation",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "professionalRelationship":{
          "@id":"gnd:professionalRelationship",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "pseudonym":{
          "@id":"gnd:pseudonym",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedConferenceOrEvent":{
          "@id":"gnd:relatedConferenceOrEvent",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedCorporateBody":{
          "@id":"gnd:relatedCorporateBody",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedDdcWithDegreeOfDeterminacy1":{
          "@id":"gnd:relatedDdcWithDegreeOfDeterminacy1",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedDdcWithDegreeOfDeterminacy2":{
          "@id":"gnd:relatedDdcWithDegreeOfDeterminacy2",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedDdcWithDegreeOfDeterminacy3":{
          "@id":"gnd:relatedDdcWithDegreeOfDeterminacy3",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedDdcWithDegreeOfDeterminacy4":{
          "@id":"gnd:relatedDdcWithDegreeOfDeterminacy4",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedFamily":{
          "@id":"gnd:relatedFamily",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedPerson":{
          "@id":"gnd:relatedPerson",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedPlaceOrGeographicName":{
          "@id":"gnd:relatedPlaceOrGeographicName",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedSubjecHeading":{
          "@id":"gnd:relatedSubjecHeading",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedTerm":{
          "@id":"gnd:relatedTerm",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "relatedWork":{
          "@id":"gnd:relatedWork",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "restorer":{
          "@id":"gnd:restorer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "revisor":{
          "@id":"gnd:revisor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "screenwriter":{
          "@id":"gnd:screenwriter",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "scriptorium":{
          "@id":"gnd:scriptorium",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "sculptor":{
          "@id":"gnd:sculptor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "singer":{
          "@id":"gnd:singer",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "spatialAreaOfActivity":{
          "@id":"gnd:spatialAreaOfActivity",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "sponsorOrPatron":{
          "@id":"gnd:sponsorOrPatron",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "startingOrFinalPointOfADistance":{
          "@id":"gnd:startingOrFinalPointOfADistance",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "subeditor":{
          "@id":"gnd:subeditor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "succeedingConferenceOrEvent":{
          "@id":"gnd:succeedingConferenceOrEvent",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "succeedingCorporateBody":{
          "@id":"gnd:succeedingCorporateBody",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "succeedingPlaceOrGeographicName":{
          "@id":"gnd:succeedingPlaceOrGeographicName",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "succeedingSubjectHeading":{
          "@id":"gnd:succeedingSubjectHeading",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "succeedingWork":{
          "@id":"gnd:succeedingWork",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "successor":{
          "@id":"gnd:successor",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "superPropertyOf":{
          "@id":"gnd:superPropertyOf",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "temporaryName":{
          "@id":"gnd:temporaryName",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "temporaryNameOfTheConferenceOrEvent":{
          "@id":"gnd:temporaryNameOfTheConferenceOrEvent",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "temporaryNameOfTheCorporateBody":{
          "@id":"gnd:temporaryNameOfTheCorporateBody",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "temporaryNameOfThePlaceOrGeographicName":{
          "@id":"gnd:temporaryNameOfThePlaceOrGeographicName",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "titleOfNobility":{
          "@id":"gnd:titleOfNobility",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "topic":{
          "@id":"gnd:topic",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "translator":{
          "@id":"gnd:translator",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "typeOfCoordinates":{
          "@id":"gnd:typeOfCoordinates",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "variantNameEntityForThePerson":{
          "@id":"gnd:variantNameEntityForThePerson",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "writerOfAddedCommentary":{
          "@id":"gnd:writerOfAddedCommentary",
-         "@type":"@id"
+         "@type":"@id",
+         "@container":"@set"
       },
       "sameAs": {
-        "@id": "http://www.w3.org/2002/07/owl#sameAs",
-        "@type": "@id"
+         "@id": "http://www.w3.org/2002/07/owl#sameAs",
+         "@type":"@id",
+         "@container":"@set"
       },
       "wikipedia": {
-        "@id": "http://xmlns.com/foaf/0.1/page",
-        "@type": "@id"
+         "@id": "http://xmlns.com/foaf/0.1/page",
+         "@type":"@id",
+         "@container":"@set"
       },
-      "abbreviatedNameForTheConferenceOrEvent":"gnd:abbreviatedNameForTheConferenceOrEvent",
-      "abbreviatedNameForThePlaceOrGeographicName":"gnd:abbreviatedNameForThePlaceOrGeographicName",
-      "abbreviatedNameForTheWork":"gnd:abbreviatedNameForTheWork",
-      "academicDegree":"gnd:academicDegree",
-      "affiliationAsLiteral":"gnd:affiliationAsLiteral",
-      "associatedDate":"gnd:associatedDate",
-      "asWKT": "http://www.opengis.net/ont/geosparql#asWKT",
-      "beginningOfPeriod":"gnd:beginningOfPeriod",
+      "abbreviatedNameForTheConferenceOrEvent": {
+         "@id":"gnd:abbreviatedNameForTheConferenceOrEvent",
+         "@container":"@set"
+      },
+      "abbreviatedNameForThePlaceOrGeographicName": {
+         "@id":"gnd:abbreviatedNameForThePlaceOrGeographicName",
+         "@container":"@set"
+      },
+      "abbreviatedNameForTheWork": {
+         "@id":"gnd:abbreviatedNameForTheWork",
+         "@container":"@set"
+      },
+      "academicDegree": {
+         "@id":"gnd:academicDegree",
+         "@container":"@set"
+      },
+      "affiliationAsLiteral": {
+         "@id":"gnd:affiliationAsLiteral",
+         "@container":"@set"
+      },
+      "associatedDate": {
+         "@id":"gnd:associatedDate",
+         "@container":"@set"
+      },
+      "asWKT": {
+         "@id":"http://www.opengis.net/ont/geosparql#asWKT",
+         "@container":"@set"
+      },
+      "beginningOfPeriod": {
+         "@id":"gnd:beginningOfPeriod",
+         "@container":"@set"
+      },
       "biographicalOrHistoricalInformation": {
         "@id": "gnd:biographicalOrHistoricalInformation",
-        "@container": "@language"
+        "@language":"de",
+        "@container": "@set"
       },
-      "coordinates":"gnd:coordinates",
-      "counting":"gnd:counting",
-      "dateOfBirth":"gnd:dateOfBirth",
-      "dateOfBirthAndDeath":"gnd:dateOfBirthAndDeath",
-      "dateOfConferenceOrEvent":"gnd:dateOfConferenceOrEvent",
-      "dateOfDeath":"gnd:dateOfDeath",
-      "dateOfDiscovery":"gnd:dateOfDiscovery",
-      "dateOfEstablishment":"gnd:dateOfEstablishment",
-      "dateOfEstablishmentAndTermination":"gnd:dateOfEstablishmentAndTermination",
-      "dateOfProduction":"gnd:dateOfProduction",
-      "dateOfPublication":"gnd:dateOfPublication",
-      "dateOfTermination":"gnd:dateOfTermination",
+      "coordinates": {
+         "@id":"gnd:coordinates",
+         "@container":"@set"
+      },
+      "counting": {
+         "@id":"gnd:counting",
+         "@container":"@set"
+      },
+      "dateOfBirth": {
+         "@id":"gnd:dateOfBirth",
+         "@container":"@set"
+      },
+      "dateOfBirthAndDeath": {
+         "@id":"gnd:dateOfBirthAndDeath",
+         "@container":"@set"
+      },
+      "dateOfConferenceOrEvent": {
+         "@id":"gnd:dateOfConferenceOrEvent",
+         "@container":"@set"
+      },
+      "dateOfDeath": {
+         "@id":"gnd:dateOfDeath",
+         "@container":"@set"
+      },
+      "dateOfDiscovery": {
+         "@id":"gnd:dateOfDiscovery",
+         "@container":"@set"
+      },
+      "dateOfEstablishment": {
+         "@id":"gnd:dateOfEstablishment",
+         "@container":"@set"
+      },
+      "dateOfEstablishmentAndTermination": {
+         "@id":"gnd:dateOfEstablishmentAndTermination",
+         "@container":"@set"
+      },
+      "dateOfProduction": {
+         "@id":"gnd:dateOfProduction",
+         "@container":"@set"
+      },
+      "dateOfPublication": {
+         "@id":"gnd:dateOfPublication",
+         "@container":"@set"
+      },
+      "dateOfTermination": {
+         "@id":"gnd:dateOfTermination",
+         "@container":"@set"
+      },
       "definition": {
         "@id": "gnd:definition",
-        "@container": "@language"
+        "@language":"de",
+        "@container": "@set"
       },
-      "easternmostLongitude":"gnd:easternmostLongitude",
-      "endOfPeriod":"gnd:endOfPeriod",
-      "forename":"gnd:forename",
-      "functionOrRoleAsLiteral":"gnd:functionOrRoleAsLiteral",
-      "gndIdentifier":"gnd:gndIdentifier",
-      "keyOfTheVersion":"gnd:keyOfTheVersion",
-      "keyOfTheWork":"gnd:keyOfTheWork",
-      "nameAddition":"gnd:nameAddition",
-      "northernmostLatitude":"gnd:northernmostLatitude",
-      "oldAuthorityNumber":"gnd:oldAuthorityNumber",
-      "opusNumericDesignationOfMusicalWork":"gnd:opusNumericDesignationOfMusicalWork",
-      "periodOfActivity":"gnd:periodOfActivity",
-      "personalName":"gnd:personalName",
-      "placeOfBirthAsLiteral":"gnd:placeOfBirthAsLiteral",
-      "placeOfDeathAsLiteral":"gnd:placeOfDeathAsLiteral",
-      "preferredName":"gnd:preferredName",
-      "preferredNameForTheConferenceOrEvent":"gnd:preferredNameForTheConferenceOrEvent",
-      "preferredNameForTheCorporateBody":"gnd:preferredNameForTheCorporateBody",
-      "preferredNameForTheFamily":"gnd:preferredNameForTheFamily",
-      "preferredNameForThePerson":"gnd:preferredNameForThePerson",
-      "preferredNameForThePlaceOrGeographicName":"gnd:preferredNameForThePlaceOrGeographicName",
-      "preferredNameForTheSubjectHeading":"gnd:preferredNameForTheSubjectHeading",
-      "preferredNameForTheWork":"gnd:preferredNameForTheWork",
-      "prefix":"gnd:prefix",
-      "professionOrOccupationAsLiteral":"gnd:professionOrOccupationAsLiteral",
-      "publication":"gnd:publication",
-      "serialNumericDesignationOfMusicalWork":"gnd:serialNumericDesignationOfMusicalWork",
-      "southernmostLatitude":"gnd:southernmostLatitude",
-      "surname":"gnd:surname",
-      "thematicIndexNumericDesignationOfMusicalWork":"gnd:thematicIndexNumericDesignationOfMusicalWork",
-      "titleOfNobilityAsLiteral":"gnd:titleOfNobilityAsLiteral",
-      "udkCode":"gnd:udkCode",
-      "variantName":"gnd:variantName",
-      "variantNameForTheConferenceOrEvent":"gnd:variantNameForTheConferenceOrEvent",
-      "variantNameForTheCorporateBody":"gnd:variantNameForTheCorporateBody",
-      "variantNameForTheFamily":"gnd:variantNameForTheFamily",
-      "variantNameForThePerson":"gnd:variantNameForThePerson",
-      "variantNameForThePlaceOrGeographicName":"gnd:variantNameForThePlaceOrGeographicName",
-      "variantNameForTheSubjectHeading":"gnd:variantNameForTheSubjectHeading",
-      "variantNameForTheWork":"gnd:variantNameForTheWork",
-      "westernmostLongitude":"gnd:westernmostLongitude",
-      "exactMatch":"skos:exactMatch",
-      "broadMatch":"skos:broadMatch",
-      "relatedMatch":"skos:relatedMatch",
-      "canonicalUri":"http://d-nb.info/standards/elementset/dnb#canonicalUri"
+      "easternmostLongitude": {
+         "@id":"gnd:easternmostLongitude",
+         "@container":"@set"
+      },
+      "endOfPeriod": {
+         "@id":"gnd:endOfPeriod",
+         "@container":"@set"
+      },
+      "forename": {
+         "@id":"gnd:forename",
+         "@container":"@set"
+      },
+      "functionOrRoleAsLiteral": {
+         "@id":"gnd:functionOrRoleAsLiteral",
+         "@container":"@set"
+      },
+      "keyOfTheVersion": {
+         "@id":"gnd:keyOfTheVersion",
+         "@container":"@set"
+      },
+      "keyOfTheWork": {
+         "@id":"gnd:keyOfTheWork",
+         "@container":"@set"
+      },
+      "nameAddition": {
+         "@id":"gnd:nameAddition",
+         "@container":"@set"
+      },
+      "northernmostLatitude": {
+         "@id":"gnd:northernmostLatitude",
+         "@container":"@set"
+      },
+      "oldAuthorityNumber": {
+         "@id":"gnd:oldAuthorityNumber",
+         "@container":"@set"
+      },
+      "opusNumericDesignationOfMusicalWork": {
+         "@id":"gnd:opusNumericDesignationOfMusicalWork",
+         "@container":"@set"
+      },
+      "periodOfActivity": {
+         "@id":"gnd:periodOfActivity",
+         "@container":"@set"
+      },
+      "personalName": {
+         "@id":"gnd:personalName",
+         "@container":"@set"
+      },
+      "placeOfBirthAsLiteral": {
+         "@id":"gnd:placeOfBirthAsLiteral",
+         "@container":"@set"
+      },
+      "placeOfDeathAsLiteral": {
+         "@id":"gnd:placeOfDeathAsLiteral",
+         "@container":"@set"
+      },
+      "preferredNameForTheConferenceOrEvent": {
+         "@id":"gnd:preferredNameForTheConferenceOrEvent",
+         "@container":"@set"
+      },
+      "preferredNameForTheCorporateBody": {
+         "@id":"gnd:preferredNameForTheCorporateBody",
+         "@container":"@set"
+      },
+      "preferredNameForTheFamily": {
+         "@id":"gnd:preferredNameForTheFamily",
+         "@container":"@set"
+      },
+      "preferredNameForThePerson": {
+         "@id":"gnd:preferredNameForThePerson",
+         "@container":"@set"
+      },
+      "preferredNameForThePlaceOrGeographicName": {
+         "@id":"gnd:preferredNameForThePlaceOrGeographicName",
+         "@container":"@set"
+      },
+      "preferredNameForTheSubjectHeading": {
+         "@id":"gnd:preferredNameForTheSubjectHeading",
+         "@container":"@set"
+      },
+      "preferredNameForTheWork": {
+         "@id":"gnd:preferredNameForTheWork",
+         "@container":"@set"
+      },
+      "prefix": {
+         "@id":"gnd:prefix",
+         "@container":"@set"
+      },
+      "professionOrOccupationAsLiteral": {
+         "@id":"gnd:professionOrOccupationAsLiteral",
+         "@container":"@set"
+      },
+      "publication": {
+         "@id":"gnd:publication",
+         "@container":"@set"
+      },
+      "serialNumericDesignationOfMusicalWork": {
+         "@id":"gnd:serialNumericDesignationOfMusicalWork",
+         "@container":"@set"
+      },
+      "southernmostLatitude": {
+         "@id":"gnd:southernmostLatitude",
+         "@container":"@set"
+      },
+      "surname": {
+         "@id":"gnd:surname",
+         "@container":"@set"
+      },
+      "thematicIndexNumericDesignationOfMusicalWork": {
+         "@id":"gnd:thematicIndexNumericDesignationOfMusicalWork",
+         "@container":"@set"
+      },
+      "titleOfNobilityAsLiteral": {
+         "@id":"gnd:titleOfNobilityAsLiteral",
+         "@container":"@set"
+      },
+      "udkCode": {
+         "@id":"gnd:udkCode",
+         "@container":"@set"
+      },
+      "variantName": {
+         "@id":"gnd:variantName",
+         "@container":"@set"
+      },
+      "variantNameForTheConferenceOrEvent": {
+         "@id":"gnd:variantNameForTheConferenceOrEvent",
+         "@container":"@set"
+      },
+      "variantNameForTheCorporateBody": {
+         "@id":"gnd:variantNameForTheCorporateBody",
+         "@container":"@set"
+      },
+      "variantNameForTheFamily": {
+         "@id":"gnd:variantNameForTheFamily",
+         "@container":"@set"
+      },
+      "variantNameForThePerson": {
+         "@id":"gnd:variantNameForThePerson",
+         "@container":"@set"
+      },
+      "variantNameForThePlaceOrGeographicName": {
+         "@id":"gnd:variantNameForThePlaceOrGeographicName",
+         "@container":"@set"
+      },
+      "variantNameForTheSubjectHeading": {
+         "@id":"gnd:variantNameForTheSubjectHeading",
+         "@container":"@set"
+      },
+      "variantNameForTheWork": {
+         "@id":"gnd:variantNameForTheWork",
+         "@container":"@set"
+      },
+      "westernmostLongitude": {
+         "@id":"gnd:westernmostLongitude",
+         "@container":"@set"
+      },
+      "exactMatch": {
+         "@id":"skos:exactMatch",
+         "@container":"@set"
+      },
+      "broadMatch": {
+         "@id":"skos:broadMatch",
+         "@container":"@set"
+      },
+      "relatedMatch": {
+         "@id":"skos:relatedMatch",
+         "@container":"@set"
+      },
+      "canonicalUri": {
+         "@id":"http://d-nb.info/standards/elementset/dnb#canonicalUri",
+         "@container":"@set"
+      }
    }
 }

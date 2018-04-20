@@ -46,6 +46,7 @@ import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
 import ORG.oclc.oai.harvester2.app.RawWrite;
+import models.GndOntology;
 import play.Logger;
 import play.libs.Json;
 
@@ -134,7 +135,7 @@ public class Convert {
 		String contextUrl = dev ? config("context.dev") : config("context.prod");
 		ImmutableMap<String, String> frame = ImmutableMap.of("@type", config("data.superclass"));
 		JsonLdOptions options = new JsonLdOptions();
-		options.setCompactArrays(false);
+		options.setCompactArrays(true);
 		options.setProcessingMode("json-ld-1.1");
 		try {
 			Model model = preprocess(sourceModel, id);
@@ -156,12 +157,26 @@ public class Convert {
 		String preferredName = "http://d-nb.info/standards/elementset/gnd#preferredNameFor";
 		String variantName = "http://d-nb.info/standards/elementset/gnd#variantNameFor";
 		String type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+		String label = "http://www.w3.org/2000/01/rdf-schema#label";
 		String gnd = "http://d-nb.info/standards/elementset/gnd#";
 		List<Statement> toRemove = new ArrayList<>();
 		List<Statement> toAdd = new ArrayList<>();
 		model.listStatements().forEachRemaining(statement -> {
 			String p = statement.getPredicate().toString();
 			RDFNode o = statement.getObject();
+			// FIXME: workaround for RDF-to-JSONLD issue
+			if (p.contains("placeOfBirth") || p.contains("placeOfDeath")) {
+				toRemove.add(statement);
+			}
+			if (o.isURIResource()) {
+				// See https://github.com/hbz/lobid-gnd/issues/85
+				// See https://github.com/hbz/lobid-gnd/issues/24
+				String localVocab = "http://d-nb.info/standards/";
+				String object = o.toString().startsWith(localVocab) ? GndOntology.label(o.toString()) : o.toString();
+				Statement labelStatement = model.createLiteralStatement(model.createResource(o.toString()),
+						model.createProperty(label), object);
+				toAdd.add(labelStatement);
+			}
 			if (p.equals(academicDegree) && o.isURIResource()) {
 				// See https://github.com/hbz/lobid-gnd/commit/2cb4b9b
 				replaceObjectLiteral(model, statement, o.toString(), toRemove, toAdd);
@@ -235,17 +250,8 @@ public class Convert {
 			@SuppressWarnings("unchecked") /* first.isObject() */
 			Map<String, Object> res = Json.fromJson(first, TreeMap.class);
 			res.put("@context", contextUrl);
-			arrayToSingleValue(res, "gndIdentifier");
-			arrayToSingleValue(res, "preferredName");
-			arrayToSingleValue(res, "preferredNameEntityForThePerson");
 			return Json.stringify(Json.toJson(res));
 		}
 		return Json.stringify(in);
-	}
-
-	private static void arrayToSingleValue(Map<String, Object> res, String key) {
-		List<?> val = (List<?>) res.get(key);
-		if (val != null && val.size() > 0)
-			res.put(key, val.get(0));
 	}
 }
