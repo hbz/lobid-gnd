@@ -59,9 +59,8 @@ public class AuthorityResource {
 	public List<Map<String, Object>> familialRelationship;
 	public List<Map<String, Object>> placeOfActivity;
 	public List<String> dateOfBirth;
-	// FIXME: workaround for RDF-to-JSONLD issue
-	// public List<Map<String, Object>> placeOfBirth;
-	// public List<Map<String, Object>> placeOfDeath;
+	public List<Map<String, Object>> placeOfBirth;
+	public List<Map<String, Object>> placeOfDeath;
 	public List<String> dateOfDeath;
 	public List<Map<String, Object>> professionalRelationship;
 	public List<Map<String, Object>> hierarchicalSuperiorOfTheCorporateBody;
@@ -163,9 +162,8 @@ public class AuthorityResource {
 		addIds("gender", gender, fields);
 		addValues("dateOfBirth", dateOfBirth, fields);
 		addValues("dateOfDeath", dateOfDeath, fields);
-		// FIXME: workaround for RDF-to-JSONLD issue
-		// addIds("placeOfBirth", placeOfBirth, fields);
-		// addIds("placeOfDeath", placeOfDeath, fields);
+		addIds("placeOfBirth", placeOfBirth, fields);
+		addIds("placeOfDeath", placeOfDeath, fields);
 		addValues("dateOfEstablishment", dateOfEstablishment, fields);
 		addValues("dateOfTermination", dateOfTermination, fields);
 		addValues("dateOfProduction", dateOfProduction, fields);

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -37,6 +38,8 @@ import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.jena.JenaRDFParser;
 import com.google.common.collect.ImmutableMap;
+import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
@@ -164,10 +167,6 @@ public class Convert {
 		model.listStatements().forEachRemaining(statement -> {
 			String p = statement.getPredicate().toString();
 			RDFNode o = statement.getObject();
-			// FIXME: workaround for RDF-to-JSONLD issue
-			if (p.contains("placeOfBirth") || p.contains("placeOfDeath")) {
-				toRemove.add(statement);
-			}
 			if (o.isURIResource()) {
 				// See https://github.com/hbz/lobid-gnd/issues/85
 				// See https://github.com/hbz/lobid-gnd/issues/24
@@ -175,7 +174,21 @@ public class Convert {
 				String object = o.toString().startsWith(localVocab) ? GndOntology.label(o.toString()) : o.toString();
 				Statement labelStatement = model.createLiteralStatement(model.createResource(o.toString()),
 						model.createProperty(label), object);
-				toAdd.add(labelStatement);
+				if (toAdd.contains(labelStatement)) {
+					/*
+					 * FIXME: workaround for RDF-to-JSONLD issue. if the label
+					 * statement is used twice in a doc, only one field will be
+					 * an object with ID and label, the other a plain string. Is
+					 * the label statement consumed during processing after
+					 * being used once? In json-ld-java? In jsonld-java-jena? To
+					 * avoid breaking indexing due to the inconsistent types
+					 * (JSON array vs. object), the workaroud is to remove all
+					 * but 1 of the statements that have the same object:
+					 */
+					toRemove.addAll(withObject(o, model).skip(1).collect(Collectors.toList()));
+				} else {
+					toAdd.add(labelStatement);
+				}
 			}
 			if (p.equals(academicDegree) && o.isURIResource()) {
 				// See https://github.com/hbz/lobid-gnd/commit/2cb4b9b
@@ -214,6 +227,11 @@ public class Convert {
 		toRemove.stream().forEach(e -> model.remove(e));
 		toAdd.stream().forEach(e -> model.add(e));
 		return model;
+	}
+
+	private static Stream<Statement> withObject(RDFNode o, Model model) {
+		return model.getGraph().find(Node.ANY, Node.ANY, NodeFactory.createURI(o.toString())).toList().stream()
+				.map(triple -> model.asStatement(triple));
 	}
 
 	private static String secondLevelTypeFor(String gnd, String type) {
