@@ -20,6 +20,9 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 
 import org.apache.jena.atlas.web.HttpException;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.RiotNotFoundException;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -31,8 +34,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
@@ -219,6 +220,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			sourceModel.read(sourceUrl);
 		} catch (HttpException e) {
 			return status(e.getResponseCode(), e.getMessage());
+		} catch (RiotNotFoundException e) {
+			return status(404, e.getMessage());
 		}
 		String jsonLd = Convert.toJsonLd(id, sourceModel, env.isDev());
 		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));

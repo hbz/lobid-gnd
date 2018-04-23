@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -26,6 +27,14 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
 import org.culturegraph.mf.framework.ObjectReceiver;
 import org.culturegraph.mf.framework.helpers.DefaultObjectPipe;
 import org.culturegraph.mf.framework.helpers.DefaultStreamPipe;
@@ -36,14 +45,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
-import com.github.jsonldjava.jena.JenaRDFParser;
+import com.github.jsonldjava.utils.JsonUtils;
 import com.google.common.collect.ImmutableMap;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.NodeFactory;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Statement;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
@@ -142,11 +145,13 @@ public class Convert {
 		options.setProcessingMode("json-ld-1.1");
 		try {
 			Model model = preprocess(sourceModel, id);
-			Object jsonLd = JsonLdProcessor.fromRDF(model, new JenaRDFParser());
+			StringWriter out = new StringWriter();
+			RDFDataMgr.write(out, model, Lang.JSONLD);
+			Object jsonLd = JsonUtils.fromString(out.toString());
 			jsonLd = JsonLdProcessor.frame(jsonLd, new HashMap<>(frame), options);
 			jsonLd = JsonLdProcessor.compact(jsonLd, context, options);
 			return postprocess(contextUrl, jsonLd);
-		} catch (JsonLdError e) {
+		} catch (JsonLdError | IOException e) {
 			e.printStackTrace();
 			return null;
 		}
