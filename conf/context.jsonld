@@ -307,9 +307,8 @@
          "@container":"@set"
       },
       "deprecatedUri": {
-        "@id": "dnb:deprecatedUri",
-        "@type":"@id",
-        "@container": "@set"
+         "@id": "dnb:deprecatedUri",
+         "@container": "@set"
       },
       "designer":{
          "@id":"gnd:designer",
@@ -991,6 +990,10 @@
       },
       "abbreviatedNameForTheWork": {
          "@id":"gnd:abbreviatedNameForTheWork",
+         "@container":"@set"
+      },
+      "abbreviatedNameForTheCorporateBody": {
+         "@id":"gnd:abbreviatedNameForTheCorporateBody",
          "@container":"@set"
       },
       "academicDegree": {
