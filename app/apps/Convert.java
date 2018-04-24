@@ -13,13 +13,12 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -27,8 +26,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.jena.graph.Node;
-import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
@@ -139,7 +136,7 @@ public class Convert {
 
 	public static String toJsonLd(String id, Model sourceModel, boolean dev) {
 		String contextUrl = dev ? config("context.dev") : config("context.prod");
-		ImmutableMap<String, String> frame = ImmutableMap.of("@type", config("data.superclass"));
+		ImmutableMap<String, String> frame = ImmutableMap.of("@type", config("data.superclass"), "@embed", "@always");
 		JsonLdOptions options = new JsonLdOptions();
 		options.setCompactArrays(true);
 		options.setProcessingMode("json-ld-1.1");
@@ -167,8 +164,8 @@ public class Convert {
 		String type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 		String label = "http://www.w3.org/2000/01/rdf-schema#label";
 		String gnd = "http://d-nb.info/standards/elementset/gnd#";
-		List<Statement> toRemove = new ArrayList<>();
-		List<Statement> toAdd = new ArrayList<>();
+		Set<Statement> toRemove = new HashSet<>();
+		Set<Statement> toAdd = new HashSet<>();
 		model.listStatements().forEachRemaining(statement -> {
 			String p = statement.getPredicate().toString();
 			RDFNode o = statement.getObject();
@@ -179,21 +176,7 @@ public class Convert {
 				String object = o.toString().startsWith(localVocab) ? GndOntology.label(o.toString()) : o.toString();
 				Statement labelStatement = model.createLiteralStatement(model.createResource(o.toString()),
 						model.createProperty(label), object);
-				if (toAdd.contains(labelStatement)) {
-					/*
-					 * FIXME: workaround for RDF-to-JSONLD issue. if the label
-					 * statement is used twice in a doc, only one field will be
-					 * an object with ID and label, the other a plain string. Is
-					 * the label statement consumed during processing after
-					 * being used once? In json-ld-java? In jsonld-java-jena? To
-					 * avoid breaking indexing due to the inconsistent types
-					 * (JSON array vs. object), the workaroud is to remove all
-					 * but 1 of the statements that have the same object:
-					 */
-					toRemove.addAll(withObject(o, model).skip(1).collect(Collectors.toList()));
-				} else {
-					toAdd.add(labelStatement);
-				}
+				toAdd.add(labelStatement);
 			}
 			if (p.equals(academicDegree) && o.isURIResource()) {
 				// See https://github.com/hbz/lobid-gnd/commit/2cb4b9b
@@ -234,11 +217,6 @@ public class Convert {
 		return model;
 	}
 
-	private static Stream<Statement> withObject(RDFNode o, Model model) {
-		return model.getGraph().find(Node.ANY, Node.ANY, NodeFactory.createURI(o.toString())).toList().stream()
-				.map(triple -> model.asStatement(triple));
-	}
-
 	private static String secondLevelTypeFor(String gnd, String type) {
 		String key = type.substring(gnd.length());
 		ConfigObject object = CONFIG.getObject("types");
@@ -246,7 +224,7 @@ public class Convert {
 	}
 
 	private static void replaceObjectLiteral(Model model, Statement statement, String newObjectLiteral,
-			List<Statement> toRemove, List<Statement> toAdd) {
+			Set<Statement> toRemove, Set<Statement> toAdd) {
 		toRemove.add(statement);
 		toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
 				model.createLiteral(newObjectLiteral)));
