@@ -42,9 +42,13 @@
 	(doc \ "type").as[Seq[String]].filter(_!="AuthorityResource").map(models.GndOntology.label(_)).mkString(", ")
 }
 
+@labelFrom(v: JsValue) = @{
+	v.asOpt[String].getOrElse(models.GndOntology.label((v\"id").asOpt[String].getOrElse("")))
+}
+
 @field(types: Seq[String], t: String, doc: play.api.libs.json.JsValue, field: String) = {
 	@if(t == "*" || types.contains(t)) {
-		@for(v <- (doc \ field).asOpt[Seq[String]]){@Html(v.map(models.GndOntology.label(_)).mkString(", ")) <br/>}
+		@for(values <- (doc \ field).asOpt[Seq[JsValue]]){@Html(values.map(labelFrom(_)).mkString(", ")) <br/>}
 	}
 }
 
