@@ -114,6 +114,13 @@ public class ConvertTest {
 	}
 
 	@Test
+	public void testRemoveNewlinesInLabels() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("118512676");
+		JsonNode categories = Json.parse(jsonLd).get("gndSubjectCategory");
+		assertTrue(categories.toString().contains("Personen zu Literaturgeschichte (Schriftsteller)"));
+	}
+
+	@Test
 	public void testIriFieldStructure() throws FileNotFoundException {
 		String jsonLd = jsonLdFor("7855044-0");
 		JsonNode terms = Json.parse(jsonLd).get("broaderTermGeneral");

@@ -93,6 +93,7 @@ public class GndOntology {
 				String label = $(c).find(or(//
 						selector("label"), //
 						selector("prefLabel"))).filter(attr("lang", "de")).content();
+				label = label == null ? label : label.replaceAll("\\s+", " ");
 				checkAmibiguity(shortId, label);
 				labels.put(shortId, label);
 			}
