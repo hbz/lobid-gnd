@@ -28,4 +28,6 @@ libraryDependencies += "xalan" % "xalan" % "2.7.2"
 
 libraryDependencies += "org.jooq" % "joox-java-6" % "1.6.0"
 
+libraryDependencies += "log4j" % "log4j" % "1.2.17"
+
 resolvers += Resolver.mavenLocal
