@@ -97,11 +97,11 @@
 @facetLink(key: String, term: String, label:String, count: Int) = {
 	@if(f.contains(key+":"+term)){
 		@Html(label)
-		<a href='@routes.HomeController.search(q, f.replace(s"+($key:$term)", "").replace(s"$key:$term","").trim, from, size)'>
+		<a href='@routes.HomeController.search(q, f.replace(s"+($key:$term)", "").replace(s"$key:$term","").trim)'>
 		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 	} else {
-		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@Html(label) (@formatCount(count))</a>
+		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim)'>@Html(label) (@formatCount(count))</a>
 	}
 }
 
