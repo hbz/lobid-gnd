@@ -17,5 +17,7 @@ GET     /gnd/:id.:format    controllers.HomeController.authorityDotFormat(id, fo
 
 GET     /gnd/:id            controllers.HomeController.authority(id, format ?= null)
 
+GET     /gnd/:id/dnb        controllers.HomeController.gnd(id)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /gnd/assets/*file   controllers.Assets.versioned(path="/public", file: Asset)

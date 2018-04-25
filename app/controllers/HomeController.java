@@ -20,6 +20,9 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 
 import org.apache.jena.atlas.web.HttpException;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.RiotNotFoundException;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -31,8 +34,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
@@ -65,8 +66,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		this.httpClient = httpClient;
 	}
 
-	public static final String[] AGGRAGATIONS = new String[] { "type", "gndSubjectCategory", "geographicAreaCode",
-			"professionOrOccupation", "dateOfBirth" };
+	public static final String[] AGGREGATIONS = new String[] { "type", "gndSubjectCategory.id", "geographicAreaCode.id",
+			"professionOrOccupation.id", "dateOfBirth" };
 
 	@Inject
 	Environment env;
@@ -135,7 +136,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		String jsonLd = getAuthorityResource(id);
 		if (jsonLd == null) {
-			return gnd(id);
+			return notFound("Not found: " + id);
 		}
 		try {
 			JsonNode json = Json.parse(jsonLd);
@@ -164,7 +165,6 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		GetResponse response = index.client().prepareGet(config("index.name"), config("index.type"), id).get();
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		if (!response.isExists()) {
-			Logger.warn("{} does not exists in index, falling back to live version from GND", id);
 			return null;
 		}
 		return response.getSourceAsString();
@@ -210,7 +210,6 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return null;
 	}
 
-	// TODO add route or parameter for testing live version from GND
 	public Result gnd(String id) {
 		response().setHeader("Access-Control-Allow-Origin", "* ");
 		Model sourceModel = ModelFactory.createDefaultModel();
@@ -219,6 +218,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			sourceModel.read(sourceUrl);
 		} catch (HttpException e) {
 			return status(e.getResponseCode(), e.getMessage());
+		} catch (RiotNotFoundException e) {
+			return status(404, e.getMessage());
 		}
 		String jsonLd = Convert.toJsonLd(id, sourceModel, env.isDev());
 		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
@@ -260,7 +261,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		object.set("member", Json.toJson(hits));
 
 		Map<String, Object> map = new HashMap<>();
-		for (String a : AGGRAGATIONS) {
+		for (String a : AGGREGATIONS) {
 			Aggregation aggregation = queryResponse.getAggregations().get(a);
 			Terms terms = (Terms) aggregation;
 			Stream<Bucket> stream = terms.getBuckets().stream()

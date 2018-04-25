@@ -14,9 +14,9 @@ libraryDependencies += guice
 
 libraryDependencies += ws
 
-libraryDependencies += "com.github.jsonld-java" % "jsonld-java" % "0.11.1"
+libraryDependencies += "com.github.jsonld-java" % "jsonld-java" % "0.12.0"
 
-libraryDependencies += "com.github.jsonld-java" % "jsonld-java-jena" % "0.4.1"
+libraryDependencies += "org.apache.jena" % "apache-jena-libs" % "3.7.0"
 
 libraryDependencies += "org.culturegraph" % "metafacture-core" % "4.0.0"
 
@@ -27,5 +27,7 @@ libraryDependencies += "org.dspace" % "oclc-harvester2" % "0.1.12"
 libraryDependencies += "xalan" % "xalan" % "2.7.2"
 
 libraryDependencies += "org.jooq" % "joox-java-6" % "1.6.0"
+
+libraryDependencies += "log4j" % "log4j" % "1.2.17"
 
 resolvers += Resolver.mavenLocal

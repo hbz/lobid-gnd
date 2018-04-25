@@ -25,50 +25,50 @@ public class AuthorityResource {
 	private String id;
 	private List<String> type;
 
-	public Map<String, Object> definition;
-	public Map<String, Object> biographicalOrHistoricalInformation;
+	public List<String> definition;
+	public List<String> biographicalOrHistoricalInformation;
 	public List<Map<String, Object>> hasGeometry;
 	public String gndIdentifier;
 	public String preferredName;
 	public List<String> variantName;
-	public List<String> sameAs;
-	public List<String> geographicAreaCode;
-	public List<String> gndSubjectCategory;
-	public List<String> relatedTerm;
-	public List<String> relatedPerson;
-	public List<String> relatedWork;
-	public List<String> broaderTermInstantial;
-	public List<String> broaderTermGeneral;
-	public List<String> broaderTermGeneric;
-	public List<String> broaderTermPartitive;
+	public List<Map<String, Object>> sameAs;
+	public List<Map<String, Object>> geographicAreaCode;
+	public List<Map<String, Object>> gndSubjectCategory;
+	public List<Map<String, Object>> relatedTerm;
+	public List<Map<String, Object>> relatedPerson;
+	public List<Map<String, Object>> relatedWork;
+	public List<Map<String, Object>> broaderTermInstantial;
+	public List<Map<String, Object>> broaderTermGeneral;
+	public List<Map<String, Object>> broaderTermGeneric;
+	public List<Map<String, Object>> broaderTermPartitive;
 	public List<String> dateOfConferenceOrEvent;
-	public List<String> placeOfConferenceOrEvent;
-	public List<String> spatialAreaOfActivity;
+	public List<Map<String, Object>> placeOfConferenceOrEvent;
+	public List<Map<String, Object>> spatialAreaOfActivity;
 	public List<String> dateOfEstablishment;
-	public List<String> placeOfBusiness;
-	public List<String> wikipedia;
-	public List<String> homepage;
-	public List<String> topic;
-	public List<String> gender;
-	public List<String> professionOrOccupation;
-	public List<String> precedingPlaceOrGeographicName;
-	public List<String> succeedingPlaceOrGeographicName;
+	public List<Map<String, Object>> placeOfBusiness;
+	public List<Map<String, Object>> wikipedia;
+	public List<Map<String, Object>> homepage;
+	public List<Map<String, Object>> topic;
+	public List<Map<String, Object>> gender;
+	public List<Map<String, Object>> professionOrOccupation;
+	public List<Map<String, Object>> precedingPlaceOrGeographicName;
+	public List<Map<String, Object>> succeedingPlaceOrGeographicName;
 	public List<String> dateOfTermination;
 	public List<String> academicDegree;
-	public List<String> acquaintanceshipOrFriendship;
-	public List<String> familialRelationship;
-	public List<String> placeOfActivity;
+	public List<Map<String, Object>> acquaintanceshipOrFriendship;
+	public List<Map<String, Object>> familialRelationship;
+	public List<Map<String, Object>> placeOfActivity;
 	public List<String> dateOfBirth;
-	public List<String> placeOfBirth;
-	public List<String> placeOfDeath;
+	public List<Map<String, Object>> placeOfBirth;
+	public List<Map<String, Object>> placeOfDeath;
 	public List<String> dateOfDeath;
-	public List<String> professionalRelationship;
-	public List<String> hierarchicalSuperiorOfTheCorporateBody;
-	public List<String> firstAuthor;
+	public List<Map<String, Object>> professionalRelationship;
+	public List<Map<String, Object>> hierarchicalSuperiorOfTheCorporateBody;
+	public List<Map<String, Object>> firstAuthor;
 	public List<String> publication;
 	public List<String> dateOfProduction;
-	public List<String> mediumOfPerformance;
-	public List<String> firstComposer;
+	public List<Map<String, Object>> mediumOfPerformance;
+	public List<Map<String, Object>> firstComposer;
 	public List<String> dateOfPublication;
 	public EntityFacts entityFacts;
 
@@ -129,47 +129,47 @@ public class AuthorityResource {
 
 	public List<Pair<String, String>> generalFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
-		add("type", typeLinks(), fields);
-		add("gndIdentifier", Arrays.asList(gndIdentifier), fields);
-		add("definition", definition, fields);
-		add("biographicalOrHistoricalInformation", biographicalOrHistoricalInformation, fields);
-		add("firstAuthor", firstAuthor, fields);
-		add("firstComposer", firstComposer, fields);
-		add("mediumOfPerformance", mediumOfPerformance, fields);
-		add("professionOrOccupation", professionOrOccupation, fields);
-		add("homepage", homepage, fields);
-		add("academicDegree", academicDegree, fields);
-		add("geographicAreaCode", geographicAreaCode, fields);
-		add("gndSubjectCategory", gndSubjectCategory, fields);
-		add("topic", topic, fields);
-		add("hierarchicalSuperiorOfTheCorporateBody", hierarchicalSuperiorOfTheCorporateBody, fields);
-		add("broaderTermPartitive", broaderTermPartitive, fields);
-		add("broaderTermInstantial", broaderTermInstantial, fields);
-		add("broaderTermGeneral", broaderTermGeneral, fields);
-		add("broaderTermGeneric", broaderTermGeneric, fields);
-		add("relatedTerm", relatedTerm, fields);
-		add("dateOfConferenceOrEvent", dateOfConferenceOrEvent, fields);
-		add("placeOfConferenceOrEvent", placeOfConferenceOrEvent, fields);
-		add("relatedPerson", relatedPerson, fields);
-		add("professionalRelationship", professionalRelationship, fields);
-		add("acquaintanceshipOrFriendship", acquaintanceshipOrFriendship, fields);
-		add("familialRelationship", familialRelationship, fields);
-		add("placeOfBusiness", placeOfBusiness, fields);
-		add("placeOfActivity", placeOfActivity, fields);
-		add("spatialAreaOfActivity", spatialAreaOfActivity, fields);
-		add("precedingPlaceOrGeographicName", precedingPlaceOrGeographicName, fields);
-		add("succeedingPlaceOrGeographicName", succeedingPlaceOrGeographicName, fields);
-		add("gender", gender, fields);
-		add("dateOfBirth", dateOfBirth, fields);
-		add("placeOfBirth", placeOfBirth, fields);
-		add("dateOfDeath", dateOfDeath, fields);
-		add("placeOfDeath", placeOfDeath, fields);
-		add("dateOfEstablishment", dateOfEstablishment, fields);
-		add("dateOfTermination", dateOfTermination, fields);
-		add("dateOfProduction", dateOfProduction, fields);
-		add("dateOfPublication", dateOfPublication, fields);
-		add("variantName", variantName, fields);
-		add("creatorOf", creatorOf, fields);
+		addValues("type", typeLinks(), fields);
+		addValues("gndIdentifier", Arrays.asList(gndIdentifier), fields);
+		addValues("definition", definition, fields);
+		addValues("biographicalOrHistoricalInformation", biographicalOrHistoricalInformation, fields);
+		addIds("firstAuthor", firstAuthor, fields);
+		addIds("firstComposer", firstComposer, fields);
+		addIds("mediumOfPerformance", mediumOfPerformance, fields);
+		addIds("professionOrOccupation", professionOrOccupation, fields);
+		addIds("homepage", homepage, fields);
+		addValues("academicDegree", academicDegree, fields);
+		addIds("geographicAreaCode", geographicAreaCode, fields);
+		addIds("gndSubjectCategory", gndSubjectCategory, fields);
+		addIds("topic", topic, fields);
+		addIds("hierarchicalSuperiorOfTheCorporateBody", hierarchicalSuperiorOfTheCorporateBody, fields);
+		addIds("broaderTermPartitive", broaderTermPartitive, fields);
+		addIds("broaderTermInstantial", broaderTermInstantial, fields);
+		addIds("broaderTermGeneral", broaderTermGeneral, fields);
+		addIds("broaderTermGeneric", broaderTermGeneric, fields);
+		addIds("relatedTerm", relatedTerm, fields);
+		addValues("dateOfConferenceOrEvent", dateOfConferenceOrEvent, fields);
+		addIds("placeOfConferenceOrEvent", placeOfConferenceOrEvent, fields);
+		addIds("relatedPerson", relatedPerson, fields);
+		addIds("professionalRelationship", professionalRelationship, fields);
+		addIds("acquaintanceshipOrFriendship", acquaintanceshipOrFriendship, fields);
+		addIds("familialRelationship", familialRelationship, fields);
+		addIds("placeOfBusiness", placeOfBusiness, fields);
+		addIds("placeOfActivity", placeOfActivity, fields);
+		addIds("spatialAreaOfActivity", spatialAreaOfActivity, fields);
+		addIds("precedingPlaceOrGeographicName", precedingPlaceOrGeographicName, fields);
+		addIds("succeedingPlaceOrGeographicName", succeedingPlaceOrGeographicName, fields);
+		addIds("gender", gender, fields);
+		addValues("dateOfBirth", dateOfBirth, fields);
+		addValues("dateOfDeath", dateOfDeath, fields);
+		addIds("placeOfBirth", placeOfBirth, fields);
+		addIds("placeOfDeath", placeOfDeath, fields);
+		addValues("dateOfEstablishment", dateOfEstablishment, fields);
+		addValues("dateOfTermination", dateOfTermination, fields);
+		addValues("dateOfProduction", dateOfProduction, fields);
+		addValues("dateOfPublication", dateOfPublication, fields);
+		addValues("variantName", variantName, fields);
+		addValues("creatorOf", creatorOf, fields);
 		return fields;
 	}
 
@@ -204,21 +204,21 @@ public class AuthorityResource {
 		return withDefaultHidden(field, links.size(), i, result);
 	}
 
-	private void add(String label, Map<String, Object> map, List<Pair<String, String>> fields) {
-		add(label, map != null ? map.values().stream().map(Object::toString).collect(Collectors.toList()) : null,
-				fields);
+	private void addIds(String field, List<Map<String, Object>> list, List<Pair<String, String>> result) {
+		if (list != null) {
+			addValues(field, list.stream().map(m -> m.get("id").toString()).collect(Collectors.toList()), result);
+		}
 	}
 
-	private void add(String field, List<String> list, List<Pair<String, String>> result) {
+	private void addValues(String field, List<String> list, List<Pair<String, String>> result) {
 		if (list != null && list.size() > 0) {
-			String value = IntStream.range(0, list.size()).mapToObj(i -> process(field, list, i))
+			String value = IntStream.range(0, list.size()).mapToObj(i -> process(field, list.get(i), i, list.size()))
 					.collect(Collectors.joining(" | "));
 			result.add(Pair.of(field, value));
 		}
 	}
 
-	private String process(String field, List<String> list, int i) {
-		String value = list.get(i);
+	private String process(String field, String value, int i, int size) {
 		String label = GndOntology.label(value);
 		String result = label;
 		if ("creatorOf".equals(field)) {
@@ -227,8 +227,10 @@ public class AuthorityResource {
 		} else if (Arrays.asList("wikipedia", "sameAs", "depiction", "homepage").contains(field)) {
 			result = String.format("<a href='%s'>%s</a>", value, value);
 		} else if (value.startsWith("http")) {
-			String link = value.startsWith(DNB_PREFIX) ? controllers.routes.HomeController
-					.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html").toString() : value;
+			String link = value.startsWith(DNB_PREFIX)
+					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
+							.toString()
+					: value;
 			String search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 10, "html")
 					.toString();
 			result = String.format(
@@ -237,12 +239,13 @@ public class AuthorityResource {
 							+ "<i class='glyphicon glyphicon-link' aria-hidden='true'></i></a>",
 					field, i, field, label, search, label, label, link);
 		}
-		return withDefaultHidden(field, list.size(), i, result);
+		return withDefaultHidden(field, size, i, result);
 	}
 
 	private String withDefaultHidden(String field, int size, int i, String result) {
 		if (i == SHORTEN) {
-			result = String.format("<span id='%s-hide-by-default' style='display: none;'>", field) + result;
+			result = String.format("<span id='%s-hide-by-default' style='display: none;'>", field.replace(".id", ""))
+					+ result;
 		}
 		if (i >= SHORTEN && i == size - 1) {
 			result = result + "</span>";
