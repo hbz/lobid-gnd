@@ -121,9 +121,9 @@ public class IndexTest extends WithApplication {
 	public void testAggregations() {
 		Set<String> keySet = index.query("*").getAggregations().asMap().keySet();
 		Assert.assertTrue(keySet.contains("type"));
-		Assert.assertTrue(keySet.contains("gndSubjectCategory"));
-		Assert.assertTrue(keySet.contains("geographicAreaCode"));
-		Assert.assertTrue(keySet.contains("professionOrOccupation"));
+		Assert.assertTrue(keySet.contains("gndSubjectCategory.id"));
+		Assert.assertTrue(keySet.contains("geographicAreaCode.id"));
+		Assert.assertTrue(keySet.contains("professionOrOccupation.id"));
 		Assert.assertTrue(keySet.contains("dateOfBirth"));
 	}
 

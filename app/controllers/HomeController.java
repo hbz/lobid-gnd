@@ -136,7 +136,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		String jsonLd = getAuthorityResource(id);
 		if (jsonLd == null) {
-			return gnd(id);
+			return notFound("Not found: " + id);
 		}
 		try {
 			JsonNode json = Json.parse(jsonLd);
@@ -165,7 +165,6 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		GetResponse response = index.client().prepareGet(config("index.name"), config("index.type"), id).get();
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		if (!response.isExists()) {
-			Logger.warn("{} does not exists in index, falling back to live version from GND", id);
 			return null;
 		}
 		return response.getSourceAsString();
@@ -211,7 +210,6 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return null;
 	}
 
-	// TODO add route or parameter for testing live version from GND
 	public Result gnd(String id) {
 		response().setHeader("Access-Control-Allow-Origin", "* ");
 		Model sourceModel = ModelFactory.createDefaultModel();
