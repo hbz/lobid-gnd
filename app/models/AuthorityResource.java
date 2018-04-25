@@ -244,7 +244,8 @@ public class AuthorityResource {
 
 	private String withDefaultHidden(String field, int size, int i, String result) {
 		if (i == SHORTEN) {
-			result = String.format("<span id='%s-hide-by-default' style='display: none;'>", field) + result;
+			result = String.format("<span id='%s-hide-by-default' style='display: none;'>", field.replace(".id", ""))
+					+ result;
 		}
 		if (i >= SHORTEN && i == size - 1) {
 			result = result + "</span>";

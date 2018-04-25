@@ -66,8 +66,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		this.httpClient = httpClient;
 	}
 
-	public static final String[] AGGRAGATIONS = new String[] { "type", "gndSubjectCategory", "geographicAreaCode",
-			"professionOrOccupation", "dateOfBirth" };
+	public static final String[] AGGREGATIONS = new String[] { "type", "gndSubjectCategory.id", "geographicAreaCode.id",
+			"professionOrOccupation.id", "dateOfBirth" };
 
 	@Inject
 	Environment env;
@@ -263,7 +263,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		object.set("member", Json.toJson(hits));
 
 		Map<String, Object> map = new HashMap<>();
-		for (String a : AGGRAGATIONS) {
+		for (String a : AGGREGATIONS) {
 			Aggregation aggregation = queryResponse.getAggregations().get(a);
 			Terms terms = (Terms) aggregation;
 			Stream<Bucket> stream = terms.getBuckets().stream()
