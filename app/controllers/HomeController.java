@@ -100,10 +100,10 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	/**
-	 * An action that renders an HTML page with a welcome message. The
-	 * configuration in the <code>routes</code> file means that this method will
-	 * be called when the application receives a <code>GET</code> request with a
-	 * path of <code>/</code>.
+	 * An action that renders an HTML page with a welcome message. The configuration
+	 * in the <code>routes</code> file means that this method will be called when
+	 * the application receives a <code>GET</code> request with a path of
+	 * <code>/</code>.
 	 */
 	public Result api() {
 		String format = "json";
@@ -156,7 +156,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	private List<String> creatorOf(String id) {
 		String q = String.format("firstAuthor:\"%s\" OR firstComposer:\"%s\"", id, id);
 		SearchResponse response = index.query(q, "", 0, 1000);
-		Stream<String> ids = Arrays.asList(response.getHits().hits()).stream()
+		Stream<String> ids = Arrays.asList(response.getHits().getHits()).stream()
 				.map(hit -> AuthorityResource.DNB_PREFIX + hit.getId());
 		return ids.collect(Collectors.toList());
 	}
@@ -252,7 +252,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	private static String returnAsJson(String q, SearchResponse queryResponse) {
-		List<Map<String, Object>> hits = Arrays.asList(queryResponse.getHits().hits()).stream()
+		List<Map<String, Object>> hits = Arrays.asList(queryResponse.getHits().getHits()).stream()
 				.map(hit -> hit.getSource()).collect(Collectors.toList());
 		ObjectNode object = Json.newObject();
 		object.put("@context", "http://" + request().host() + routes.HomeController.context());
@@ -264,7 +264,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		for (String a : AGGREGATIONS) {
 			Aggregation aggregation = queryResponse.getAggregations().get(a);
 			Terms terms = (Terms) aggregation;
-			Stream<Bucket> stream = terms.getBuckets().stream()
+			Stream<? extends Bucket> stream = terms.getBuckets().stream()
 					.filter(b -> !b.getKeyAsString().equals("AuthorityResource"));
 			Stream<Map<String, Object>> buckets = stream.map((Bucket b) -> ImmutableMap.of(//
 					"key", b.getKeyAsString(), "doc_count", b.getDocCount()));

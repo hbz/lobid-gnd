@@ -8,6 +8,6 @@ import scala.collection.Seq;
 
 public class AuthoritiesModule extends Module {
 	public Seq<Binding<?>> bindings(Environment environment, Configuration configuration) {
-		return seq(bind(IndexComponent.class).to(EmbeddedIndex.class));
+		return seq(bind(IndexComponent.class).to(ElasticsearchServer.class));
 	}
 }
