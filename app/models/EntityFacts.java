@@ -162,21 +162,24 @@ public class EntityFacts {
 							Logger.debug("No result for GND {}", gndNumber);
 						}
 						return r.asJson();
-					}).exceptionally(e -> fallback(client, gndNumber, e)).toCompletableFuture().get();
+					}).exceptionally(e -> {
+						Logger.warn("Could not load data from internal entityfacts index ({}), trying live",
+								e.getMessage());
+						return fallback(client, gndNumber);
+					}).toCompletableFuture().get();
 			return result;
 		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
+			Logger.warn("Could not load additional information form EntityFacts: {}", e.getMessage());
 		}
 		return Json.newObject();
 	}
 
-	private static JsonNode fallback(WSClient client, String gndNumber, Throwable e) {
-		Logger.error("Could not load data from internal entityfacts index ({}), trying live", e);
+	private static JsonNode fallback(WSClient client, String gndNumber) {
 		try {
 			String url = HomeController.config("entityfacts.live") + gndNumber;
 			return client.url(url).get().toCompletableFuture().get().asJson();
-		} catch (InterruptedException | ExecutionException e1) {
-			e1.printStackTrace();
+		} catch (InterruptedException | ExecutionException e) {
+			Logger.warn("EntityFacts live fallback failed: {}", e.getMessage());
 		}
 		return Json.newObject();
 	}

@@ -111,7 +111,7 @@ class ElasticsearchServer implements IndexComponent {
 		Logger.info("Using Elasticsearch index settings: {}", SETTINGS.getAsMap());
 	}
 
-	private static void deleteIndex(final Client client, final String index) {
+	static void deleteIndex(final Client client, final String index) {
 		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 		if (indexExists(client, index)) {
 			client.admin().indices().delete(new DeleteIndexRequest(index)).actionGet();
