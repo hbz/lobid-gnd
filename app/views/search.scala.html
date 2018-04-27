@@ -42,9 +42,13 @@
 	(doc \ "type").as[Seq[String]].filter(_!="AuthorityResource").map(models.GndOntology.label(_)).mkString(", ")
 }
 
+@labelFrom(v: JsValue) = @{
+	v.asOpt[String].getOrElse(models.GndOntology.label((v\"id").asOpt[String].getOrElse("")))
+}
+
 @field(types: Seq[String], t: String, doc: play.api.libs.json.JsValue, field: String) = {
 	@if(t == "*" || types.contains(t)) {
-		@for(v <- (doc \ field).asOpt[Seq[String]]){@Html(v.map(models.GndOntology.label(_)).mkString(", ")) <br/>}
+		@for(values <- (doc \ field).asOpt[Seq[JsValue]]){@Html(values.map(labelFrom(_)).mkString(", ")) <br/>}
 	}
 }
 
@@ -93,34 +97,36 @@
 @facetLink(key: String, term: String, label:String, count: Int) = {
 	@if(f.contains(key+":"+term)){
 		@Html(label)
-		<a href='@routes.HomeController.search(q, f.replace(s"+($key:$term)", "").replace(s"$key:$term","").trim, from, size)'>
+		<a href='@routes.HomeController.search(q, f.replace(s"+($key:$term)", "").replace(s"$key:$term","").trim)'>
 		<span class="badge">Filter entfernen <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 	} else {
-		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim, from, size)'>@Html(label) (@formatCount(count))</a>
+		<a href='@routes.HomeController.search(q, s"$f +($key:$term)".trim)'>@Html(label) (@formatCount(count))</a>
 	}
 }
 
 @facet(key: String) = {
 	@defining((Json.parse(result) \ "aggregation" \ key).asOpt[Seq[JsValue]].getOrElse(Seq())) { buckets =>
 		@if(!buckets.isEmpty) {
-			<h5>@models.GndOntology.label(key) @if(buckets.size>5){ 
-				<a id="@key-more-link" href="javascript:void(0)" title="Mehr Werte anzeigen"
-						onclick="$('.@key-more-item').show(); $('#@key-more-link').hide(); $('#@key-less-link').show();">
-					<span class="octicon octicon-diff-added" aria-hidden="true"></span>
-				</a>
-				<a id="@key-less-link" href="javascript:void(0)" style="display:none" title="Weniger Werte anzeigen"
-						onclick="$('.@key-more-item').hide(); $('#@key-more-link').show(); $('#@key-less-link').hide();">
-					<span class="octicon octicon-diff-removed" aria-hidden="true"></span>
-				</a>
-			}</h5>
-			@for(
-						(bucket, bIndex) <- buckets.zipWithIndex;
-						term = (bucket \ "key").as[String];
-						count = (bucket \ "doc_count").as[Int]) {
-					<span @if(bIndex>4){style="display:none" class="@key-more-item"}>
-						@facetLink(key, "\"" + term + "\"", models.GndOntology.label(term), count) <br/>
-					</span>
+			@defining(key.replace(".id", "")) { simpleKey =>
+				<h5>@models.GndOntology.label(simpleKey) @if(buckets.size>5){
+					<a id="@simpleKey-more-link" href="javascript:void(0)" title="Mehr Werte anzeigen"
+							onclick="$('.@simpleKey-more-item').show(); $('#@simpleKey-more-link').hide(); $('#@simpleKey-less-link').show();">
+						<span class="octicon octicon-diff-added" aria-hidden="true"></span>
+					</a>
+					<a id="@simpleKey-less-link" href="javascript:void(0)" style="display:none" title="Weniger Werte anzeigen"
+							onclick="$('.@simpleKey-more-item').hide(); $('#@simpleKey-more-link').show(); $('#@simpleKey-less-link').hide();">
+						<span class="octicon octicon-diff-removed" aria-hidden="true"></span>
+					</a>
+				}</h5>
+				@for(
+							(bucket, bIndex) <- buckets.zipWithIndex;
+							term = (bucket \ "key").as[String];
+							count = (bucket \ "doc_count").as[Int]) {
+						<span @if(bIndex>4){style="display:none" class="@simpleKey-more-item"}>
+							@facetLink(key, "\"" + term + "\"", models.GndOntology.label(term), count) <br/>
+						</span>
+				}
 			}
 		}
 	}
@@ -217,9 +223,9 @@
 					@if(!buckets.isEmpty) {
 						<h4>Ergebnisse eingrenzen:</h4>
 						@typeFacet(buckets)
-						@facet("gndSubjectCategory")
-						@facet("geographicAreaCode")
-						@facet("professionOrOccupation")
+						@facet("gndSubjectCategory.id")
+						@facet("geographicAreaCode.id")
+						@facet("professionOrOccupation.id")
 						@*@facet("dateOfBirth")*@
 					}
 				}

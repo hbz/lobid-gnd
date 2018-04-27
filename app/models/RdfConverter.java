@@ -2,14 +2,16 @@
 
 package models;
 
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
 
 import com.github.jsonldjava.core.JsonLdError;
-import com.github.jsonldjava.core.JsonLdProcessor;
-import com.github.jsonldjava.jena.JenaTripleCallback;
-import com.github.jsonldjava.utils.JsonUtils;
-import com.hp.hpl.jena.rdf.model.Model;
 
 import play.Logger;
 
@@ -41,15 +43,17 @@ public class RdfConverter {
 	}
 
 	/**
-	 * @param jsonLd The JSON-LD string to convert
-	 * @param format The RDF format to serialize the jsonLd to
+	 * @param jsonLd
+	 *            The JSON-LD string to convert
+	 * @param format
+	 *            The RDF format to serialize the jsonLd to
 	 * @return The input, converted to the given RDF serialization, or null
 	 */
 	public static String toRdf(final String jsonLd, final RdfFormat format) {
 		try {
-			final Object jsonObject = JsonUtils.fromString(jsonLd);
-			final JenaTripleCallback callback = new JenaTripleCallback();
-			final Model model = (Model) JsonLdProcessor.toRDF(jsonObject, callback);
+			final Model model = ModelFactory.createDefaultModel();
+			ByteArrayInputStream in = new ByteArrayInputStream(jsonLd.getBytes(StandardCharsets.UTF_8));
+			RDFDataMgr.read(model, in, Lang.JSONLD);
 			model.setNsPrefix("bf", "http://id.loc.gov/ontologies/bibframe/");
 			model.setNsPrefix("bibo", "http://purl.org/ontology/bibo/");
 			model.setNsPrefix("dc", "http://purl.org/dc/elements/1.1/");
@@ -68,7 +72,7 @@ public class RdfConverter {
 			final StringWriter writer = new StringWriter();
 			model.write(writer, format.getName());
 			return writer.toString();
-		} catch (IOException | JsonLdError e) {
+		} catch (JsonLdError e) {
 			Logger.error(e.getMessage(), e);
 		}
 		return null;

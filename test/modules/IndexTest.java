@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.elasticsearch.action.search.SearchResponse;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,8 +17,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import apps.Convert;
 import models.AuthorityResource;
@@ -121,9 +121,9 @@ public class IndexTest extends WithApplication {
 	public void testAggregations() {
 		Set<String> keySet = index.query("*").getAggregations().asMap().keySet();
 		Assert.assertTrue(keySet.contains("type"));
-		Assert.assertTrue(keySet.contains("gndSubjectCategory"));
-		Assert.assertTrue(keySet.contains("geographicAreaCode"));
-		Assert.assertTrue(keySet.contains("professionOrOccupation"));
+		Assert.assertTrue(keySet.contains("gndSubjectCategory.id"));
+		Assert.assertTrue(keySet.contains("geographicAreaCode.id"));
+		Assert.assertTrue(keySet.contains("professionOrOccupation.id"));
 		Assert.assertTrue(keySet.contains("dateOfBirth"));
 	}
 

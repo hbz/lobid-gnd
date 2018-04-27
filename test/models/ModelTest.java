@@ -3,13 +3,13 @@ package models;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import apps.Convert;
 import play.libs.Json;
