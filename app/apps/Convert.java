@@ -235,6 +235,7 @@ public class Convert {
 			@SuppressWarnings("unchecked") /* first.isObject() */
 			Map<String, Object> res = Json.fromJson(first, TreeMap.class);
 			res.put("@context", contextUrl);
+			arrayToSingleValue(res, "gndIdentifier");
 			arrayToSingleValue(res, "preferredName");
 			arrayToSingleValue(res, "preferredNameEntityForThePerson");
 			return Json.stringify(Json.toJson(res));

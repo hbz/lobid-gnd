@@ -14,17 +14,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
-import play.Application;
-import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
-import play.test.WithApplication;
 
-public class ConvertTest extends WithApplication {
-
-	@Override
-	protected Application provideApplication() {
-		return new GuiceApplicationBuilder().build();
-	}
+public class ConvertTest {
 
 	@Test
 	public void testConvertBaseline() {
@@ -55,6 +47,13 @@ public class ConvertTest extends WithApplication {
 		String jsonLd = jsonLdFor("100002617");
 		JsonNode jsonNode = Json.parse(jsonLd);
 		assertTrue(jsonNode.get("preferredName").isTextual());
+	}
+
+	@Test
+	public void testgndIdentifierIsTextual() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("7855044-0");
+		JsonNode gndIdentifier = Json.parse(jsonLd).get("gndIdentifier");
+		assertTrue(gndIdentifier.isTextual());
 	}
 
 	@Test

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -113,9 +112,9 @@ public class IndexTest extends WithApplication {
 	private String firstHit(SearchResponse searchResponse) {
 		Assert.assertFalse("Hits should not be empty", searchResponse.getHits().getTotalHits() == 0);
 		JsonNode json = Json.parse(searchResponse.getHits().getAt(0).getSourceAsString());
-		Iterator<JsonNode> ids = json.get("gndIdentifier").elements();
-		Assert.assertTrue("First hit should have an ID", ids.hasNext());
-		return ids.next().asText();
+		JsonNode id = json.get("gndIdentifier");
+		Assert.assertNotNull("First hit should have an ID", id);
+		return id.asText();
 	}
 
 	@Test
