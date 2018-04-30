@@ -1,25 +1,24 @@
 package modules;
 
+import static controllers.HomeController.CONFIG;
 import static controllers.HomeController.config;
-import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.elasticsearch.Version;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
@@ -28,14 +27,17 @@ import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.BoostingQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.internal.InternalSettingsPreparer;
-import org.elasticsearch.plugins.Plugin;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,30 +56,25 @@ public interface IndexComponent {
 	}
 }
 
-class EmbeddedIndex implements IndexComponent {
+class ElasticsearchServer implements IndexComponent {
 
-	private static final String INDEX_TYPE = "authority";
+	private static final Settings SETTINGS = Settings.builder()
+			.put("cluster.name", HomeController.config("index.cluster")).build();
 
-	private static class ConfigurableNode extends Node {
-		public ConfigurableNode(Settings settings, Collection<Class<? extends Plugin>> classpathPlugins) {
-			super(InternalSettingsPreparer.prepareEnvironment(settings, null), Version.CURRENT, classpathPlugins);
-		}
-	}
-
-	private Settings clientSettings = Settings.settingsBuilder().put("path.home", config("index.home"))
-			.put("http.port", config("index.port.http")).put("transport.tcp.port", config("index.port.tcp"))
-			.put("script.default_lang", "native").build();
-
-	private Node node = new ConfigurableNode(nodeBuilder().settings(clientSettings).local(true).getSettings().build(),
-			Arrays.asList(/* BundlePlugin.class */)).start();
-
-	public final Client client = node.client();
+	private final TransportClient client;
 
 	@Inject
-	public EmbeddedIndex(ApplicationLifecycle lifecycle) {
+	public ElasticsearchServer(ApplicationLifecycle lifecycle) {
+		client = new PreBuiltTransportClient(SETTINGS);
+		CONFIG.getStringList("index.hosts").forEach((host) -> {
+			try {
+				client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), 9300));
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+		});
 		startup();
 		lifecycle.addStopHook(() -> {
-			node.close();
 			client.close();
 			return null;
 		});
@@ -101,8 +98,8 @@ class EmbeddedIndex implements IndexComponent {
 					indexData(client, pathToJson, indexName);
 				}
 			} else {
-				Logger.info("Index exists. Delete the '" + config("index.home") + "/data' directory to reindex from "
-						+ pathToJson);
+				Logger.info("Index {} exists. Delete index or change index name in config to reindex from {}",
+						indexName, pathToJson);
 			}
 			if (new File(pathToUpdates).exists()) {
 				Logger.info("Indexing updates from " + pathToUpdates);
@@ -111,10 +108,10 @@ class EmbeddedIndex implements IndexComponent {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Logger.info("Using Elasticsearch index settings: {}", clientSettings.getAsMap());
+		Logger.info("Using Elasticsearch index settings: {}", SETTINGS.getAsMap());
 	}
 
-	private static void deleteIndex(final Client client, final String index) {
+	static void deleteIndex(final Client client, final String index) {
 		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 		if (indexExists(client, index)) {
 			client.admin().indices().delete(new DeleteIndexRequest(index)).actionGet();
@@ -131,7 +128,7 @@ class EmbeddedIndex implements IndexComponent {
 		CreateIndexRequestBuilder cirb = aClient.admin().indices().prepareCreate(aIndexName);
 		if (aPathToIndexSettings != null) {
 			String settingsMappings = Files.lines(Paths.get(aPathToIndexSettings)).collect(Collectors.joining());
-			cirb.setSource(settingsMappings);
+			cirb.setSource(settingsMappings, XContentType.JSON);
 		}
 		cirb.execute().actionGet();//
 		aClient.admin().indices().refresh(new RefreshRequest()).actionGet();
@@ -169,7 +166,8 @@ class EmbeddedIndex implements IndexComponent {
 			} else {
 				Form nfc = Normalizer.Form.NFC;
 				data = Normalizer.isNormalized(line, nfc) ? line : Normalizer.normalize(line, nfc);
-				bulkRequest.add(client.prepareIndex(aIndex, INDEX_TYPE, id).setSource(data));
+				bulkRequest
+						.add(client.prepareIndex(aIndex, config("index.type"), id).setSource(data, XContentType.JSON));
 			}
 			currentLine++;
 			if (pendingIndexRequests == 1000) {
@@ -198,10 +196,10 @@ class EmbeddedIndex implements IndexComponent {
 
 	@Override
 	public SearchResponse query(String q, String filter, int from, int size) {
-		BoostingQueryBuilder boostQuery = QueryBuilders.boostingQuery().negativeBoost(0.1f)
-				.negative(QueryBuilders.matchQuery("type", "UndifferentiatedPerson"))
-				.positive(QueryBuilders.queryStringQuery(q).field("_all").field("preferredName", 0.5f)
-						.field("variantName", 0.1f).field("gndIdentifier", 0.5f));
+		QueryStringQueryBuilder positive = QueryBuilders.queryStringQuery(q).field("_all").field("preferredName", 2f)
+				.field("variantName", 1f).field("gndIdentifier", 2f);
+		MatchQueryBuilder negative = QueryBuilders.matchQuery("type", "UndifferentiatedPerson");
+		BoostingQueryBuilder boostQuery = QueryBuilders.boostingQuery(positive, negative).negativeBoost(0.1f);
 		BoolQueryBuilder query = QueryBuilders.boolQuery().must(boostQuery);
 		if (!filter.isEmpty()) {
 			query = query.filter(QueryBuilders.queryStringQuery(filter));

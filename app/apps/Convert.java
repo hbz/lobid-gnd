@@ -118,7 +118,7 @@ public class Convert {
 						"/*[local-name() = 'RDF']/*[local-name() = 'Description']/*[local-name() = 'gndIdentifier']",
 						new InputSource(new BufferedReader(new StringReader(value))));
 			} catch (XPathExpressionException e) {
-				Logger.warn("XPath evaluation failed for: {}", value, e);
+				Logger.warn("XPath evaluation failed for {}: {}", name, e.getMessage());
 				return;
 			}
 			Model model = sourceModel(value);

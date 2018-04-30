@@ -20,7 +20,9 @@ libraryDependencies += "org.apache.jena" % "apache-jena-libs" % "3.7.0"
 
 libraryDependencies += "org.culturegraph" % "metafacture-core" % "4.0.0"
 
-libraryDependencies += "org.elasticsearch" % "elasticsearch" % "2.4.5"
+libraryDependencies += "org.elasticsearch" % "elasticsearch" % "5.6.3"
+
+libraryDependencies += "org.elasticsearch.client" % "transport" % "5.6.3"
 
 libraryDependencies += "org.dspace" % "oclc-harvester2" % "0.1.12"
 

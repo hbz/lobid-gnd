@@ -27,7 +27,6 @@ import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
 import com.google.common.collect.ImmutableMap;
 
-import play.Logger;
 import play.libs.Json;
 
 public class ConvertTest {
@@ -137,8 +136,8 @@ public class ConvertTest {
 	@Test
 	public void testTriplesToFramedJsonLd() throws FileNotFoundException {
 		Model model = ModelFactory.createDefaultModel();
-		RDFDataMgr.read(model,
-				in("<http://d-nb.info/gnd/118820591> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://d-nb.info/standards/elementset/gnd#AuthorityResource> ."
+		RDFDataMgr.read(model, in(
+				"<http://d-nb.info/gnd/118820591> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://d-nb.info/standards/elementset/gnd#AuthorityResource> ."
 						+ "<http://d-nb.info/gnd/118820591> <http://d-nb.info/standards/elementset/gnd#placeOfDeath> <http://d-nb.info/gnd/4005728-8> ."
 						+ "<http://d-nb.info/gnd/118820591> <http://d-nb.info/standards/elementset/gnd#placeOfBirth> <http://d-nb.info/gnd/4005728-8> ."
 						+ "<http://d-nb.info/gnd/4005728-8> <http://www.w3.org/2000/01/rdf-schema#label> \"Berlin\" ."),
@@ -156,7 +155,6 @@ public class ConvertTest {
 			JsonNode birth = jsonNode.findValue("http://d-nb.info/standards/elementset/gnd#placeOfBirth");
 			JsonNode death = jsonNode.findValue("http://d-nb.info/standards/elementset/gnd#placeOfDeath");
 			assertEquals(birth.size(), death.size());
-			Logger.info("FRAMED JSON-LD: {}", JsonUtils.toPrettyString(jsonLd));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

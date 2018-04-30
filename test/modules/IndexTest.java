@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.elasticsearch.action.search.SearchResponse;
@@ -19,8 +18,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 
 import apps.Convert;
+import controllers.HomeController;
 import models.AuthorityResource;
 import play.Application;
+import play.Logger;
 import play.api.inject.BindingKey;
 import play.api.inject.DefaultApplicationLifecycle;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -59,23 +60,20 @@ public class IndexTest extends WithApplication {
 		}
 	}
 
-	@BeforeClass
-	public static void cleanup() throws IOException {
-		// TODO: use separate dir, override config in provideApplication
-		// https://www.playframework.com/documentation/2.6.x/JavaTestingWithGuice#configuration
-		FileUtils.deleteDirectory(new File("data"));
-	}
-
 	@Before
 	public void setup() {
+		String indexName = HomeController.config("index.name");
+		index = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
+		ElasticsearchServer.deleteIndex(index.client(), indexName);
 		app.injector().instanceOf(DefaultApplicationLifecycle.class).stop();
 		index = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
+		index.client().admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 	}
 
 	@Test
 	public void testIndexData() {
 		Assert.assertTrue("Index data file should exist", new File(PATH).exists());
-		System.out.println("Indexed from: " + PATH);
+		Logger.info("Indexed from: " + PATH);
 	}
 
 	@Test
@@ -110,7 +108,8 @@ public class IndexTest extends WithApplication {
 	}
 
 	private String firstHit(SearchResponse searchResponse) {
-		Assert.assertFalse("Hits should not be empty", searchResponse.getHits().getTotalHits() == 0);
+		Assert.assertFalse("Hits should not be empty for response: " + searchResponse.toString(),
+				searchResponse.getHits().getTotalHits() == 0);
 		JsonNode json = Json.parse(searchResponse.getHits().getAt(0).getSourceAsString());
 		JsonNode id = json.get("gndIdentifier");
 		Assert.assertNotNull("First hit should have an ID", id);
