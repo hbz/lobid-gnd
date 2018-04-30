@@ -193,17 +193,22 @@ public class Convert {
 		Set<Statement> toRemove = new HashSet<>();
 		Set<Statement> toAdd = new HashSet<>();
 		model.listStatements().forEachRemaining(statement -> {
+			String s = statement.getSubject().toString();
 			String p = statement.getPredicate().toString();
 			RDFNode o = statement.getObject();
 			if (o.isURIResource()) {
-				// See https://github.com/hbz/lobid-gnd/issues/85
-				// See https://github.com/hbz/lobid-gnd/issues/24
-				String localVocab = "http://d-nb.info/standards/";
-				String object = o.toString().startsWith(localVocab) ? GndOntology.label(o.toString())
-						: boostrapLabel(o.toString());
-				Statement labelStatement = model.createLiteralStatement(model.createResource(o.toString()),
-						model.createProperty(label), object);
-				toAdd.add(labelStatement);
+				if (s.equals(o.toString())) { // remove self-ref statements
+					toRemove.add(statement);
+				} else {
+					// See https://github.com/hbz/lobid-gnd/issues/85
+					// See https://github.com/hbz/lobid-gnd/issues/24
+					String localVocab = "http://d-nb.info/standards/";
+					String object = o.toString().startsWith(localVocab) ? GndOntology.label(o.toString())
+							: boostrapLabel(o.toString());
+					Statement labelStatement = model.createLiteralStatement(model.createResource(o.toString()),
+							model.createProperty(label), object);
+					toAdd.add(labelStatement);
+				}
 			}
 			if (p.equals(academicDegree) && o.isURIResource()) {
 				// See https://github.com/hbz/lobid-gnd/commit/2cb4b9b
@@ -227,7 +232,7 @@ public class Convert {
 				toAdd.add(model.createStatement(statement.getSubject(), model.createProperty(general), o));
 			} else if (p.equals(type) && o.toString().startsWith(gnd)) {
 				// https://github.com/hbz/lobid-gnd/issues/1#issuecomment-312597639
-				if (statement.getSubject().toString().equals("http://d-nb.info/gnd/" + id)) {
+				if (s.equals("http://d-nb.info/gnd/" + id)) {
 					toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
 							model.createResource(config("data.superclass"))));
 				}

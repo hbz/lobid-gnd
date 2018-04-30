@@ -1,0 +1,75 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vivo: <http://vivoweb.org/ontology/core#> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix ebu: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/1060152614> a gndo:DifferentiatedPerson ;
+	gndo:gndIdentifier "1060152614" ;
+	owl:sameAs <http://viaf.org/viaf/311440825> ;
+	gndo:oldAuthorityNumber "(DE-588)1060152614" ;
+	owl:sameAs <http://d-nb.info/gnd/1060152614> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/1060152614" ;
+	gndo:variantNameForThePerson "Winne, O." ;
+	gndo:variantNameEntityForThePerson _:node1cbu4vcvox1596096 .
+
+_:node1cbu4vcvox1596096 gndo:forename "O." ;
+	gndo:surname "Winne" .
+
+<http://d-nb.info/gnd/1060152614> gndo:variantNameForThePerson "Winne, Olaf Christian" ;
+	gndo:variantNameEntityForThePerson _:node1cbu4vcvox1596097 .
+
+_:node1cbu4vcvox1596097 gndo:forename "Olaf Christian" ;
+	gndo:surname "Winne" .
+
+<http://d-nb.info/gnd/1060152614> gndo:variantNameForThePerson "Winne, O. Ch." ;
+	gndo:variantNameEntityForThePerson _:node1cbu4vcvox1596098 .
+
+_:node1cbu4vcvox1596098 gndo:forename "O. Ch." ;
+	gndo:surname "Winne" .
+
+<http://d-nb.info/gnd/1060152614> gndo:variantNameForThePerson "Winne, O. C." ;
+	gndo:variantNameEntityForThePerson _:node1cbu4vcvox1596099 .
+
+_:node1cbu4vcvox1596099 gndo:forename "O. C." ;
+	gndo:surname "Winne" .
+
+<http://d-nb.info/gnd/1060152614> gndo:preferredNameForThePerson "Winne, Olaf" ;
+	gndo:preferredNameEntityForThePerson _:node1cbu4vcvox1596100 .
+
+_:node1cbu4vcvox1596100 gndo:forename "Olaf" ;
+	gndo:surname "Winne" .
+
+<http://d-nb.info/gnd/1060152614> gndo:affiliation <http://d-nb.info/gnd/38329-6> , <http://d-nb.info/gnd/10085032-7> ;
+	gndo:professionOrOccupation <http://d-nb.info/gnd/4026955-3> , <http://d-nb.info/gnd/4251500-2> ;
+	gndo:fieldOfStudy <http://d-nb.info/gnd/4014390-9> , <http://d-nb.info/gnd/4194567-0> ;
+	gndo:academicDegree "Dr.-Ing." ;
+	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DE> ;
+	gndo:publication "Beitrag zum Entwurf und zur Optimierung eines verteilten sicherheitsgerichteten Echtzeit-Systems am Beispiel feuerungstechnischer Anwendungen. - 2014" ;
+	gndo:biographicalOrHistoricalInformation "2014 Diss. an der Fakultät für Informatik und Elektrotechnik der Universität Rostock"@de ;
+	gndo:placeOfBirth <http://d-nb.info/gnd/4036512-8> ;
+	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#male> ;
+	gndo:dateOfBirth "1969"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+

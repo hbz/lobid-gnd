@@ -1,0 +1,76 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vivo: <http://vivoweb.org/ontology/core#> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix ebu: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/120116766> a gndo:DifferentiatedPerson ;
+	gndo:gndIdentifier "120116766" ;
+	owl:sameAs <http://viaf.org/viaf/62371022> ;
+	gndo:oldAuthorityNumber "(DE-588)186389256" ;
+	owl:sameAs <http://d-nb.info/gnd/186389256> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/186389256" ;
+	gndo:oldAuthorityNumber "(DE-588a)186389256" , "(DE-588)171993993" ;
+	owl:sameAs <http://d-nb.info/gnd/171993993> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/171993993" ;
+	gndo:oldAuthorityNumber "(DE-588)120116766" ;
+	owl:sameAs <http://d-nb.info/gnd/120116766> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/120116766" ;
+	gndo:oldAuthorityNumber "(DE-588a)120116766" , "(DE-588a)171993993" ;
+	gndo:variantNameForThePerson "Böhme, J. F." ;
+	gndo:variantNameEntityForThePerson _:node1cbu4vcvox1595989 .
+
+_:node1cbu4vcvox1595989 gndo:forename "J. F." ;
+	gndo:surname "Böhme" .
+
+<http://d-nb.info/gnd/120116766> gndo:variantNameForThePerson "Böhme, Johann F." ;
+	gndo:variantNameEntityForThePerson _:node1cbu4vcvox1595990 .
+
+_:node1cbu4vcvox1595990 gndo:forename "Johann F." ;
+	gndo:surname "Böhme" .
+
+<http://d-nb.info/gnd/120116766> gndo:variantNameForThePerson "Böhme, Johann" ;
+	gndo:variantNameEntityForThePerson _:node1cbu4vcvox1595991 .
+
+_:node1cbu4vcvox1595991 gndo:forename "Johann" ;
+	gndo:surname "Böhme" .
+
+<http://d-nb.info/gnd/120116766> gndo:preferredNameForThePerson "Böhme, Johann Friedrich" ;
+	gndo:preferredNameEntityForThePerson _:node1cbu4vcvox1595992 .
+
+_:node1cbu4vcvox1595992 gndo:forename "Johann Friedrich" ;
+	gndo:surname "Böhme" .
+
+<http://d-nb.info/gnd/120116766> gndo:affiliation <http://d-nb.info/gnd/7409-3> ;
+	gndo:professionOrOccupation <http://d-nb.info/gnd/4037945-0> ;
+	gndo:academicDegree "Dipl." ;
+	gndo:professionOrOccupation <http://d-nb.info/gnd/4139395-8> ;
+	gndo:academicDegree "Prof. Dr. em." ;
+	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DE> ;
+	gndo:biographicalOrHistoricalInformation "Professor für Elektrotechnik; Inhaber des Lehrstuhls für Signaltheorie, Fakultät für Elektrotechnik und Informationstechnik, Ruhr-Universität Bochum, von 1980 bis 2005; Diplom (equ. M.Sc.) in mathematics in 1966, the Dr.-Ing. (equ. PhD) in 1970, and the Habilitation in 1977, both in computer science, from the Technische Universität Hannover, the Universität Erlangen-Nürnberg, and the Universität Bonn, respectively. From 1967 to 1970 he was a research assistant with Krupp Atlas Elektronik, Bremen and with the Universität Erlangen-Nürnberg. From 1970 to 1974 he headed a sonar research group with Krupp Atlas Elektronik, Bremen. He then joined the Universität Bonn as head of a signal processing research group until 1978 and later the Forschungsinstitut für Hochfrequenzphysik of FGAN, Wachtberg-Werthhoven. Since 1980 he has been Professor at the Fakultät für Elektrotechnik und Informationstechnik of Ruhr-Universität Bochum, where he headed the Lehrstuhl für Signaltheorie up to 2005."@de , "Professor für Elektrotechnik"@de ;
+	gndo:placeOfBirth <http://d-nb.info/gnd/4054535-0> ;
+	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#notKnown> ;
+	gndo:dateOfBirth "1940"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+
