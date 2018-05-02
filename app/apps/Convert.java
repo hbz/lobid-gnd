@@ -299,7 +299,7 @@ public class Convert {
 				result = Json.toJson(map);
 			}
 		} catch (Exception e) {
-			Logger.warn("Could not enrich from EntityFacts", e.getMessage());
+			Logger.warn("Could not enrich {} from EntityFacts: {}", id, e.getMessage());
 		}
 		return result;
 	}
