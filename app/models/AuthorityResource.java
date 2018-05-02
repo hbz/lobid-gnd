@@ -72,6 +72,9 @@ public class AuthorityResource {
 	public List<Map<String, Object>> firstComposer;
 	public List<String> dateOfPublication;
 	public EntityFacts entityFacts;
+	public List<Map<String, Object>> affiliation;
+	public List<Map<String, Object>> formOfWorkAndExpression;
+	public List<Map<String, Object>> addressee;
 
 	public List<String> creatorOf;
 
@@ -138,6 +141,7 @@ public class AuthorityResource {
 		addIds("firstComposer", firstComposer, fields);
 		addIds("mediumOfPerformance", mediumOfPerformance, fields);
 		addIds("professionOrOccupation", professionOrOccupation, fields);
+		addIds("affiliation", affiliation, fields);
 		addIds("homepage", homepage, fields);
 		addValues("academicDegree", academicDegree, fields);
 		addIds("geographicAreaCode", geographicAreaCode, fields);
@@ -171,6 +175,8 @@ public class AuthorityResource {
 		addValues("dateOfPublication", dateOfPublication, fields);
 		addValues("variantName", variantName, fields);
 		addValues("creatorOf", creatorOf, fields);
+		addIds("formOfWorkAndExpression", formOfWorkAndExpression, fields);
+		addIds("addressee", addressee, fields);
 		return fields;
 	}
 
