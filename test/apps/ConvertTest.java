@@ -1,7 +1,9 @@
 package apps;
 
+import static apps.Convert.config;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -12,13 +14,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -152,6 +160,26 @@ public class ConvertTest {
 	}
 
 	@Test
+	public void testEntityFactsEnrichment() throws IOException {
+		String id = "118624822";
+		indexEntityFacts(id);
+		String jsonLd = jsonLdFor(id);
+		assertNotNull("JSON-LD should exist", jsonLd);
+		assertTrue("Enrichment for depiction should exist", Json.parse(jsonLd).has("depiction"));
+		JsonNode sameAs = Json.parse(jsonLd).get("sameAs");
+		assertTrue("Enrichment for sameAs should exist", sameAs.size() > 5);
+		assertIsObjectWithIdAndLabel(sameAs.elements().next());
+	}
+
+	private void indexEntityFacts(String id) throws IOException {
+		String json = Files.lines(Paths.get("test/entityfacts/" + id + ".json")).collect(Collectors.joining());
+		TransportClient client = Convert.CLIENT;
+		client.prepareIndex(config("index.entityfacts.index"), config("index.entityfacts.type")).setId(id)
+				.setSource(json, XContentType.JSON).execute().actionGet();
+		client.admin().indices().refresh(new RefreshRequest()).actionGet();
+	}
+
+	@Test
 	public void testTriplesToFramedJsonLd() throws FileNotFoundException {
 		Model model = ModelFactory.createDefaultModel();
 		RDFDataMgr.read(model, in(
@@ -179,9 +207,9 @@ public class ConvertTest {
 	}
 
 	private void assertIsObjectWithIdAndLabel(JsonNode json) {
-		assertTrue(json.isObject());
-		assertTrue(json.has("id"));
-		assertTrue(json.has("label"));
+		assertTrue("JSON node should be an object", json.isObject());
+		assertTrue("JSON object should have an id", json.has("id"));
+		assertTrue("JSON object should have a label", json.has("label"));
 	}
 
 	private InputStream in(String s) {

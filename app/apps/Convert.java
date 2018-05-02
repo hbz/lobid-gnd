@@ -10,11 +10,14 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -35,6 +38,11 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.culturegraph.mf.framework.ObjectReceiver;
 import org.culturegraph.mf.framework.helpers.DefaultObjectPipe;
 import org.culturegraph.mf.framework.helpers.DefaultStreamPipe;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -49,6 +57,7 @@ import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
 import ORG.oclc.oai.harvester2.app.RawWrite;
+import controllers.HomeController;
 import models.GndOntology;
 import play.Logger;
 import play.libs.Json;
@@ -56,6 +65,19 @@ import play.libs.Json;
 public class Convert {
 
 	private static final Config CONFIG = ConfigFactory.parseFile(new File("conf/application.conf"));
+
+	static final TransportClient CLIENT = new PreBuiltTransportClient(
+			Settings.builder().put("cluster.name", HomeController.config("index.cluster")).build());
+
+	static {
+		ConfigFactory.parseFile(new File("conf/application.conf")).getStringList("index.hosts").forEach((host) -> {
+			try {
+				CLIENT.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), 9300));
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
 	static String config(String id) {
 		return CONFIG.getString(id);
@@ -147,7 +169,7 @@ public class Convert {
 			Object jsonLd = JsonUtils.fromString(out.toString());
 			jsonLd = JsonLdProcessor.frame(jsonLd, new HashMap<>(frame), options);
 			jsonLd = JsonLdProcessor.compact(jsonLd, context, options);
-			return postprocess(contextUrl, jsonLd);
+			return postprocess(id, contextUrl, jsonLd);
 		} catch (JsonLdError | IOException e) {
 			e.printStackTrace();
 			return null;
@@ -249,16 +271,55 @@ public class Convert {
 		}
 	}
 
-	private static String postprocess(String contextUrl, Object jsonLd) {
+	private static String postprocess(String id, String contextUrl, Object jsonLd) {
 		JsonNode in = Json.toJson(jsonLd);
 		JsonNode graph = in.get("@graph");
 		JsonNode first = graph == null ? in : graph.elements().next();
+		JsonNode result = in;
 		if (first.isObject()) {
 			@SuppressWarnings("unchecked") /* first.isObject() */
 			Map<String, Object> res = Json.fromJson(first, TreeMap.class);
 			res.put("@context", contextUrl);
-			return Json.stringify(Json.toJson(res));
+			result = Json.toJson(res);
 		}
-		return Json.stringify(in);
+		return Json.stringify(withEntityFacts(id, result));
+	}
+
+	private static JsonNode withEntityFacts(String id, JsonNode node) {
+		JsonNode result = node;
+		try {
+			GetResponse response = CLIENT
+					.prepareGet(config("index.entityfacts.index"), config("index.entityfacts.type"), id).execute()
+					.actionGet();
+			if (response.isExists()) {
+				JsonNode json = Json.parse(response.getSourceAsString());
+				JsonNode depiction = json.get("depiction");
+				JsonNode sameAs = json.get("sameAs");
+				Map<String, Object> map = addIfExits(result, depiction, sameAs);
+				result = Json.toJson(map);
+			}
+		} catch (Exception e) {
+			Logger.warn("Could not enrich from EntityFacts", e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	private static Map<String, Object> addIfExits(JsonNode result, JsonNode depiction, JsonNode sameAs) {
+		Map<String, Object> map = Json.fromJson(result, Map.class);
+		if (sameAs != null) {
+			List<Map<String, Object>> fromJson = Json.fromJson(sameAs, List.class);
+			List<JsonNode> labelled = fromJson.stream().map((Map<String, Object> sameAsMap) -> {
+				sameAsMap.put("label", ((Map<String, Object>) sameAsMap.get("collection")).get("name").toString());
+				sameAsMap.put("id", sameAsMap.get("@id"));
+				sameAsMap.remove("@id");
+				return Json.toJson(sameAsMap);
+			}).collect(Collectors.toList());
+			map.put("sameAs", labelled);
+		}
+		if (depiction != null) {
+			map.put("depiction", Json.parse(Json.stringify(depiction).replace("@id", "id")));
+		}
+		return map;
 	}
 }
