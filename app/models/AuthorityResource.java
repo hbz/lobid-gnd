@@ -239,11 +239,14 @@ public class AuthorityResource {
 					: value;
 			String search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 10, "html")
 					.toString();
-			result = String.format(
-					"<a id='%s-%s' title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>&nbsp;"
-							+ "<a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
-							+ "<i class='glyphicon glyphicon-link' aria-hidden='true'></i></a>",
-					field, i, field, label, search, label, label, link);
+			String entityLink = String.format(
+					"<a id='%s-%s' title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>%s</a>", //
+					field, i, label, link, label);
+			String searchLink = String.format(
+					"<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>"
+							+ "<i class='octicon octicon-search' aria-hidden='true'></i></a>",
+					GndOntology.label(field), label, search);
+			result = entityLink + "&nbsp;" + searchLink;
 		}
 		return withDefaultHidden(field, size, i, result);
 	}
