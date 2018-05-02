@@ -10,8 +10,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -37,11 +35,6 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.culturegraph.mf.framework.ObjectReceiver;
 import org.culturegraph.mf.framework.helpers.DefaultObjectPipe;
 import org.culturegraph.mf.framework.helpers.DefaultStreamPipe;
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -56,8 +49,6 @@ import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
 import ORG.oclc.oai.harvester2.app.RawWrite;
-import controllers.HomeController;
-import models.AuthorityResource;
 import models.GndOntology;
 import play.Logger;
 import play.libs.Json;
@@ -66,28 +57,11 @@ public class Convert {
 
 	private static final Config CONFIG = ConfigFactory.parseFile(new File("conf/application.conf"));
 
-	private static final Settings SETTINGS = Settings.builder()
-			.put("cluster.name", HomeController.config("index.cluster")).build();
-
-	private static final TransportClient CLIENT = new PreBuiltTransportClient(SETTINGS);
-
-	static {
-		CONFIG.getStringList("index.hosts").forEach((host) -> {
-			try {
-				CLIENT.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), 9300));
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
-		});
-	}
-
 	static String config(String id) {
 		return CONFIG.getString(id);
 	}
 
 	static final Map<String, Object> context = load();
-
-	private static final Map<String, String> labelCache = new HashMap<>();
 
 	static class OpenOaiPmh extends DefaultObjectPipe<String, ObjectReceiver<Reader>> {
 
@@ -202,11 +176,11 @@ public class Convert {
 				} else {
 					// See https://github.com/hbz/lobid-gnd/issues/85
 					// See https://github.com/hbz/lobid-gnd/issues/24
-					String localVocab = "http://d-nb.info/standards/";
-					String object = o.toString().startsWith(localVocab) ? GndOntology.label(o.toString())
-							: boostrapLabel(o.toString());
-					Statement labelStatement = model.createLiteralStatement(model.createResource(o.toString()),
-							model.createProperty(label), object);
+					Statement labelStatement = model//
+							.createLiteralStatement(//
+									model.createResource(o.toString()), //
+									model.createProperty(label), //
+									GndOntology.label(o.toString()));
 					toAdd.add(labelStatement);
 				}
 			}
@@ -247,22 +221,6 @@ public class Convert {
 		toRemove.stream().forEach(e -> model.remove(e));
 		toAdd.stream().forEach(e -> model.add(e));
 		return model;
-	}
-
-	private static String boostrapLabel(String fullId) {
-		if (!fullId.startsWith(AuthorityResource.DNB_PREFIX)) {
-			return fullId;
-		}
-		String id = fullId.substring(AuthorityResource.DNB_PREFIX.length());
-		return labelCache.containsKey(id) ? labelCache.get(id) : getLabelFromIndex(id, "preferredName");
-	}
-
-	private static String getLabelFromIndex(String id, String field) {
-		GetResponse response = CLIENT.prepareGet(config("index.name"), config("index.type"), id).execute().actionGet();
-		if (response.isExists()) {
-			return response.getSourceAsMap().get(field).toString();
-		}
-		return id;
 	}
 
 	private static String secondLevelTypeFor(String gnd, String type) {

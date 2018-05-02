@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeSet;
+import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -205,21 +206,26 @@ public class AuthorityResource {
 	}
 
 	private void addIds(String field, List<Map<String, Object>> list, List<Pair<String, String>> result) {
-		if (list != null) {
-			addValues(field, list.stream().map(m -> m.get("id").toString()).collect(Collectors.toList()), result);
-		}
+		add(field, list, result, i -> {
+			String id = list.get(i).get("id").toString();
+			String label = list.get(i).get("label").toString();
+			return process(field, id, label, i, list.size());
+		});
 	}
 
 	private void addValues(String field, List<String> list, List<Pair<String, String>> result) {
+		add(field, list, result, i -> process(field, list.get(i), list.get(i), i, list.size()));
+	}
+
+	private void add(String field, List<?> list, List<Pair<String, String>> result,
+			IntFunction<? extends String> function) {
 		if (list != null && list.size() > 0) {
-			String value = IntStream.range(0, list.size()).mapToObj(i -> process(field, list.get(i), i, list.size()))
-					.collect(Collectors.joining(" | "));
+			String value = IntStream.range(0, list.size()).mapToObj(function).collect(Collectors.joining(" | "));
 			result.add(Pair.of(field, value));
 		}
 	}
 
-	private String process(String field, String value, int i, int size) {
-		String label = GndOntology.label(value);
+	private String process(String field, String value, String label, int i, int size) {
 		String result = label;
 		if ("creatorOf".equals(field)) {
 			result = String.format("<a href='%s'>%s</a>",

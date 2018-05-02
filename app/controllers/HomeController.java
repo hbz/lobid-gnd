@@ -41,7 +41,6 @@ import com.typesafe.config.ConfigObject;
 import apps.Convert;
 import models.AuthorityResource;
 import models.EntityFacts;
-import models.GndOntology;
 import models.RdfConverter;
 import models.RdfConverter.RdfFormat;
 import modules.IndexComponent;
@@ -132,7 +131,6 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result authority(String id, String format) {
-		GndOntology.index = index;
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		String jsonLd = getAuthorityResource(id);
 		if (jsonLd == null) {
@@ -226,7 +224,6 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result search(String q, String filter, int from, int size, String format) {
-		GndOntology.index = index;
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		SearchResponse response = index.query(q.isEmpty() ? "*" : q, filter, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
