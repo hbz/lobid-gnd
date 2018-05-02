@@ -243,7 +243,7 @@ public class AuthorityResource {
 					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
 							.toString()
 					: value;
-			String search = controllers.routes.HomeController.search(field + ":\"" + value + "\"", "", 0, 10, "html")
+			String search = controllers.routes.HomeController.search(field + ".id:\"" + value + "\"", "", 0, 10, "html")
 					.toString();
 			String entityLink = String.format(
 					"<a id='%s-%s' title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>%s</a>", //
