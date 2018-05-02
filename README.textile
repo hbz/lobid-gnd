@@ -2,19 +2,21 @@ h1. About
 
 lobid-gnd: access GND data as JSON-LD over HTTP.
 
+"!https://secure.travis-ci.org/hbz/lobid-gnd.png?branch=master!":https://travis-ci.org/hbz/lobid-gnd
+
 h1. Setup
 
-Prerequisites: @sbt 0.13@ or newer &mdash; "download sbt":http://www.scala-sbt.org/download.html
+h2. Prerequisites
+
+@sbt 0.13@ or newer &mdash; "download sbt":http://www.scala-sbt.org/download.html
+
+Elasticsearch 5.6.x (configured in @application.conf@)
+
+h2. Build
 
 Get the code, change into the project directory, and run the tests:
 
 @git clone https://github.com/hbz/lobid-gnd.git ; cd lobid-gnd ; sbt test@
-
-Fully rebuild the index data from the input files in @test/ttl@:
-
-@rm -rf data/ ; rm GND.jsonl ; sbt test@
-
-"!https://secure.travis-ci.org/hbz/lobid-gnd.png?branch=master!":https://travis-ci.org/hbz/lobid-gnd
 
 h2. Data
 
@@ -52,20 +54,12 @@ In 'lobid-gnd', run the web application:
 
 Open "http://localhost:9000/gnd":http://localhost:9000/gnd
 
-If no local index exists, indexing will happen automatically on the first startup. See logs for details.
+If the index configured in @application.conf@ does not exists, indexing will happen automatically on the first startup.
 
 h2. Eclipse
 
 To set up an Eclipse project, first generate the Eclipse config for your machine:
 
 @sbt "eclipse with-source=true"@
-
-Then install the Play 2 support from the "Scala IDE update site":http://scala-ide.org/download/current.html.
-
-E.g. for Eclipse 4.6 (Neon), choose "Help" > "Install New Software" and use:
-
-@http://download.scala-ide.org/sdk/lithium/e46/scala212/stable/site@
-
-Select the 'Play 2 support' feature.
 
 Then import the project in Eclipse: "File" > "Import" > "Existing Projects into Workspace".
