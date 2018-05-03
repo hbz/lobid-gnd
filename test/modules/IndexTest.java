@@ -1,6 +1,10 @@
 package modules;
 
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,6 +24,7 @@ import com.google.common.collect.ImmutableMap;
 import apps.Convert;
 import controllers.HomeController;
 import models.AuthorityResource;
+import models.GndOntology;
 import play.Application;
 import play.Logger;
 import play.api.inject.BindingKey;
@@ -124,6 +129,11 @@ public class IndexTest extends WithApplication {
 		Assert.assertTrue(keySet.contains("geographicAreaCode.id"));
 		Assert.assertTrue(keySet.contains("professionOrOccupation.id"));
 		Assert.assertTrue(keySet.contains("dateOfBirth"));
+	}
+
+	@Test
+	public void testGndOntologyIndexLabel() throws FileNotFoundException {
+		assertThat(GndOntology.label("http://d-nb.info/gnd/118820591"), equalTo("Weizenbaum, Joseph"));
 	}
 
 }

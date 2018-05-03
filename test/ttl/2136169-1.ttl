@@ -1,0 +1,50 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vivo: <http://vivoweb.org/ontology/core#> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix ebu: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/2136169-1> a gndo:CorporateBody ;
+	gndo:gndIdentifier "2136169-1" ;
+	owl:sameAs <http://viaf.org/viaf/159080767> ;
+	gndo:oldAuthorityNumber "(DE-588)1088077951" ;
+	owl:sameAs <http://d-nb.info/gnd/1088077951> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/1088077951" ;
+	gndo:oldAuthorityNumber "(DE-588)1064292585" ;
+	owl:sameAs <http://d-nb.info/gnd/1064292585> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/1064292585" ;
+	gndo:oldAuthorityNumber "(DE-588)2136169-1" ;
+	owl:sameAs <http://d-nb.info/gnd/2136169-1> ;
+	dnbt:deprecatedUri "http://d-nb.info/gnd/2136169-1" ;
+	gndo:oldAuthorityNumber "(DE-588b)2136169-1" ;
+	gndo:variantNameForTheCorporateBody "Rosenthaler + Partner AG" , "Rosenthaler+Partner AG" , "Rosenthaler und Partner" ;
+	gndo:abbreviatedNameForTheCorporateBody "R+P AG" ;
+	gndo:variantNameForTheCorporateBody "Rosenthaler + Partner AG Management und Informatik" ;
+	gndo:preferredNameForTheCorporateBody "Rosenthaler + Partner" ;
+	gndo:gndSubjectCategory <http://d-nb.info/standards/vocab/gnd/gnd-sc#10.12b> ;
+	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-CH-BL> , <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-CH-ZH> ;
+	gndo:homepage <http://www.rpag.ch> , <http://www.rpag.ch/cms/front_content.php> ;
+	gndo:placeOfBusiness <http://d-nb.info/gnd/4256381-1> , <http://d-nb.info/gnd/4068038-1> .
+

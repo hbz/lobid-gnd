@@ -134,6 +134,24 @@ public class ConvertTest {
 	}
 
 	@Test
+	public void testOntologyLabelEnrichment() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("118624822");
+		JsonNode area = Json.parse(jsonLd).get("geographicAreaCode").elements().next();
+		assertIsObjectWithIdAndLabel(area);
+		assertEquals("http://d-nb.info/standards/vocab/gnd/geographic-area-code#XD-US", area.get("id").textValue());
+		assertEquals("USA", area.get("label").textValue());
+	}
+
+	@Test
+	public void testGndLabelEnrichment() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("1081942517");
+		JsonNode author = Json.parse(jsonLd).get("firstAuthor").elements().next();
+		assertIsObjectWithIdAndLabel(author);
+		assertEquals("http://d-nb.info/gnd/118624822", author.get("id").textValue());
+		assertEquals("Twain, Mark", author.get("label").textValue());
+	}
+
+	@Test
 	public void testTriplesToFramedJsonLd() throws FileNotFoundException {
 		Model model = ModelFactory.createDefaultModel();
 		RDFDataMgr.read(model, in(
