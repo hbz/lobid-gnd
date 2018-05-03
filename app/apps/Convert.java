@@ -11,10 +11,13 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.InetAddress;
+import java.net.URI;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -186,6 +190,7 @@ public class Convert {
 		String type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 		String label = "http://www.w3.org/2000/01/rdf-schema#label";
 		String gnd = "http://d-nb.info/standards/elementset/gnd#";
+		String collection = "http://d-nb.info/standards/elementset/dnb#isDescribedIn";
 		Set<Statement> toRemove = new HashSet<>();
 		Set<Statement> toAdd = new HashSet<>();
 		model.listStatements().forEachRemaining(statement -> {
@@ -196,14 +201,25 @@ public class Convert {
 				if (s.equals(o.toString())) { // remove self-ref statements
 					toRemove.add(statement);
 				} else {
-					// See https://github.com/hbz/lobid-gnd/issues/85
-					// See https://github.com/hbz/lobid-gnd/issues/24
-					Statement labelStatement = model//
-							.createLiteralStatement(//
-									model.createResource(o.toString()), //
-									model.createProperty(label), //
-									GndOntology.label(o.toString()));
-					toAdd.add(labelStatement);
+					if (p.equals(sameAs)) {
+						// Add `collection` details for `sameAs`
+						// See https://github.com/hbz/lobid-gnd/issues/69
+						String collectionId = collectionId(o.toString());
+						Statement collectionStatement = model.createStatement(model.createResource(o.toString()),
+								model.createProperty(collection), model.createResource(collectionId));
+						toAdd.add(collectionStatement);
+						toAdd.addAll(collectionDetails(collectionId, model));
+					} else {
+						// Add `label` statement for any link
+						// See https://github.com/hbz/lobid-gnd/issues/85
+						// See https://github.com/hbz/lobid-gnd/issues/24
+						Statement labelStatement = model//
+								.createLiteralStatement(//
+										model.createResource(o.toString()), //
+										model.createProperty(label), //
+										GndOntology.label(o.toString()));
+						toAdd.add(labelStatement);
+					}
 				}
 			}
 			if (p.equals(academicDegree) && o.isURIResource()) {
@@ -243,6 +259,23 @@ public class Convert {
 		toRemove.stream().forEach(e -> model.remove(e));
 		toAdd.stream().forEach(e -> model.add(e));
 		return model;
+	}
+
+	private static List<Statement> collectionDetails(String collectionId, Model model) {
+		ConfigObject collections = CONFIG.getObject("collections");
+		if (collections.containsKey(collectionId)) {
+			@SuppressWarnings("unchecked")
+			List<String> details = (List<String>) collections.get(collectionId).unwrapped();
+			List<String> properties = CONFIG.getStringList("collections.properties");
+			List<Statement> result = IntStream.range(0, properties.size()).mapToObj(i -> model.createStatement(//
+					model.createResource(collectionId), //
+					model.createProperty(properties.get(i)), //
+					model.createLiteral(details.get(i)))).collect(Collectors.toList());
+			return result;
+		} else {
+			Logger.warn("No collection details found for {}", collectionId);
+			return Collections.emptyList();
+		}
 	}
 
 	private static String secondLevelTypeFor(String gnd, String type) {
@@ -310,7 +343,8 @@ public class Convert {
 		if (sameAs != null) {
 			List<Map<String, Object>> fromJson = Json.fromJson(sameAs, List.class);
 			List<JsonNode> labelled = fromJson.stream().map((Map<String, Object> sameAsMap) -> {
-				sameAsMap.put("label", ((Map<String, Object>) sameAsMap.get("collection")).get("name").toString());
+				Map<String, Object> collection = (Map<String, Object>) sameAsMap.get("collection");
+				collection.put("id", collectionId(sameAsMap.get("@id").toString()));
 				sameAsMap.put("id", sameAsMap.get("@id"));
 				sameAsMap.remove("@id");
 				return Json.toJson(sameAsMap);
@@ -318,8 +352,16 @@ public class Convert {
 			map.put("sameAs", labelled);
 		}
 		if (depiction != null) {
-			map.put("depiction", Json.parse(Json.stringify(depiction).replace("@id", "id")));
+			map.put("depiction", Arrays.asList(ImmutableMap.of(//
+					"id", depiction.get("@id"), //
+					"url", depiction.get("url"), //
+					"thumbnail", depiction.get("thumbnail").get("@id"))));
 		}
 		return map;
+	}
+
+	private static String collectionId(String id) {
+		URI uri = URI.create(id);
+		return uri.getScheme() + "://" + uri.getHost();
 	}
 }

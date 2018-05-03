@@ -160,15 +160,49 @@ public class ConvertTest {
 	}
 
 	@Test
-	public void testEntityFactsEnrichment() throws IOException {
+	public void testSameAsCollectionEnrichment() throws IOException {
+		String id = "16269284-5";
+		String jsonLd = jsonLdFor(id);
+		assertNotNull("JSON-LD should exist", jsonLd);
+		assertTrue("sameAs should exist", Json.parse(jsonLd).has("sameAs"));
+		JsonNode sameAs = Json.parse(jsonLd).get("sameAs").elements().next();
+		assertTrue("sameAs should have a collection", sameAs.has("collection"));
+		assertTrue("collection should not be empty", sameAs.get("collection").size() > 0);
+		assertTrue("collection should have an id", sameAs.get("collection").has("id"));
+		assertTrue("collection should have an icon", sameAs.get("collection").has("icon"));
+		assertTrue("collection should have a name", sameAs.get("collection").has("name"));
+		assertTrue("collection should have an abbr", sameAs.get("collection").has("abbr"));
+		assertTrue("collection should have a publisher", sameAs.get("collection").has("publisher"));
+	}
+
+	@Test
+	public void testEntityFactsDepictionEnrichment() throws IOException {
 		String id = "118624822";
 		indexEntityFacts(id);
 		String jsonLd = jsonLdFor(id);
 		assertNotNull("JSON-LD should exist", jsonLd);
-		assertTrue("Enrichment for depiction should exist", Json.parse(jsonLd).has("depiction"));
-		JsonNode sameAs = Json.parse(jsonLd).get("sameAs");
-		assertTrue("Enrichment for sameAs should exist", sameAs.size() > 5);
-		assertIsObjectWithIdAndLabel(sameAs.elements().next());
+		JsonNode node = Json.parse(jsonLd);
+		assertTrue("Enrichment for depiction should exist", node.has("depiction"));
+		assertTrue("Depiction should be an array", node.get("depiction").isArray());
+		JsonNode depiction = node.get("depiction").elements().next();
+		assertTrue("Depiction should have an id", depiction.has("id"));
+		assertTrue("Depiction should have a url", depiction.has("url"));
+		assertTrue("Depiction should have a thumbnail", depiction.has("thumbnail"));
+		assertFalse("thumbnail should not be an object", depiction.get("thumbnail").isObject());
+	}
+
+	@Test
+	public void testEntityFactsSameAsEnrichment() throws IOException {
+		String id = "118624822";
+		indexEntityFacts(id);
+		String jsonLd = jsonLdFor(id);
+		assertNotNull("JSON-LD should exist", jsonLd);
+		JsonNode node = Json.parse(jsonLd);
+		JsonNode sameAsAll = node.get("sameAs");
+		assertTrue("Enrichment for sameAs should exist", sameAsAll.size() > 5);
+		assertTrue("Enrichment for sameAs should exist", sameAsAll.size() > 5);
+		JsonNode sameAs = sameAsAll.elements().next();
+		assertTrue("sameAs collection should have an id", sameAs.get("collection").has("id"));
 	}
 
 	private void indexEntityFacts(String id) throws IOException {
