@@ -41,67 +41,54 @@
 	"mappings": {
 		"authority": {
 			"date_detection" : false,
+			"dynamic_templates": [
+				{
+					"id_subfields": {
+						"path_match": "*.id",
+						"mapping": {
+							"type": "keyword",
+							"index": true
+						}
+					}
+				}
+			],
 			"properties": {
 				"@context": {
-					"type": "string",
+					"type": "keyword",
 					"include_in_all": false,
-					"index": "no"
+					"index": false
 				},
 				"id": {
-					"type": "string",
-					"index": "not_analyzed"
+					"type": "keyword",
+					"index": true
 				},
 				"gndIdentifier": {
-					"type": "string",
-					"index": "not_analyzed"
-				},
-				"geographicAreaCode": {
-					"properties": {
-						"id": {
-							"type": "string",
-							"index": "not_analyzed"
-						}
-					}
-				},
-				"gndSubjectCategory": {
-					"properties": {
-						"id": {
-							"type": "string",
-							"index": "not_analyzed"
-						}
-					}
-				},
-				"professionOrOccupation": {
-					"properties": {
-						"id": {
-							"type": "string",
-							"index": "not_analyzed"
-						}
-					}
+					"type": "keyword",
+					"index": true
 				},
 				"dateOfBirth": {
-					"type": "string",
-					"index": "not_analyzed"
+					"type": "keyword",
+					"index": true
 				},
 				"type" : {
-					"type": "string",
-					"index": "not_analyzed"
+					"type": "keyword",
+					"index": true
 				},
 				"preferredName": {
-					"type": "string",
+					"type": "text",
 					"fields": {
 						"ngrams": {
-							"type": "string",
+							"type": "text",
 							"analyzer": "autocomplete",
 							"search_analyzer": "autocomplete"
 						}
 					}
 				}, 
 				"variantName": {
-					"type": "string",
+					"type": "text",
 					"fields": {
 						"ngrams": {
-							"type": "string",
+							"type": "text",
 							"analyzer": "autocomplete",
 							"search_analyzer": "autocomplete"
 						}
