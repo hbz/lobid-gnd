@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -15,13 +16,52 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.common.geo.GeoPoint;
 
 import controllers.HomeController;
-import models.EntityFacts.Link;
 
 public class AuthorityResource {
 
 	private static final int SHORTEN = 10;
 
 	public final static String DNB_PREFIX = "http://d-nb.info/gnd/";
+
+	public static class Link implements Comparable<Link> {
+		public String url;
+		public String image;
+		public String label;
+
+		Link(String url, String icon, String label) {
+			this.url = url;
+			this.image = icon;
+			this.label = label.replace("Gemeinsame Normdatei (GND) im Katalog der Deutschen Nationalbibliothek",
+					"Deutsche Nationalbibliothek (DNB)");
+		}
+
+		@Override
+		public int hashCode() {
+			return url.hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Link that = (Link) obj;
+			return that.url.equals(this.url);
+		}
+
+		@Override
+		public String toString() {
+			return "Link [url=" + url + ", icon=" + image + ", label=" + label + "]";
+		}
+
+		@Override
+		public int compareTo(Link that) {
+			return that.url.compareTo(this.url);
+		}
+	}
 
 	private String id;
 	private List<String> type;
@@ -33,6 +73,7 @@ public class AuthorityResource {
 	public String preferredName;
 	public List<String> variantName;
 	public List<Map<String, Object>> sameAs;
+	public List<Map<String, Object>> depiction;
 	public List<Map<String, Object>> geographicAreaCode;
 	public List<Map<String, Object>> gndSubjectCategory;
 	public List<Map<String, Object>> relatedTerm;
@@ -71,12 +112,13 @@ public class AuthorityResource {
 	public List<Map<String, Object>> mediumOfPerformance;
 	public List<Map<String, Object>> firstComposer;
 	public List<String> dateOfPublication;
-	public EntityFacts entityFacts;
 	public List<Map<String, Object>> affiliation;
 	public List<Map<String, Object>> formOfWorkAndExpression;
 	public List<Map<String, Object>> addressee;
 
 	public List<String> creatorOf;
+
+	public String imageAttribution;
 
 	public String getId() {
 		return id.substring(DNB_PREFIX.length());
@@ -193,7 +235,7 @@ public class AuthorityResource {
 	}
 
 	public List<Pair<String, String>> additionalLinks() {
-		ArrayList<Link> links = new ArrayList<>(new TreeSet<>(entityFacts.getLinks()));
+		ArrayList<Link> links = new ArrayList<>(new TreeSet<>(getLinks()));
 		List<Pair<String, String>> result = new ArrayList<>();
 		if (!links.isEmpty()) {
 			String field = "sameAs";
@@ -202,6 +244,33 @@ public class AuthorityResource {
 			result.add(Pair.of(field, value));
 		}
 		return result;
+	}
+
+	private List<Link> getLinks() {
+		return sameAs == null ? Collections.emptyList() : sameAs.stream().map(map -> {
+			String url = map.get("id").toString();
+			Object icon = null;
+			Object label = null;
+			Object collection = map.get("collection");
+			if (collection != null) {
+				@SuppressWarnings("unchecked")
+				Map<String, Object> collectionMap = (Map<String, Object>) collection;
+				icon = collectionMap.get("icon");
+				label = collectionMap.get("name");
+			}
+			return new Link(url, icon == null ? "" : icon.toString(), label == null ? "" : label.toString());
+		}).collect(Collectors.toList());
+	}
+
+	public Link getImage() {
+		if (depiction != null && depiction.size() > 0) {
+			String url = depiction.get(0).get("url").toString();
+			String image = depiction.get(0).get("id").toString();
+			Object thumbnail = depiction.get(0).get("thumbnail");
+			image = thumbnail != null ? thumbnail.toString() : image;
+			return new Link(url, image, imageAttribution != null ? imageAttribution : url);
+		}
+		return new Link("", "", "");
 	}
 
 	private String html(String field, ArrayList<Link> links, int i) {
@@ -267,5 +336,4 @@ public class AuthorityResource {
 		}
 		return result;
 	}
-
 }

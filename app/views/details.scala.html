@@ -5,8 +5,8 @@
 @import play.api.libs.json._
 
 @image() = {
-    <img src='@resource.entityFacts.getImage.image' style="max-height:500px;" class="center-block"/>
-    <div class='text-center small'><br/>@Html(resource.entityFacts.getImage.label)</div>
+    <img src='@resource.getImage.image' style="max-height:500px;" class="center-block"/>
+    <div class='text-center small'><br/>@Html(resource.getImage.label)</div>
 }
 
 @moreToggle(field: String, value: String) = {
@@ -32,7 +32,7 @@
         </h1>
     </div>
     <div class="row">
-        <div class="col-md-@(if(resource.location == null && resource.entityFacts.depiction == null){12}else{(if(resource.location != null && resource.entityFacts.depiction != null){6}else{7})}) intro">
+        <div class="col-md-@(if(resource.location == null && resource.depiction == null){12}else{(if(resource.location != null && resource.depiction != null){6}else{7})}) intro">
             <table class='table table-striped table-condensed'>
             @for(f <- resource.generalFields) {
                 <tr><td>@models.GndOntology.label(f.getLeft)</td><td class='field-value'>@Html(f.getRight) @moreToggle(f.getLeft, f.getRight)</td></tr>
@@ -43,13 +43,13 @@
             </table>
             <div class="text-center small">
               Daten aus der <a title='RDF-XML aus GND anzeigen' href='https://d-nb.info/gnd/@resource.getId()/about/lds.rdf'>GND</a> 
-              @if(resource.entityFacts.sameAs!=null||resource.entityFacts.depiction!=null){
+              @if(resource.sameAs.size>3||resource.depiction!=null){
                 und <a title="JSON-LD in EntityFacts anzeigen" href='@(controllers.HomeController.config("entityfacts.live")+resource.getId)'>EntityFacts</a>
               } unter <a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>
             </div>
         </div>
         @if(resource.location != null){
-        <div class="col-md-@if(resource.location != null && resource.entityFacts.depiction != null){3}else{5} intro">
+        <div class="col-md-@if(resource.location != null && resource.depiction != null){3}else{5} intro">
             @if(resource.location != null) {
             <link rel="stylesheet" href='@controllers.routes.Assets.versioned("stylesheets/leaflet.css")' />
             <script src='@controllers.routes.Assets.versioned("javascripts/leaflet.js")'></script>
@@ -73,12 +73,12 @@
               map.addLayer(layer);
             </script>
             }
-            @if(resource.location == null && !resource.entityFacts.getImage.image.isEmpty){
+            @if(resource.location == null && !resource.getImage.image.isEmpty){
                 @image()
             }
         </div>
         }
-        @if(resource.entityFacts.depiction != null){
+        @if(resource.depiction != null){
              <div class="col-md-@if(resource.location != null){3}else{5} intro">
                  @image()
              </div>
