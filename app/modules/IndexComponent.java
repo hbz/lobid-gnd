@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.action.admin.indices.settings.put.UpdateSettingsResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -29,6 +30,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.settings.Settings.Builder;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -122,29 +124,45 @@ class ElasticsearchServer implements IndexComponent {
 		return client.admin().indices().prepareExists(index).execute().actionGet().isExists();
 	}
 
-	static void createEmptyIndex(final Client aClient, final String aIndexName, final String aPathToIndexSettings)
-			throws IOException {
-		deleteIndex(aClient, aIndexName);
-		CreateIndexRequestBuilder cirb = aClient.admin().indices().prepareCreate(aIndexName);
-		if (aPathToIndexSettings != null) {
-			String settingsMappings = Files.lines(Paths.get(aPathToIndexSettings)).collect(Collectors.joining());
-			cirb.setSource(settingsMappings, XContentType.JSON);
+	static void createEmptyIndex(final Client client, final String index, final String mappings) throws IOException {
+		deleteIndex(client, index);
+		CreateIndexRequestBuilder cirb = client.admin().indices().prepareCreate(index);
+		cirb.setSettings(Settings.builder()
+				// bulk indexing only
+				.put("index.refresh_interval", "-1")
+				// 1 shard per node
+				.put("index.number_of_shards", CONFIG.getStringList("index.hosts").size()));
+		if (mappings != null) {
+			cirb.setSource(Files.lines(Paths.get(mappings)).collect(Collectors.joining()), XContentType.JSON);
 		}
-		cirb.execute().actionGet();//
-		aClient.admin().indices().refresh(new RefreshRequest()).actionGet();
+		cirb.execute().actionGet();
+		client.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
 	static BulkRequestBuilder bulkRequest = null;
 
-	static void indexData(final Client aClient, final String aPath, final String aIndex) throws IOException {
+	static void indexData(final Client client, final String path, final String index) throws IOException {
+		// Set number_of_replicas to 0 for faster indexing. See:
+		// https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
+		updateSettings(client, index, Settings.builder().put("index.number_of_replicas", 0));
 		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(aPath), StandardCharsets.UTF_8))) {
-			readData(br, aClient, aIndex);
+				new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8))) {
+			bulkIndex(br, client, index);
 		}
-		aClient.admin().indices().refresh(new RefreshRequest()).actionGet();
+		updateSettings(client, index, Settings.builder().put("index.number_of_replicas", 1));
+		client.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
-	private static void readData(final BufferedReader br, final Client client, final String aIndex) throws IOException {
+	private static void updateSettings(final Client client, final String index, Builder settings) {
+		UpdateSettingsResponse response = client.admin().indices().prepareUpdateSettings(index).setSettings(settings)
+				.get();
+		if (!response.isAcknowledged()) {
+			Logger.error("Not acknowledged: Update index settings {}: {}", settings, response);
+		}
+	}
+
+	private static void bulkIndex(final BufferedReader br, final Client client, final String indexName)
+			throws IOException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;
@@ -167,7 +185,7 @@ class ElasticsearchServer implements IndexComponent {
 				Form nfc = Normalizer.Form.NFC;
 				data = Normalizer.isNormalized(line, nfc) ? line : Normalizer.normalize(line, nfc);
 				bulkRequest
-						.add(client.prepareIndex(aIndex, config("index.type"), id).setSource(data, XContentType.JSON));
+						.add(client.prepareIndex(indexName, config("index.type"), id).setSource(data, XContentType.JSON));
 			}
 			currentLine++;
 			if (pendingIndexRequests == 1000) {
@@ -192,11 +210,6 @@ class ElasticsearchServer implements IndexComponent {
 			});
 		}
 		Logger.info("Indexed {} docs, took: {}", pendingIndexRequests, bulkResponse.getTook());
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
