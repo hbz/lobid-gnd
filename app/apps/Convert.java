@@ -204,11 +204,10 @@ public class Convert {
 					if (p.equals(sameAs)) {
 						// Add `collection` details for `sameAs`
 						// See https://github.com/hbz/lobid-gnd/issues/69
-						String collectionId = collectionId(o.toString());
 						Statement collectionStatement = model.createStatement(model.createResource(o.toString()),
-								model.createProperty(collection), model.createResource(collectionId));
+								model.createProperty(collection), model.createResource(collectionId(o.toString())));
 						toAdd.add(collectionStatement);
-						toAdd.addAll(collectionDetails(collectionId, model));
+						toAdd.addAll(collectionDetails(o.toString(), model));
 					} else {
 						// Add `label` statement for any link
 						// See https://github.com/hbz/lobid-gnd/issues/85
@@ -261,21 +260,25 @@ public class Convert {
 		return model;
 	}
 
-	private static List<Statement> collectionDetails(String collectionId, Model model) {
-		ConfigObject collections = CONFIG.getObject("collections");
-		if (collections.containsKey(collectionId)) {
-			@SuppressWarnings("unchecked")
-			List<String> details = (List<String>) collections.get(collectionId).unwrapped();
-			List<String> properties = CONFIG.getStringList("collections.properties");
-			List<Statement> result = IntStream.range(0, properties.size()).mapToObj(i -> model.createStatement(//
-					model.createResource(collectionId), //
-					model.createProperty(properties.get(i)), //
-					model.createLiteral(details.get(i)))).collect(Collectors.toList());
-			return result;
-		} else {
-			Logger.warn("No collection details found for {}", collectionId);
-			return Collections.emptyList();
+	private static List<Statement> collectionDetails(String resourceId, Model model) {
+		Map<String, Object> collections = CONFIG.getObject("collections").unwrapped();
+		for (String key : collections.keySet()) {
+			if (resourceId.startsWith(key)) {
+				@SuppressWarnings("unchecked")
+				List<String> details = (List<String>) collections.get(key);
+				List<String> properties = CONFIG.getStringList("collections.properties");
+				List<Statement> result = IntStream.range(0, properties.size())
+						.mapToObj(i -> model.createStatement(//
+								model.createResource(details.get(0)), //
+								model.createProperty(properties.get(i)), //
+								model.createLiteral(details.get(i + 1))))
+						.collect(Collectors.toList());
+				return result;
+			}
 		}
+		Logger.warn("No collection details found for {}", resourceId);
+		return Collections.emptyList();
+
 	}
 
 	private static String secondLevelTypeFor(String gnd, String type) {
@@ -352,16 +355,26 @@ public class Convert {
 			map.put("sameAs", labelled);
 		}
 		if (depiction != null) {
-			map.put("depiction", Arrays.asList(ImmutableMap.of(//
-					"id", depiction.get("@id"), //
-					"url", depiction.get("url"), //
-					"thumbnail", depiction.get("thumbnail").get("@id"))));
+			map.put("depiction",
+					Arrays.asList(ImmutableMap.of(//
+							"id", depiction.get("@id"), //
+							"url", depiction.get("url"), //
+							"thumbnail", depiction.get("thumbnail").get("@id"))));
 		}
 		return map;
 	}
 
 	private static String collectionId(String id) {
+		Map<String, Object> collections = CONFIG.getObject("collections").unwrapped();
+		for (String key : collections.keySet()) {
+			if (id.startsWith(key)) {
+				@SuppressWarnings("unchecked")
+				String collectionId = ((List<String>) collections.get(key)).get(0);
+				return collectionId;
+			}
+		}
 		URI uri = URI.create(id);
 		return uri.getScheme() + "://" + uri.getHost();
 	}
+
 }

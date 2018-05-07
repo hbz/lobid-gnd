@@ -169,6 +169,8 @@ public class ConvertTest {
 		assertTrue("sameAs should have a collection", sameAs.has("collection"));
 		assertTrue("collection should not be empty", sameAs.get("collection").size() > 0);
 		assertTrue("collection should have an id", sameAs.get("collection").has("id"));
+		assertEquals("collection id should be a QID", "http://www.wikidata.org/entity/Q54919",
+				sameAs.get("collection").get("id").textValue());
 		assertTrue("collection should have an icon", sameAs.get("collection").has("icon"));
 		assertTrue("collection should have a name", sameAs.get("collection").has("name"));
 		assertTrue("collection should have an abbr", sameAs.get("collection").has("abbr"));
@@ -216,8 +218,8 @@ public class ConvertTest {
 	@Test
 	public void testTriplesToFramedJsonLd() throws FileNotFoundException {
 		Model model = ModelFactory.createDefaultModel();
-		RDFDataMgr.read(model, in(
-				"<http://d-nb.info/gnd/118820591> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://d-nb.info/standards/elementset/gnd#AuthorityResource> ."
+		RDFDataMgr.read(model,
+				in("<http://d-nb.info/gnd/118820591> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://d-nb.info/standards/elementset/gnd#AuthorityResource> ."
 						+ "<http://d-nb.info/gnd/118820591> <http://d-nb.info/standards/elementset/gnd#placeOfDeath> <http://d-nb.info/gnd/4005728-8> ."
 						+ "<http://d-nb.info/gnd/118820591> <http://d-nb.info/standards/elementset/gnd#placeOfBirth> <http://d-nb.info/gnd/4005728-8> ."
 						+ "<http://d-nb.info/gnd/4005728-8> <http://www.w3.org/2000/01/rdf-schema#label> \"Berlin\" ."),
