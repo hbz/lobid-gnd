@@ -28,7 +28,10 @@ public class GndOntologyTests {
 				{ "36", "Basteln, Handarbeiten, Heimwerken" }, //
 				{ "http://d-nb.info/standards/vocab/gnd/geographic-area-code#36", "Basteln, Handarbeiten, Heimwerken" }, //
 				{ "notKnown", "Unbekannt" }, //
-				{ "http://d-nb.info/standards/vocab/gnd/gender#notKnown", "Unbekannt" } });
+				{ "http://d-nb.info/standards/vocab/gnd/gender#notKnown", "Unbekannt" }, //
+				{ "hasChild", "hat Kind" }, //
+				{ "hasSpouse", "hat Ehepartner" }, //
+				{ "hasAncestor", "hat Vorfahr" } });
 	}
 
 	private String id;

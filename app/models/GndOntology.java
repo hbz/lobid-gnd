@@ -57,6 +57,7 @@ public class GndOntology {
 			process("conf/gender.rdf");
 			process("conf/gnd-sc.rdf");
 			process("conf/gnd.rdf");
+			process("conf/agrelon.rdf");
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
@@ -108,6 +109,8 @@ public class GndOntology {
 				selector("ObjectProperty"), //
 				selector("AnnotationProperty"), //
 				selector("DatatypeProperty"), //
+				selector("SymmetricProperty"), //
+				selector("TransitiveProperty"), //
 				selector("Concept")));
 		match.forEach(c -> {
 			String classId = c.getAttribute("rdf:about");
