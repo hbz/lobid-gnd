@@ -102,8 +102,9 @@ public class IndexTest extends WithApplication {
 	public void testPerfectFieldMatch() {
 		SearchResponse response = index.query("london");
 		Assert.assertEquals(2, response.getHits().getTotalHits());
-		Assert.assertEquals("London", Json.fromJson(Json.parse(response.getHits().getHits()[0].getSourceAsString()),
-				AuthorityResource.class).preferredName);
+		AuthorityResource resource = new AuthorityResource(
+				Json.parse(response.getHits().getHits()[0].getSourceAsString()));
+		Assert.assertEquals("London", resource.preferredName);
 	}
 
 	@Test

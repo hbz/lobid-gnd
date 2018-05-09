@@ -20,7 +20,7 @@ public class ModelTest {
 	public void testModelCreation() throws FileNotFoundException {
 		String jsonLd = jsonLdFor("4074335-4");
 		JsonNode json = Json.parse(jsonLd);
-		AuthorityResource res = Json.fromJson(json, AuthorityResource.class);
+		AuthorityResource res = new AuthorityResource(json);
 		Assert.assertNotNull(res.getId());
 		Assert.assertNotNull(res.getType());
 		Assert.assertEquals(new GeoPoint(51.508530, -0.125740), res.location());
