@@ -784,6 +784,11 @@
          "@type":"@id",
          "@container":"@set"
       },
+      "realIdentity":{
+         "@id":"gnd:realIdentity",
+         "@type":"@id",
+         "@container":"@set"
+      },
       "relatedConferenceOrEvent":{
          "@id":"gnd:relatedConferenceOrEvent",
          "@type":"@id",

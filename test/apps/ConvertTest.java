@@ -30,6 +30,7 @@ import org.elasticsearch.common.xcontent.XContentType;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
@@ -150,6 +151,15 @@ public class ConvertTest {
 		assertIsObjectWithIdAndLabel(area);
 		assertEquals("http://d-nb.info/standards/vocab/gnd/geographic-area-code#XD-US", area.get("id").textValue());
 		assertEquals("USA", area.get("label").textValue());
+	}
+
+	@Test
+	public void testRealIdentityStructure() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("118624822");
+		JsonNode realIdentity = Json.parse(jsonLd).get("realIdentity");
+		assertNotNull("realIdentity should exist", realIdentity);
+		assertEquals(JsonNodeType.ARRAY, realIdentity.getNodeType());
+		assertIsObjectWithIdAndLabel(realIdentity.elements().next());
 	}
 
 	@Test
