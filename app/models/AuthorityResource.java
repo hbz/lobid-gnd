@@ -101,6 +101,13 @@ public class AuthorityResource {
 		addValues("type", typeLinks(), fields);
 		addValues("creatorOf", creatorOf, fields);
 		addRest(fields);
+		List<String> order = HomeController.CONFIG.getStringList("field.order");
+		fields.sort((p1, p2) -> {
+			int i1 = order.indexOf(p1.getLeft());
+			int i2 = order.indexOf(p2.getLeft());
+			int end = Integer.MAX_VALUE;
+			return Integer.valueOf(i1 == -1 ? end : i1).compareTo(Integer.valueOf(i2 == -1 ? end : i2));
+		});
 		return fields;
 	}
 
