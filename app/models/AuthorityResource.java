@@ -105,6 +105,11 @@ public class AuthorityResource {
 		fields.sort((p1, p2) -> {
 			int i1 = order.indexOf(p1.getLeft());
 			int i2 = order.indexOf(p2.getLeft());
+			// order for both fields unspecified, sort by field name:
+			if (i1 == -1 && i2 == -1) {
+				return p1.getLeft().compareTo(p2.getLeft());
+			}
+			// sort by order, put unspecified fields after specified fields:
 			int end = Integer.MAX_VALUE;
 			return Integer.valueOf(i1 == -1 ? end : i1).compareTo(Integer.valueOf(i2 == -1 ? end : i2));
 		});

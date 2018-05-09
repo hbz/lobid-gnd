@@ -48,6 +48,11 @@ public class GndOntology {
 			put("sameAs", "Siehe auch");
 			put("type", "Entitätstyp");
 			put("creatorOf", "Werke");
+			// no current German SKOS translation, see
+			// https://www.w3.org/2004/02/skos/translations
+			put("broadMatch", "Oberbegriff");
+			put("exactMatch", "Entspricht");
+			put("relatedMatch", "Verwandter Begriff");
 		}
 	};
 
@@ -119,7 +124,7 @@ public class GndOntology {
 				String label = $(c).find(or(//
 						selector("label"), //
 						selector("prefLabel"))).filter(attr("lang", "de")).content();
-				label = label == null ? label : label.replaceAll("\\s+", " ");
+				label = label == null ? label : label.replaceAll("\\s+", " ").replace("hat ", "");
 				checkAmibiguity(shortId, label);
 				labels.put(shortId, label);
 			}
