@@ -76,7 +76,7 @@
       "preferredNameEntityForThePerson":"gnd:preferredNameEntityForThePerson",
       "label": "rdfs:label",
       "collection": "dnb:isDescribedIn",
-      "publisher": "http://purl.org/dc/terms/publisher",
+      "publisher": "http://purl.org/dc/elements/1.1/publisher",
       "abbr": "http://dbpedia.org/ontology/abbreviation",
       "name": "foaf:name",
       "icon": "foaf:logo",
