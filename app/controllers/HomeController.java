@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -38,6 +39,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
@@ -62,6 +64,7 @@ import play.mvc.Result;
  * application's home page.
  */
 public class HomeController extends Controller implements WSBodyReadables, WSBodyWritables {
+
 	private final WSClient httpClient;
 
 	@Inject
@@ -233,6 +236,13 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		SearchResponse response = index.query(q.isEmpty() ? "*" : q, filter, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
+		String[] formatAndConfig = format.split(":");
+		boolean returnSuggestions = formatAndConfig.length == 2;
+		if (returnSuggestions) {
+			List<Map<String, Object>> hits = Arrays.asList(response.getHits().getHits()).stream()
+					.map(hit -> hit.getSource()).collect(Collectors.toList());
+			return withCallback(toSuggestions(Json.toJson(hits), formatAndConfig[1]));
+		}
 		return responseFormat.equals("html") ? htmlSearch(q, filter, from, size, format, response)
 				: ok(returnAsJson(q, response)).as(config("index.content"));
 	}
@@ -240,6 +250,42 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	private Result htmlSearch(String q, String type, int from, int size, String format, SearchResponse response) {
 		return ok(views.html.search.render(q, type, from, size, returnAsJson(q, response),
 				response.getHits().getTotalHits()));
+	}
+
+	private static Result withCallback(final String json) {
+		/* JSONP callback support for remote server calls with JavaScript: */
+		final String[] callback = request() == null || request().queryString() == null ? null
+				: request().queryString().get("callback");
+		return callback != null
+				? ok(String.format("/**/%s(%s)", callback[0], json)).as("application/javascript; charset=utf-8")
+				: ok(json).as("application/json; charset=utf-8");
+	}
+
+	private static String toSuggestions(JsonNode json, String fields) {
+		Stream<JsonNode> documents = Lists.newArrayList(json.elements()).stream();
+		Stream<JsonNode> suggestions = documents.map((JsonNode document) -> {
+			Optional<JsonNode> id = getOptional(document, "id");
+			Optional<JsonNode> type = getOptional(document, "type");
+			Stream<String> labels = Arrays.asList(fields.split(",")).stream()
+					.flatMap(field -> fieldValues(field, document).map((JsonNode node) -> //
+			(node.isTextual() ? Optional.ofNullable(node) : Optional.ofNullable(node.findValue("label")))
+					.orElseGet(() -> Json.toJson("")).asText()));
+			return Json.toJson(ImmutableMap.of(//
+					"label", labels.collect(Collectors.joining(" | ")), //
+					"id", id.orElseGet(() -> Json.toJson("")), //
+					"category", Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements())));
+		});
+		return Json.toJson(suggestions.collect(Collectors.toSet())).toString();
+	}
+
+	private static Stream<JsonNode> fieldValues(String field, JsonNode document) {
+		return document.findValues(field).stream().flatMap((node) -> {
+			return node.isArray() ? Lists.newArrayList(node.elements()).stream() : Arrays.asList(node).stream();
+		});
+	}
+
+	private static Optional<JsonNode> getOptional(JsonNode json, String field) {
+		return Optional.ofNullable(json.get(field));
 	}
 
 	/**
