@@ -278,7 +278,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 					"id", id.orElseGet(() -> Json.toJson("")), //
 					"category", Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements())));
 		});
-		return Json.toJson(suggestions.collect(Collectors.toSet())).toString();
+		return Json.toJson(suggestions.distinct().collect(Collectors.toList())).toString();
 	}
 
 	private static Stream<JsonNode> fieldValues(String field, JsonNode document) {
