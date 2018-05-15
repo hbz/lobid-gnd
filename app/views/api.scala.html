@@ -1,5 +1,31 @@
 @(searchSamples: Map[String,String], getSamples: Map[String,String])
 
+@sampleUsageCode() = {
+$('input.search-gnd').autocomplete({
+  source : function(request, response) {
+    $.ajax({
+      //  use full URL in your code, i.e. http://lobid.org/gnd/search
+      url : "@routes.HomeController.search()",
+      dataType : "jsonp",
+      data : {
+        q : request.term,
+        format : "json:preferredName,professionOrOccupation"
+      },
+      success : function(data) {
+        response(data);
+      }
+    });
+  },
+  select: function(event, ui) {
+    $('#id').val('id:"'+ui.item.id+'"');
+  }
+});
+}
+
+@desc(label: String, link: play.api.mvc.Call) = {
+ <dt>@label</dt> <dd><a href='@link'>@java.net.URLDecoder.decode(link.toString.replaceAll("[&?]format=json$", ""), "UTF-8")</a></dd>
+}
+
 @main("", "lobid-gnd - API") {
   <h1>lobid-gnd</h1>
 
@@ -32,6 +58,20 @@
   <p>Der Wert des Format-Parameters kann für Einzeltreffer auch in URLs als Dateiendung verwendet werden:</p>
   <p><a href='@routes.HomeController.authorityDotFormat("4074335-4", format="json")'>@routes.HomeController.authorityDotFormat("4074335-4", format="json")</a></p>
   <p>Einzeltreffer unterstützen zudem verschiedene RDF-Serialisierungen (siehe <a href='#jsonld'>Abschnitt zu JSON-LD</a>).</p>
+
+  <h2 id="auto-complete">Autovervollständigung <small><a href='#auto-complete'><span class='glyphicon glyphicon-link'></span></a></small></h2>
+  <p>Die API unterstützt ein spezielles Antwortformat mit Vorschlägen aus angegebenen Feldern.</p>
+  @desc("Einzelnes Feld für Vorschläge verwenden: \"format=json:preferredName\"", routes.HomeController.search("Twain", format="json:preferredName"))
+  @desc("Vorschläge aus mehreren Feldern zusammenbauen: \"format=json:preferredName,professionOrOccupation\"", routes.HomeController.search("Twain", format="json:preferredName,professionOrOccupation"))
+  <p>Damit kann z.B. eine Autovervollständigung umgesetzt werden, bei der zur Suche an Stelle des gewählten Labels die entsprechende ID verwendet werden kann:</p>
+  <p><form method="GET" class="form-inline" action="@routes.HomeController.search()">
+    <input type="text" class="search-gnd" id="label" style="width:350px" placeholder="Suchbegriff für Vorschläge eingeben"/>
+    <input type="text" class="search-gnd" name="q" id="id" style="width:350px" readonly placeholder="ID zu ausgewähltem Eintrag wird eingesetzt"/>
+    <button type="submit" class="btn">Suchen</button>
+  </form></p>
+  <p>Dieses Beispiel ist folgendermaßen mit JavaScript und jQuery UI implementiert:</p>
+  <script>@sampleUsageCode()</script>
+  <pre>@sampleUsageCode()</pre>
 
   <h2 id='jsonld'>JSON-LD <small><a href='#jsonld'><span class='glyphicon glyphicon-link'></span></a></small></h2>
 
