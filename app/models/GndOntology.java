@@ -77,7 +77,12 @@ public class GndOntology {
 	 *         found, or the passed id
 	 */
 	public static String label(String id) {
-		return id.startsWith(AuthorityResource.DNB_PREFIX) ? indexLabel(id) : ontologyLabel(id);
+		try {
+			return id.startsWith(AuthorityResource.DNB_PREFIX) ? indexLabel(id) : ontologyLabel(id);
+		} catch (Exception e) {
+			Logger.error("Could not get label for {}: {}", id, e.getMessage());
+			return id;
+		}
 	}
 
 	private static String ontologyLabel(String id) {

@@ -10,15 +10,22 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.InetAddress;
+import java.net.URI;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -35,6 +42,11 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.culturegraph.mf.framework.ObjectReceiver;
 import org.culturegraph.mf.framework.helpers.DefaultObjectPipe;
 import org.culturegraph.mf.framework.helpers.DefaultStreamPipe;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -49,6 +61,7 @@ import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
 import ORG.oclc.oai.harvester2.app.RawWrite;
+import controllers.HomeController;
 import models.GndOntology;
 import play.Logger;
 import play.libs.Json;
@@ -56,6 +69,19 @@ import play.libs.Json;
 public class Convert {
 
 	private static final Config CONFIG = ConfigFactory.parseFile(new File("conf/application.conf"));
+
+	static final TransportClient CLIENT = new PreBuiltTransportClient(
+			Settings.builder().put("cluster.name", HomeController.config("index.cluster")).build());
+
+	static {
+		ConfigFactory.parseFile(new File("conf/application.conf")).getStringList("index.hosts").forEach((host) -> {
+			try {
+				CLIENT.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), 9300));
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
 	static String config(String id) {
 		return CONFIG.getString(id);
@@ -147,7 +173,7 @@ public class Convert {
 			Object jsonLd = JsonUtils.fromString(out.toString());
 			jsonLd = JsonLdProcessor.frame(jsonLd, new HashMap<>(frame), options);
 			jsonLd = JsonLdProcessor.compact(jsonLd, context, options);
-			return postprocess(contextUrl, jsonLd);
+			return postprocess(id, contextUrl, jsonLd);
 		} catch (JsonLdError | IOException e) {
 			e.printStackTrace();
 			return null;
@@ -164,6 +190,7 @@ public class Convert {
 		String type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 		String label = "http://www.w3.org/2000/01/rdf-schema#label";
 		String gnd = "http://d-nb.info/standards/elementset/gnd#";
+		String collection = "http://d-nb.info/standards/elementset/dnb#isDescribedIn";
 		Set<Statement> toRemove = new HashSet<>();
 		Set<Statement> toAdd = new HashSet<>();
 		model.listStatements().forEachRemaining(statement -> {
@@ -174,14 +201,24 @@ public class Convert {
 				if (s.equals(o.toString())) { // remove self-ref statements
 					toRemove.add(statement);
 				} else {
-					// See https://github.com/hbz/lobid-gnd/issues/85
-					// See https://github.com/hbz/lobid-gnd/issues/24
-					Statement labelStatement = model//
-							.createLiteralStatement(//
-									model.createResource(o.toString()), //
-									model.createProperty(label), //
-									GndOntology.label(o.toString()));
-					toAdd.add(labelStatement);
+					if (p.equals(sameAs)) {
+						// Add `collection` details for `sameAs`
+						// See https://github.com/hbz/lobid-gnd/issues/69
+						Statement collectionStatement = model.createStatement(model.createResource(o.toString()),
+								model.createProperty(collection), model.createResource(collectionId(o.toString())));
+						toAdd.add(collectionStatement);
+						toAdd.addAll(collectionDetails(o.toString(), model));
+					} else {
+						// Add `label` statement for any link
+						// See https://github.com/hbz/lobid-gnd/issues/85
+						// See https://github.com/hbz/lobid-gnd/issues/24
+						Statement labelStatement = model//
+								.createLiteralStatement(//
+										model.createResource(o.toString()), //
+										model.createProperty(label), //
+										GndOntology.label(o.toString()));
+						toAdd.add(labelStatement);
+					}
 				}
 			}
 			if (p.equals(academicDegree) && o.isURIResource()) {
@@ -223,6 +260,27 @@ public class Convert {
 		return model;
 	}
 
+	private static List<Statement> collectionDetails(String resourceId, Model model) {
+		Map<String, Object> collections = CONFIG.getObject("collections").unwrapped();
+		for (String key : collections.keySet()) {
+			if (resourceId.startsWith(key)) {
+				@SuppressWarnings("unchecked")
+				List<String> details = (List<String>) collections.get(key);
+				List<String> properties = CONFIG.getStringList("collections.properties");
+				List<Statement> result = IntStream.range(0, properties.size())
+						.mapToObj(i -> model.createStatement(//
+								model.createResource(details.get(0)), //
+								model.createProperty(properties.get(i)), //
+								model.createLiteral(details.get(i + 1))))
+						.collect(Collectors.toList());
+				return result;
+			}
+		}
+		Logger.warn("No collection details found for {}", resourceId);
+		return Collections.emptyList();
+
+	}
+
 	private static String secondLevelTypeFor(String gnd, String type) {
 		String key = type.substring(gnd.length());
 		ConfigObject object = CONFIG.getObject("types");
@@ -249,16 +307,74 @@ public class Convert {
 		}
 	}
 
-	private static String postprocess(String contextUrl, Object jsonLd) {
+	private static String postprocess(String id, String contextUrl, Object jsonLd) {
 		JsonNode in = Json.toJson(jsonLd);
 		JsonNode graph = in.get("@graph");
 		JsonNode first = graph == null ? in : graph.elements().next();
+		JsonNode result = in;
 		if (first.isObject()) {
 			@SuppressWarnings("unchecked") /* first.isObject() */
 			Map<String, Object> res = Json.fromJson(first, TreeMap.class);
 			res.put("@context", contextUrl);
-			return Json.stringify(Json.toJson(res));
+			result = Json.toJson(res);
 		}
-		return Json.stringify(in);
+		return Json.stringify(withEntityFacts(id, result));
 	}
+
+	private static JsonNode withEntityFacts(String id, JsonNode node) {
+		JsonNode result = node;
+		try {
+			GetResponse response = CLIENT
+					.prepareGet(config("index.entityfacts.index"), config("index.entityfacts.type"), id).execute()
+					.actionGet();
+			if (response.isExists()) {
+				JsonNode json = Json.parse(response.getSourceAsString());
+				JsonNode depiction = json.get("depiction");
+				JsonNode sameAs = json.get("sameAs");
+				Map<String, Object> map = addIfExits(result, depiction, sameAs);
+				result = Json.toJson(map);
+			}
+		} catch (Exception e) {
+			Logger.warn("Could not enrich {} from EntityFacts: {}", id, e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	private static Map<String, Object> addIfExits(JsonNode result, JsonNode depiction, JsonNode sameAs) {
+		Map<String, Object> map = Json.fromJson(result, Map.class);
+		if (sameAs != null) {
+			List<Map<String, Object>> fromJson = Json.fromJson(sameAs, List.class);
+			List<JsonNode> labelled = fromJson.stream().map((Map<String, Object> sameAsMap) -> {
+				Map<String, Object> collection = (Map<String, Object>) sameAsMap.get("collection");
+				collection.put("id", collectionId(sameAsMap.get("@id").toString()));
+				sameAsMap.put("id", sameAsMap.get("@id"));
+				sameAsMap.remove("@id");
+				return Json.toJson(sameAsMap);
+			}).collect(Collectors.toList());
+			map.put("sameAs", labelled);
+		}
+		if (depiction != null) {
+			map.put("depiction",
+					Arrays.asList(ImmutableMap.of(//
+							"id", depiction.get("@id"), //
+							"url", depiction.get("url"), //
+							"thumbnail", depiction.get("thumbnail").get("@id"))));
+		}
+		return map;
+	}
+
+	private static String collectionId(String id) {
+		Map<String, Object> collections = CONFIG.getObject("collections").unwrapped();
+		for (String key : collections.keySet()) {
+			if (id.startsWith(key)) {
+				@SuppressWarnings("unchecked")
+				String collectionId = ((List<String>) collections.get(key)).get(0);
+				return collectionId;
+			}
+		}
+		URI uri = URI.create(id);
+		return uri.getScheme() + "://" + uri.getHost();
+	}
+
 }

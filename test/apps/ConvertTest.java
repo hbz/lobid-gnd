@@ -1,7 +1,9 @@
 package apps;
 
+import static apps.Convert.config;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -12,13 +14,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -152,10 +160,66 @@ public class ConvertTest {
 	}
 
 	@Test
+	public void testSameAsCollectionEnrichment() throws IOException {
+		String id = "16269284-5";
+		String jsonLd = jsonLdFor(id);
+		assertNotNull("JSON-LD should exist", jsonLd);
+		assertTrue("sameAs should exist", Json.parse(jsonLd).has("sameAs"));
+		JsonNode sameAs = Json.parse(jsonLd).get("sameAs").elements().next();
+		assertTrue("sameAs should have a collection", sameAs.has("collection"));
+		assertTrue("collection should not be empty", sameAs.get("collection").size() > 0);
+		assertTrue("collection should have an id", sameAs.get("collection").has("id"));
+		assertEquals("collection id should be a QID", "http://www.wikidata.org/entity/Q54919",
+				sameAs.get("collection").get("id").textValue());
+		assertTrue("collection should have an icon", sameAs.get("collection").has("icon"));
+		assertTrue("collection should have a name", sameAs.get("collection").has("name"));
+		assertTrue("collection should have an abbr", sameAs.get("collection").has("abbr"));
+		assertTrue("collection should have a publisher", sameAs.get("collection").has("publisher"));
+	}
+
+	@Test
+	public void testEntityFactsDepictionEnrichment() throws IOException {
+		String id = "118624822";
+		indexEntityFacts(id);
+		String jsonLd = jsonLdFor(id);
+		assertNotNull("JSON-LD should exist", jsonLd);
+		JsonNode node = Json.parse(jsonLd);
+		assertTrue("Enrichment for depiction should exist", node.has("depiction"));
+		assertTrue("Depiction should be an array", node.get("depiction").isArray());
+		JsonNode depiction = node.get("depiction").elements().next();
+		assertTrue("Depiction should have an id", depiction.has("id"));
+		assertTrue("Depiction should have a url", depiction.has("url"));
+		assertTrue("Depiction should have a thumbnail", depiction.has("thumbnail"));
+		assertFalse("thumbnail should not be an object", depiction.get("thumbnail").isObject());
+	}
+
+	@Test
+	public void testEntityFactsSameAsEnrichment() throws IOException {
+		String id = "118624822";
+		indexEntityFacts(id);
+		String jsonLd = jsonLdFor(id);
+		assertNotNull("JSON-LD should exist", jsonLd);
+		JsonNode node = Json.parse(jsonLd);
+		JsonNode sameAsAll = node.get("sameAs");
+		assertTrue("Enrichment for sameAs should exist", sameAsAll.size() > 5);
+		assertTrue("Enrichment for sameAs should exist", sameAsAll.size() > 5);
+		JsonNode sameAs = sameAsAll.elements().next();
+		assertTrue("sameAs collection should have an id", sameAs.get("collection").has("id"));
+	}
+
+	private void indexEntityFacts(String id) throws IOException {
+		String json = Files.lines(Paths.get("test/entityfacts/" + id + ".json")).collect(Collectors.joining());
+		TransportClient client = Convert.CLIENT;
+		client.prepareIndex(config("index.entityfacts.index"), config("index.entityfacts.type")).setId(id)
+				.setSource(json, XContentType.JSON).execute().actionGet();
+		client.admin().indices().refresh(new RefreshRequest()).actionGet();
+	}
+
+	@Test
 	public void testTriplesToFramedJsonLd() throws FileNotFoundException {
 		Model model = ModelFactory.createDefaultModel();
-		RDFDataMgr.read(model, in(
-				"<http://d-nb.info/gnd/118820591> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://d-nb.info/standards/elementset/gnd#AuthorityResource> ."
+		RDFDataMgr.read(model,
+				in("<http://d-nb.info/gnd/118820591> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://d-nb.info/standards/elementset/gnd#AuthorityResource> ."
 						+ "<http://d-nb.info/gnd/118820591> <http://d-nb.info/standards/elementset/gnd#placeOfDeath> <http://d-nb.info/gnd/4005728-8> ."
 						+ "<http://d-nb.info/gnd/118820591> <http://d-nb.info/standards/elementset/gnd#placeOfBirth> <http://d-nb.info/gnd/4005728-8> ."
 						+ "<http://d-nb.info/gnd/4005728-8> <http://www.w3.org/2000/01/rdf-schema#label> \"Berlin\" ."),
@@ -179,9 +243,9 @@ public class ConvertTest {
 	}
 
 	private void assertIsObjectWithIdAndLabel(JsonNode json) {
-		assertTrue(json.isObject());
-		assertTrue(json.has("id"));
-		assertTrue(json.has("label"));
+		assertTrue("JSON node should be an object", json.isObject());
+		assertTrue("JSON object should have an id", json.has("id"));
+		assertTrue("JSON object should have a label", json.has("label"));
 	}
 
 	private InputStream in(String s) {

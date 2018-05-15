@@ -3,7 +3,9 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,7 +44,6 @@ import com.typesafe.config.ConfigObject;
 
 import apps.Convert;
 import models.AuthorityResource;
-import models.EntityFacts;
 import models.RdfConverter;
 import models.RdfConverter.RdfFormat;
 import modules.IndexComponent;
@@ -50,6 +53,7 @@ import play.libs.Json;
 import play.libs.ws.WSBodyReadables;
 import play.libs.ws.WSBodyWritables;
 import play.libs.ws.WSClient;
+import play.libs.ws.WSResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -140,7 +144,9 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			JsonNode json = Json.parse(jsonLd);
 			if (responseFormat.equals("html")) {
 				AuthorityResource entity = Json.fromJson(json, AuthorityResource.class);
-				entity.entityFacts = EntityFacts.entity(httpClient, id);
+				if (entity.getImage().url.contains("File:"))
+					entity.imageAttribution = attribution(entity.getImage().url
+							.substring(entity.getImage().url.indexOf("File:") + 5).split("\\?")[0]);
 				entity.creatorOf = creatorOf(id);
 				return ok(views.html.details.render(entity));
 			}
@@ -286,6 +292,44 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		symbols.setGroupingSeparator('.');
 		df.setDecimalFormatSymbols(symbols);
 		return df.format(count);
+	}
+
+	private String attribution(String url) {
+		try {
+			return requestInfo(httpClient, url).thenApply(info -> {
+				String attribution = createAttribution(url, info.asJson());
+				return String.format("Bildquelle: %s", attribution);
+			}).toCompletableFuture().get();
+		} catch (UnsupportedEncodingException | InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static CompletionStage<WSResponse> requestInfo(WSClient client, String imageName)
+			throws UnsupportedEncodingException {
+		String imageId = "File:" + URLDecoder.decode(imageName, StandardCharsets.UTF_8.name());
+		return client.url("https://commons.wikimedia.org/w/api.php")//
+				.addQueryParameter("action", "query")//
+				.addQueryParameter("format", "json")//
+				.addQueryParameter("prop", "imageinfo")//
+				.addQueryParameter("iiprop", "extmetadata")//
+				.addQueryParameter("titles", imageId).get();
+	}
+
+	private static String createAttribution(String fileName, JsonNode info) {
+		String artist = findText(info, "Artist");
+		String licenseText = findText(info, "LicenseShortName");
+		String licenseUrl = findText(info, "LicenseUrl");
+		String fileSourceUrl = "https://commons.wikimedia.org/wiki/File:" + fileName;
+		return String.format(
+				(artist.isEmpty() ? "%s" : "%s | ") + "<a href='%s'>Wikimedia Commons</a> | <a href='%s'>%s</a>",
+				artist, fileSourceUrl, licenseUrl.isEmpty() ? fileSourceUrl : licenseUrl, licenseText);
+	}
+
+	private static String findText(JsonNode info, String field) {
+		JsonNode node = info.findValue(field);
+		return node != null ? node.get("value").asText().replace("\n", " ").trim() : "";
 	}
 
 }
