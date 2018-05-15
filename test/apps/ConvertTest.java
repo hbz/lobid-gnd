@@ -86,8 +86,10 @@ public class ConvertTest {
 	}
 
 	@Test
-	public void testSecondLevelTypePlace() throws FileNotFoundException {
-		String jsonLd = jsonLdFor("4074335-4");
+	public void testSecondLevelTypePlace() throws IOException {
+		String id = "4074335-4";
+		indexEntityFacts(id);
+		String jsonLd = jsonLdFor(id);
 		List<?> types = Json.fromJson(Json.parse(jsonLd).get("type"), List.class);
 		assertTrue(types.contains("AuthorityResource"));
 		assertTrue(types.contains("PlaceOrGeographicName"));

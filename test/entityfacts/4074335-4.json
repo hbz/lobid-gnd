@@ -1,0 +1,61 @@
+{
+  "@context" : "http://hub.culturegraph.org/entityfacts/context/v1/entityfacts.jsonld",
+  "@type" : "place",
+  "@id" : "http://d-nb.info/gnd/4074335-4",
+  "preferredName" : "London",
+  "describedBy" : {
+    "valid" : "2018-05-08T10:58:27+0200",
+    "license" : "https://creativecommons.org/publicdomain/zero/1.0/",
+    "@id" : "http://hub.culturegraph.org/entityfacts/4074335-4"
+  },
+  "variantName" : [ "Londinium", "Londyn", "Landan", "Lundun", "Augusta Trinobantum", "Londres", "Londra", "Londen", "London (Great Britain)", "Londinum", "Lundonia", "Westminster", "Londinium" ],
+  "homepage" : [ "http://www.london.gov.uk" ],
+  "depiction" : {
+    "@id" : "https://commons.wikimedia.org/wiki/Special:FilePath/London_Montage_2016.png",
+    "thumbnail" : {
+      "@id" : "https://commons.wikimedia.org/wiki/Special:FilePath/London_Montage_2016.png?width=270"
+    },
+    "url" : "https://commons.wikimedia.org/wiki/File:London_Montage_2016.png?uselang=en"
+  },
+  "sameAs" : [ {
+    "@id" : "http://d-nb.info/gnd/4074335-4/about",
+    "collection" : {
+      "abbr" : "DNB",
+      "name" : "Gemeinsame Normdatei (GND) im Katalog der Deutschen Nationalbibliothek",
+      "publisher" : "Deutsche Nationalbibliothek",
+      "icon" : "http://www.dnb.de/SiteGlobals/StyleBundles/Bilder/favicon.png?__blob=normal&v=1"
+    }
+  }, {
+    "@id" : "http://viaf.org/viaf/236493943",
+    "collection" : {
+      "abbr" : "VIAF",
+      "name" : "Virtual International Authority File (VIAF)",
+      "publisher" : "OCLC",
+      "icon" : "http://viaf.org/viaf/images/viaf.ico"
+    }
+  }, {
+    "@id" : "http://www.wikidata.org/entity/Q6669738",
+    "collection" : {
+      "abbr" : "WIKIDATA",
+      "name" : "Wikidata",
+      "publisher" : "Wikimedia Foundation Inc.",
+      "icon" : "https://www.wikidata.org/static/favicon/wikidata.ico"
+    }
+  }, {
+    "@id" : "https://de.wikisource.org/wiki/London",
+    "collection" : {
+      "abbr" : "WIKISOURCE",
+      "name" : "Wikisource",
+      "publisher" : "Wikimedia Foundation Inc.",
+      "icon" : "https://wikisource.org/static/favicon/wikisource.ico"
+    }
+  }, {
+    "@id" : "https://en.wikipedia.org/wiki/London%2C_Wisconsin",
+    "collection" : {
+      "abbr" : "enwiki",
+      "name" : "Wikipedia (English)",
+      "publisher" : "Wikimedia Foundation Inc.",
+      "icon" : "https://en.wikipedia.org/static/favicon/wikipedia.ico"
+    }
+  } ]
+}
