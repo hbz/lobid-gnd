@@ -1019,7 +1019,8 @@
       },
       "asWKT": {
          "@id":"http://www.opengis.net/ont/geosparql#asWKT",
-         "@container":"@set"
+         "@container":"@set",
+         "@type": "http://www.opengis.net/ont/geosparql#wktLiteral"
       },
       "beginningOfPeriod": {
          "@id":"gnd:beginningOfPeriod",

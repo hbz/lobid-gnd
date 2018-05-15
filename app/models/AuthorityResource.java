@@ -87,8 +87,7 @@ public class AuthorityResource {
 		if (hasGeometry.isEmpty())
 			return null;
 		@SuppressWarnings("unchecked")
-		String geoString = ((List<Map<String, Object>>) hasGeometry.get(0).get("asWKT")).get(0).get("@value")
-				.toString();
+		String geoString = ((List<String>) hasGeometry.get(0).get("asWKT")).get(0);
 		List<Double> lonLat = scanGeoCoordinates(geoString);
 		if (lonLat.size() != 2) {
 			throw new IllegalArgumentException("Could not scan geo location from: " + geoString + ", got: " + lonLat);
