@@ -114,11 +114,14 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	public Result api() {
 		String format = "json";
 		ImmutableMap<String, String> searchSamples = ImmutableMap.of(//
-				"All", controllers.routes.HomeController.search("*", "", 0, 10, format).toString(), //
-				"All fields", controllers.routes.HomeController.search("london", "", 0, 10, format).toString(), //
-				"Field search",
-				controllers.routes.HomeController.search("type:CorporateBody", "", 0, 10, format).toString(), //
-				"Pagination", controllers.routes.HomeController.search("london", "", 50, 100, format).toString());
+				"Alles", controllers.routes.HomeController.search("*", "", 0, 10, format).toString(), //
+				"Alle Felder", controllers.routes.HomeController.search("london", "", 0, 10, format).toString(), //
+				"Feldsuche",
+				controllers.routes.HomeController.search("preferredName:Twain", "", 0, 10, format).toString(), //
+				"Filter",
+				controllers.routes.HomeController.search("preferredName:Twain", "type:Person", 0, 10, format)
+						.toString(), //
+				"Paginierung", controllers.routes.HomeController.search("london", "", 50, 100, format).toString());
 		ImmutableMap<String, String> getSamples = ImmutableMap.of(//
 				"London", controllers.routes.HomeController.authorityDotFormat("4074335-4", "json").toString(), //
 				"hbz", controllers.routes.HomeController.authorityDotFormat("2047974-8", "json").toString(), //
