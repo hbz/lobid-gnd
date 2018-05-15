@@ -269,7 +269,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		Stream<JsonNode> suggestions = documents.map((JsonNode document) -> {
 			Optional<JsonNode> id = getOptional(document, "id");
 			Optional<JsonNode> type = getOptional(document, "type");
-			Stream<String> labels = Arrays.asList(fields.split(",")).stream()
+			Stream<String> labels = Arrays.asList(fields.split(",")).stream().map(String::trim)
 					.flatMap(field -> fieldValues(field, document).map((JsonNode node) -> //
 			(node.isTextual() ? Optional.ofNullable(node) : Optional.ofNullable(node.findValue("label")))
 					.orElseGet(() -> Json.toJson("")).asText()));
