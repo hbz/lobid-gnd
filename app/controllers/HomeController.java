@@ -236,14 +236,14 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		SearchResponse response = index.query(q.isEmpty() ? "*" : q, filter, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		String[] formatAndConfig = format.split(":");
+		String[] formatAndConfig = responseFormat.split(":");
 		boolean returnSuggestions = formatAndConfig.length == 2;
 		if (returnSuggestions) {
 			List<Map<String, Object>> hits = Arrays.asList(response.getHits().getHits()).stream()
 					.map(hit -> hit.getSource()).collect(Collectors.toList());
 			return withCallback(toSuggestions(Json.toJson(hits), formatAndConfig[1]));
 		}
-		return responseFormat.equals("html") ? htmlSearch(q, filter, from, size, format, response)
+		return responseFormat.equals("html") ? htmlSearch(q, filter, from, size, responseFormat, response)
 				: ok(returnAsJson(q, response)).as(config("index.content"));
 	}
 

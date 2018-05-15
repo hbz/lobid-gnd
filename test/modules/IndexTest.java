@@ -35,6 +35,7 @@ import play.test.WithApplication;
 
 public class IndexTest extends WithApplication {
 
+	private static final boolean USE_LOCALHOST_CONTEXT_URL = false;
 	private static final File[] TEST_FILES = new File("test/ttl").listFiles();
 	private static final String PATH = "GND.jsonl";
 
@@ -55,7 +56,7 @@ public class IndexTest extends WithApplication {
 				Model sourceModel = ModelFactory.createDefaultModel();
 				sourceModel.read(new FileReader(file), null, "TTL");
 				String id = file.getName().split("\\.")[0];
-				String jsonLd = Convert.toJsonLd(id, sourceModel, true);
+				String jsonLd = Convert.toJsonLd(id, sourceModel, USE_LOCALHOST_CONTEXT_URL);
 				String meta = Json.toJson(
 						ImmutableMap.of("index", ImmutableMap.of("_index", "gnd", "_type", "authority", "_id", id)))
 						.toString();
