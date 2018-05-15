@@ -14,7 +14,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.elasticsearch.action.search.SearchResponse;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -31,26 +30,24 @@ import play.api.inject.BindingKey;
 import play.api.inject.DefaultApplicationLifecycle;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
-import play.test.WithApplication;
 
-public class IndexTest extends WithApplication {
+public class IndexTest {
 
 	private static final boolean USE_LOCALHOST_CONTEXT_URL = false;
 	private static final File[] TEST_FILES = new File("test/ttl").listFiles();
 	private static final String PATH = "GND.jsonl";
 
-	private IndexComponent index;
+	private static IndexComponent index;
 
-	@Override
-	protected Application provideApplication() {
-		// See
-		// https://www.playframework.com/documentation/2.6.1/JavaDependencyInjection
-		// https://www.playframework.com/documentation/2.6.x/JavaTestingWithGuice
-		return new GuiceApplicationBuilder().build();
-	}
+	static String indexName = HomeController.config("index.name");
 
 	@BeforeClass
-	public static void convert() throws IOException {
+	public static void setUp() throws IOException {
+		convertData();
+		indexData();
+	}
+
+	private static void convertData() throws FileNotFoundException, IOException {
 		try (FileWriter out = new FileWriter(PATH)) {
 			for (File file : TEST_FILES) {
 				Model sourceModel = ModelFactory.createDefaultModel();
@@ -66,9 +63,8 @@ public class IndexTest extends WithApplication {
 		}
 	}
 
-	@Before
-	public void setup() {
-		String indexName = HomeController.config("index.name");
+	private static void indexData() {
+		Application app = new GuiceApplicationBuilder().build();
 		index = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
 		ElasticsearchServer.deleteIndex(index.client(), indexName);
 		app.injector().instanceOf(DefaultApplicationLifecycle.class).stop();
