@@ -43,6 +43,7 @@ public class IndexTest {
 
 	@BeforeClass
 	public static void setUp() throws IOException {
+		Logger.info("Converting and indexing test data");
 		convertData();
 		indexData();
 	}

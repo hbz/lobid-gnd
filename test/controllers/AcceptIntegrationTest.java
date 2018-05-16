@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import modules.IndexTest;
 import play.mvc.Http.RequestBuilder;
 import play.mvc.Result;
 
@@ -29,7 +30,7 @@ import play.mvc.Result;
  */
 @SuppressWarnings("javadoc")
 @RunWith(Parameterized.class)
-public class AcceptIntegrationTest {
+public class AcceptIntegrationTest extends IndexTest {
 
 	// test data parameters, formatted as "input /*->*/ expected output"
 	@Parameters
