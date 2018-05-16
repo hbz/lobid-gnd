@@ -46,6 +46,7 @@ import com.typesafe.config.ConfigObject;
 
 import apps.Convert;
 import models.AuthorityResource;
+import models.GndOntology;
 import models.RdfConverter;
 import models.RdfConverter.RdfFormat;
 import modules.IndexComponent;
@@ -276,7 +277,11 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			return Json.toJson(ImmutableMap.of(//
 					"label", labels.collect(Collectors.joining(" | ")), //
 					"id", id.orElseGet(() -> Json.toJson("")), //
-					"category", Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements())));
+					"category",
+					Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements()).stream()
+							.filter(node -> !Arrays.asList("AuthorityResource", "Person").contains(node.asText()))
+							.map(node -> GndOntology.label(node.asText())).sorted()
+							.collect(Collectors.joining(" | "))));
 		});
 		return Json.toJson(suggestions.distinct().collect(Collectors.toList())).toString();
 	}

@@ -69,7 +69,20 @@
                     <span class="glyphicon glyphicon-search"></span></button></span>
                 </div>
                 <script>
-                $('#gnd-query').autocomplete({
+                // Add categories to autocomplete widget:
+                $.widget("custom.categoryAutocomplete", $.ui.autocomplete, {
+                  _renderMenu: function(ul, items) {
+                    var that = this, currentCategory = "";
+                    $.each(items, function(index, item) {
+                      if (item.category != currentCategory) {
+                          ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+                          currentCategory = item.category;
+                      }
+                      that._renderItemData(ul, item);
+                    });
+                  }
+                });
+                $('#gnd-query').categoryAutocomplete({
                   source : function(request, response) {
                     $.ajax({
                       url : "@routes.HomeController.search()",
@@ -80,6 +93,9 @@
                         format : "json:preferredName,dateOfBirth,dateOfDeath,professionOrOccupation"
                       },
                       success : function(data) {
+                        data.sort(function(item1, item2){
+                            return item1.category > item2.category ? 1 : -1;
+                        });
                         response(data);
                       }
                     });
