@@ -71,15 +71,15 @@
                 <script>
                 // Add categories to autocomplete widget:
                 $.widget("custom.categoryAutocomplete", $.ui.autocomplete, {
-                  _renderMenu: function(ul, items) {
-                    var that = this, currentCategory = "";
-                    $.each(items, function(index, item) {
-                      if (item.category != currentCategory) {
-                          ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
-                          currentCategory = item.category;
-                      }
-                      that._renderItemData(ul, item);
-                    });
+                  _renderItem: function(ul, item) {
+                    var labels = ""
+                    for(var category in item.category) {
+                      labels += "&nbsp;<small><span class='label label-primary'>"+ item.category[category] + "</span></small>";
+                    }
+                    return $("<li></li>")
+                      .data("item.autocomplete", item )
+                      .append("<a>" + item.label + labels +"</a>")
+                      .appendTo(ul);
                   }
                 });
                 $('#gnd-query').categoryAutocomplete({
@@ -93,9 +93,6 @@
                         format : "json:preferredName,dateOfBirth,dateOfDeath,professionOrOccupation"
                       },
                       success : function(data) {
-                        data.sort(function(item1, item2){
-                            return item1.category > item2.category ? 1 : -1;
-                        });
                         response(data);
                       }
                     });

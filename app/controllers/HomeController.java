@@ -279,9 +279,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 					"id", id.orElseGet(() -> Json.toJson("")), //
 					"category",
 					Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements()).stream()
-							.filter(node -> !Arrays.asList("AuthorityResource", "Person").contains(node.asText()))
-							.map(node -> GndOntology.label(node.asText())).sorted()
-							.collect(Collectors.joining(" | "))));
+							.filter(node -> !Arrays.asList("AuthorityResource").contains(node.asText()))
+							.map(node -> GndOntology.label(node.asText())).sorted()));
 		});
 		return Json.toJson(suggestions.distinct().collect(Collectors.toList())).toString();
 	}
