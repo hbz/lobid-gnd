@@ -100,8 +100,11 @@
                       }
                     });
                   },
+                  focus: function(event, ui) {
+                    event.preventDefault();
+                  },
                   select: function(event, ui) {
-                    $('#gnd-query').val('id:"'+ui.item.id+'"');
+                    window.location.href = ui.item.id.replace('http://d-nb.info','');
                     event.preventDefault();
                   }
                 });
