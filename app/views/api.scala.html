@@ -60,8 +60,9 @@ $('input.search-gnd').autocomplete({
   <p>Einzeltreffer unterstützen zudem verschiedene RDF-Serialisierungen (siehe <a href='#jsonld'>Abschnitt zu JSON-LD</a>).</p>
 
   <h2 id="auto-complete">Autovervollständigung <small><a href='#auto-complete'><span class='glyphicon glyphicon-link'></span></a></small></h2>
-  <p>Die API unterstützt ein spezielles Antwortformat mit Vorschlägen aus angegebenen Feldern.</p>
-  @desc("Einzelnes Feld für Vorschläge verwenden: \"format=json:preferredName\"", routes.HomeController.search("Twain", format="json:preferredName"))
+  <p>Die API unterstützt ein spezielles Antwortformat mit Vorschlägen zur Autovervollständigung.</p>
+  @desc("Standardformat für Vorschläge verwenden: \"format=json:suggest\"", routes.HomeController.search("Twain", format="json:suggest"))
+  @desc("Bestimmtes Feld für Vorschläge verwenden: \"format=json:preferredName\"", routes.HomeController.search("Twain", format="json:preferredName"))
   @desc("Vorschläge aus mehreren Feldern zusammenbauen: \"format=json:preferredName,professionOrOccupation\"", routes.HomeController.search("Twain", format="json:preferredName,professionOrOccupation"))
   <p>Damit kann z.B. eine Autovervollständigung umgesetzt werden, bei der zur Suche an Stelle des gewählten Labels die entsprechende ID verwendet werden kann:</p>
   <p><form method="GET" class="form-inline" action="@routes.HomeController.search()">

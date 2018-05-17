@@ -265,17 +265,22 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				: ok(json).as("application/json; charset=utf-8");
 	}
 
-	private static String toSuggestions(JsonNode json, String fields) {
+	private static String toSuggestions(JsonNode json, String labelFields) {
+		Stream<String> defaultFields = Stream.of("preferredName", "dateOfBirth", "professionOrOccupation",
+				"placeOfBusiness", "firstAuthor", "firstComposer", "dateOfProduction");
+		String fields = labelFields.equals("suggest") ? defaultFields.collect(Collectors.joining(",")) : labelFields;
 		Stream<JsonNode> documents = Lists.newArrayList(json.elements()).stream();
 		Stream<JsonNode> suggestions = documents.map((JsonNode document) -> {
 			Optional<JsonNode> id = getOptional(document, "id");
 			Optional<JsonNode> type = getOptional(document, "type");
 			Stream<String> labels = Arrays.asList(fields.split(",")).stream().map(String::trim)
-					.flatMap(field -> fieldValues(field, document).map((JsonNode node) -> //
+					.map(field -> fieldValues(field, document).map((JsonNode node) -> //
 			(node.isTextual() ? Optional.ofNullable(node) : Optional.ofNullable(node.findValue("label")))
-					.orElseGet(() -> Json.toJson("")).asText()));
+					.orElseGet(() -> Json.toJson("")).asText())
+							.map(t -> t.matches("\\d{4}-\\d{2}-\\d{2}") ? t.split("-")[0] : t)
+							.collect(Collectors.joining(", ")));
 			return Json.toJson(ImmutableMap.of(//
-					"label", labels.collect(Collectors.joining(" | ")), //
+					"label", labels.filter(t -> !t.trim().isEmpty()).collect(Collectors.joining(" | ")), //
 					"id", id.orElseGet(() -> Json.toJson("")), //
 					"category",
 					Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements()).stream()
