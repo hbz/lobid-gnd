@@ -68,7 +68,7 @@ import play.libs.Json;
 
 public class Convert {
 
-	private static final Config CONFIG = ConfigFactory.parseFile(new File("conf/application.conf"));
+	static final Config CONFIG = ConfigFactory.parseFile(new File("conf/application.conf"));
 
 	static final TransportClient CLIENT = new PreBuiltTransportClient(
 			Settings.builder().put("cluster.name", HomeController.config("index.cluster")).build());
