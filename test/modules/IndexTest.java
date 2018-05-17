@@ -88,6 +88,7 @@ public class IndexTest {
 	public void testFieldQuery() {
 		Assert.assertEquals(1, index.query("böll").getHits().getTotalHits());
 		Assert.assertEquals(1, index.query("preferredName:\"Weizenbaum, Joseph\"").getHits().getTotalHits());
+		Assert.assertEquals(1, index.query("preferredName:\"weizenbaum, joseph\"").getHits().getTotalHits());
 		Assert.assertEquals(0, index.query("id:\"Weizenbaum, Joseph\"").getHits().getTotalHits());
 	}
 
@@ -133,6 +134,21 @@ public class IndexTest {
 	@Test
 	public void testGndOntologyIndexLabel() throws FileNotFoundException {
 		assertThat(GndOntology.label("http://d-nb.info/gnd/118820591"), equalTo("Weizenbaum, Joseph"));
+	}
+
+	@Test
+	public void testNgram() {
+		SearchResponse response = index.query("weizen");
+		Assert.assertEquals(1, response.getHits().getTotalHits());
+		AuthorityResource resource = new AuthorityResource(
+				Json.parse(response.getHits().getHits()[0].getSourceAsString()));
+		Assert.assertEquals("Weizenbaum, Joseph", resource.preferredName);
+	}
+
+	@Test
+	public void testNoStemming() {
+		Assert.assertEquals(0, index.query("namenlose").getHits().getTotalHits());
+		Assert.assertEquals(1, index.query("namenlosen").getHits().getTotalHits());
 	}
 
 }

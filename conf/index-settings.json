@@ -7,12 +7,12 @@
 					"default": {
 						"type" : "custom",
 						"tokenizer" : "standard",
-						"filter": ["lowercase", "german_filter"]
+						"filter": ["lowercase", "german_normalization"]
 					},
 					"autocomplete": {
 						"tokenizer": "edge_ngram_tokenizer",
-						"filter": ["lowercase", "german_filter"]
-					}, 
+						"filter": ["lowercase", "german_normalization"]
+					},
 					"id": {
 						"tokenizer": "keyword",
 						"filter": "lowercase"
@@ -20,19 +20,13 @@
 				}, 
 				"tokenizer": {
 					"edge_ngram_tokenizer": {
-						"type": "edgeNGram", 
-						"min_gram": "1", 
-						"max_gram": "40", 
+						"type": "edge_ngram",
+						"min_gram": "2",
+						"max_gram": "40",
 						"token_chars": [
-							"letter", 
+							"letter",
 							"digit"
 						]
-					}
-				},
-				"filter" : {
-					"german_filter" : {
-						"type" : "snowball",
-						"language" : "German2"
 					}
 				}
 			}
@@ -80,7 +74,7 @@
 						"ngrams": {
 							"type": "text",
 							"analyzer": "autocomplete",
-							"search_analyzer": "autocomplete"
+							"search_analyzer": "default"
 						}
 					}
 				}, 
@@ -90,7 +84,7 @@
 						"ngrams": {
 							"type": "text",
 							"analyzer": "autocomplete",
-							"search_analyzer": "autocomplete"
+							"search_analyzer": "default"
 						}
 					}
 				}
