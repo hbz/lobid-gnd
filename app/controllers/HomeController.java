@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -38,12 +39,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
 import apps.Convert;
 import models.AuthorityResource;
+import models.GndOntology;
 import models.RdfConverter;
 import models.RdfConverter.RdfFormat;
 import modules.IndexComponent;
@@ -62,6 +65,7 @@ import play.mvc.Result;
  * application's home page.
  */
 public class HomeController extends Controller implements WSBodyReadables, WSBodyWritables {
+
 	private final WSClient httpClient;
 
 	@Inject
@@ -111,11 +115,14 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	public Result api() {
 		String format = "json";
 		ImmutableMap<String, String> searchSamples = ImmutableMap.of(//
-				"All", controllers.routes.HomeController.search("*", "", 0, 10, format).toString(), //
-				"All fields", controllers.routes.HomeController.search("london", "", 0, 10, format).toString(), //
-				"Field search",
-				controllers.routes.HomeController.search("type:CorporateBody", "", 0, 10, format).toString(), //
-				"Pagination", controllers.routes.HomeController.search("london", "", 50, 100, format).toString());
+				"Alles", controllers.routes.HomeController.search("*", "", 0, 10, format).toString(), //
+				"Alle Felder", controllers.routes.HomeController.search("london", "", 0, 10, format).toString(), //
+				"Feldsuche",
+				controllers.routes.HomeController.search("preferredName:Twain", "", 0, 10, format).toString(), //
+				"Filter",
+				controllers.routes.HomeController.search("preferredName:Twain", "type:Person", 0, 10, format)
+						.toString(), //
+				"Paginierung", controllers.routes.HomeController.search("london", "", 50, 100, format).toString());
 		ImmutableMap<String, String> getSamples = ImmutableMap.of(//
 				"London", controllers.routes.HomeController.authorityDotFormat("4074335-4", "json").toString(), //
 				"hbz", controllers.routes.HomeController.authorityDotFormat("2047974-8", "json").toString(), //
@@ -233,13 +240,85 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		SearchResponse response = index.query(q.isEmpty() ? "*" : q, filter, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		return responseFormat.equals("html") ? htmlSearch(q, filter, from, size, format, response)
+		String[] formatAndConfig = responseFormat.split(":");
+		boolean returnSuggestions = formatAndConfig.length == 2;
+		if (returnSuggestions) {
+			List<Map<String, Object>> hits = Arrays.asList(response.getHits().getHits()).stream()
+					.map(hit -> hit.getSource()).collect(Collectors.toList());
+			return withCallback(toSuggestions(Json.toJson(hits), formatAndConfig[1]));
+		}
+		return responseFormat.equals("html") ? htmlSearch(q, filter, from, size, responseFormat, response)
 				: ok(returnAsJson(q, response)).as(config("index.content"));
 	}
 
 	private Result htmlSearch(String q, String type, int from, int size, String format, SearchResponse response) {
 		return ok(views.html.search.render(q, type, from, size, returnAsJson(q, response),
 				response.getHits().getTotalHits()));
+	}
+
+	private static Result withCallback(final String json) {
+		/* JSONP callback support for remote server calls with JavaScript: */
+		final String[] callback = request() == null || request().queryString() == null ? null
+				: request().queryString().get("callback");
+		return callback != null
+				? ok(String.format("/**/%s(%s)", callback[0], json)).as("application/javascript; charset=utf-8")
+				: ok(json).as("application/json; charset=utf-8");
+	}
+
+	private static String toSuggestions(JsonNode json, String labelFields) {
+		Stream<String> defaultFields = Stream.of("preferredName", "dateOfBirth-dateOfDeath", "professionOrOccupation",
+				"placeOfBusiness", "firstAuthor", "firstComposer", "dateOfProduction");
+		String fields = labelFields.equals("suggest") ? defaultFields.collect(Collectors.joining(",")) : labelFields;
+		Stream<JsonNode> documents = Lists.newArrayList(json.elements()).stream();
+		Stream<JsonNode> suggestions = documents.map((JsonNode document) -> {
+			Optional<JsonNode> id = getOptional(document, "id");
+			Optional<JsonNode> type = getOptional(document, "type");
+			Stream<String> labels = Arrays.asList(fields.split(",")).stream().map(String::trim)
+					.map(field -> fieldValues(field, document).map((JsonNode node) -> //
+			(node.isTextual() ? Optional.ofNullable(node) : Optional.ofNullable(node.findValue("label")))
+					.orElseGet(() -> Json.toJson("")).asText()).collect(Collectors.joining(", ")));
+			List<String> categories = filtered(Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements())
+					.stream().map(JsonNode::asText).filter(t -> !t.equals("AuthorityResource"))
+					.collect(Collectors.toList()));
+			return Json.toJson(ImmutableMap.of(//
+					"label", labels.filter(t -> !t.trim().isEmpty()).collect(Collectors.joining(" | ")), //
+					"id", id.orElseGet(() -> Json.toJson("")), //
+					"category",
+					categories.stream().map(t -> GndOntology.label(t)).sorted().collect(Collectors.joining(" | "))));
+		});
+		return Json.toJson(suggestions.distinct().collect(Collectors.toList())).toString();
+	}
+
+	private static List<String> filtered(List<String> allTypes) {
+		List<String> subTypes = allTypes.stream()
+				.filter(t -> HomeController.CONFIG.getObject("types").keySet().contains(t))
+				.collect(Collectors.toList());
+		return (subTypes.size() == 0 ? allTypes : subTypes);
+	}
+
+	private static Stream<JsonNode> fieldValues(String field, JsonNode document) {
+		if (field.contains("-")) {
+			String[] fields = field.split("-");
+			String v1 = year(document.findValue(fields[0]));
+			String v2 = year(document.findValue(fields[1]));
+			return v1.isEmpty() && v2.isEmpty() ? Stream.empty()
+					: Stream.of(Json.toJson(String.format("%s-%s", v1, v2)));
+		}
+		return document.findValues(field).stream().flatMap((node) -> {
+			return node.isArray() ? Lists.newArrayList(node.elements()).stream() : Arrays.asList(node).stream();
+		});
+	}
+
+	private static String year(JsonNode node) {
+		if (node == null || !node.isArray() || node.size() == 0) {
+			return "";
+		}
+		String text = node.elements().next().asText();
+		return text.matches("\\d{4}-\\d{2}-\\d{2}") ? text.split("-")[0] : text;
+	}
+
+	private static Optional<JsonNode> getOptional(JsonNode json, String field) {
+		return Optional.ofNullable(json.get(field));
 	}
 
 	/**

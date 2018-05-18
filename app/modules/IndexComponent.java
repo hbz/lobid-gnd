@@ -214,8 +214,9 @@ class ElasticsearchServer implements IndexComponent {
 
 	@Override
 	public SearchResponse query(String q, String filter, int from, int size) {
-		QueryStringQueryBuilder positive = QueryBuilders.queryStringQuery(q).field("_all").field("preferredName", 2f)
-				.field("variantName", 1f).field("gndIdentifier", 2f);
+		QueryStringQueryBuilder positive = QueryBuilders.queryStringQuery(q).field("_all").field("preferredName.ngrams")
+				.field("variantName.ngrams").field("preferredName", 2f).field("variantName", 1f)
+				.field("gndIdentifier", 2f);
 		MatchQueryBuilder negative = QueryBuilders.matchQuery("type", "UndifferentiatedPerson");
 		BoostingQueryBuilder boostQuery = QueryBuilders.boostingQuery(positive, negative).negativeBoost(0.1f);
 		BoolQueryBuilder query = QueryBuilders.boolQuery().must(boostQuery);

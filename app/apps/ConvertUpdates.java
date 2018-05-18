@@ -37,7 +37,7 @@ public class ConvertUpdates {
 	}
 
 	private static ArrayList<OpenOaiPmh> buildUpdatePipes(String startOfUpdates, String endOfUpdates) {
-		int intervalSize = 30;
+		int intervalSize = Convert.CONFIG.getInt("data.updates.interval");
 		String start = startOfUpdates;
 		String end = endOfUpdates == null ? addDays(start, intervalSize) : endOfUpdates;
 		final ArrayList<OpenOaiPmh> updateOpenerList = new ArrayList<>();
