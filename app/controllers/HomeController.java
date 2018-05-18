@@ -283,7 +283,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			return Json.toJson(ImmutableMap.of(//
 					"label", labels.filter(t -> !t.trim().isEmpty()).collect(Collectors.joining(" | ")), //
 					"id", id.orElseGet(() -> Json.toJson("")), //
-					"category", categories.stream().map(t -> GndOntology.label(t)).sorted()));
+					"category",
+					categories.stream().map(t -> GndOntology.label(t)).sorted().collect(Collectors.joining(" | "))));
 		});
 		return Json.toJson(suggestions.distinct().collect(Collectors.toList())).toString();
 	}

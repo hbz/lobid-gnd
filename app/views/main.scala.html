@@ -72,9 +72,10 @@
                 // Add categories to autocomplete widget:
                 $.widget("custom.categoryAutocomplete", $.ui.autocomplete, {
                   _renderItem: function(ul, item) {
-                    var labels = ""
-                    for(var category in item.category) {
-                      labels += "&nbsp;<small><span class='label label-primary'>"+ item.category[category] + "</span></small>";
+                    var labels = "";
+                    var categories = item.category.split(' | ');
+                    for(var category in categories) {
+                      labels += "&nbsp;<small><span class='label label-primary'>" + categories[category] + "</span></small>";
                     }
                     return $("<li></li>")
                       .data("item.autocomplete", item )
