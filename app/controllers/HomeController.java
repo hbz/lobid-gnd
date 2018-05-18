@@ -266,7 +266,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	private static String toSuggestions(JsonNode json, String labelFields) {
-		Stream<String> defaultFields = Stream.of("preferredName", "dateOfBirth", "professionOrOccupation",
+		Stream<String> defaultFields = Stream.of("preferredName", "dateOfBirth-dateOfDeath", "professionOrOccupation",
 				"placeOfBusiness", "firstAuthor", "firstComposer", "dateOfProduction");
 		String fields = labelFields.equals("suggest") ? defaultFields.collect(Collectors.joining(",")) : labelFields;
 		Stream<JsonNode> documents = Lists.newArrayList(json.elements()).stream();
@@ -296,9 +296,24 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	private static Stream<JsonNode> fieldValues(String field, JsonNode document) {
+		if (field.contains("-")) {
+			String[] fields = field.split("-");
+			String v1 = year(document.findValue(fields[0]));
+			String v2 = year(document.findValue(fields[1]));
+			return v1.isEmpty() && v2.isEmpty() ? Stream.empty()
+					: Stream.of(Json.toJson(String.format("%s-%s", v1, v2)));
+		}
 		return document.findValues(field).stream().flatMap((node) -> {
 			return node.isArray() ? Lists.newArrayList(node.elements()).stream() : Arrays.asList(node).stream();
 		});
+	}
+
+	private static String year(JsonNode node) {
+		if (node == null || !node.isArray() || node.size() == 0) {
+			return "";
+		}
+		String text = node.elements().next().asText();
+		return text.matches("\\d{4}-\\d{2}-\\d{2}") ? text.split("-")[0] : text;
 	}
 
 	private static Optional<JsonNode> getOptional(JsonNode json, String field) {
