@@ -276,18 +276,23 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			Stream<String> labels = Arrays.asList(fields.split(",")).stream().map(String::trim)
 					.map(field -> fieldValues(field, document).map((JsonNode node) -> //
 			(node.isTextual() ? Optional.ofNullable(node) : Optional.ofNullable(node.findValue("label")))
-					.orElseGet(() -> Json.toJson("")).asText())
-							.map(t -> t.matches("\\d{4}-\\d{2}-\\d{2}") ? t.split("-")[0] : t)
-							.collect(Collectors.joining(", ")));
+					.orElseGet(() -> Json.toJson("")).asText()).collect(Collectors.joining(", ")));
+			List<String> categories = filtered(Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements())
+					.stream().map(JsonNode::asText).filter(t -> !t.equals("AuthorityResource"))
+					.collect(Collectors.toList()));
 			return Json.toJson(ImmutableMap.of(//
 					"label", labels.filter(t -> !t.trim().isEmpty()).collect(Collectors.joining(" | ")), //
 					"id", id.orElseGet(() -> Json.toJson("")), //
-					"category",
-					Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements()).stream()
-							.filter(node -> !Arrays.asList("AuthorityResource").contains(node.asText()))
-							.map(node -> GndOntology.label(node.asText())).sorted()));
+					"category", categories.stream().map(t -> GndOntology.label(t)).sorted()));
 		});
 		return Json.toJson(suggestions.distinct().collect(Collectors.toList())).toString();
+	}
+
+	private static List<String> filtered(List<String> allTypes) {
+		List<String> subTypes = allTypes.stream()
+				.filter(t -> HomeController.CONFIG.getObject("types").keySet().contains(t))
+				.collect(Collectors.toList());
+		return (subTypes.size() == 0 ? allTypes : subTypes);
 	}
 
 	private static Stream<JsonNode> fieldValues(String field, JsonNode document) {
