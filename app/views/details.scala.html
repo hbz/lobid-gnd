@@ -22,6 +22,62 @@
     }
 }
 
+@graph() = {
+  <script type="text/javascript" src='@controllers.routes.Assets.versioned("javascripts/vis.js")'></script>
+  <link href='@controllers.routes.Assets.versioned("stylesheets/vis-network.min.css")' type="text/css" />
+  <style type="text/css">
+    #gnd-network {
+      width: 100%;
+      height: 300px;
+      border: 1px solid lightgray;
+    }
+  </style>
+  <div id="gnd-network"></div>
+  <script type="text/javascript">
+    function changeCursor(cursor) {
+      var networkCanvas = document.getElementById("gnd-network").getElementsByTagName("canvas")[0]
+      networkCanvas.style.cursor = cursor;
+    }
+    function validTarget(target) {
+      return target && target.match(/^\d.*/)
+    }
+    var container = document.getElementById('gnd-network');
+    var data = {
+      nodes: new vis.DataSet(@Html(resource.gndRelationNodes())),
+      edges: new vis.DataSet(@Html(resource.gndRelationEdges()))
+    };
+    var options = {
+      interaction: { hover: true },
+      layout: { randomSeed: 2 },
+      physics: {
+        barnesHut: { avoidOverlap: 1 },
+        stabilization: { enabled: true }
+      }
+    };
+    var network = new vis.Network(container, data, options);
+    network.selectNodes(['@resource.getId'], false)
+    network.on("stabilizationIterationsDone", function () {
+      network.setOptions( { physics: false } );
+      changeCursor('grab');
+    });
+    network.on("click", function (params) {
+      var target = this.getNodeAt(params.pointer.DOM);
+      if(validTarget(target)) {
+        window.location.href = target;
+      }
+    });
+    network.on("hoverNode", function (params) {
+      var target = this.getNodeAt(params.pointer.DOM);
+      if(validTarget(target)) {
+        changeCursor('pointer');
+      }
+    });
+    network.on('blurNode', function () {
+      changeCursor('grab');
+    });
+  </script>
+}
+
 @main("", resource.preferredName) {
     <div class="page-header">
         <h1>@resource.title <small>
@@ -32,7 +88,7 @@
         </h1>
     </div>
     <div class="row">
-        <div class="col-md-@(if(resource.location == null && resource.depiction.isEmpty){12}else{(if(resource.location != null && !resource.depiction.isEmpty){6}else{7})}) intro">
+        <div class="col-md-@(if(resource.location == null && resource.getImage.image.isEmpty && resource.gndRelationEdges == "[]"){12}else{(if(resource.location != null && !resource.getImage.image.isEmpty){6}else{7})}) intro">
             <table class='table table-striped table-condensed'>
             @for(f <- resource.generalFields) {
                 <tr><td>@models.GndOntology.label(f.getLeft)</td><td class='field-value'>@Html(f.getRight) @moreToggle(f.getLeft, f.getRight)</td></tr>
@@ -78,9 +134,14 @@
             }
         </div>
         }
-        @if(resource.depiction != null){
+        @if(!resource.getImage.image.isEmpty){
              <div class="col-md-@if(resource.location != null){3}else{5} intro">
                  @image()
+             </div>
+        }
+        @if(resource.gndRelationEdges != "[]") {
+             <div class="col-md-@if(resource.location != null){3}else{5} intro">
+                 @graph()
              </div>
         }
     </div>

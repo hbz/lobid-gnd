@@ -16,6 +16,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.common.geo.GeoPoint;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 import controllers.HomeController;
@@ -30,7 +31,8 @@ public class AuthorityResource {
 			// handled explicitly:
 			"@context", "id", "type", "depiction", "sameAs", "preferredName", "hasGeometry", //
 			// don't display:
-			"variantNameEntityForThePerson", "deprecatedUri", "oldAuthorityNumber", "wikipedia");
+			"variantNameEntityForThePerson", "deprecatedUri", "oldAuthorityNumber", "wikipedia",
+			"familialRelationship" /* <-- redundant, we now have more specific relations */);
 
 	private String id;
 	private List<String> type;
@@ -125,6 +127,64 @@ public class AuthorityResource {
 			result.add(Pair.of(field, value));
 		}
 		return result;
+	}
+
+	public String gndRelationNodes() {
+		List<Map<String, String>> result = new ArrayList<>();
+		addGndEntityNodes(result);
+		addGroupingNodes(result);
+		return Json.toJson(result).toString();
+	}
+
+	public String gndRelationEdges() {
+		List<Map<String, Object>> result = new ArrayList<>();
+		addDirectConnections(result);
+		addGroupedConnections(result);
+		return Json.toJson(result).toString();
+	}
+
+	private void addGroupingNodes(List<Map<String, String>> result) {
+		gndNodes().stream().filter(pair -> pair.getRight().size() > 1).map(Pair::getLeft).distinct().forEach(rel -> {
+			String label = GndOntology.label(rel);
+			result.add(ImmutableMap.of("id", rel, "shape", "dot", "size", "5", "label", label));
+		});
+	}
+
+	private void addGndEntityNodes(List<Map<String, String>> result) {
+		result.add(ImmutableMap.of("id", getId(), "label", preferredName, "shape", "box"));
+		gndNodes().stream().flatMap(pair -> pair.getRight().stream()).distinct().forEach(node -> {
+			String id = node.get("id").asText().substring(DNB_PREFIX.length());
+			String label = node.get("label").asText();
+			result.add(ImmutableMap.of("id", id, "label", label, "shape", "box"));
+		});
+	}
+
+	private void addGroupedConnections(List<Map<String, Object>> result) {
+		gndNodes().stream().filter(pair -> pair.getRight().size() > 1).forEach(pair -> {
+			String rel = pair.getLeft();
+			result.add(ImmutableMap.of("from", getId(), "to", rel, "chosen", false));
+			pair.getRight().forEach(node -> {
+				String to = node.get("id").asText().substring(DNB_PREFIX.length());
+				result.add(ImmutableMap.of("from", rel, "to", to, "arrows", "to", "chosen", false));
+			});
+		});
+	}
+
+	private void addDirectConnections(List<Map<String, Object>> result) {
+		gndNodes().stream().filter(pair -> pair.getRight().size() == 1).forEach(pair -> {
+			String to = pair.getRight().get(0).get("id").asText().substring(DNB_PREFIX.length());
+			String label = GndOntology.label(pair.getLeft());
+			result.add(ImmutableMap.of("from", getId(), "to", to, "arrows", "to", "label", label, "chosen", false));
+		});
+	}
+
+	private List<Pair<String, List<JsonNode>>> gndNodes() {
+		return Lists.newArrayList(json.fieldNames()).stream().filter(key -> {
+			JsonNode node = json.get(key);
+			return !SKIP.contains(key) && node.isArray() && node.size() > 0 && node.elements().next().isObject()
+					&& node.toString().contains("http://d-nb.info/gnd/");
+		}).map(key -> Pair.of(key, Lists.newArrayList(json.get(key).elements()).stream().collect(Collectors.toList())))
+				.collect(Collectors.toList());
 	}
 
 	public LinkWithImage getImage() {
