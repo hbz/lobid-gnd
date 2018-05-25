@@ -655,9 +655,6 @@ div.vis-network div.vis-navigation div.vis-button {
 	user-select: none
 }
 
-div.vis-network div.vis-navigation div.vis-button:hover {
-	box-shadow: 0 0 3px 3px rgba(56, 207, 21, .3)
-}
 
 div.vis-network div.vis-navigation div.vis-button:active {
 	box-shadow: 0 0 1px 3px rgba(56, 207, 21, .95)
@@ -688,15 +685,15 @@ div.vis-network div.vis-navigation div.vis-button.vis-right {
 }
 
 div.vis-network div.vis-navigation div.vis-button.vis-zoomIn {
-	background-image: url(img/network/plus.png);
+	background-image: url(../images/plus.png);
 	bottom: 10px;
-	right: 15px
+	right: 10px
 }
 
 div.vis-network div.vis-navigation div.vis-button.vis-zoomOut {
-	background-image: url(img/network/minus.png);
+	background-image: url(../images/minus.png);
 	bottom: 10px;
-	right: 55px
+	right: 40px
 }
 
 div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends {

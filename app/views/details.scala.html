@@ -24,7 +24,7 @@
 
 @graph() = {
   <script type="text/javascript" src='@controllers.routes.Assets.versioned("javascripts/vis.js")'></script>
-  <link href='@controllers.routes.Assets.versioned("stylesheets/vis-network.min.css")' type="text/css" />
+  <link href='@controllers.routes.Assets.versioned("stylesheets/vis-network.min.css")' rel="stylesheet" type="text/css" />
   <style type="text/css">
     #gnd-network {
       width: 100%;
@@ -47,7 +47,11 @@
       edges: new vis.DataSet(@Html(resource.gndRelationEdges()))
     };
     var options = {
-      interaction: { hover: true },
+      interaction: {
+        hover: true,
+        navigationButtons: true,
+        keyboard: true
+      },
       layout: { randomSeed: 2 },
       physics: {
         barnesHut: { avoidOverlap: 1 },
@@ -55,6 +59,9 @@
       }
     };
     var network = new vis.Network(container, data, options);
+    $('.vis-button').hide();
+    $('.vis-zoomIn').show();
+    $('.vis-zoomOut').show();
     network.selectNodes(['@resource.getId'], false)
     network.on("stabilizationIterationsDone", function () {
       network.setOptions( { physics: false } );
