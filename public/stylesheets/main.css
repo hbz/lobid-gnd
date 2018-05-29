@@ -210,3 +210,11 @@ h5 {
 	width: 100%;
 	height: 400px
 }
+
+.label a {
+    color: white !important;
+}
+
+.label a:hover {
+    color: white !important;
+}

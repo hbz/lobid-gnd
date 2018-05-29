@@ -149,13 +149,14 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		}
 		try {
 			JsonNode json = Json.parse(jsonLd);
-			if (responseFormat.equals("html")) {
+			if (responseFormat.equals("html") || responseFormat.equals("visual")) {
 				AuthorityResource entity = new AuthorityResource(json);
 				if (entity.getImage().url.contains("File:"))
 					entity.imageAttribution = attribution(entity.getImage().url
 							.substring(entity.getImage().url.indexOf("File:") + 5).split("\\?")[0]);
 				entity.creatorOf = creatorOf(id);
-				return ok(views.html.details.render(entity));
+				return ok(responseFormat.equals("html") ? views.html.details.render(entity)
+						: views.html.visual.render(entity));
 			}
 			return responseFor(json, responseFormat);
 		} catch (Exception e) {
@@ -274,7 +275,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			Optional<JsonNode> id = getOptional(document, "id");
 			Optional<JsonNode> type = getOptional(document, "type");
 			Stream<String> labels = Arrays.asList(fields.split(",")).stream().map(String::trim)
-					.map(field -> fieldValues(field, document).map((JsonNode node) -> //
+					.map(field -> AuthorityResource.fieldValues(field, document).map((JsonNode node) -> //
 			(node.isTextual() ? Optional.ofNullable(node) : Optional.ofNullable(node.findValue("label")))
 					.orElseGet(() -> Json.toJson("")).asText()).collect(Collectors.joining(", ")));
 			List<String> categories = filtered(Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements())
@@ -294,27 +295,6 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				.filter(t -> HomeController.CONFIG.getObject("types").keySet().contains(t))
 				.collect(Collectors.toList());
 		return (subTypes.size() == 0 ? allTypes : subTypes);
-	}
-
-	private static Stream<JsonNode> fieldValues(String field, JsonNode document) {
-		if (field.contains("-")) {
-			String[] fields = field.split("-");
-			String v1 = year(document.findValue(fields[0]));
-			String v2 = year(document.findValue(fields[1]));
-			return v1.isEmpty() && v2.isEmpty() ? Stream.empty()
-					: Stream.of(Json.toJson(String.format("%s-%s", v1, v2)));
-		}
-		return document.findValues(field).stream().flatMap((node) -> {
-			return node.isArray() ? Lists.newArrayList(node.elements()).stream() : Arrays.asList(node).stream();
-		});
-	}
-
-	private static String year(JsonNode node) {
-		if (node == null || !node.isArray() || node.size() == 0) {
-			return "";
-		}
-		String text = node.elements().next().asText();
-		return text.matches("\\d{4}-\\d{2}-\\d{2}") ? text.split("-")[0] : text;
 	}
 
 	private static Optional<JsonNode> getOptional(JsonNode json, String field) {

@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.common.geo.GeoPoint;
@@ -25,7 +26,7 @@ import play.libs.Json;
 
 public class AuthorityResource {
 
-	private static final int SHORTEN = 10;
+	private static final int SHORTEN = 5;
 	public final static String DNB_PREFIX = "http://d-nb.info/gnd/";
 	private static final List<String> SKIP = Arrays.asList(//
 			// handled explicitly:
@@ -85,6 +86,23 @@ public class AuthorityResource {
 		return preferredName;
 	}
 
+	public String subTitle() {
+		String lifeDates = fieldValues("dateOfBirth-dateOfDeath", json).map(JsonNode::asText)
+				.collect(Collectors.joining());
+		String details = find("definition", "biographicalOrHistoricalInformation");
+		return "<small>" + (lifeDates.isEmpty() ? details : lifeDates + " | " + details) + "</small>";
+	}
+
+	private String find(String... fields) {
+		for (String field : fields) {
+			JsonNode node = json.get(field);
+			if (node != null && node.elements().hasNext()) {
+				return node.elements().next().asText();
+			}
+		}
+		return "";
+	}
+
 	public GeoPoint location() {
 		if (hasGeometry.isEmpty())
 			return null;
@@ -127,6 +145,23 @@ public class AuthorityResource {
 			result.add(Pair.of(field, value));
 		}
 		return result;
+	}
+
+	public List<Pair<String, String>> summaryFields() {
+		ArrayList<LinkWithImage> links = new ArrayList<>(new TreeSet<>(getLinks()));
+		List<Pair<String, String>> fields = new ArrayList<>();
+		addValues("gndIdentifier", Arrays.asList(json.get("gndIdentifier").textValue()), fields);
+		addIds("homepage", fields);
+		addIds("gndSubjectCategory", fields);
+		addIds("geographicAreaCode", fields);
+		addValues("variantName", fields);
+		if (!links.isEmpty()) {
+			String field = "sameAs";
+			String value = IntStream.range(0, links.size()).mapToObj(i -> html(field, links, i))
+					.collect(Collectors.joining(" | "));
+			fields.add(Pair.of(field, value));
+		}
+		return fields;
 	}
 
 	public String gndRelationNodes() {
@@ -345,5 +380,26 @@ public class AuthorityResource {
 			result = result + "</span>";
 		}
 		return result;
+	}
+
+	public static Stream<JsonNode> fieldValues(String field, JsonNode document) {
+		if (field.contains("-")) {
+			String[] fields = field.split("-");
+			String v1 = year(document.findValue(fields[0]));
+			String v2 = year(document.findValue(fields[1]));
+			return v1.isEmpty() && v2.isEmpty() ? Stream.empty()
+					: Stream.of(Json.toJson(String.format("%s-%s", v1, v2)));
+		}
+		return document.findValues(field).stream().flatMap((node) -> {
+			return node.isArray() ? Lists.newArrayList(node.elements()).stream() : Arrays.asList(node).stream();
+		});
+	}
+
+	private static String year(JsonNode node) {
+		if (node == null || !node.isArray() || node.size() == 0) {
+			return "";
+		}
+		String text = node.elements().next().asText();
+		return text.matches("\\d{4}-\\d{2}-\\d{2}") ? text.split("-")[0] : text;
 	}
 }
