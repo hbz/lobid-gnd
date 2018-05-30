@@ -1,0 +1,144 @@
+{
+  "@context" : "http://hub.culturegraph.org/entityfacts/context/v1/entityfacts.jsonld",
+  "@id" : "http://d-nb.info/gnd/118634313",
+  "preferredName" : "Ludwig Wittgenstein",
+  "surname" : "Wittgenstein",
+  "forename" : "Ludwig",
+  "describedBy" : {
+    "valid" : "2018-05-30T15:57:35+0200",
+    "license" : "https://creativecommons.org/publicdomain/zero/1.0/",
+    "@id" : "http://hub.culturegraph.org/entityfacts/118634313"
+  },
+  "@type" : "person",
+  "variantName" : [ "Ludwig Josef Johann Wittgenstein", "Ludvig Wittgenstein", "Ludovicus Wittgenstein", "L. Wittgenstein", "... Wittgenstein", "Lûdwig Wîtgenšṭain", "Ljudvig Vitgenštajn", "Ludvig Vitgenštajn", "Liudvigas Vitgenšteinas", "Ljudvig Vitgenštejn", "Rūtovihi Uitogenshutain", "... Uitogenshutain", "Lûdwîg Witgenšṭeyn", "Rūtovihi Vitogenshutain", "Lūdwīg Wītginšitāyn", "Ludvigs Vitgenšteins", "Ludwig J. Wittgenstein", "Luntbich Bittnkenstaïn", "לודויג ויטגנשטיין", "ルートヴィッヒ ヴィトゲンシュタイン" ],
+  "dateOfBirth" : "April 26, 1889",
+  "dateOfDeath" : "April 29, 1951",
+  "placeOfBirth" : [ {
+    "@id" : "http://d-nb.info/gnd/4066009-6",
+    "preferredName" : "Wien"
+  } ],
+  "placeOfDeath" : [ {
+    "@id" : "http://d-nb.info/gnd/4009351-7",
+    "preferredName" : "Cambridge"
+  } ],
+  "professionOrOccupation" : [ {
+    "@id" : "http://d-nb.info/gnd/4045790-4",
+    "preferredName" : "Philosoph"
+  }, {
+    "@id" : "http://d-nb.info/gnd/4044300-0",
+    "preferredName" : "Pädagoge"
+  }, {
+    "@id" : "http://d-nb.info/gnd/4002844-6",
+    "preferredName" : "Architekt"
+  } ],
+  "gender" : {
+    "@id" : "http://d-nb.info/standards/vocab/gnd/gender#male",
+    "label" : "Mann"
+  },
+  "biographicalOrHistoricalInformation" : "Österr. Philosoph, lebte ab 1929 (mit Unterbrechungen) in England; Pädagoge ; Abschlussdiplom als Ingenieur 1908; Österr. Philosoph ; Philosoph, Architekt",
+  "relatedPerson" : [ {
+    "@id" : "http://d-nb.info/gnd/129904481",
+    "relationship" : "Bekannte",
+    "preferredName" : "Marguerite Respinger"
+  }, {
+    "@id" : "http://d-nb.info/gnd/120712016",
+    "relationship" : "Schülerin",
+    "preferredName" : "G. E. M. Anscombe"
+  } ],
+  "familialRelationship" : [ {
+    "@id" : "http://d-nb.info/gnd/124724744",
+    "relationship" : "Schwester",
+    "preferredName" : "Margarethe Stonborough-Wittgenstein"
+  }, {
+    "@id" : "http://d-nb.info/gnd/117422959",
+    "relationship" : "Bruder",
+    "preferredName" : "Paul Wittgenstein"
+  } ],
+  "depiction" : {
+    "@id" : "https://commons.wikimedia.org/wiki/Special:FilePath/Ludwig_Wittgenstein.jpg",
+    "thumbnail" : {
+      "@id" : "https://commons.wikimedia.org/wiki/Special:FilePath/Ludwig_Wittgenstein.jpg?width=270"
+    },
+    "url" : "https://commons.wikimedia.org/wiki/File:Ludwig_Wittgenstein.jpg?uselang=en"
+  },
+  "sameAs" : [ {
+    "@id" : "http://d-nb.info/gnd/118634313/about",
+    "collection" : {
+      "abbr" : "DNB",
+      "name" : "Gemeinsame Normdatei (GND) im Katalog der Deutschen Nationalbibliothek",
+      "publisher" : "Deutsche Nationalbibliothek",
+      "icon" : "http://www.dnb.de/SiteGlobals/StyleBundles/Bilder/favicon.png?__blob=normal&v=1"
+    }
+  }, {
+    "@id" : "http://catalogue.bnf.fr/ark:/12148/cb11929322k",
+    "collection" : {
+      "abbr" : "BNF",
+      "name" : "Bibliothèque nationale de France",
+      "publisher" : "Bibliothèque nationale de France",
+      "icon" : "http://www.bnf.fr/bnf_dev/icono/favicon.ico"
+    }
+  }, {
+    "@id" : "http://kalliope-verbund.info/gnd/118634313",
+    "collection" : {
+      "abbr" : "DE-611",
+      "name" : "Kalliope Verbundkatalog",
+      "publisher" : "Staatsbibliothek zu Berlin - Preußischer Kulturbesitz"
+    }
+  }, {
+    "@id" : "https://de.wikipedia.org/wiki/Ludwig_Wittgenstein",
+    "collection" : {
+      "abbr" : "dewiki",
+      "name" : "Wikipedia (Deutsch)",
+      "publisher" : "Wikimedia Foundation Inc.",
+      "icon" : "https://de.wikipedia.org/static/favicon/wikipedia.ico"
+    }
+  }, {
+    "@id" : "https://en.wikipedia.org/wiki/Ludwig_Wittgenstein",
+    "collection" : {
+      "abbr" : "enwiki",
+      "name" : "Wikipedia (English)",
+      "publisher" : "Wikimedia Foundation Inc.",
+      "icon" : "https://en.wikipedia.org/static/favicon/wikipedia.ico"
+    }
+  }, {
+    "@id" : "https://www.deutsche-digitale-bibliothek.de/entity/118634313",
+    "collection" : {
+      "abbr" : "DDB",
+      "name" : "Deutsche Digitale Bibliothek",
+      "publisher" : "Deutsche Digitale Bibliothek",
+      "icon" : "https://www.deutsche-digitale-bibliothek.de/appStatic/images/favicon.ico"
+    }
+  }, {
+    "@id" : "http://id.loc.gov/authorities/n79032058",
+    "collection" : {
+      "abbr" : "LC",
+      "name" : "NACO Authority File",
+      "publisher" : "Library of Congress",
+      "icon" : "http://www.loc.gov/favicon.ico"
+    }
+  }, {
+    "@id" : "http://viaf.org/viaf/24609378",
+    "collection" : {
+      "abbr" : "VIAF",
+      "name" : "Virtual International Authority File (VIAF)",
+      "publisher" : "OCLC",
+      "icon" : "http://viaf.org/viaf/images/viaf.ico"
+    }
+  }, {
+    "@id" : "http://www.isni.org/0000000120999171",
+    "collection" : {
+      "abbr" : "ISNI",
+      "name" : "International Standard Name Identifier (ISNI)",
+      "publisher" : "International Standard Name Identifier (ISNI)",
+      "icon" : "http://www.isni.org/sites/default/files/isni_new_favicon.ico"
+    }
+  }, {
+    "@id" : "http://www.wikidata.org/entity/Q9391",
+    "collection" : {
+      "abbr" : "WIKIDATA",
+      "name" : "Wikidata",
+      "publisher" : "Wikimedia Foundation Inc.",
+      "icon" : "https://www.wikidata.org/static/favicon/wikidata.ico"
+    }
+  } ]
+}
