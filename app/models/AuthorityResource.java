@@ -30,7 +30,8 @@ public class AuthorityResource {
 	public final static String DNB_PREFIX = "http://d-nb.info/gnd/";
 	private static final List<String> SKIP = Arrays.asList(//
 			// handled explicitly:
-			"@context", "id", "type", "depiction", "sameAs", "preferredName", "hasGeometry", //
+			"@context", "id", "type", "depiction", "sameAs", "preferredName", "hasGeometry", "definition",
+			"biographicalOrHistoricalInformation", //
 			// don't display:
 			"variantNameEntityForThePerson", "deprecatedUri", "oldAuthorityNumber", "wikipedia",
 			"familialRelationship" /* <-- redundant, we now have more specific relations */);
@@ -90,7 +91,7 @@ public class AuthorityResource {
 		String lifeDates = fieldValues("dateOfBirth-dateOfDeath", json).map(JsonNode::asText)
 				.collect(Collectors.joining());
 		String details = find("definition", "biographicalOrHistoricalInformation");
-		return "<small>" + (lifeDates.isEmpty() ? details : lifeDates + " | " + details) + "</small>";
+		return Stream.of(lifeDates, details).filter(s -> !s.isEmpty()).collect(Collectors.joining(" | "));
 	}
 
 	private String find(String... fields) {

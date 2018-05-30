@@ -149,14 +149,13 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		}
 		try {
 			JsonNode json = Json.parse(jsonLd);
-			if (responseFormat.equals("html") || responseFormat.equals("visual")) {
+			if (responseFormat.equals("html")) {
 				AuthorityResource entity = new AuthorityResource(json);
 				if (entity.getImage().url.contains("File:"))
 					entity.imageAttribution = attribution(entity.getImage().url
 							.substring(entity.getImage().url.indexOf("File:") + 5).split("\\?")[0]);
 				entity.creatorOf = creatorOf(id);
-				return ok(responseFormat.equals("html") ? views.html.details.render(entity)
-						: views.html.visual.render(entity));
+				return ok(views.html.details.render(entity));
 			}
 			return responseFor(json, responseFormat);
 		} catch (Exception e) {
