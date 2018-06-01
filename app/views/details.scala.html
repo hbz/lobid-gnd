@@ -71,7 +71,7 @@
       var target = this.getNodeAt(params.pointer.DOM);
       // TODO: trigger search on edge click
       if(validTarget(target)) {
-        window.location.href = target;
+        window.location.href = target+"#rels";
       }
     });
     network.on("hoverNode", function (params) {
@@ -83,6 +83,13 @@
     network.on('blurNode', function () {
       changeCursor('grab');
     });
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      network.fit();
+    });
+    var anchor = window.location.href.split('#')[1];
+    if(anchor){
+      $('.nav li a').filter('[href="#'+anchor+'"]').tab('show');
+    }
   </script>
 }
 
@@ -131,12 +138,7 @@
 }
 
 @leftWidth() = @{
-  if(resource.getImage.image.isEmpty && resource.location == null && (resource.generalFields.size>=10 || resource.gndRelationEdges == "[]")) {12} else {8}
-}
-
-@showFieldsTab() = @{
-  (resource.generalFields.size>=10 || (resource.location != null && resource.getImage.image.isEmpty)) || 
-      (resource.generalFields.size<10 && (resource.location != null || !resource.getImage.image.isEmpty))
+  if(resource.getImage.image.isEmpty && resource.location == null) {12} else {8}
 }
 
 @main("", resource.preferredName) {
@@ -158,22 +160,22 @@
             </small>
         </h1>
     </div>
-    @if(resource.gndRelationEdges != "[]" && showFieldsTab()){
-    <ul class="nav nav-tabs">
-      @if(resource.gndRelationEdges != "[]"){<li role="presentation" class="active"><a href="#rels" data-toggle="tab">Beziehungen</a></li>}
-      @if(showFieldsTab()){<li role="presentation" @if(resource.gndRelationEdges == "[]"){class="active"}><a href="#fields" data-toggle="tab">Felder</a></li>}
+    @if(resource.gndRelationEdges != "[]"){
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#fields" role="tab" data-toggle="tab">Felder</a></li>
+      @if(resource.gndRelationEdges != "[]"){<li role="presentation"><a href="#rels" role="tab" data-toggle="tab">Beziehungen</a></li>}
     </ul>
     }
     <div class="row">
         <div class="tab-content">
-            <div  id="rels" class="tab-pane @if(resource.gndRelationEdges != "[]"){active} col-md-@leftWidth intro">
+            <div role="tabpanel" id="fields" class="tab-pane active col-md-@leftWidth intro">
+                @fields
+                @dataSource
+            </div>
+            <div  role="tabpanel" id="rels" class="tab-pane col-md-@leftWidth intro">
                 @if(resource.gndRelationEdges != "[]") {
                     @graph()
                 }
-                @dataSource
-            </div>
-            <div id="fields" class="tab-pane @if(resource.gndRelationEdges == "[]"){active} col-md-@leftWidth intro">
-                @fields
                 @dataSource
             </div>
         </div>
@@ -183,9 +185,6 @@
             }
             @if(!resource.getImage.image.isEmpty){
                 @image()
-            }
-            @if(resource.generalFields.size<10 && resource.gndRelationEdges != "[]" && resource.location == null && resource.getImage.image.isEmpty){
-                @fields()
             }
         </div>
     </div>
