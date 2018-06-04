@@ -38,8 +38,16 @@
       var networkCanvas = document.getElementById("gnd-network").getElementsByTagName("canvas")[0]
       networkCanvas.style.cursor = cursor;
     }
+    function valid(t, regex) {
+      if(!t) return false;
+      var match = t.match(regex);
+      return match && match[0].length == t.length;
+    }
     function validTarget(target) {
-      return target && target.match(/^\d.*/)
+      return valid(target, /^\d.*/);
+    }
+    function validEdge(edge) {
+      return valid(edge, /[a-zA-Z]+/);
     }
     var container = document.getElementById('gnd-network');
     var data = {
@@ -52,6 +60,7 @@
         navigationButtons: true,
         keyboard: false
       },
+      edges:{ chosen: false },
       layout: { randomSeed: 2 },
       physics: {
         forceAtlas2Based: {
@@ -67,16 +76,28 @@
     $('.vis-button').hide();
     $('.vis-zoomIn').show();
     $('.vis-zoomOut').show();
-    network.selectNodes(['@resource.getId'], false)
+    network.selectNodes(['@resource.getId'], false);
     network.on("stabilizationIterationsDone", function () {
       network.setOptions( { physics: false } );
       changeCursor('grab');
     });
     network.on("click", function (params) {
       var target = this.getNodeAt(params.pointer.DOM);
-      // TODO: trigger search on edge click
       if(validTarget(target)) {
         window.location.href = target+"#rels";
+      } else {
+        var edge = params.edges[0];
+        if(validEdge(edge)){
+          var to = network.getConnectedNodes(edge).slice(1);
+          if(to){
+            var q = ' ';
+            for(t in to) {
+              q = q + '"' + 'http://d-nb.info/gnd/' + to[t] + '" ';
+            }
+            var search = "/gnd/search?q=" + edge + ".id:(" + q + ")";
+            window.location.href = search;
+          }
+        }
       }
     });
     network.on("hoverNode", function (params) {
@@ -86,6 +107,15 @@
       }
     });
     network.on('blurNode', function () {
+      changeCursor('grab');
+    });
+    network.on("hoverEdge", function (params) {
+      var edge = this.getEdgeAt(params.pointer.DOM);
+      if(validEdge(edge)){
+        changeCursor('pointer');
+      }
+    });
+    network.on('blurEdge', function () {
       changeCursor('grab');
     });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {

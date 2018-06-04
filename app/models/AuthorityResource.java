@@ -166,7 +166,7 @@ public class AuthorityResource {
 	}
 
 	public String gndRelationNodes() {
-		List<Map<String, String>> result = new ArrayList<>();
+		List<Map<String, Object>> result = new ArrayList<>();
 		addGndEntityNodes(result);
 		addGroupingNodes(result);
 		return Json.toJson(result).toString();
@@ -179,29 +179,31 @@ public class AuthorityResource {
 		return Json.toJson(result).toString();
 	}
 
-	private void addGroupingNodes(List<Map<String, String>> result) {
+	private void addGroupingNodes(List<Map<String, Object>> result) {
 		gndNodes().stream().filter(pair -> pair.getRight().size() > 1).map(Pair::getLeft).distinct().forEach(rel -> {
-			String label = wrapped(GndOntology.label(rel));
-			result.add(ImmutableMap.of("id", rel, "shape", "dot", "size", "5", "label", label));
+			result.add(ImmutableMap.of("id", rel, "shape", "dot", "size", "5"));
 		});
 	}
 
-	private void addGndEntityNodes(List<Map<String, String>> result) {
+	private void addGndEntityNodes(List<Map<String, Object>> result) {
 		result.add(ImmutableMap.of("id", getId(), "label", wrapped(preferredName), "shape", "box"));
 		gndNodes().stream().flatMap(pair -> pair.getRight().stream()).distinct().forEach(node -> {
 			String id = node.get("id").asText().substring(DNB_PREFIX.length());
 			String label = wrapped(node.get("label").asText());
-			result.add(ImmutableMap.of("id", id, "label", label, "shape", "box"));
+			String title = "Details zu " + label + " öffnen";
+			result.add(ImmutableMap.of("id", id, "label", label, "shape", "box", "title", title));
 		});
 	}
 
 	private void addGroupedConnections(List<Map<String, Object>> result) {
 		gndNodes().stream().filter(pair -> pair.getRight().size() > 1).forEach(pair -> {
 			String rel = pair.getLeft();
-			result.add(ImmutableMap.of("from", getId(), "to", rel, "chosen", false));
+			String label = wrapped(GndOntology.label(rel));
+			String title = String.format("Einträge mit %s suchen", label);
+			result.add(ImmutableMap.of("from", getId(), "to", rel, "label", label, "id", rel, "title", title));
 			pair.getRight().forEach(node -> {
 				String to = node.get("id").asText().substring(DNB_PREFIX.length());
-				result.add(ImmutableMap.of("from", rel, "to", to, "arrows", "to", "chosen", false));
+				result.add(ImmutableMap.of("from", rel, "to", to, "arrows", "to"));
 			});
 		});
 	}
@@ -209,8 +211,11 @@ public class AuthorityResource {
 	private void addDirectConnections(List<Map<String, Object>> result) {
 		gndNodes().stream().filter(pair -> pair.getRight().size() == 1).forEach(pair -> {
 			String to = pair.getRight().get(0).get("id").asText().substring(DNB_PREFIX.length());
-			String label = wrapped(GndOntology.label(pair.getLeft()));
-			result.add(ImmutableMap.of("from", getId(), "to", to, "arrows", "to", "label", label, "chosen", false));
+			String rel = pair.getLeft();
+			String label = wrapped(GndOntology.label(rel));
+			String title = String.format("Einträge mit %s '%s' suchen", label, GndOntology.label(DNB_PREFIX + to));
+			result.add(ImmutableMap.<String, Object>builder().put("from", getId()).put("to", to).put("arrows", "to")
+					.put("label", label).put("id", rel).put("title", title).build());
 		});
 	}
 
