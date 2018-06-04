@@ -181,16 +181,16 @@ public class AuthorityResource {
 
 	private void addGroupingNodes(List<Map<String, String>> result) {
 		gndNodes().stream().filter(pair -> pair.getRight().size() > 1).map(Pair::getLeft).distinct().forEach(rel -> {
-			String label = GndOntology.label(rel);
+			String label = wrapped(GndOntology.label(rel));
 			result.add(ImmutableMap.of("id", rel, "shape", "dot", "size", "5", "label", label));
 		});
 	}
 
 	private void addGndEntityNodes(List<Map<String, String>> result) {
-		result.add(ImmutableMap.of("id", getId(), "label", preferredName, "shape", "box"));
+		result.add(ImmutableMap.of("id", getId(), "label", wrapped(preferredName), "shape", "box"));
 		gndNodes().stream().flatMap(pair -> pair.getRight().stream()).distinct().forEach(node -> {
 			String id = node.get("id").asText().substring(DNB_PREFIX.length());
-			String label = node.get("label").asText();
+			String label = wrapped(node.get("label").asText());
 			result.add(ImmutableMap.of("id", id, "label", label, "shape", "box"));
 		});
 	}
@@ -209,9 +209,13 @@ public class AuthorityResource {
 	private void addDirectConnections(List<Map<String, Object>> result) {
 		gndNodes().stream().filter(pair -> pair.getRight().size() == 1).forEach(pair -> {
 			String to = pair.getRight().get(0).get("id").asText().substring(DNB_PREFIX.length());
-			String label = GndOntology.label(pair.getLeft());
+			String label = wrapped(GndOntology.label(pair.getLeft()));
 			result.add(ImmutableMap.of("from", getId(), "to", to, "arrows", "to", "label", label, "chosen", false));
 		});
+	}
+
+	private String wrapped(String s) {
+		return s.replaceAll("\\([^)]+\\)", "").replace(" ", "\n");
 	}
 
 	private List<Pair<String, List<JsonNode>>> gndNodes() {

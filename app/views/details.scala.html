@@ -28,7 +28,7 @@
   <style type="text/css">
     #gnd-network {
       width: 100%;
-      height: 400px;
+      height: 500px;
       border: 1px solid lightgray;
     }
   </style>
@@ -54,7 +54,12 @@
       },
       layout: { randomSeed: 2 },
       physics: {
-        //barnesHut: { avoidOverlap: 1 },
+        forceAtlas2Based: {
+          springLength: 75,
+          centralGravity: 0.015,
+          avoidOverlap: 1
+        },
+        solver: "forceAtlas2Based",
         stabilization: { enabled: true }
       }
     };
