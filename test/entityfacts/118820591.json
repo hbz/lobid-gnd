@@ -1,0 +1,136 @@
+{
+  "@context" : "http://hub.culturegraph.org/entityfacts/context/v1/entityfacts.jsonld",
+  "@id" : "http://d-nb.info/gnd/118820591",
+  "preferredName" : "Joseph Weizenbaum",
+  "surname" : "Weizenbaum",
+  "forename" : "Joseph",
+  "describedBy" : {
+    "valid" : "2018-05-30T15:57:03+0200",
+    "license" : "https://creativecommons.org/publicdomain/zero/1.0/",
+    "@id" : "http://hub.culturegraph.org/entityfacts/118820591"
+  },
+  "@type" : "person",
+  "academicDegree" : [ "Prof." ],
+  "variantName" : [ "J. Weizenbaum", "Josef Weizenbaum" ],
+  "dateOfBirth" : "January 8, 1923",
+  "dateOfDeath" : "March 5, 2008",
+  "placeOfBirth" : [ {
+    "@id" : "http://d-nb.info/gnd/4005728-8",
+    "preferredName" : "Berlin"
+  } ],
+  "placeOfDeath" : [ {
+    "@id" : "http://d-nb.info/gnd/4005728-8",
+    "preferredName" : "Berlin"
+  } ],
+  "professionOrOccupation" : [ {
+    "@id" : "http://d-nb.info/gnd/4139395-8",
+    "preferredName" : "Informatiker"
+  }, {
+    "@id" : "http://d-nb.info/gnd/4037945-0",
+    "preferredName" : "Mathematiker"
+  } ],
+  "gender" : {
+    "@id" : "http://d-nb.info/standards/vocab/gnd/gender#male",
+    "label" : "Mann"
+  },
+  "biographicalOrHistoricalInformation" : "Informatiker",
+  "affiliation" : [ {
+    "@id" : "http://d-nb.info/gnd/2179-9",
+    "preferredName" : "Massachusetts Institute of Technology"
+  } ],
+  "depiction" : {
+    "@id" : "https://commons.wikimedia.org/wiki/Special:FilePath/Joseph_Weizenbaum.jpg",
+    "thumbnail" : {
+      "@id" : "https://commons.wikimedia.org/wiki/Special:FilePath/Joseph_Weizenbaum.jpg?width=270"
+    },
+    "url" : "https://commons.wikimedia.org/wiki/File:Joseph_Weizenbaum.jpg?uselang=en"
+  },
+  "sameAs" : [ {
+    "@id" : "http://d-nb.info/gnd/118820591/about",
+    "collection" : {
+      "abbr" : "DNB",
+      "name" : "Gemeinsame Normdatei (GND) im Katalog der Deutschen Nationalbibliothek",
+      "publisher" : "Deutsche Nationalbibliothek",
+      "icon" : "http://www.dnb.de/SiteGlobals/StyleBundles/Bilder/favicon.png?__blob=normal&v=1"
+    }
+  }, {
+    "@id" : "http://www.filmportal.de/person/1EF3B0050420476FB8C4E9BD95F50AA0",
+    "collection" : {
+      "abbr" : "filmportal.de",
+      "name" : "Filmportal",
+      "publisher" : "Deutsches Filminstitut",
+      "icon" : "http://filmportal.de/misc/favicon.ico"
+    }
+  }, {
+    "@id" : "http://catalogue.bnf.fr/ark:/12148/cb133376184",
+    "collection" : {
+      "abbr" : "BNF",
+      "name" : "Bibliothèque nationale de France",
+      "publisher" : "Bibliothèque nationale de France",
+      "icon" : "http://www.bnf.fr/bnf_dev/icono/favicon.ico"
+    }
+  }, {
+    "@id" : "http://kalliope-verbund.info/gnd/118820591",
+    "collection" : {
+      "abbr" : "DE-611",
+      "name" : "Kalliope Verbundkatalog",
+      "publisher" : "Staatsbibliothek zu Berlin - Preußischer Kulturbesitz"
+    }
+  }, {
+    "@id" : "https://de.wikipedia.org/wiki/Joseph_Weizenbaum",
+    "collection" : {
+      "abbr" : "dewiki",
+      "name" : "Wikipedia (Deutsch)",
+      "publisher" : "Wikimedia Foundation Inc.",
+      "icon" : "https://de.wikipedia.org/static/favicon/wikipedia.ico"
+    }
+  }, {
+    "@id" : "https://en.wikipedia.org/wiki/Joseph_Weizenbaum",
+    "collection" : {
+      "abbr" : "enwiki",
+      "name" : "Wikipedia (English)",
+      "publisher" : "Wikimedia Foundation Inc.",
+      "icon" : "https://en.wikipedia.org/static/favicon/wikipedia.ico"
+    }
+  }, {
+    "@id" : "https://www.deutsche-digitale-bibliothek.de/entity/118820591",
+    "collection" : {
+      "abbr" : "DDB",
+      "name" : "Deutsche Digitale Bibliothek",
+      "publisher" : "Deutsche Digitale Bibliothek",
+      "icon" : "https://www.deutsche-digitale-bibliothek.de/appStatic/images/favicon.ico"
+    }
+  }, {
+    "@id" : "http://id.loc.gov/authorities/n85806359",
+    "collection" : {
+      "abbr" : "LC",
+      "name" : "NACO Authority File",
+      "publisher" : "Library of Congress",
+      "icon" : "http://www.loc.gov/favicon.ico"
+    }
+  }, {
+    "@id" : "http://viaf.org/viaf/52486307",
+    "collection" : {
+      "abbr" : "VIAF",
+      "name" : "Virtual International Authority File (VIAF)",
+      "publisher" : "OCLC",
+      "icon" : "http://viaf.org/viaf/images/viaf.ico"
+    }
+  }, {
+    "@id" : "http://www.isni.org/0000000116429790",
+    "collection" : {
+      "abbr" : "ISNI",
+      "name" : "International Standard Name Identifier (ISNI)",
+      "publisher" : "International Standard Name Identifier (ISNI)",
+      "icon" : "http://www.isni.org/sites/default/files/isni_new_favicon.ico"
+    }
+  }, {
+    "@id" : "http://www.wikidata.org/entity/Q75778",
+    "collection" : {
+      "abbr" : "WIKIDATA",
+      "name" : "Wikidata",
+      "publisher" : "Wikimedia Foundation Inc.",
+      "icon" : "https://www.wikidata.org/static/favicon/wikidata.ico"
+    }
+  } ]
+}

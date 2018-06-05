@@ -11,11 +11,13 @@ import java.util.TreeSet;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.common.geo.GeoPoint;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 import controllers.HomeController;
@@ -24,13 +26,15 @@ import play.libs.Json;
 
 public class AuthorityResource {
 
-	private static final int SHORTEN = 10;
+	private static final int SHORTEN = 5;
 	public final static String DNB_PREFIX = "http://d-nb.info/gnd/";
 	private static final List<String> SKIP = Arrays.asList(//
 			// handled explicitly:
-			"@context", "id", "type", "depiction", "sameAs", "preferredName", "hasGeometry", //
+			"@context", "id", "type", "depiction", "sameAs", "preferredName", "hasGeometry", "definition",
+			"biographicalOrHistoricalInformation", //
 			// don't display:
-			"variantNameEntityForThePerson", "deprecatedUri", "oldAuthorityNumber", "wikipedia");
+			"variantNameEntityForThePerson", "deprecatedUri", "oldAuthorityNumber", "wikipedia",
+			"familialRelationship" /* <-- redundant, we now have more specific relations */);
 
 	private String id;
 	private List<String> type;
@@ -83,6 +87,23 @@ public class AuthorityResource {
 		return preferredName;
 	}
 
+	public String subTitle() {
+		String lifeDates = fieldValues("dateOfBirth-dateOfDeath", json).map(JsonNode::asText)
+				.collect(Collectors.joining());
+		String details = find("definition", "biographicalOrHistoricalInformation");
+		return Stream.of(lifeDates, details).filter(s -> !s.isEmpty()).collect(Collectors.joining(" | "));
+	}
+
+	private String find(String... fields) {
+		for (String field : fields) {
+			JsonNode node = json.get(field);
+			if (node != null && node.elements().hasNext()) {
+				return node.elements().next().asText();
+			}
+		}
+		return "";
+	}
+
 	public GeoPoint location() {
 		if (hasGeometry.isEmpty())
 			return null;
@@ -125,6 +146,90 @@ public class AuthorityResource {
 			result.add(Pair.of(field, value));
 		}
 		return result;
+	}
+
+	public List<Pair<String, String>> summaryFields() {
+		ArrayList<LinkWithImage> links = new ArrayList<>(new TreeSet<>(getLinks()));
+		List<Pair<String, String>> fields = new ArrayList<>();
+		addValues("gndIdentifier", Arrays.asList(json.get("gndIdentifier").textValue()), fields);
+		addIds("homepage", fields);
+		addIds("gndSubjectCategory", fields);
+		addIds("geographicAreaCode", fields);
+		addValues("variantName", fields);
+		if (!links.isEmpty()) {
+			String field = "sameAs";
+			String value = IntStream.range(0, links.size()).mapToObj(i -> html(field, links, i))
+					.collect(Collectors.joining(" | "));
+			fields.add(Pair.of(field, value));
+		}
+		return fields;
+	}
+
+	public String gndRelationNodes() {
+		List<Map<String, Object>> result = new ArrayList<>();
+		addGndEntityNodes(result);
+		addGroupingNodes(result);
+		return Json.toJson(result).toString();
+	}
+
+	public String gndRelationEdges() {
+		List<Map<String, Object>> result = new ArrayList<>();
+		addDirectConnections(result);
+		addGroupedConnections(result);
+		return Json.toJson(result).toString();
+	}
+
+	private void addGroupingNodes(List<Map<String, Object>> result) {
+		gndNodes().stream().filter(pair -> pair.getRight().size() > 1).map(Pair::getLeft).distinct().forEach(rel -> {
+			result.add(ImmutableMap.of("id", rel, "shape", "dot", "size", "5"));
+		});
+	}
+
+	private void addGndEntityNodes(List<Map<String, Object>> result) {
+		result.add(ImmutableMap.of("id", getId(), "label", wrapped(preferredName), "shape", "box"));
+		gndNodes().stream().flatMap(pair -> pair.getRight().stream()).distinct().forEach(node -> {
+			String id = node.get("id").asText().substring(DNB_PREFIX.length());
+			String label = wrapped(node.get("label").asText());
+			String title = "Details zu " + label + " öffnen";
+			result.add(ImmutableMap.of("id", id, "label", label, "shape", "box", "title", title));
+		});
+	}
+
+	private void addGroupedConnections(List<Map<String, Object>> result) {
+		gndNodes().stream().filter(pair -> pair.getRight().size() > 1).forEach(pair -> {
+			String rel = pair.getLeft();
+			String label = wrapped(GndOntology.label(rel));
+			String title = String.format("Einträge mit %s suchen", label);
+			result.add(ImmutableMap.of("from", getId(), "to", rel, "label", label, "id", rel, "title", title));
+			pair.getRight().forEach(node -> {
+				String to = node.get("id").asText().substring(DNB_PREFIX.length());
+				result.add(ImmutableMap.of("from", rel, "to", to, "arrows", "to"));
+			});
+		});
+	}
+
+	private void addDirectConnections(List<Map<String, Object>> result) {
+		gndNodes().stream().filter(pair -> pair.getRight().size() == 1).forEach(pair -> {
+			String to = pair.getRight().get(0).get("id").asText().substring(DNB_PREFIX.length());
+			String rel = pair.getLeft();
+			String label = wrapped(GndOntology.label(rel));
+			String title = String.format("Einträge mit %s '%s' suchen", label, GndOntology.label(DNB_PREFIX + to));
+			result.add(ImmutableMap.<String, Object>builder().put("from", getId()).put("to", to).put("arrows", "to")
+					.put("label", label).put("id", rel).put("title", title).build());
+		});
+	}
+
+	private String wrapped(String s) {
+		return s.replaceAll("\\([^)]+\\)", "").replace(" ", "\n");
+	}
+
+	private List<Pair<String, List<JsonNode>>> gndNodes() {
+		return Lists.newArrayList(json.fieldNames()).stream().filter(key -> {
+			JsonNode node = json.get(key);
+			return !SKIP.contains(key) && node.isArray() && node.size() > 0 && node.elements().next().isObject()
+					&& node.toString().contains("http://d-nb.info/gnd/");
+		}).map(key -> Pair.of(key, Lists.newArrayList(json.get(key).elements()).stream().collect(Collectors.toList())))
+				.collect(Collectors.toList());
 	}
 
 	public LinkWithImage getImage() {
@@ -285,5 +390,26 @@ public class AuthorityResource {
 			result = result + "</span>";
 		}
 		return result;
+	}
+
+	public static Stream<JsonNode> fieldValues(String field, JsonNode document) {
+		if (field.contains("-")) {
+			String[] fields = field.split("-");
+			String v1 = year(document.findValue(fields[0]));
+			String v2 = year(document.findValue(fields[1]));
+			return v1.isEmpty() && v2.isEmpty() ? Stream.empty()
+					: Stream.of(Json.toJson(String.format("%s-%s", v1, v2)));
+		}
+		return document.findValues(field).stream().flatMap((node) -> {
+			return node.isArray() ? Lists.newArrayList(node.elements()).stream() : Arrays.asList(node).stream();
+		});
+	}
+
+	private static String year(JsonNode node) {
+		if (node == null || !node.isArray() || node.size() == 0) {
+			return "";
+		}
+		String text = node.elements().next().asText();
+		return text.matches("\\d{4}-\\d{2}-\\d{2}") ? text.split("-")[0] : text;
 	}
 }

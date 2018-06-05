@@ -208,5 +208,14 @@ h5 {
 
 .authority-map {
 	width: 100%;
-	height: 400px
+	height: 200px;
+	margin-bottom: 20px;
+}
+
+.label a {
+    color: white !important;
+}
+
+.label a:hover {
+    color: white !important;
 }

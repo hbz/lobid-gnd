@@ -28,7 +28,7 @@ public class IndexQueryTest extends IndexTest {
 
 	@Test
 	public void testTotalHits() {
-		Assert.assertEquals(TEST_FILES.length, index.query("*").getHits().getTotalHits());
+		Assert.assertEquals(TTL_TEST_FILES.length, index.query("*").getHits().getTotalHits());
 	}
 
 	@Test
