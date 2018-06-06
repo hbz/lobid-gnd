@@ -33,8 +33,7 @@ public class AuthorityResource {
 			"@context", "id", "type", "depiction", "sameAs", "preferredName", "hasGeometry", "definition",
 			"biographicalOrHistoricalInformation", //
 			// don't display:
-			"variantNameEntityForThePerson", "deprecatedUri", "oldAuthorityNumber", "wikipedia",
-			"familialRelationship" /* <-- redundant, we now have more specific relations */);
+			"variantNameEntityForThePerson", "deprecatedUri", "oldAuthorityNumber", "wikipedia");
 
 	private String id;
 	private List<String> type;
