@@ -24,7 +24,11 @@ public class ConvertBaseline {
 			JsonToElasticsearchBulk bulk = new JsonToElasticsearchBulk("id", config("index.type"),
 					config("index.name"));
 			final ObjectWriter<String> writer = new ObjectWriter<>(output);
-			opener.setReceiver(new XmlDecoder()).setReceiver(splitter).setReceiver(encodeJson).setReceiver(bulk)
+			opener//
+					.setReceiver(new XmlDecoder())//
+					.setReceiver(splitter)//
+					.setReceiver(encodeJson)//
+					.setReceiver(bulk)//
 					.setReceiver(writer);
 			opener.process(input);
 			opener.closeStream();
