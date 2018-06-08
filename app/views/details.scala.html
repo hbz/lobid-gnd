@@ -86,17 +86,13 @@
       if(validTarget(target)) {
         window.location.href = target+"#rels";
       } else {
-        var edge = params.edges[0];
-        if(validEdge(edge)){
-          var to = network.getConnectedNodes(edge).slice(1);
-          if(to){
-            var q = ' ';
-            for(t in to) {
-              q = q + '"' + 'http://d-nb.info/gnd/' + to[t] + '" ';
-            }
-            var search = "/gnd/search?q=" + edge + ".id:(" + q + ")";
-            window.location.href = search;
-          }
+        var edge = params.edges[0].split("_");
+        var rel = edge[0];
+        var to = edge[1];
+        if(validEdge(rel)){
+          var q = '"' + 'http://d-nb.info/gnd/' + to + '"';
+          var search = "/gnd/search?q=" + rel + ".id:" + q;
+          window.location.href = search;
         }
       }
     });
@@ -110,7 +106,7 @@
       changeCursor('grab');
     });
     network.on("hoverEdge", function (params) {
-      var edge = this.getEdgeAt(params.pointer.DOM);
+      var edge = this.getEdgeAt(params.pointer.DOM).split("_")[0];
       if(validEdge(edge)){
         changeCursor('pointer');
       }
