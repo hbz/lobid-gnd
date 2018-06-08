@@ -56,6 +56,10 @@
 	s.replace("[", "").replace("]", "").split("-").head
 }
 
+@labels(f: Seq[String]) = {
+    @for(t <- f) { <small><span class='label label-primary'><a href='@routes.HomeController.search(q="type:"+t)'>@Html(models.GndOntology.label(t))</a></span></small> &nbsp; }
+}
+
 @result_short(id:String, doc: play.api.libs.json.JsValue, i: Int = -1) = {
     <tr>
         <td><i class='@iconFor((doc \ "type").as[Seq[String]])' aria-hidden='true' title='@typesFor(doc)'></i></td>
@@ -64,9 +68,9 @@
           <td class='text-left'>
             @for(v <- (doc \ "type").asOpt[Seq[String]]; f = v.filter(!(controllers.HomeController.CONFIG.getStringList("topLevelTypes")).contains(_))){
               @if(!f.isEmpty){
-                @Html(f.map(models.GndOntology.label(_)).mkString(", ")) <br/>
+                @labels(f)
               } else {
-                @(types.filter(!Seq("AuthorityResource").contains(_)).map(models.GndOntology.label(_)).mkString(", "))
+                @labels(types.filter(!Seq("AuthorityResource").contains(_)))
               }
             }
           </td>
