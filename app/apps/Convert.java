@@ -1,19 +1,13 @@
 package apps;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -27,8 +21,6 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
@@ -40,7 +32,6 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.culturegraph.mf.framework.ObjectReceiver;
-import org.culturegraph.mf.framework.helpers.DefaultObjectPipe;
 import org.culturegraph.mf.framework.helpers.DefaultStreamPipe;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -48,7 +39,6 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.jsonldjava.core.JsonLdError;
@@ -60,7 +50,6 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
-import ORG.oclc.oai.harvester2.app.RawWrite;
 import controllers.HomeController;
 import models.GndOntology;
 import play.Logger;
@@ -88,49 +77,6 @@ public class Convert {
 	}
 
 	static final Map<String, Object> context = load();
-
-	static class OpenOaiPmh extends DefaultObjectPipe<String, ObjectReceiver<Reader>> {
-
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		private String from;
-		private String until;
-
-		public OpenOaiPmh(String from, String until) {
-			this.from = from;
-			this.until = until;
-		}
-
-		@Override
-		public void process(final String baseUrl) {
-			try {
-				RawWrite.run(baseUrl, from, until, "RDFxml", "authorities", stream);
-				getReceiver().process(
-						new InputStreamReader(new ByteArrayInputStream(stream.toByteArray()), StandardCharsets.UTF_8));
-				writeLastSuccessfulUpdate();
-			} catch (NoSuchFieldException | IOException | ParserConfigurationException | SAXException
-					| TransformerException e) {
-				e.printStackTrace();
-			}
-		}
-
-		private void writeLastSuccessfulUpdate() {
-			File file = new File(config("data.updates.last"));
-			file.delete();
-			try (FileWriter writer = new FileWriter(file)) {
-				writer.append(until);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	static class ToString extends DefaultStreamPipe<ObjectReceiver<String>> {
-		@Override
-		public void literal(String name, String value) {
-			getReceiver().process(value);
-		}
-	}
 
 	static class ToAuthorityJson extends DefaultStreamPipe<ObjectReceiver<String>> {
 
