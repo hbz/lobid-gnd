@@ -63,17 +63,17 @@
 @result_short(id:String, doc: play.api.libs.json.JsValue, i: Int = -1) = {
     <tr>
         <td><i class='@iconFor((doc \ "type").as[Seq[String]])' aria-hidden='true' title='@typesFor(doc)'></i></td>
-        <td class='text-left'><a href='@routes.HomeController.authority(id)' title='@((doc \ "variantName").asOpt[Seq[String]].getOrElse(Seq()).mkString(", "))'>@((doc \ "preferredName").asOpt[String].getOrElse(""))</a></td>
-        @for(types <- (doc \ "type").asOpt[Seq[String]]) {
-          <td class='text-left'>
-            @for(v <- (doc \ "type").asOpt[Seq[String]]; f = v.filter(!(controllers.HomeController.CONFIG.getStringList("topLevelTypes")).contains(_))){
+        <td class='text-left'>
+          <a href='@routes.HomeController.authority(id)' title='@((doc \ "variantName").asOpt[Seq[String]].getOrElse(Seq()).mkString(", "))'>@((doc \ "preferredName").asOpt[String].getOrElse(""))</a>
+          @for(v <- (doc \ "type").asOpt[Seq[String]]; f = v.filter(!(controllers.HomeController.CONFIG.getStringList("topLevelTypes")).contains(_))){
               @if(!f.isEmpty){
                 @labels(f)
               } else {
-                @labels(types.filter(!Seq("AuthorityResource").contains(_)))
+                @labels((doc \ "type").asOpt[Seq[String]].get.filter(!Seq("AuthorityResource").contains(_)))
               }
             }
-          </td>
+        </td>
+        @for(types <- (doc \ "type").asOpt[Seq[String]]) {
           <td class='text-right' id='@id-details'>
 
           @field(types, "ConferenceOrEvent", doc, "geographicAreaCode")
@@ -197,7 +197,7 @@
                  </div>
                  </div>
                  <table class="table table-striped table-condensed">
-                 <tr><th /><th style='min-width:25%'/><th /><th /><th style='min-width:10%'/></tr>
+                 <tr><th /><th style='min-width:60%'/><th /><th style='min-width:10%'/></tr>
                  @for((doc,i) <- hits; id = (doc\"gndIdentifier").as[String]) {
                     @result_short(id,doc,i-1)
                  }
