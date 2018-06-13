@@ -30,7 +30,8 @@ public class HomeControllerTest extends WithApplication {
 		return Arrays.asList(new Object[][] { //
 				{ routes.HomeController.index().toString(), Status.OK }, //
 				{ routes.HomeController.search("*", "", 0, 10, "json").toString(), Status.OK },
-				{ routes.HomeController.authority("---", "json").toString(), Status.NOT_FOUND } });
+				{ routes.HomeController.authority("abc", "json").toString(), Status.NOT_FOUND },
+				{ routes.HomeController.authority("1090750048", "json").toString(), Status.MOVED_PERMANENTLY } });
 	}
 
 	public HomeControllerTest(String route, int status) {
