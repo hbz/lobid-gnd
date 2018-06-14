@@ -15,15 +15,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import play.Application;
-import play.inject.guice.GuiceApplicationBuilder;
+import modules.IndexTest;
 import play.mvc.Http;
 import play.mvc.Http.Status;
 import play.mvc.Result;
-import play.test.WithApplication;
+import play.test.Helpers;
 
 @RunWith(Parameterized.class)
-public class HomeControllerTest extends WithApplication {
+public class HomeControllerTest extends IndexTest {
 
 	@Parameters(name = "{0} -> {1}")
 	public static Collection<Object[]> data() {
@@ -42,15 +41,10 @@ public class HomeControllerTest extends WithApplication {
 	private String route;
 	private int status;
 
-	@Override
-	protected Application provideApplication() {
-		return new GuiceApplicationBuilder().build();
-	}
-
 	@Test
 	public void testIndex() {
 		Http.RequestBuilder request = new Http.RequestBuilder().method(GET).uri(route);
-		Result result = route(app, request);
+		Result result = route(Helpers.fakeApplication(), request);
 		assertEquals(status, result.status());
 	}
 
