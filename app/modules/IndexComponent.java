@@ -25,6 +25,7 @@ import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.admin.indices.settings.put.UpdateSettingsResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
@@ -107,10 +108,23 @@ class ElasticsearchServer implements IndexComponent {
 				Logger.info("Indexing updates from " + pathToUpdates);
 				indexData(client, pathToUpdates, indexName);
 			}
+			deleteDeprecatedResources();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		Logger.info("Using Elasticsearch index settings: {}", SETTINGS.getAsMap());
+	}
+
+	private void deleteDeprecatedResources() throws IOException {
+		File file = new File(config("index.delete"));
+		if (file.exists()) {
+			Files.lines(Paths.get(file.toURI())).forEach(id -> {
+				DeleteResponse response = client.prepareDelete(config("index.name"), config("index.type"), id).execute()
+						.actionGet();
+				Logger.debug("Deletion status {}: {}", response.status(), response);
+			});
+			client.admin().indices().refresh(new RefreshRequest()).actionGet();
+		}
 	}
 
 	static void deleteIndex(final Client client, final String index) {

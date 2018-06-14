@@ -2,6 +2,7 @@ package models;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.HashSet;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -29,6 +30,6 @@ public class ModelTest {
 	private String jsonLdFor(String id) throws FileNotFoundException {
 		Model sourceModel = ModelFactory.createDefaultModel();
 		sourceModel.read(new FileReader("test/ttl/" + id + ".ttl"), null, "TTL");
-		return Convert.toJsonLd(id, sourceModel, true);
+		return Convert.toJsonLd(id, sourceModel, true, new HashSet<>());
 	}
 }

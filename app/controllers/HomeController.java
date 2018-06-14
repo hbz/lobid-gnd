@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -238,7 +239,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		} catch (RiotNotFoundException e) {
 			return status(404, e.getMessage());
 		}
-		String jsonLd = Convert.toJsonLd(id, sourceModel, env.isDev());
+		String jsonLd = Convert.toJsonLd(id, sourceModel, env.isDev(), new HashSet<>());
 		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
 	}
 

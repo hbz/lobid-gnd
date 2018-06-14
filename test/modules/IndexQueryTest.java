@@ -28,7 +28,7 @@ public class IndexQueryTest extends IndexTest {
 
 	@Test
 	public void testTotalHits() {
-		Assert.assertEquals(TTL_TEST_FILES.length, index.query("*").getHits().getTotalHits());
+		Assert.assertEquals(TTL_TEST_FILES.length - 1, index.query("*").getHits().getTotalHits());
 	}
 
 	@Test
@@ -37,6 +37,7 @@ public class IndexQueryTest extends IndexTest {
 		Assert.assertEquals(1, index.query("preferredName:\"Weizenbaum, Joseph\"").getHits().getTotalHits());
 		Assert.assertEquals(1, index.query("preferredName:\"weizenbaum, joseph\"").getHits().getTotalHits());
 		Assert.assertEquals(0, index.query("id:\"Weizenbaum, Joseph\"").getHits().getTotalHits());
+		Assert.assertEquals(1, index.query("preferredName:\"Erdmann, Elisabeth von\"").getHits().getTotalHits());
 	}
 
 	@Test
