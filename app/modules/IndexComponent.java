@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -48,6 +49,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.HomeController;
 import play.Logger;
 import play.inject.ApplicationLifecycle;
+import play.mvc.Http.Status;
 
 public interface IndexComponent {
 	Client client();
@@ -117,12 +119,19 @@ class ElasticsearchServer implements IndexComponent {
 
 	private void deleteDeprecatedResources() throws IOException {
 		File file = new File(config("index.delete"));
+		Logger.info("Deleting entities listed in {}", file);
 		if (file.exists()) {
-			Files.lines(Paths.get(file.toURI())).forEach(id -> {
-				DeleteResponse response = client.prepareDelete(config("index.name"), config("index.type"), id).execute()
-						.actionGet();
-				Logger.debug("Deletion status {}: {}", response.status(), response);
-			});
+			try (Scanner s = new Scanner(new FileInputStream(file))) {
+				while (s.hasNextLine()) {
+					String id = s.nextLine();
+					DeleteResponse response = client.prepareDelete(config("index.name"), config("index.type"), id)
+							.execute().actionGet();
+					Logger.debug("Delete {}: status {}: {}", id, response.status(), response);
+					if (response.status().getStatus() == Status.OK) {
+						Logger.info("Deleted {}", id);
+					}
+				}
+			}
 			client.admin().indices().refresh(new RefreshRequest()).actionGet();
 		}
 	}
