@@ -2,11 +2,15 @@ package modules;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
@@ -46,18 +50,22 @@ public class IndexTest {
 	}
 
 	private static void convertData() throws FileNotFoundException, IOException {
+		Set<String> deprecated = new HashSet<>();
 		try (FileWriter out = new FileWriter(PATH)) {
 			for (File file : TTL_TEST_FILES) {
 				Model sourceModel = ModelFactory.createDefaultModel();
 				sourceModel.read(new FileReader(file), null, "TTL");
 				String id = file.getName().split("\\.")[0];
-				String jsonLd = Convert.toJsonLd(id, sourceModel, USE_LOCALHOST_CONTEXT_URL);
+				String jsonLd = Convert.toJsonLd(id, sourceModel, USE_LOCALHOST_CONTEXT_URL, deprecated);
 				String meta = Json.toJson(
 						ImmutableMap.of("index", ImmutableMap.of("_index", "gnd", "_type", "authority", "_id", id)))
 						.toString();
 				out.write(meta + "\n");
 				out.write(jsonLd + "\n");
 			}
+		}
+		try (PrintWriter pw = new PrintWriter(new FileOutputStream(HomeController.config("index.delete"), true))) {
+			deprecated.forEach(id -> pw.println(id));
 		}
 	}
 

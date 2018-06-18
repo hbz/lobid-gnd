@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
@@ -51,6 +52,6 @@ public class RdfConverterTests {
 	private String jsonLdFor(String id) throws FileNotFoundException {
 		Model sourceModel = ModelFactory.createDefaultModel();
 		sourceModel.read(new FileReader("test/ttl/" + id + ".ttl"), null, "TTL");
-		return Convert.toJsonLd(id, sourceModel, false);
+		return Convert.toJsonLd(id, sourceModel, false, new HashSet<>());
 	}
 }

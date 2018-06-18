@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -267,7 +268,7 @@ public class ConvertTest {
 	private String jsonLdFor(String id) throws FileNotFoundException {
 		Model sourceModel = ModelFactory.createDefaultModel();
 		sourceModel.read(new FileReader("test/ttl/" + id + ".ttl"), null, "TTL");
-		String jsonLd = Convert.toJsonLd(id, sourceModel, true);
+		String jsonLd = Convert.toJsonLd(id, sourceModel, true, new HashSet<>());
 		return jsonLd;
 	}
 }

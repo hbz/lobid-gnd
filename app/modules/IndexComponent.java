@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -25,6 +26,7 @@ import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.admin.indices.settings.put.UpdateSettingsResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
@@ -47,6 +49,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.HomeController;
 import play.Logger;
 import play.inject.ApplicationLifecycle;
+import play.mvc.Http.Status;
 
 public interface IndexComponent {
 	Client client();
@@ -107,10 +110,30 @@ class ElasticsearchServer implements IndexComponent {
 				Logger.info("Indexing updates from " + pathToUpdates);
 				indexData(client, pathToUpdates, indexName);
 			}
+			deleteDeprecatedResources();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		Logger.info("Using Elasticsearch index settings: {}", SETTINGS.getAsMap());
+	}
+
+	private void deleteDeprecatedResources() throws IOException {
+		File file = new File(config("index.delete"));
+		Logger.info("Deleting entities listed in {}", file);
+		if (file.exists()) {
+			try (Scanner s = new Scanner(new FileInputStream(file))) {
+				while (s.hasNextLine()) {
+					String id = s.nextLine();
+					DeleteResponse response = client.prepareDelete(config("index.name"), config("index.type"), id)
+							.execute().actionGet();
+					Logger.debug("Delete {}: status {}: {}", id, response.status(), response);
+					if (response.status().getStatus() == Status.OK) {
+						Logger.info("Deleted {}", id);
+					}
+				}
+			}
+			client.admin().indices().refresh(new RefreshRequest()).actionGet();
+		}
 	}
 
 	static void deleteIndex(final Client client, final String index) {

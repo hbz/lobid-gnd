@@ -51,6 +51,7 @@ import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
 import controllers.HomeController;
+import models.AuthorityResource;
 import models.GndOntology;
 import play.Logger;
 import play.libs.Json;
@@ -81,6 +82,7 @@ public class Convert {
 	static class ToAuthorityJson extends DefaultStreamPipe<ObjectReceiver<String>> {
 
 		private final XPath xPath = XPathFactory.newInstance().newXPath();
+		Set<String> deprecated = new HashSet<>();
 
 		@Override
 		public void literal(String name, String value) {
@@ -94,7 +96,7 @@ public class Convert {
 				return;
 			}
 			Model model = sourceModel(value);
-			String jsonLd = Convert.toJsonLd(id, model, false);
+			String jsonLd = Convert.toJsonLd(id, model, false, deprecated);
 			getReceiver().process(jsonLd);
 		}
 
@@ -106,14 +108,14 @@ public class Convert {
 
 	}
 
-	public static String toJsonLd(String id, Model sourceModel, boolean dev) {
+	public static String toJsonLd(String id, Model sourceModel, boolean dev, Set<String> deprecated) {
 		String contextUrl = dev ? config("context.dev") : config("context.prod");
 		ImmutableMap<String, String> frame = ImmutableMap.of("@type", config("data.superclass"), "@embed", "@always");
 		JsonLdOptions options = new JsonLdOptions();
 		options.setCompactArrays(true);
 		options.setProcessingMode("json-ld-1.1");
 		try {
-			Model model = preprocess(sourceModel, id);
+			Model model = preprocess(sourceModel, id, deprecated);
 			StringWriter out = new StringWriter();
 			RDFDataMgr.write(out, model, Lang.JSONLD);
 			Object jsonLd = JsonUtils.fromString(out.toString());
@@ -126,7 +128,7 @@ public class Convert {
 		}
 	}
 
-	private static Model preprocess(Model model, String id) {
+	private static Model preprocess(Model model, String id, Set<String> deprecated) {
 		String academicDegree = "http://d-nb.info/standards/elementset/gnd#academicDegree";
 		String dateOfBirth = "http://d-nb.info/standards/elementset/gnd#dateOfBirth";
 		String dateOfDeath = "http://d-nb.info/standards/elementset/gnd#dateOfDeath";
@@ -137,12 +139,16 @@ public class Convert {
 		String label = "http://www.w3.org/2000/01/rdf-schema#label";
 		String gnd = "http://d-nb.info/standards/elementset/gnd#";
 		String collection = "http://d-nb.info/standards/elementset/dnb#isDescribedIn";
+		String deprecatedUri = "http://d-nb.info/standards/elementset/dnb#deprecatedUri";
 		Set<Statement> toRemove = new HashSet<>();
 		Set<Statement> toAdd = new HashSet<>();
 		model.listStatements().forEachRemaining(statement -> {
 			String s = statement.getSubject().toString();
 			String p = statement.getPredicate().toString();
 			RDFNode o = statement.getObject();
+			if (p.equals(deprecatedUri) && !s.equals(o.toString())) {
+				deprecated.add(o.toString().substring(AuthorityResource.DNB_PREFIX.length()));
+			}
 			if (o.isURIResource()) {
 				if (s.equals(o.toString())) { // remove self-ref statements
 					toRemove.add(statement);

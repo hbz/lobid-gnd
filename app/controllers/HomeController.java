@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RiotNotFoundException;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
@@ -143,6 +145,11 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	public Result authority(String id, String format) {
 		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
+		SearchHits hits = index
+				.query(String.format("deprecatedUri:\"%s%s\"", AuthorityResource.DNB_PREFIX, id), "", 0, 1).getHits();
+		if (hits.getTotalHits() > 0 && !hits.getAt(0).getId().equals(id)) {
+			return movedPermanently(controllers.routes.HomeController.authority(hits.getAt(0).getId(), format));
+		}
 		String jsonLd = getAuthorityResource(id);
 		if (jsonLd == null) {
 			return notFound("Not found: " + id);
@@ -232,7 +239,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		} catch (RiotNotFoundException e) {
 			return status(404, e.getMessage());
 		}
-		String jsonLd = Convert.toJsonLd(id, sourceModel, env.isDev());
+		String jsonLd = Convert.toJsonLd(id, sourceModel, env.isDev(), new HashSet<>());
 		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
 	}
 
