@@ -41,16 +41,16 @@ public class Accept {
 	 *            The accepted types
 	 * @return The selected format for the given parameter and types
 	 */
-	public static String formatFor(String formatParam, Collection<MediaRange> acceptedTypes) {
+	public static Format formatFor(String formatParam, Collection<MediaRange> acceptedTypes) {
 		for (Format format : Format.values())
 			if (formatParam != null && formatParam.matches(format.queryParamString))
-				return formatParam;
+				return format;
 		for (MediaRange mediaRange : acceptedTypes)
 			for (Format format : Format.values())
 				for (String mimeType : format.types)
 					if (mediaRange.accepts(mimeType))
-						return format.queryParamString;
-		return Format.JSON_LD.queryParamString;
+						return format;
+		return Format.JSON_LD;
 	}
 
 }

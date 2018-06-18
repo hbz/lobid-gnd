@@ -40,7 +40,7 @@ public class AcceptUnitTest {
 				{ fakeRequest().header("Accept", "application/pdf"), null, /*->*/ "json" },
 				// no header, just format parameter:
 				{ fakeRequest(), "html", /*->*/ "html" }, { fakeRequest(), "json", /*->*/ "json" },
-				{ fakeRequest(), "json:preferredName", /*->*/ "json:preferredName" },
+				{ fakeRequest(), "json:preferredName", /*->*/ "json(.+)?" },
 				{ fakeRequest(), "ttl", /*->*/ "ttl" }, { fakeRequest(), "nt", /*->*/ "nt" },
 				// supported content types, no format parameter given:
 				{ fakeRequest().header("Accept", "text/html"), null, /*->*/ "html" },
@@ -75,7 +75,8 @@ public class AcceptUnitTest {
 		List<MediaRange> acceptedTypes = fakeRequest.build().acceptedTypes();
 		String description = String.format("resulting format for passedFormat=%s, acceptedTypes=%s", passedFormat,
 				acceptedTypes);
-		assertThat(description, Accept.formatFor(passedFormat, acceptedTypes), startsWith(expectedFormat));
+		assertThat(description, Accept.formatFor(passedFormat, acceptedTypes).queryParamString,
+				startsWith(expectedFormat));
 	}
 
 }

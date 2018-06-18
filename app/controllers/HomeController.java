@@ -47,6 +47,7 @@ import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
 import apps.Convert;
+import controllers.Accept.Format;
 import models.AuthorityResource;
 import models.GndOntology;
 import models.RdfConverter;
@@ -144,7 +145,6 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result authority(String id, String format) {
-		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		SearchHits hits = index
 				.query(String.format("deprecatedUri:\"%s%s\"", AuthorityResource.DNB_PREFIX, id), "", 0, 1).getHits();
 		if (hits.getTotalHits() > 0 && !hits.getAt(0).getId().equals(id)) {
@@ -154,17 +154,23 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		if (jsonLd == null) {
 			return notFound("Not found: " + id);
 		}
+		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		try {
-			JsonNode json = Json.parse(jsonLd);
-			if (responseFormat.equals("html")) {
-				AuthorityResource entity = new AuthorityResource(json);
+			switch (responseFormat) {
+			case HTML: {
+				AuthorityResource entity = new AuthorityResource(Json.parse(jsonLd));
 				if (entity.getImage().url.contains("File:"))
 					entity.imageAttribution = attribution(entity.getImage().url
 							.substring(entity.getImage().url.indexOf("File:") + 5).split("\\?")[0]);
 				entity.creatorOf = creatorOf(id);
 				return ok(views.html.details.render(entity));
 			}
-			return responseFor(json, responseFormat);
+			default: {
+				return rdfResultFor(Json.parse(jsonLd), responseFormat.queryParamString).orElseGet(() -> {
+					return result(jsonLd, Accept.Format.JSON_LD.types[0]);
+				});
+			}
+			}
 		} catch (Exception e) {
 			Logger.error("Could not create response", e);
 			return internalServerError(e.getMessage());
@@ -188,30 +194,19 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return response.getSourceAsString();
 	}
 
-	private Result responseFor(JsonNode responseJson, String responseFormat) throws JsonProcessingException {
-		String content = "";
-		String contentType = "";
-		switch (responseFormat) {
-		case "rdf": {
-			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.RDF_XML);
-			contentType = Accept.Format.RDF_XML.types[0];
-			break;
+	private Optional<Result> rdfResultFor(JsonNode responseJson, String requestedFormat) {
+		for (Format f : Format.values()) {
+			RdfFormat rdfFormat;
+			if (f.queryParamString.equals(requestedFormat) && (rdfFormat = RdfFormat.of(f.queryParamString)) != null) {
+				String rdfContent = RdfConverter.toRdf(responseJson.toString(), rdfFormat);
+				String contentType = f.types[0];
+				return Optional.of(result(rdfContent, contentType));
+			}
 		}
-		case "ttl": {
-			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.TURTLE);
-			contentType = Accept.Format.TURTLE.types[0];
-			break;
-		}
-		case "nt": {
-			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.N_TRIPLE);
-			contentType = Accept.Format.N_TRIPLE.types[0];
-			break;
-		}
-		default: {
-			content = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(responseJson);
-			contentType = Accept.Format.JSON_LD.types[0];
-		}
-		}
+		return Optional.empty();
+	}
+
+	private Result result(String content, String contentType) {
 		return content.isEmpty() ? internalServerError("No content") : ok(content).as(contentType + "; charset=utf-8");
 	}
 
@@ -244,10 +239,10 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result search(String q, String filter, int from, int size, String format) {
-		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
+		String responseFormat = Accept.formatFor(format, request().acceptedTypes()).queryParamString;
 		SearchResponse response = index.query(q.isEmpty() ? "*" : q, filter, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		String[] formatAndConfig = responseFormat.split(":");
+		String[] formatAndConfig = format == null ? new String[] {} : format.split(":");
 		boolean returnSuggestions = formatAndConfig.length == 2;
 		if (returnSuggestions) {
 			List<Map<String, Object>> hits = Arrays.asList(response.getHits().getHits()).stream()
