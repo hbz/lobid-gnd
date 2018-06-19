@@ -52,10 +52,6 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
-import akka.NotUsed;
-import akka.actor.ActorRef;
-import akka.actor.Status;
-import akka.stream.OverflowStrategy;
 import akka.stream.javadsl.Source;
 import akka.util.ByteString;
 import apps.Convert;
@@ -278,34 +274,28 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	private Result jsonLines(String q, SearchResponse response) {
 		long totalHits = index.query(q).getHits().getTotalHits();
 		if (totalHits > 0) {
-			Source<ByteString, ?> source = Source.<ByteString>actorRef((int) totalHits, OverflowStrategy.fail())
-					.mapMaterializedValue(actor -> {
-						scrollQuery(q, actor);
-						return NotUsed.getInstance();
-					});
+			QueryBuilder query = QueryBuilders.queryStringQuery(q);
+			Logger.debug("Scrolling with query: q={}, query={}", q, query);
+			TimeValue keepAlive = new TimeValue(60000);
+			SearchResponse scrollResponse = index.client().prepareSearch(config("index.name"))
+					.addSort(FieldSortBuilder.DOC_FIELD_NAME, SortOrder.ASC).setScroll(keepAlive).setQuery(query)
+					.setSize(100 /* hits per shard for each scroll */).get();
+			Source<ByteString, ?> source = Source.from(() -> scroller(scrollResponse, keepAlive).iterator());
 			return ok().chunked(source).as(Accept.Format.BULK.types[0]);
 		} else {
 			return ok().as(Accept.Format.BULK.types[0]);
 		}
 	}
 
-	private void scrollQuery(String q, ActorRef actor) {
-		QueryBuilder query = QueryBuilders.queryStringQuery(q);
-		Logger.debug("Scrolling with query: q={}, query={}", q, query);
-		TimeValue keepAlive = new TimeValue(60000);
-		SearchResponse scrollResponse = index.client().prepareSearch(config("index.name"))
-				.addSort(FieldSortBuilder.DOC_FIELD_NAME, SortOrder.ASC).setScroll(keepAlive).setQuery(query)
-				.setSize(100 /* hits per shard for each scroll */).get();
-		do {
-			for (SearchHit hit : scrollResponse.getHits().getHits()) {
-				actor.tell(ByteString.fromString(hit.getSourceAsString() + "\n"), null);
-			}
-			Logger.trace("Scrolling, ID {}", scrollResponse.getScrollId());
-			scrollResponse = index.client().prepareSearchScroll(scrollResponse.getScrollId()).setScroll(keepAlive)
-					.execute().actionGet();
-		} while (scrollResponse.getHits().getHits().length != 0);
-		Logger.debug("Last scroll response for bulk request: {}", scrollResponse);
-		actor.tell(new Status.Success(NotUsed.getInstance()), null);
+	private Stream<ByteString> scroller(SearchResponse scrollResponse, TimeValue keepAlive) {
+		if (scrollResponse.getHits().getHits().length != 0) {
+			Stream<ByteString> thisScroll = Stream.of(scrollResponse.getHits().getHits())
+					.map((SearchHit hit) -> ByteString.fromString(hit.getSourceAsString() + "\n"));
+			Stream<ByteString> nextScroll = scroller(index.client().prepareSearchScroll(scrollResponse.getScrollId())
+					.setScroll(keepAlive).execute().actionGet(), keepAlive);
+			return Stream.concat(thisScroll, nextScroll);
+		}
+		return Stream.empty();
 	}
 
 	private Result htmlSearch(String q, String type, int from, int size, String format, SearchResponse response) {
