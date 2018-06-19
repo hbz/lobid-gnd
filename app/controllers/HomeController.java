@@ -31,10 +31,16 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RiotNotFoundException;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -46,6 +52,12 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
+import akka.NotUsed;
+import akka.actor.ActorRef;
+import akka.actor.Status;
+import akka.stream.OverflowStrategy;
+import akka.stream.javadsl.Source;
+import akka.util.ByteString;
 import apps.Convert;
 import controllers.Accept.Format;
 import models.AuthorityResource;
@@ -239,8 +251,9 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result search(String q, String filter, int from, int size, String format) {
-		String responseFormat = Accept.formatFor(format, request().acceptedTypes()).queryParamString;
-		SearchResponse response = index.query(q.isEmpty() ? "*" : q, filter, from, size);
+		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
+		String queryString = (q == null || q.isEmpty()) ? "*" : q;
+		SearchResponse response = index.query(queryString, filter, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		String[] formatAndConfig = format == null ? new String[] {} : format.split(":");
 		boolean returnSuggestions = formatAndConfig.length == 2;
@@ -249,8 +262,50 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 					.map(hit -> hit.getSource()).collect(Collectors.toList());
 			return withCallback(toSuggestions(Json.toJson(hits), formatAndConfig[1]));
 		}
-		return responseFormat.equals("html") ? htmlSearch(q, filter, from, size, responseFormat, response)
-				: ok(returnAsJson(q, response)).as(config("index.content"));
+		switch (responseFormat) {
+		case HTML: {
+			return htmlSearch(q, filter, from, size, responseFormat.queryParamString, response);
+		}
+		case BULK: {
+			return jsonLines(queryString, response);
+		}
+		default: {
+			return ok(returnAsJson(q, response)).as(config("index.content"));
+		}
+		}
+	}
+
+	private Result jsonLines(String q, SearchResponse response) {
+		long totalHits = index.query(q).getHits().getTotalHits();
+		if (totalHits > 0) {
+			Source<ByteString, ?> source = Source.<ByteString>actorRef((int) totalHits, OverflowStrategy.fail())
+					.mapMaterializedValue(actor -> {
+						scrollQuery(q, actor);
+						return NotUsed.getInstance();
+					});
+			return ok().chunked(source).as(Accept.Format.BULK.types[0]);
+		} else {
+			return ok().as(Accept.Format.BULK.types[0]);
+		}
+	}
+
+	private void scrollQuery(String q, ActorRef actor) {
+		QueryBuilder query = QueryBuilders.queryStringQuery(q);
+		Logger.debug("Scrolling with query: q={}, query={}", q, query);
+		TimeValue keepAlive = new TimeValue(60000);
+		SearchResponse scrollResponse = index.client().prepareSearch(config("index.name"))
+				.addSort(FieldSortBuilder.DOC_FIELD_NAME, SortOrder.ASC).setScroll(keepAlive).setQuery(query)
+				.setSize(100 /* hits per shard for each scroll */).get();
+		do {
+			for (SearchHit hit : scrollResponse.getHits().getHits()) {
+				actor.tell(ByteString.fromString(hit.getSourceAsString() + "\n"), null);
+			}
+			Logger.trace("Scrolling, ID {}", scrollResponse.getScrollId());
+			scrollResponse = index.client().prepareSearchScroll(scrollResponse.getScrollId()).setScroll(keepAlive)
+					.execute().actionGet();
+		} while (scrollResponse.getHits().getHits().length != 0);
+		Logger.debug("Last scroll response for bulk request: {}", scrollResponse);
+		actor.tell(new Status.Success(NotUsed.getInstance()), null);
 	}
 
 	private Result htmlSearch(String q, String type, int from, int size, String format, SearchResponse response) {
