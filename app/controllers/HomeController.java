@@ -265,6 +265,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			return htmlSearch(q, filter, from, size, responseFormat.queryParamString, response);
 		}
 		case BULK: {
+			response().setHeader("Content-Disposition",
+					String.format("attachment; filename=\"lobid-gnd-bulk-%s.jsonl\"", System.currentTimeMillis()));
 			return jsonLines(queryString, response);
 		}
 		default: {
