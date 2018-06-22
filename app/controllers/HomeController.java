@@ -34,7 +34,7 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -267,7 +267,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		case JSON_LINES: {
 			response().setHeader("Content-Disposition",
 					String.format("attachment; filename=\"lobid-gnd-bulk-%s.jsonl\"", System.currentTimeMillis()));
-			return jsonLines(queryString, response);
+			return jsonLines(queryString, filter, response);
 		}
 		default: {
 			return ok(returnAsJson(q, response)).as(config("index.content"));
@@ -275,8 +275,11 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		}
 	}
 
-	private Result jsonLines(String q, SearchResponse response) {
-		QueryBuilder query = QueryBuilders.queryStringQuery(q);
+	private Result jsonLines(String q, String filter, SearchResponse response) {
+		BoolQueryBuilder query = QueryBuilders.boolQuery().must(QueryBuilders.queryStringQuery(q));
+		if (!filter.isEmpty()) {
+			query = query.filter(QueryBuilders.queryStringQuery(filter));
+		}
 		TimeValue keepAlive = new TimeValue(60000);
 		SearchRequestBuilder scrollRequest = index.client().prepareSearch(config("index.name"))
 				.addSort(FieldSortBuilder.DOC_FIELD_NAME, SortOrder.ASC).setScroll(keepAlive).setQuery(query)
