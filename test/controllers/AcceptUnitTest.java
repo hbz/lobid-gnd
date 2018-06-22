@@ -44,7 +44,7 @@ public class AcceptUnitTest {
 				{ fakeRequest(), "json:preferredName", /*->*/ "json(.+)?" }, //
 				{ fakeRequest(), "ttl", /*->*/ "ttl" }, //
 				{ fakeRequest(), "nt", /*->*/ "nt" }, //
-				{ fakeRequest(), "bulk", /*->*/ "bulk" },
+				{ fakeRequest(), "jsonl", /*->*/ "jsonl" },
 				// supported content types, no format parameter given:
 				{ fakeRequest().header("Accept", "text/html"), null, /*->*/ "html" },
 				{ fakeRequest().header("Accept", "application/json"), null, /*->*/ "json" },
@@ -56,13 +56,13 @@ public class AcceptUnitTest {
 				{ fakeRequest().header("Accept", "application/xml"), null, /*->*/ "rdf" },
 				{ fakeRequest().header("Accept", "application/rdf+xml"), null, /*->*/ "rdf" },
 				{ fakeRequest().header("Accept", "text/xml"), null, /*->*/ "rdf" },
-				{ fakeRequest().header("Accept", "application/x-jsonlines"), null, /*->*/ "bulk" },
+				{ fakeRequest().header("Accept", "application/x-jsonlines"), null, /*->*/ "jsonl" },
 				// we pick the preferred content type:
 				{ fakeRequest().header("Accept", "text/html,application/json"), null, /*->*/"html" },
 				{ fakeRequest().header("Accept", "application/json,text/html"), null, /*->*/ "json" },
 				// format parameter overrides header:
 				{ fakeRequest().header("Accept", "text/html"), "json", /*->*/ "json" }, //
-				{ fakeRequest().header("Accept", "text/html"), "bulk", /*->*/ "bulk" } });
+				{ fakeRequest().header("Accept", "text/html"), "jsonl", /*->*/ "jsonl" } });
 	}
 
 	private RequestBuilder fakeRequest;

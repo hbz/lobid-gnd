@@ -45,9 +45,9 @@ public class AcceptIntegrationTest extends IndexTest {
 			{ fakeRequest(GET, "/gnd/search?q=*").header("Accept", "text/plain"), /*->*/ "application/json" },
 			// search, bulk format: JSON lines
 			{ fakeRequest(GET, "/gnd/search?q=*").header("Accept", "application/x-jsonlines"), /*->*/ "application/x-jsonlines" },
-			{ fakeRequest(GET, "/gnd/search?format=bulk"), /*->*/ "application/x-jsonlines" },
-			{ fakeRequest(GET, "/gnd/search?q=*&format=bulk"), /*->*/ "application/x-jsonlines" },
-			{ fakeRequest(GET, "/gnd/search?q=vwxyz&format=bulk"), /*->*/ "application/x-jsonlines" },
+			{ fakeRequest(GET, "/gnd/search?format=jsonl"), /*->*/ "application/x-jsonlines" },
+			{ fakeRequest(GET, "/gnd/search?q=*&format=jsonl"), /*->*/ "application/x-jsonlines" },
+			{ fakeRequest(GET, "/gnd/search?q=vwxyz&format=jsonl"), /*->*/ "application/x-jsonlines" },
 			// search, other formats as query param:
 			{ fakeRequest(GET, "/gnd/search?q=*&format=html"), /*->*/ "text/html" },
 			// search, other formats via header:

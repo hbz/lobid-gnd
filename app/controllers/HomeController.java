@@ -264,7 +264,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		case HTML: {
 			return htmlSearch(q, filter, from, size, responseFormat.queryParamString, response);
 		}
-		case BULK: {
+		case JSON_LINES: {
 			response().setHeader("Content-Disposition",
 					String.format("attachment; filename=\"lobid-gnd-bulk-%s.jsonl\"", System.currentTimeMillis()));
 			return jsonLines(queryString, response);
@@ -283,7 +283,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				.setSize(100 /* hits per shard for each scroll */);
 		Logger.debug("Scrolling with query: q={}, request={}", q, scrollRequest);
 		Source<ByteString, ?> source = Source.from(() -> hitIterator(scrollRequest.get(), keepAlive));
-		return ok().chunked(source).as(Accept.Format.BULK.types[0]);
+		return ok().chunked(source).as(Accept.Format.JSON_LINES.types[0]);
 	}
 
 	private Iterator<ByteString> hitIterator(SearchResponse scrollResponse, TimeValue keepAlive) {
