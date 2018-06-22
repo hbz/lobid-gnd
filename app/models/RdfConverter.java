@@ -43,6 +43,10 @@ public class RdfConverter {
 			return name;
 		}
 
+		public String getParam() {
+			return queryParamString;
+		}
+
 		public static RdfFormat of(String format) {
 			for (RdfFormat f : values()) {
 				if (f.queryParamString.equals(format)) {

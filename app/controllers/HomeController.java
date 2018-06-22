@@ -165,6 +165,11 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			return notFound("Not found: " + id);
 		}
 		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
+		if (responseFormat == null || responseFormat == Accept.Format.JSON_LINES
+				|| format != null && format.contains(":")) {
+			return unsupportedMediaType(String.format("Unsupported for single resource: format=%s, accept=%s", format,
+					request().acceptedTypes()));
+		}
 		try {
 			switch (responseFormat) {
 			case HTML: {
@@ -250,6 +255,11 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	public Result search(String q, String filter, int from, int size, String format) {
 		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
+		if (responseFormat == null || Stream.of(RdfFormat.values()).map(RdfFormat::getParam)
+				.anyMatch(f -> f.equals(responseFormat.queryParamString))) {
+			return unsupportedMediaType(
+					String.format("Unsupported for search: format=%s, accept=%s", format, request().acceptedTypes()));
+		}
 		String queryString = (q == null || q.isEmpty()) ? "*" : q;
 		SearchResponse response = index.query(queryString, filter, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");

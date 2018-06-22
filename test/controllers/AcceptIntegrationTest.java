@@ -41,8 +41,8 @@ public class AcceptIntegrationTest extends IndexTest {
 			{ fakeRequest(GET, "/gnd/search?q=*"), /*->*/ "application/json" },
 			{ fakeRequest(GET, "/gnd/search?q=*&format="), /*->*/ "application/json" },
 			{ fakeRequest(GET, "/gnd/search?q=*&format=json"), /*->*/ "application/json" },
-			{ fakeRequest(GET, "/gnd/search?q=*&format=whatever"), /*->*/ "application/json" },
-			{ fakeRequest(GET, "/gnd/search?q=*").header("Accept", "text/plain"), /*->*/ "application/json" },
+			{ fakeRequest(GET, "/gnd/search?q=*&format=whatever"), /*->*/ "text/plain" },
+			{ fakeRequest(GET, "/gnd/search?q=*").header("Accept", "text/plain"), /*->*/ "text/plain" },
 			// search, bulk format: JSON lines
 			{ fakeRequest(GET, "/gnd/search?q=*").header("Accept", "application/x-jsonlines"), /*->*/ "application/x-jsonlines" },
 			{ fakeRequest(GET, "/gnd/search?format=jsonl"), /*->*/ "application/x-jsonlines" },
@@ -57,7 +57,8 @@ public class AcceptIntegrationTest extends IndexTest {
 			{ fakeRequest(GET, "/gnd/118820591"), /*->*/ "application/json" },
 			{ fakeRequest(GET, "/gnd/118820591?format="), /*->*/ "application/json" },
 			{ fakeRequest(GET, "/gnd/118820591?format=json"), /*->*/ "application/json" },
-			{ fakeRequest(GET, "/gnd/118820591?format=whatever"), /*->*/ "application/json" },
+			{ fakeRequest(GET, "/gnd/118820591?format=whatever"), /*->*/ "text/plain" },
+			{ fakeRequest(GET, "/gnd/118820591?format=whatever").header("Accept", "text/html"), /*->*/ "text/plain" },
 			{ fakeRequest(GET, "/gnd/118820591").header("Accept", "text/plain"), /*->*/ "application/n-triples" },
 			// get, other formats as query param:
 			{ fakeRequest(GET, "/gnd/118820591?format=html"), /*->*/ "text/html" },

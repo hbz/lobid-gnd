@@ -20,7 +20,7 @@ public class Accept {
 
 	enum Format {
 		JSON_LINES("jsonl", "application/x-jsonlines"), //
-		JSON_LD("json(.+)?", "application/json", "application/ld+json"), //
+		JSON_LD("json(:.+)?", "application/json", "application/ld+json"), //
 		HTML("html", "text/html"), //
 		RDF_XML("rdf", "application/rdf+xml", "application/xml", "text/xml"), //
 		N_TRIPLE("nt", "application/n-triples", "text/plain"), //
@@ -46,12 +46,13 @@ public class Accept {
 		for (Format format : Format.values())
 			if (formatParam != null && formatParam.matches(format.queryParamString))
 				return format;
-		for (MediaRange mediaRange : acceptedTypes)
-			for (Format format : Format.values())
-				for (String mimeType : format.types)
-					if (mediaRange.accepts(mimeType))
-						return format;
-		return Format.JSON_LD;
+		if (formatParam == null || formatParam.isEmpty())
+			for (MediaRange mediaRange : acceptedTypes)
+				for (Format format : Format.values())
+					for (String mimeType : format.types)
+						if (mediaRange.accepts(mimeType))
+							return format;
+		return (formatParam == null || formatParam.isEmpty()) && acceptedTypes.isEmpty() ? Format.JSON_LD : null;
 	}
 
 }
