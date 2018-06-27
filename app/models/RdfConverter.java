@@ -27,18 +27,33 @@ public class RdfConverter {
 	 */
 	@SuppressWarnings("javadoc")
 	public static enum RdfFormat {
-		RDF_XML("RDF/XML"), //
-		N_TRIPLE("N-TRIPLE"), //
-		TURTLE("TURTLE");
+		RDF_XML("rdf", "RDF/XML"), //
+		N_TRIPLE("nt", "N-TRIPLE"), //
+		TURTLE("ttl", "TURTLE");
 
 		private final String name;
+		private String queryParamString;
 
-		RdfFormat(final String name) {
+		RdfFormat(final String param, final String name) {
+			this.queryParamString = param;
 			this.name = name;
 		}
 
 		public String getName() {
 			return name;
+		}
+
+		public String getParam() {
+			return queryParamString;
+		}
+
+		public static RdfFormat of(String format) {
+			for (RdfFormat f : values()) {
+				if (f.queryParamString.equals(format)) {
+					return f;
+				}
+			}
+			return null;
 		}
 	}
 

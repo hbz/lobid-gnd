@@ -19,7 +19,8 @@ public class Accept {
 	}
 
 	enum Format {
-		JSON_LD("json(.+)?", "application/json", "application/ld+json"), //
+		JSON_LINES("jsonl", "application/x-jsonlines"), //
+		JSON_LD("json(:.+)?", "application/json", "application/ld+json"), //
 		HTML("html", "text/html"), //
 		RDF_XML("rdf", "application/rdf+xml", "application/xml", "text/xml"), //
 		N_TRIPLE("nt", "application/n-triples", "text/plain"), //
@@ -41,16 +42,17 @@ public class Accept {
 	 *            The accepted types
 	 * @return The selected format for the given parameter and types
 	 */
-	public static String formatFor(String formatParam, Collection<MediaRange> acceptedTypes) {
+	public static Format formatFor(String formatParam, Collection<MediaRange> acceptedTypes) {
 		for (Format format : Format.values())
 			if (formatParam != null && formatParam.matches(format.queryParamString))
-				return formatParam;
-		for (MediaRange mediaRange : acceptedTypes)
-			for (Format format : Format.values())
-				for (String mimeType : format.types)
-					if (mediaRange.accepts(mimeType))
-						return format.queryParamString;
-		return Format.JSON_LD.queryParamString;
+				return format;
+		if (formatParam == null || formatParam.isEmpty())
+			for (MediaRange mediaRange : acceptedTypes)
+				for (Format format : Format.values())
+					for (String mimeType : format.types)
+						if (mediaRange.accepts(mimeType))
+							return format;
+		return (formatParam == null || formatParam.isEmpty()) && acceptedTypes.isEmpty() ? Format.JSON_LD : null;
 	}
 
 }

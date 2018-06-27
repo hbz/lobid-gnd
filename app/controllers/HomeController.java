@@ -14,6 +14,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -30,11 +31,18 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RiotNotFoundException;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -46,7 +54,10 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
+import akka.stream.javadsl.Source;
+import akka.util.ByteString;
 import apps.Convert;
+import controllers.Accept.Format;
 import models.AuthorityResource;
 import models.GndOntology;
 import models.RdfConverter;
@@ -144,7 +155,6 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result authority(String id, String format) {
-		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		SearchHits hits = index
 				.query(String.format("deprecatedUri:\"%s%s\"", AuthorityResource.DNB_PREFIX, id), "", 0, 1).getHits();
 		if (hits.getTotalHits() > 0 && !hits.getAt(0).getId().equals(id)) {
@@ -154,17 +164,28 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		if (jsonLd == null) {
 			return notFound("Not found: " + id);
 		}
+		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
+		if (responseFormat == null || responseFormat == Accept.Format.JSON_LINES
+				|| format != null && format.contains(":")) {
+			return unsupportedMediaType(String.format("Unsupported for single resource: format=%s, accept=%s", format,
+					request().acceptedTypes()));
+		}
 		try {
-			JsonNode json = Json.parse(jsonLd);
-			if (responseFormat.equals("html")) {
-				AuthorityResource entity = new AuthorityResource(json);
+			switch (responseFormat) {
+			case HTML: {
+				AuthorityResource entity = new AuthorityResource(Json.parse(jsonLd));
 				if (entity.getImage().url.contains("File:"))
 					entity.imageAttribution = attribution(entity.getImage().url
 							.substring(entity.getImage().url.indexOf("File:") + 5).split("\\?")[0]);
 				entity.creatorOf = creatorOf(id);
 				return ok(views.html.details.render(entity));
 			}
-			return responseFor(json, responseFormat);
+			default: {
+				return rdfResultFor(Json.parse(jsonLd), responseFormat.queryParamString).orElseGet(() -> {
+					return result(jsonLd, Accept.Format.JSON_LD.types[0]);
+				});
+			}
+			}
 		} catch (Exception e) {
 			Logger.error("Could not create response", e);
 			return internalServerError(e.getMessage());
@@ -188,30 +209,19 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return response.getSourceAsString();
 	}
 
-	private Result responseFor(JsonNode responseJson, String responseFormat) throws JsonProcessingException {
-		String content = "";
-		String contentType = "";
-		switch (responseFormat) {
-		case "rdf": {
-			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.RDF_XML);
-			contentType = Accept.Format.RDF_XML.types[0];
-			break;
+	private Optional<Result> rdfResultFor(JsonNode responseJson, String requestedFormat) {
+		for (Format f : Format.values()) {
+			RdfFormat rdfFormat;
+			if (f.queryParamString.equals(requestedFormat) && (rdfFormat = RdfFormat.of(f.queryParamString)) != null) {
+				String rdfContent = RdfConverter.toRdf(responseJson.toString(), rdfFormat);
+				String contentType = f.types[0];
+				return Optional.of(result(rdfContent, contentType));
+			}
 		}
-		case "ttl": {
-			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.TURTLE);
-			contentType = Accept.Format.TURTLE.types[0];
-			break;
-		}
-		case "nt": {
-			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.N_TRIPLE);
-			contentType = Accept.Format.N_TRIPLE.types[0];
-			break;
-		}
-		default: {
-			content = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(responseJson);
-			contentType = Accept.Format.JSON_LD.types[0];
-		}
-		}
+		return Optional.empty();
+	}
+
+	private Result result(String content, String contentType) {
 		return content.isEmpty() ? internalServerError("No content") : ok(content).as(contentType + "; charset=utf-8");
 	}
 
@@ -244,18 +254,69 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result search(String q, String filter, int from, int size, String format) {
-		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
-		SearchResponse response = index.query(q.isEmpty() ? "*" : q, filter, from, size);
+		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
+		if (responseFormat == null || Stream.of(RdfFormat.values()).map(RdfFormat::getParam)
+				.anyMatch(f -> f.equals(responseFormat.queryParamString))) {
+			return unsupportedMediaType(
+					String.format("Unsupported for search: format=%s, accept=%s", format, request().acceptedTypes()));
+		}
+		String queryString = (q == null || q.isEmpty()) ? "*" : q;
+		SearchResponse response = index.query(queryString, filter, from, size);
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		String[] formatAndConfig = responseFormat.split(":");
+		String[] formatAndConfig = format == null ? new String[] {} : format.split(":");
 		boolean returnSuggestions = formatAndConfig.length == 2;
 		if (returnSuggestions) {
 			List<Map<String, Object>> hits = Arrays.asList(response.getHits().getHits()).stream()
 					.map(hit -> hit.getSource()).collect(Collectors.toList());
 			return withCallback(toSuggestions(Json.toJson(hits), formatAndConfig[1]));
 		}
-		return responseFormat.equals("html") ? htmlSearch(q, filter, from, size, responseFormat, response)
-				: ok(returnAsJson(q, response)).as(config("index.content"));
+		switch (responseFormat) {
+		case HTML: {
+			return htmlSearch(q, filter, from, size, responseFormat.queryParamString, response);
+		}
+		case JSON_LINES: {
+			response().setHeader("Content-Disposition",
+					String.format("attachment; filename=\"lobid-gnd-bulk-%s.jsonl\"", System.currentTimeMillis()));
+			return jsonLines(queryString, filter, response);
+		}
+		default: {
+			return ok(returnAsJson(q, response)).as(config("index.content"));
+		}
+		}
+	}
+
+	private Result jsonLines(String q, String filter, SearchResponse response) {
+		BoolQueryBuilder query = QueryBuilders.boolQuery().must(QueryBuilders.queryStringQuery(q));
+		if (!filter.isEmpty()) {
+			query = query.filter(QueryBuilders.queryStringQuery(filter));
+		}
+		TimeValue keepAlive = new TimeValue(60000);
+		SearchRequestBuilder scrollRequest = index.client().prepareSearch(config("index.name"))
+				.addSort(FieldSortBuilder.DOC_FIELD_NAME, SortOrder.ASC).setScroll(keepAlive).setQuery(query)
+				.setSize(100 /* hits per shard for each scroll */);
+		Logger.debug("Scrolling with query: q={}, request={}", q, scrollRequest);
+		Source<ByteString, ?> source = Source.from(() -> hitIterator(scrollRequest.get(), keepAlive));
+		return ok().chunked(source).as(Accept.Format.JSON_LINES.types[0]);
+	}
+
+	private Iterator<ByteString> hitIterator(SearchResponse scrollResponse, TimeValue keepAlive) {
+		return new Iterator<ByteString>() {
+			Iterator<SearchHit> iterator = scrollResponse.getHits().iterator();
+
+			@Override
+			public boolean hasNext() {
+				if (!iterator.hasNext()) {
+					iterator = index.client().prepareSearchScroll(scrollResponse.getScrollId())//
+							.setScroll(keepAlive).execute().actionGet().getHits().iterator();
+				}
+				return iterator.hasNext();
+			}
+
+			@Override
+			public ByteString next() {
+				return ByteString.fromString(iterator.next().getSourceAsString() + "\n");
+			}
+		};
 	}
 
 	private Result htmlSearch(String q, String type, int from, int size, String format, SearchResponse response) {
