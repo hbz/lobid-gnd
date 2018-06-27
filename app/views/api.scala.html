@@ -29,7 +29,7 @@ $('input.search-gnd').autocomplete({
 @main("", "lobid-gnd - API") {
   <h1>lobid-gnd</h1>
 
-  <h2>Search: <code>@Html(controllers.routes.HomeController.search("text").toString)</code></h2>
+  <h2>Suche: <code>@Html(controllers.routes.HomeController.search("text").toString)</code></h2>
 
   <dl>
    @for((key,value) <- searchSamples) {
@@ -38,7 +38,7 @@ $('input.search-gnd').autocomplete({
    }
   </dl>
 
-  <h2>GET by ID: <code>@Html(controllers.routes.HomeController.authorityDotFormat("&lt;id&gt;", "json").toString)</code></h2>
+  <h2>Direktzugriff: <code>@Html(controllers.routes.HomeController.authorityDotFormat("&lt;id&gt;", "json").toString)</code></h2>
 
   <dl>
    @for((key,value) <- getSamples) {
@@ -50,7 +50,7 @@ $('input.search-gnd').autocomplete({
   <h2 id='content_types'>Inhaltstypen <small><a href='#content_types'><span class='glyphicon glyphicon-link'></span></a></small></h2>
 
   <p>Standardmäßig liefert dieser Dienst strukturierte API-Antworten (als JSON):</p>
-  <p><code>curl http://test.lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>curl http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
   <p>Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json), JSON lines (application/x-jsonlines) oder HTML (text/html):</p>
   <p><code>curl --header "Accept: application/json" http://lobid.org@routes.HomeController.search("london")</code></p>
   <p><code>curl --header "Accept: application/x-jsonlines" "http://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Country").toString)" > countries.jsonl</code></p>
@@ -82,13 +82,31 @@ $('input.search-gnd').autocomplete({
   <p>JSON-API-Anfragen liefern <a href="http://json-ld.org/">JSON-LD</a>. Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="http://json-ld.org/playground/">JSON-LD Playground</a> einfügen.</p>
   <dt>JSON-LD Context</dt> <dd><a href='@routes.HomeController.context'>@java.net.URLDecoder.decode(routes.HomeController.context.toString)</a></dd>
   <dt>RDF-Konvertierung</dt><dd>Mit einem JSON-LD-Prozessor können sie API-Antworten in andere RDF-Serialisierungen umwandeln, z.B. in N-Quads mit <a href="https://github.com/digitalbazaar/jsonld-cli">jsonld-cli</a>:</dd>
-  <p><code>jsonld format --nquads http://test.lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>jsonld format --nquads http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
   <p>Einzeltreffer können per <code>Accept</code> Header auch direkt als RDF/XML, Turtle oder N-Triples angefordert werden:</p>
-  <p><code>curl --header "Accept: application/rdf+xml" http://test.lobid.org@routes.HomeController.authority("4074335-4")</code></p>
-  <p><code>curl --header "Accept: text/turtle" http://test.lobid.org@routes.HomeController.authority("4074335-4")</code></p>
-  <p><code>curl --header "Accept: application/n-triples" http://test.lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>curl --header "Accept: application/rdf+xml" http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>curl --header "Accept: text/turtle" http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>curl --header "Accept: application/n-triples" http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
   <p>Dabei werden wie <a href='#content_types'>im Abschnitt zu Inhaltstypen beschrieben</a> neben dem Format-Parameter auch URLs mit Formatendungen unterstützt:
   <p><a href='@routes.HomeController.authorityDotFormat("4074335-4", format="rdf")'>@routes.HomeController.authorityDotFormat("4074335-4", format="rdf")</a></p>
   <p><a href='@routes.HomeController.authorityDotFormat("4074335-4", format="ttl")'>@routes.HomeController.authorityDotFormat("4074335-4", format="ttl")</a></p>
   <p><a href='@routes.HomeController.authorityDotFormat("4074335-4", format="nt")'>@routes.HomeController.authorityDotFormat("4074335-4", format="nt")</a></p>
+
+  <h2 id="openrefine">OpenRefine <small><a href="#openrefine"><span class="glyphicon glyphicon-link"></span></a></small></h2>
+
+  <p>Dieser Dienst bietet eine Implementierung der OpenRefine <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation">Reconciliation</a> <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API">API</a> an.</p>
+  @desc("Metadaten-Anfrage (\"callback\": optionaler JSONP-Callback, in den die Antwort verpackt wird)", routes.Reconcile.meta("jsonp"))
+  @desc("Reconciliation-Anfrage (erwartet Formulardaten per HTTP POST, verwenden Sie diese URL in OpenRefine)", routes.Reconcile.reconcile())
+  <p>Intern sendet OpenRefine folgende Art von Anfrage:</p>
+  <pre>curl --data 'queries={"q1":{"query":"Twain, Mark"}}' http://lobid.org@routes.Reconcile.reconcile()</pre>
+  <p><b>Kurzanleitung</b></p>
+  <p>In OpenRefine -> <i>Create Project</i> -> <i>Clipboard</i>, dort einfügen:</p>
+  <pre>name;beruf;ort
+J. Weizenbaum;Informatiker;Berlin
+Twain, Mark;Schriftsteller;
+Kumar, Lalit;;
+Jemand;;</pre>
+  <p><i>Next</i> -> <i>Create Project</i> -> Spalte 'name' -> <i>Reconcile</i> -> <i>Start Reconciling</i></p>
+  <p><i>Add Standard Service...</i> -> <i>http://lobid.org@routes.Reconcile.reconcile()</i> -> <i>Add Service</i> -> <i>Start Reconciling</i></p>
+  <p>Eine detaillierte Anleitung zur OpenRefine Reconciliation mit lobid-organisations finden Sie <a href="http://hbz.github.io/slides/swib-15/#/28">hier</a>.</p>
 }
