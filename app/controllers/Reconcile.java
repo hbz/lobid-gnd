@@ -16,7 +16,9 @@ import org.elasticsearch.search.SearchHits;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.ImmutableMap;
 
+import models.GndOntology;
 import modules.IndexComponent;
 import play.Logger;
 import play.libs.Json;
@@ -39,7 +41,8 @@ public class Reconcile extends Controller {
 	@Inject
 	IndexComponent index;
 
-	private static final JsonNode TYPES = Json.toJson(Arrays.asList("lobid-gnd"));
+	private static final JsonNode TYPES = Json.toJson(HomeController.CONFIG.getStringList("topLevelTypes").stream()
+			.map(t -> ImmutableMap.of("id", t, "name", GndOntology.label(t))));
 
 	/**
 	 * @param callback
@@ -95,8 +98,9 @@ public class Reconcile extends Controller {
 	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString) {
 		JsonNode limitNode = entry.getValue().get("limit");
 		int limit = limitNode == null ? -1 : limitNode.asInt();
-		SearchResponse response = index.query(queryString, "", 0, limit);
-		return response;
+		JsonNode typeNode = entry.getValue().get("type");
+		String filter = typeNode == null ? "" : "type:" + typeNode.asText();
+		return index.query(queryString, filter, 0, limit);
 	}
 
 	private String buildQueryString(Entry<String, JsonNode> entry) {

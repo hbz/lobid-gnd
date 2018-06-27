@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static play.test.Helpers.GET;
@@ -63,6 +64,19 @@ public class ReconcileTest extends IndexTest {
 			assertThat(content, containsString("q99"));
 			assertThat(content, containsString("\"match\":false"));
 			assertThat(content, containsString("\"match\":true"));
+		});
+	}
+
+	@Test
+	public void reconcileRequestWithType() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			Result result = route(application, fakeRequest(POST, "/gnd/reconcile").bodyForm(
+					ImmutableMap.of("queries", "{\"q99\":{\"query\":\"Twain, Mark\", \"type\":\"CorporateBody\"}}")));
+			String content = contentAsString(result);
+			Logger.debug(Json.prettyPrint(Json.parse(content)));
+			assertThat(content, containsString("q99"));
+			assertFalse(Json.parse(content).findValue("result").elements().hasNext());
 		});
 	}
 
