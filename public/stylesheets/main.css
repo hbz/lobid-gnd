@@ -219,3 +219,21 @@ h5 {
 .label a:hover {
     color: white !important;
 }
+
+figure {
+	display: table;
+	float: right;
+	margin-top: 10px;
+}
+
+figcaption {
+	display: table-caption;
+	caption-side: bottom;
+	text-align: right;
+}
+
+#index-image {
+	max-width: 100%;
+	max-height: 300px;
+	float: right;
+}

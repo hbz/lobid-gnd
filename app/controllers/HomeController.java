@@ -36,6 +36,9 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -116,7 +119,14 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result index() {
-		return ok(views.html.index.render());
+		QueryStringQueryBuilder query = QueryBuilders.queryStringQuery("depiction:*");
+		FunctionScoreQueryBuilder functionScoreQuery = QueryBuilders.functionScoreQuery(query,
+				ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()));
+		SearchRequestBuilder requestBuilder = index.client().prepareSearch(config("index.name"))
+				.setQuery(functionScoreQuery).setFrom(0).setSize(1);
+		SearchHit hit = requestBuilder.execute().actionGet().getHits().getAt(0);
+		AuthorityResource entity = entityWithImage(hit.getSourceAsString());
+		return ok(views.html.index.render(entity));
 	}
 
 	/**
@@ -173,10 +183,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		try {
 			switch (responseFormat) {
 			case HTML: {
-				AuthorityResource entity = new AuthorityResource(Json.parse(jsonLd));
-				if (entity.getImage().url.contains("File:"))
-					entity.imageAttribution = attribution(entity.getImage().url
-							.substring(entity.getImage().url.indexOf("File:") + 5).split("\\?")[0]);
+				AuthorityResource entity = entityWithImage(jsonLd);
 				entity.creatorOf = creatorOf(id);
 				return ok(views.html.details.render(entity));
 			}
@@ -190,6 +197,14 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			Logger.error("Could not create response", e);
 			return internalServerError(e.getMessage());
 		}
+	}
+
+	private AuthorityResource entityWithImage(String jsonLd) {
+		AuthorityResource entity = new AuthorityResource(Json.parse(jsonLd));
+		if (entity.getImage().url.contains("File:"))
+			entity.imageAttribution = attribution(
+					entity.getImage().url.substring(entity.getImage().url.indexOf("File:") + 5).split("\\?")[0]);
+		return entity;
 	}
 
 	private List<String> creatorOf(String id) {
