@@ -40,13 +40,13 @@
                   <div class="navbar-collapse collapse" id="resources-nav">
                     <ul class="nav navbar-nav">
                       <li @if(request.uri.toString() == routes.HomeController.index().toString()){ class="active" }>
-                        <a href="@routes.HomeController.index()">gnd <sup><span class="label label-primary">beta</span></sup></a>
+                        <a href="@routes.HomeController.index()" title="Einfache Suchoberfläche">gnd <sup><span class="label label-primary">beta</span></sup></a>
                       </li>
                       <li @if(title=="lobid-gnd - search"){ class="active" }>
-                        <a href="@routes.HomeController.search()">Suchen</a>
+                        <a href="@routes.HomeController.search()" title="Die gesamte GND erkunden">Erkunden</a>
                       </li>
                       <li @if(title=="lobid-gnd - API"){class="active"}>
-                        <a href="@routes.HomeController.api()">API</a>
+                        <a href="@routes.HomeController.api()" title="Programmierschnittstelle">API</a>
                       </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
