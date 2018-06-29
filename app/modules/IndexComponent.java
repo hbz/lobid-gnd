@@ -54,7 +54,7 @@ import play.mvc.Http.Status;
 public interface IndexComponent {
 	Client client();
 
-	SearchResponse query(String q, String type, int from, int size);
+	SearchResponse query(String q, String filter, int from, int size);
 
 	public default SearchResponse query(String q) {
 		return query(q, "", 0, 10);
