@@ -40,13 +40,10 @@
                   <div class="navbar-collapse collapse" id="resources-nav">
                     <ul class="nav navbar-nav">
                       <li @if(request.uri.toString() == routes.HomeController.index().toString()){ class="active" }>
-                        <a href="@routes.HomeController.index()">gnd <sup><span class="label label-primary">beta</span></sup></a>
+                        <a href="@routes.HomeController.index()" title="Einfache Suchoberfläche">gnd <sup><span class="label label-primary">beta</span></sup></a>
                       </li>
                       <li @if(title=="lobid-gnd - search"){ class="active" }>
-                        <a href="@routes.HomeController.search()">Suchen</a>
-                      </li>
-                      <li @if(title=="lobid-gnd - API"){class="active"}>
-                        <a href="@routes.HomeController.api()">API</a>
+                        <a href="@routes.HomeController.search()" title="Die gesamte GND erkunden">Erkunden</a>
                       </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -54,6 +51,9 @@
                       <li @if(title.contains("Dataset")){class="active"} class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Info"><span class="glyphicon glyphicon-info-sign"></span><b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                          <li @if(title=="lobid-gnd - API"){class="active"}>
+                            <a href="@routes.HomeController.api()" title="Programmierschnittstelle">API</a>
+                          </li>
                           <li><a href="mailto:semweb@@hbz-nrw.de?subject=Feedback%20zu%20lobid-gnd,%20aktuelle%20URL%20@controllers.HomeController.currentUri()">Feedback zur aktuellen Seite</a></li>
                         </ul>
                       </li>
