@@ -119,7 +119,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result index() {
-		QueryStringQueryBuilder query = QueryBuilders.queryStringQuery("depiction:*");
+		QueryStringQueryBuilder query = index.queryStringQuery("depiction:*");
 		FunctionScoreQueryBuilder functionScoreQuery = QueryBuilders.functionScoreQuery(query,
 				ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()));
 		SearchRequestBuilder requestBuilder = index.client().prepareSearch(config("index.name"))
@@ -301,9 +301,9 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	private Result jsonLines(String q, String filter, SearchResponse response) {
-		BoolQueryBuilder query = QueryBuilders.boolQuery().must(QueryBuilders.queryStringQuery(q));
+		BoolQueryBuilder query = QueryBuilders.boolQuery().must(index.queryStringQuery(q));
 		if (!filter.isEmpty()) {
-			query = query.filter(QueryBuilders.queryStringQuery(filter));
+			query = query.filter(index.queryStringQuery(filter));
 		}
 		TimeValue keepAlive = new TimeValue(60000);
 		SearchRequestBuilder scrollRequest = index.client().prepareSearch(config("index.name"))

@@ -41,6 +41,13 @@ public class IndexQueryTest extends IndexTest {
 	}
 
 	@Test
+	public void testBooleanSearch() {
+		Assert.assertEquals(1, index.query("twain schriftsteller").getHits().getTotalHits());
+		Assert.assertEquals(1, index.query("twain AND schriftsteller").getHits().getTotalHits());
+		Assert.assertEquals(6, index.query("twain OR schriftsteller").getHits().getTotalHits());
+	}
+
+	@Test
 	public void testContextQuery() {
 		Assert.assertEquals(0, index.query("context.jsonld").getHits().getTotalHits());
 	}

@@ -10,3 +10,4 @@ logs
 bin
 *.jsonl
 *log*.gz
+*.tmp

@@ -38,6 +38,7 @@ import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.BoostingQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -56,9 +57,12 @@ public interface IndexComponent {
 
 	SearchResponse query(String q, String filter, int from, int size);
 
+	QueryStringQueryBuilder queryStringQuery(String q);
+
 	public default SearchResponse query(String q) {
 		return query(q, "", 0, 10);
 	}
+
 }
 
 class ElasticsearchServer implements IndexComponent {
@@ -207,8 +211,8 @@ class ElasticsearchServer implements IndexComponent {
 			} else {
 				Form nfc = Normalizer.Form.NFC;
 				data = Normalizer.isNormalized(line, nfc) ? line : Normalizer.normalize(line, nfc);
-				bulkRequest
-						.add(client.prepareIndex(indexName, config("index.type"), id).setSource(data, XContentType.JSON));
+				bulkRequest.add(
+						client.prepareIndex(indexName, config("index.type"), id).setSource(data, XContentType.JSON));
 			}
 			currentLine++;
 			if (pendingIndexRequests == 1000) {
@@ -237,14 +241,14 @@ class ElasticsearchServer implements IndexComponent {
 
 	@Override
 	public SearchResponse query(String q, String filter, int from, int size) {
-		QueryStringQueryBuilder positive = QueryBuilders.queryStringQuery(q).field("_all").field("preferredName.ngrams")
+		QueryStringQueryBuilder positive = queryStringQuery(q).field("_all").field("preferredName.ngrams")
 				.field("variantName.ngrams").field("preferredName", 2f).field("variantName", 1f)
 				.field("gndIdentifier", 2f);
 		MatchQueryBuilder negative = QueryBuilders.matchQuery("type", "UndifferentiatedPerson");
 		BoostingQueryBuilder boostQuery = QueryBuilders.boostingQuery(positive, negative).negativeBoost(0.1f);
 		BoolQueryBuilder query = QueryBuilders.boolQuery().must(boostQuery);
 		if (!filter.isEmpty()) {
-			query = query.filter(QueryBuilders.queryStringQuery(filter));
+			query = query.filter(queryStringQuery(filter));
 		}
 		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name")).setQuery(query).setFrom(from)
 				.setSize(size);
@@ -253,5 +257,10 @@ class ElasticsearchServer implements IndexComponent {
 		}
 		SearchResponse response = requestBuilder.get();
 		return response;
+	}
+
+	@Override
+	public QueryStringQueryBuilder queryStringQuery(String q) {
+		return QueryBuilders.queryStringQuery(q).defaultOperator(Operator.AND);
 	}
 }
