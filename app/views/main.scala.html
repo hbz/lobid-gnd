@@ -51,9 +51,13 @@
                       <li @if(title.contains("Dataset")){class="active"} class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Info"><span class="glyphicon glyphicon-info-sign"></span><b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                          <li class="dropdown-header">Dokumentation</li>
+                          <li><a href="http://blog.lobid.org/2018/07/04/lobid-gnd-suche.html" target="_blank">Suche und Navigation</a></li>
                           <li @if(title=="lobid-gnd - API"){class="active"}>
                             <a href="@routes.HomeController.api()" title="Programmierschnittstelle">API</a>
                           </li>
+                          <li class="divider"></li>
+                          <li class="dropdown-header">Kontakt</li>
                           <li><a href="mailto:semweb@@hbz-nrw.de?subject=Feedback%20zu%20lobid-gnd,%20aktuelle%20URL%20@controllers.HomeController.currentUri()">Feedback zur aktuellen Seite</a></li>
                         </ul>
                       </li>
