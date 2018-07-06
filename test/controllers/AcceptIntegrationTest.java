@@ -39,6 +39,7 @@ public class AcceptIntegrationTest extends IndexTest {
 		return Arrays.asList(new Object[][] {
 			// search, default format: JSON
 			{ fakeRequest(GET, "/gnd/search?q=*"), /*->*/ "application/json" },
+			{ fakeRequest(GET, "/gnd/search?q=*").header("Accept", "*/*"), /*->*/ "application/json" },
 			{ fakeRequest(GET, "/gnd/search?q=*&format="), /*->*/ "application/json" },
 			{ fakeRequest(GET, "/gnd/search?q=*&format=json"), /*->*/ "application/json" },
 			{ fakeRequest(GET, "/gnd/search?q=*&format=whatever"), /*->*/ "text/plain" },
