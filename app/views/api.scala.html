@@ -53,14 +53,19 @@ $('input.search-gnd').autocomplete({
   <p><code>curl http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
   <p>Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json), JSON lines (application/x-jsonlines) oder HTML (text/html):</p>
   <p><code>curl --header "Accept: application/json" http://lobid.org@routes.HomeController.search("london")</code></p>
-  <p><code>curl --header "Accept: application/x-jsonlines" "http://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Country").toString)" > countries.jsonl</code></p>
   <p>Der Query-Parameter "format" (Werte: html,json,jsonl) kann verwendet werden, um den Accept-Header aufzuheben, z.B. zur Anzeige von JSON im Browser:</p>
   <p><a href='@routes.HomeController.authority("4074335-4", format="json")'>@routes.HomeController.authority("4074335-4", format="json")</a></p>
   <p>Der Wert des Format-Parameters kann für Einzeltreffer auch in URLs als Dateiendung verwendet werden:</p>
   <p><a href='@routes.HomeController.authorityDotFormat("4074335-4", format="json")'>@routes.HomeController.authorityDotFormat("4074335-4", format="json")</a></p>
-  <p>Für größere Anfragen kann die Antwort als gzip komprimiert werden (Details zu <a href="http://blog.lobid.org/2018/07/02/lobid-update.html#bulk-downloads">Bulk-Downloads in unserem Blog</a>):</p>
-  <p><code>curl --header "Accept-Encoding: gzip" "http://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Company", format="jsonl").toString)" > companies.gz</code></p>
   <p>Einzeltreffer unterstützen zudem verschiedene RDF-Serialisierungen (siehe <a href='#jsonld'>Abschnitt zu JSON-LD</a>).</p>
+
+  <h2 id='bulk_downloads'>Bulk-Downloads <small><a href='#bulk_downloads'><span class='glyphicon glyphicon-link'></span></a></small></h2>
+
+  <p>Bulk-Downloads können im Format JSON lines (Accept: application/x-jsonlines oder format=jsonl) bezogen werden:</p>
+  <p><code>curl --header "Accept: application/x-jsonlines" "http://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Country").toString)" > countries.jsonl</code></p>
+  <p>Für größere Anfragen kann die Antwort als gzip komprimiert werden:</p>
+  <p><code>curl --header "Accept-Encoding: gzip" "http://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Company", format="jsonl").toString)" > companies.gz</code></p>
+  <p>Siehe auch diesen Abschnitt zu <a href="http://blog.lobid.org/2018/07/02/lobid-update.html#bulk-downloads">Bulk-Downloads in unserem Blog</a>.</p>
 
   <h2 id="auto-complete">Autovervollständigung <small><a href='#auto-complete'><span class='glyphicon glyphicon-link'></span></a></small></h2>
   <p>Die API unterstützt ein spezielles Antwortformat mit Vorschlägen zur Autovervollständigung.</p>
@@ -108,5 +113,5 @@ Kumar, Lalit;;
 Jemand;;</pre>
   <p><i>Next</i> -> <i>Create Project</i> -> Spalte 'name' -> <i>Reconcile</i> -> <i>Start Reconciling</i></p>
   <p><i>Add Standard Service...</i> -> <i>http://lobid.org@routes.Reconcile.reconcile()</i> -> <i>Add Service</i> -> <i>Start Reconciling</i></p>
-  <p>Details zur OpenRefine Reconciliation: <a href="http://blog.lobid.org/2018/07/02/lobid-update.html#openrefine-reconciliation-api">lobid-gnd</a>, <a href="http://hbz.github.io/slides/swib-15/#/28">lobid-organisations</a>.</p>
+  <p>Siehe auch diesen Abschnitt zur <a href="http://blog.lobid.org/2018/07/02/lobid-update.html#openrefine-reconciliation-api">OpenRefine Reconciliation in unserem Blog</a>.</p>
 }
