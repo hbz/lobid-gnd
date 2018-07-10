@@ -66,6 +66,7 @@
                   </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->
             </div>
+            @if(!title.contains("API")){
             @helper.form(action = controllers.routes.HomeController.search(q), 'id -> "resources-form") {
                 <div class="input-group" id="search-simple">
                   <input autofocus type="text" name="q" id="gnd-query" value="@q" class="form-control" autocomplete="off" 
@@ -112,6 +113,7 @@
                   }
                 });
                 </script>
+            }
             }
             @content
             <div class="panel panel-default footer">
