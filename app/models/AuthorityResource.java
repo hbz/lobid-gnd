@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.function.IntFunction;
@@ -50,7 +51,7 @@ public class AuthorityResource {
 		this.id = json.get("id").textValue();
 		this.type = get("type");
 		this.hasGeometry = get("hasGeometry");
-		this.preferredName = json.get("preferredName").textValue();
+		this.preferredName = Optional.ofNullable(json.get("preferredName")).orElse(Json.toJson(getId())).asText();
 		this.depiction = get("depiction");
 		this.sameAs = get("sameAs");
 	}
