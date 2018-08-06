@@ -363,13 +363,26 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			List<String> categories = filtered(Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements())
 					.stream().map(JsonNode::asText).filter(t -> !t.equals("AuthorityResource"))
 					.collect(Collectors.toList()));
-			return Json.toJson(ImmutableMap.of(//
-					"label", labels.filter(t -> !t.trim().isEmpty()).collect(Collectors.joining(" | ")), //
-					"id", id.orElseGet(() -> Json.toJson("")), //
-					"category",
-					categories.stream().map(t -> GndOntology.label(t)).sorted().collect(Collectors.joining(" | "))));
+			return Json.toJson(toSuggestionsMap(document, id, labels, categories));
 		});
 		return Json.toJson(suggestions.distinct().collect(Collectors.toList())).toString();
+	}
+
+	@SuppressWarnings("serial")
+	private static Map<String, Object> toSuggestionsMap(JsonNode document, Optional<JsonNode> id, Stream<String> labels,
+			List<String> categories) {
+		return new HashMap<String, Object>() {
+			{
+				put("label", labels.filter(t -> !t.trim().isEmpty()).collect(Collectors.joining(" | ")));
+				put("id", id.orElseGet(() -> Json.toJson("")));
+				put("category",
+						categories.stream().map(t -> GndOntology.label(t)).sorted().collect(Collectors.joining(" | ")));
+				String image = new AuthorityResource(document).getImage().image;
+				if (!image.trim().isEmpty()) {
+					put("image", image.replaceAll("width=\\d+", "width=100"));
+				}
+			}
+		};
 	}
 
 	private static List<String> filtered(List<String> allTypes) {
