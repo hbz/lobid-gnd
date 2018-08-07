@@ -182,6 +182,9 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		}
 		try {
 			switch (responseFormat) {
+			case PREVIEW: {
+				return ok(views.html.preview.render(toSuggestions(Json.parse("[" + jsonLd + "]"), "suggest")));
+			}
 			case HTML: {
 				AuthorityResource entity = entityWithImage(jsonLd);
 				entity.creatorOf = creatorOf(id);

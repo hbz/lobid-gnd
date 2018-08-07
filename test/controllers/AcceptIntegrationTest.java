@@ -66,11 +66,13 @@ public class AcceptIntegrationTest extends IndexTest {
 			{ fakeRequest(GET, "/gnd/118820591?format=rdf"), /*->*/ "application/rdf+xml" },
 			{ fakeRequest(GET, "/gnd/118820591?format=ttl"), /*->*/ "text/turtle" },
 			{ fakeRequest(GET, "/gnd/118820591?format=nt"), /*->*/ "application/n-triples" },
+			{ fakeRequest(GET, "/gnd/118820591?format=preview"), /*->*/ "text/html" },
 			// get, other formats as path elem:
 			{ fakeRequest(GET, "/gnd/118820591.html"), /*->*/ "text/html" },
 			{ fakeRequest(GET, "/gnd/118820591.rdf"), /*->*/ "application/rdf+xml" },
 			{ fakeRequest(GET, "/gnd/118820591.ttl"), /*->*/ "text/turtle" },
 			{ fakeRequest(GET, "/gnd/118820591.nt"), /*->*/ "application/n-triples" },
+			{ fakeRequest(GET, "/gnd/118820591.preview"), /*->*/ "text/html" },
 			// get, others formats via header:
 			{ fakeRequest(GET, "/gnd/118820591").header("Accept", "application/json"), /*->*/ "application/json" },
 			{ fakeRequest(GET, "/gnd/118820591").header("Accept", "text/html"), /*->*/ "text/html" },

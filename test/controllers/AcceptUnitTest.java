@@ -40,6 +40,7 @@ public class AcceptUnitTest {
 				{ fakeRequest().header("Accept", ""), null, /*->*/ "json" }, //
 				// no header, just format parameter:
 				{ fakeRequest(), "html", /*->*/ "html" }, //
+				{ fakeRequest(), "preview", /*->*/ "preview" }, //
 				{ fakeRequest(), "json", /*->*/ "json" }, //
 				{ fakeRequest(), "json:preferredName", /*->*/ "json(:.+)?" }, //
 				{ fakeRequest(), "json:suggest", /*->*/ "json(:.+)?" }, //
