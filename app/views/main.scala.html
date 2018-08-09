@@ -79,13 +79,17 @@
                 $.widget("custom.categoryAutocomplete", $.ui.autocomplete, {
                   _renderItem: function(ul, item) {
                     var labels = "";
+                    var img = "";
+                    if(item.image) {
+                      img = "<img style='height: 50px' src='"+item.image+"'/>&nbsp;";
+                    }
                     var categories = item.category.split(' | ');
                     for(var category in categories) {
                       labels += "&nbsp;<small><span class='label label-primary'>" + categories[category] + "</span></small>";
                     }
                     return $("<li></li>")
                       .data("item.autocomplete", item )
-                      .append("<a>" + item.label + labels +"</a>")
+                      .append("<a>" + img + item.label + labels +"</a>")
                       .appendTo(ul);
                   }
                 });

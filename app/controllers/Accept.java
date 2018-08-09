@@ -22,6 +22,7 @@ public class Accept {
 		JSON_LD("json(:.+)?", "application/json", "application/ld+json"), //
 		JSON_LINES("jsonl", "application/x-jsonlines"), //
 		HTML("html", "text/html"), //
+		PREVIEW("preview", "text/html"), //
 		RDF_XML("rdf", "application/rdf+xml", "application/xml", "text/xml"), //
 		N_TRIPLE("nt", "application/n-triples", "text/plain"), //
 		TURTLE("ttl", "text/turtle", "application/x-turtle");

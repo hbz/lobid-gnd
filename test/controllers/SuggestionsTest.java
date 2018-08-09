@@ -32,7 +32,12 @@ public class SuggestionsTest {
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			String content = contentAsString(result);
 			assertNotNull("We can parse the result as JSON", Json.parse(content));
-			assertThat(content, allOf(containsString("label"), containsString("id"), containsString("category")));
+			assertThat(content,
+					allOf(//
+							containsString("label"), //
+							containsString("id"), //
+							containsString("category"), //
+							containsString("image")));
 			assertTrue("We used both given fields for any of the labels",
 					Json.parse(content).findValues("label").stream().anyMatch(label -> label.asText().contains(" | ")));
 		});

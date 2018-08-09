@@ -1,0 +1,36 @@
+@* Copyright 2018 Fabian Steeg, hbz. Licensed under the GPLv2 *@
+
+@(resource: String)
+
+@import play.api.libs.json._
+@import controllers.HomeController.CONFIG
+
+<html><head><meta charset="utf-8" /></head>
+<body style="margin: 0px; font-family: Arial; sans-serif">
+<div style="height: 100px; width: 320px; overflow: hidden; font-size: 0.7em">
+@for(
+		json <- Json.parse(resource).as[Seq[JsValue]];
+		label <- (json \ "label").asOpt[String];
+		elems = label.split("\\|");
+		name = elems.head;
+		details = elems.tail.mkString(" | ");
+		fullId <- (json \ "id").asOpt[String];
+		shortId = fullId.split("/").last;
+		url = CONFIG.getString("host") + routes.HomeController.authority(shortId,null);
+		cat <- (json \ "category").asOpt[String];
+		image = (json \ "image").asOpt[String]) {
+	@for(img <- image){
+		<div style="width: 100px; text-align: center; overflow: hidden; float: left">
+			<img src="@image" alt="@shortId" style="height: 100px" />
+		</div>
+	}
+	<div style="margin-left: 5px;">
+		<a href="@url" target="_blank" style="text-decoration: none;">@name</a> 
+		<span style="color: #505050;">(@shortId)</span>
+		<p>@details</p>
+		<p>@cat</p>
+	</div>
+}
+</div>
+</body>
+</html>

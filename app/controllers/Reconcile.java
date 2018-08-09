@@ -58,6 +58,10 @@ public class Reconcile extends Controller {
 		result.set("defaultTypes", TYPES);
 		result.set("view", Json.newObject()//
 				.put("url", "http://lobid.org/gnd/{{id}}"));
+		result.set("preview", Json.newObject()//
+				.put("height", 100)//
+				.put("width", 320)//
+				.put("url", HomeController.config("host") + "/gnd/{{id}}.preview"));
 		return callback.isEmpty() ? ok(result)
 				: ok(String.format("/**/%s(%s);", callback, result.toString())).as("application/json");
 	}
