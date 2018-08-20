@@ -41,6 +41,16 @@ public class IndexQueryTest extends IndexTest {
 	}
 
 	@Test
+	public void testDateQuery() {
+		Assert.assertEquals(12, index.query("dateOfBirth:*").getHits().getTotalHits());
+		Assert.assertEquals(3, index.query("dateOfBirth:[* TO 1750]").getHits().getTotalHits());
+		Assert.assertEquals(8, index.query("dateOfDeath:*").getHits().getTotalHits());
+		Assert.assertEquals(2, index.query("dateOfDeath:[* TO 1750]").getHits().getTotalHits());
+		Assert.assertEquals(2, index.query("dateOfPublication:*").getHits().getTotalHits());
+		Assert.assertEquals(1, index.query("dateOfPublication:[1950 TO 1960]").getHits().getTotalHits());
+	}
+
+	@Test
 	public void testBooleanSearch() {
 		Assert.assertEquals(1, index.query("twain schriftsteller").getHits().getTotalHits());
 		Assert.assertEquals(1, index.query("twain AND schriftsteller").getHits().getTotalHits());
