@@ -64,6 +64,34 @@
 					"type": "keyword",
 					"index": true
 				},
+				"dateOfDeath": {
+					"type": "keyword",
+					"index": true
+				},
+				"dateOfConferenceOrEvent": {
+					"type": "keyword",
+					"index": true
+				},
+				"dateOfDiscovery": {
+					"type": "keyword",
+					"index": true
+				},
+				"dateOfEstablishment": {
+					"type": "keyword",
+					"index": true
+				},
+				"dateOfProduction": {
+					"type": "keyword",
+					"index": true
+				},
+				"dateOfPublication": {
+					"type": "keyword",
+					"index": true
+				},
+				"dateOfTermination": {
+					"type": "keyword",
+					"index": true
+				},
 				"type" : {
 					"type": "keyword",
 					"index": true
