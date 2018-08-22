@@ -108,11 +108,11 @@ public class Reconcile extends Controller {
 	 * @return Property proposal protocol data
 	 */
 	public Result properties(String callback, String type, String limit) {
+		type = type.isEmpty() ? "AuthorityResource" : type;
 		long L = limit.isEmpty() ? Long.MAX_VALUE : Long.parseLong(limit);
-		List<Object> properties = HomeController.CONFIG.getStringList("field.order").stream()
+		List<Object> properties = GndOntology.properties(type).stream()
 				.map(field -> ImmutableMap.of("id", field, "name", GndOntology.label(field))).limit(L)
 				.collect(Collectors.toList());
-		// TODO: limit proposed properties based on type
 		JsonNode response = (limit.isEmpty() ? Json.newObject() : Json.newObject().put("limit", L))//
 				.put("type", type)//
 				.set("properties", Json.toJson(properties));

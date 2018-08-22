@@ -9,8 +9,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -68,6 +73,18 @@ public class GndOntology {
 		}
 	}
 
+	private static Map<String, List<String>> properties = new HashMap<>();
+
+	static final List<String> ADDITIONAL_PROPERTIES = Arrays.asList("type", "sameAs", "preferredName", "variantName");
+
+	static {
+		try {
+			loadProperties("conf/gnd.rdf");
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Get labels for IDs from:<br/>
 	 * <br/>
@@ -89,6 +106,23 @@ public class GndOntology {
 			Logger.error("Could not get label for {}: {}", id, e.getMessage());
 			return id;
 		}
+	}
+
+	/**
+	 * Get properties used in the domain of the given type from:<br/>
+	 * <br/>
+	 * http://d-nb.info/standards/elementset/gnd <br/>
+	 * Additional types supported: AuthorityResource, Person
+	 * 
+	 * @param type
+	 *            The short type, e.g. SubjectHeading
+	 * @return The short IDs for properties in the domain of the given type
+	 */
+	public static List<String> properties(String type) {
+		List<String> result = properties.get(type);
+		result = result == null ? new ArrayList<>() : result;
+		result.addAll(ADDITIONAL_PROPERTIES);
+		return new ArrayList<>(new TreeSet<>(result));
 	}
 
 	private static String ontologyLabel(String id) {
@@ -129,6 +163,53 @@ public class GndOntology {
 				labels.put(shortId, label);
 			}
 		});
+	}
+
+	private static void loadProperties(String f) throws SAXException, IOException {
+		Match match = $(new File(f)).find(or( //
+				selector("ObjectProperty"), //
+				selector("AnnotationProperty"), //
+				selector("DatatypeProperty")));
+		match.forEach(property -> {
+			String propertyId = property.getAttribute("rdf:about");
+			if (propertyId.contains("#")) {
+				String shortPropertyId = propertyId.split("#")[1];
+				Match domains = $(property).find(selector("domain"));
+				domains.forEach(domain -> {
+					String type = domain.getAttribute("rdf:resource");
+					if (type != null && type.contains("#")) {
+						put(type.split("#")[1], shortPropertyId);
+					}
+				});
+				$(domains).find(selector("Class")).forEach(dc -> {
+					String type = dc.getAttribute("rdf:about");
+					if (type != null && type.contains("#")) {
+						put(type.split("#")[1], shortPropertyId);
+					}
+				});
+			}
+		});
+		addNonOntologyTypes();
+	}
+
+	private static void addNonOntologyTypes() {
+		List<String> person = new ArrayList<>();
+		person.addAll(properties.get("DifferentiatedPerson"));
+		person.addAll(properties.get("UndifferentiatedPerson"));
+		properties.put("Person", person);
+		List<String> all = properties.values().stream().flatMap(List::stream).distinct().collect(Collectors.toList());
+		properties.put("AuthorityResource", all);
+	}
+
+	private static void put(String type, String property) {
+		List<String> propertiesForType = properties.get(type);
+		if (propertiesForType == null) {
+			propertiesForType = new ArrayList<String>();
+			properties.put(type, propertiesForType);
+		}
+		if (!property.matches("(preferred|variant)NameFor.+")) {
+			propertiesForType.add(property);
+		}
 	}
 
 	private static void checkAmibiguity(String shortId, String label) {
