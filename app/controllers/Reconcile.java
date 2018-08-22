@@ -9,10 +9,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHits;
@@ -63,19 +68,34 @@ public class Reconcile extends Controller {
 		result.set("defaultTypes", TYPES);
 		result.set("view", Json.newObject()//
 				.put("url", "http://lobid.org/gnd/{{id}}"));
-		result.set("preview",
-				Json.newObject()//
-						.put("height", 100)//
-						.put("width", 320)//
-						.put("url", HomeController.config("host") + "/gnd/{{id}}.preview"));
-		result.set("extend",
-				Json.toJson(ImmutableMap.of(//
-						// TODO: implement property settings
-						"property_settings", Json.newArray(), //
-						"propose_properties",
-						Json.newObject()//
-								.put("service_url", HomeController.config("host"))//
-								.put("service_path", routes.Reconcile.properties("", "", "").toString()))));
+		result.set("preview", Json.newObject()//
+				.put("height", 100)//
+				.put("width", 320)//
+				.put("url", HomeController.config("host") + "/gnd/{{id}}.preview"));
+		result.set("extend", Json.toJson(ImmutableMap.of(//
+				"property_settings", Json.newArray()//
+						.add(Json.newObject()//
+								.put("name", "limit")//
+								.put("label", "Limit")//
+								.put("type", "number")//
+								.put("default", 0)//
+								.put("help_text", "Maximum number of values to return per row (0 for no limit)"))//
+						.add(Json.newObject()//
+								.put("name", "content")//
+								.put("label", "Content")//
+								.put("type", "select")//
+								.put("default", "literal")//
+								.put("help_text", "Content type: ID or literal")//
+								.set("choices", Json.newArray().add(//
+										Json.newObject()//
+												.put("value", "id")//
+												.put("name", "ID"))
+										.add(Json.newObject()//
+												.put("value", "literal")//
+												.put("name", "Literal")))), //
+				"propose_properties", Json.newObject()//
+						.put("service_url", HomeController.config("host"))//
+						.put("service_path", routes.Reconcile.properties("", "", "").toString()))));
 		return callback.isEmpty() ? ok(result)
 				: ok(String.format("/**/%s(%s);", callback, result.toString())).as("application/json");
 	}
@@ -127,23 +147,25 @@ public class Reconcile extends Controller {
 		JsonNode request = Json.parse(src);
 		@SuppressWarnings("unchecked")
 		List<HashMap<String, Object>> properties = Json.fromJson(request.get("properties"), List.class);
-		List<String> propertyIds = properties.stream().map((HashMap<String, Object> m) -> m.get("id").toString())
+		List<Pair<String, Object>> propertyIdsAndSettings = properties.stream()
+				.map((HashMap<String, Object> m) -> Pair.of(m.get("id").toString(), m.get("settings")))
 				.collect(Collectors.toList());
 		ObjectNode rows = Json.newObject();
 		request.get("ids").elements().forEachRemaining(entityId -> {
 			ObjectNode propertiesForId = Json.newObject();
-			propertyIds.stream().forEach(propertyId -> {
-				propertiesForId.set(propertyId, Json.toJson(propertyValues(entityId, propertyId)));
+			propertyIdsAndSettings.stream().forEach(property -> {
+				propertiesForId.set(property.getLeft(),
+						Json.toJson(propertyValues(entityId, property.getLeft(), property.getRight())));
 			});
 			rows.set(entityId.asText(), propertiesForId);
 		});
-		List<ObjectNode> meta = propertyIds.stream()
-				.map(propertyId -> Json.newObject().put("id", propertyId).put("name", GndOntology.label(propertyId)))
+		List<ObjectNode> meta = propertyIdsAndSettings.stream().map(property -> Json.newObject()
+				.put("id", property.getLeft()).put("name", GndOntology.label(property.getLeft())))
 				.collect(Collectors.toList());
 		return ok(Json.toJson(ImmutableMap.of("meta", Json.toJson(meta), "rows", rows)));
 	}
 
-	private List<Map<String, Object>> propertyValues(JsonNode entityId, String propertyId) {
+	private List<Map<String, Object>> propertyValues(JsonNode entityId, String propertyId, Object setting) {
 		Map<String, Object> entity = getAuthorityResource(entityId.asText());
 		List<Map<String, Object>> result = new ArrayList<>();
 		if (entity == null) {
@@ -152,11 +174,11 @@ public class Reconcile extends Controller {
 			JsonNode propertyJson = Json.toJson(entity.get(propertyId));
 			ArrayNode values = propertyJson == null ? Json.newArray().add(Json.newObject())
 					: (propertyJson.isArray() ? (ArrayNode) propertyJson : Json.newArray().add(propertyJson));
-			values.elements().forEachRemaining(node -> {
+			asStream(values).limit(limit(setting)).forEach(node -> {
 				if (node.isTextual()) {
 					result.add(ImmutableMap.of("str", node.asText()));
 				} else if (node.isObject()) {
-					addValueForObject(result, node);
+					addValueForObject(result, node, content(setting));
 				} else {
 					result.add(ImmutableMap.of());
 				}
@@ -165,7 +187,24 @@ public class Reconcile extends Controller {
 		return result;
 	}
 
-	private void addValueForObject(List<Map<String, Object>> result, JsonNode node) {
+	private Stream<JsonNode> asStream(ArrayNode values) {
+		return StreamSupport.stream(Spliterators.spliteratorUnknownSize(values.elements(), Spliterator.ORDERED), false);
+	}
+
+	private String content(Object setting) {
+		JsonNode settingNode;
+		return setting == null || (settingNode = Json.toJson(setting).get("content")) == null ? null
+				: settingNode.asText();
+	}
+
+	private long limit(Object setting) {
+		JsonNode limitNode;
+		return setting == null || (limitNode = Json.toJson(setting).get("limit")) == null || limitNode.asLong() == 0
+				? Long.MAX_VALUE
+				: limitNode.asLong();
+	}
+
+	private void addValueForObject(List<Map<String, Object>> result, JsonNode node, String content) {
 		if (!node.elements().hasNext()) {
 			result.add(ImmutableMap.of());
 			return;
@@ -180,7 +219,7 @@ public class Reconcile extends Controller {
 			 */
 			result.add(ImmutableMap.of("id", id.substring(AuthorityResource.DNB_PREFIX.length()), "name", label));
 		} else {
-			result.add(ImmutableMap.of("str", label));
+			result.add(ImmutableMap.of("str", content != null && content.equals("id") ? id : label));
 		}
 	}
 
