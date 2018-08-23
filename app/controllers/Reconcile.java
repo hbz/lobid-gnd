@@ -210,8 +210,8 @@ public class Reconcile extends Controller {
 			return;
 		}
 		String id = node.get("id").asText();
-		String label = node.get("label").asText();
-		if (id.startsWith(AuthorityResource.DNB_PREFIX)) {
+		String label = node.has("label") ? node.get("label").asText() : id;
+		if (id.startsWith(AuthorityResource.DNB_PREFIX) && !id.endsWith("/about")) {
 			/*
 			 * See https://github.com/OpenRefine/OpenRefine/ wiki/
 			 * Data-Extension-API#data-extension- protocol: "a reconciled value

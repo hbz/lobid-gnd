@@ -75,7 +75,8 @@ public class GndOntology {
 
 	private static Map<String, List<String>> properties = new HashMap<>();
 
-	static final List<String> ADDITIONAL_PROPERTIES = Arrays.asList("type", "sameAs", "preferredName", "variantName");
+	static final List<String> ADDITIONAL_PROPERTIES = Arrays.asList("type", "sameAs", "preferredName", "variantName",
+			"depiction");
 
 	static {
 		try {
@@ -207,7 +208,7 @@ public class GndOntology {
 			propertiesForType = new ArrayList<String>();
 			properties.put(type, propertiesForType);
 		}
-		if (!property.matches("(preferred|variant)NameFor.+")) {
+		if (!property.matches("(preferred|variant)Name.+")) {
 			propertiesForType.add(property);
 		}
 	}

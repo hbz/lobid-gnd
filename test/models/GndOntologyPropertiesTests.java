@@ -19,15 +19,15 @@ public class GndOntologyPropertiesTests {
 	@Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] { //
-				{ "Family", Arrays.asList("type", "gndIdentifier", "sameAs", "gndSubjectCategory", "geographicAreaCode",
-						"preferredName", "variantName", "homepage", "languageCode", "placeOfActivity", "placeOfExile",
-						"professionOrOccupation", "professionalRelationship", "relatedConferenceOrEvent",
-						"complexSeeReferenceSubject", "correspondent", "familialRelationship", "fieldOfActivity",
-						"relatedCorporateBody", "relatedFamily", "relatedPerson", "relatedPlaceOrGeographicName",
-						"relatedSubjecHeading", "relatedTerm", "relatedWork", "affiliationAsLiteral",
-						"biographicalOrHistoricalInformation", "definition", "oldAuthorityNumber", "periodOfActivity",
-						"professionOrOccupationAsLiteral", "publication", "acquaintanceshipOrFriendship", "affiliation",
-						"relatedSubjectHeading") } });
+				{ "Family", Arrays.asList("type", "gndIdentifier", "sameAs", "depiction", "gndSubjectCategory",
+						"geographicAreaCode", "preferredName", "variantName", "homepage", "languageCode",
+						"placeOfActivity", "placeOfExile", "professionOrOccupation", "professionalRelationship",
+						"relatedConferenceOrEvent", "complexSeeReferenceSubject", "correspondent",
+						"familialRelationship", "fieldOfActivity", "relatedCorporateBody", "relatedFamily",
+						"relatedPerson", "relatedPlaceOrGeographicName", "relatedSubjecHeading", "relatedTerm",
+						"relatedWork", "affiliationAsLiteral", "biographicalOrHistoricalInformation", "definition",
+						"oldAuthorityNumber", "periodOfActivity", "professionOrOccupationAsLiteral", "publication",
+						"acquaintanceshipOrFriendship", "affiliation", "relatedSubjectHeading") } });
 	}
 
 	private List<String> properties;
