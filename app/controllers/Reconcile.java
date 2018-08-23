@@ -62,7 +62,7 @@ public class Reconcile extends Controller {
 	 */
 	public Result meta(String callback) {
 		ObjectNode result = Json.newObject();
-		result.put("name", "lobid-gnd reconciliation");
+		result.put("name", "GND reconciliation for OpenRefine");
 		result.put("identifierSpace", "http://lobid.org/gnd");
 		result.put("schemaSpace", "http://lobid.org/gnd");
 		result.set("defaultTypes", TYPES);
@@ -103,7 +103,7 @@ public class Reconcile extends Controller {
 	/**
 	 * @param callback
 	 *            The name of the JSONP function to wrap the response in
-	 * @param callback
+	 * @param type
 	 *            The type used in reconciliation
 	 * @return Property proposal protocol data
 	 */
@@ -159,9 +159,18 @@ public class Reconcile extends Controller {
 			});
 			rows.set(entityId.asText(), propertiesForId);
 		});
-		List<ObjectNode> meta = propertyIdsAndSettings.stream().map(property -> Json.newObject()
-				.put("id", property.getLeft()).put("name", GndOntology.label(property.getLeft())))
-				.collect(Collectors.toList());
+		List<ObjectNode> meta = propertyIdsAndSettings.stream().map(property -> {
+			ObjectNode m = Json.newObject()//
+					.put("id", property.getLeft())//
+					.put("name", GndOntology.label(property.getLeft()));
+			String type = GndOntology.type(property.getLeft());
+			if (type != null) {
+				m.set("type", Json.newObject()//
+						.put("id", type)//
+						.put("name", GndOntology.label(type)));
+			}
+			return m;
+		}).collect(Collectors.toList());
 		return ok(Json.toJson(ImmutableMap.of("meta", Json.toJson(meta), "rows", rows)));
 	}
 

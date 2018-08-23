@@ -86,6 +86,16 @@ public class GndOntology {
 		}
 	}
 
+	private static Map<String, String> types = new HashMap<>();
+
+	static {
+		try {
+			loadTypes("conf/gnd.rdf");
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Get labels for IDs from:<br/>
 	 * <br/>
@@ -124,6 +134,10 @@ public class GndOntology {
 		result = result == null ? new ArrayList<>() : result;
 		result.addAll(ADDITIONAL_PROPERTIES);
 		return new ArrayList<>(new TreeSet<>(result));
+	}
+
+	public static String type(String property) {
+		return types.get(property);
 	}
 
 	private static String ontologyLabel(String id) {
@@ -191,6 +205,26 @@ public class GndOntology {
 			}
 		});
 		addNonOntologyTypes();
+	}
+
+	private static void loadTypes(String f) throws SAXException, IOException {
+		Match match = $(new File(f)).find(or( //
+				selector("ObjectProperty"), //
+				selector("AnnotationProperty"), //
+				selector("DatatypeProperty")));
+		match.forEach(property -> {
+			String propertyId = property.getAttribute("rdf:about");
+			if (propertyId.contains("#")) {
+				String shortPropertyId = propertyId.split("#")[1];
+				$(property).find(selector("range")).forEach(domain -> {
+					String type = domain.getAttribute("rdf:resource");
+					String shortType;
+					if (type != null && type.contains("#") && !(shortType = type.split("#")[1]).equals("Literal")) {
+						types.put(shortPropertyId, shortType);
+					}
+				});
+			}
+		});
 	}
 
 	private static void addNonOntologyTypes() {
