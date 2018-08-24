@@ -187,7 +187,7 @@ public class GndOntology {
 				selector("DatatypeProperty")));
 		match.forEach(property -> {
 			String propertyId = property.getAttribute("rdf:about");
-			if (propertyId.contains("#")) {
+			if ($(property).find(selector("deprecated")).isEmpty() && propertyId.contains("#")) {
 				String shortPropertyId = propertyId.split("#")[1];
 				Match domains = $(property).find(selector("domain"));
 				domains.forEach(domain -> {

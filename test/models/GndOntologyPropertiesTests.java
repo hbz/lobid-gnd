@@ -1,5 +1,6 @@
 package models;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
@@ -24,8 +25,8 @@ public class GndOntologyPropertiesTests {
 						"placeOfActivity", "placeOfExile", "professionOrOccupation", "professionalRelationship",
 						"relatedConferenceOrEvent", "complexSeeReferenceSubject", "correspondent",
 						"familialRelationship", "fieldOfActivity", "relatedCorporateBody", "relatedFamily",
-						"relatedPerson", "relatedPlaceOrGeographicName", "relatedSubjecHeading", "relatedTerm",
-						"relatedWork", "affiliationAsLiteral", "biographicalOrHistoricalInformation", "definition",
+						"relatedPerson", "relatedPlaceOrGeographicName", "relatedTerm", "relatedWork",
+						"affiliationAsLiteral", "biographicalOrHistoricalInformation", "definition",
 						"oldAuthorityNumber", "periodOfActivity", "professionOrOccupationAsLiteral", "publication",
 						"acquaintanceshipOrFriendship", "affiliation", "relatedSubjectHeading") } });
 	}
@@ -58,6 +59,11 @@ public class GndOntologyPropertiesTests {
 	@Test
 	public void testFieldsAll() throws FileNotFoundException {
 		assertTrue(GndOntology.properties("AuthorityResource").size() > GndOntology.ADDITIONAL_PROPERTIES.size());
+	}
+
+	@Test
+	public void testDeprecated() throws FileNotFoundException {
+		assertFalse(GndOntology.properties("PlaceOrGeographicName").contains("StartingOrFinalPointOfADistance"));
 	}
 
 }
