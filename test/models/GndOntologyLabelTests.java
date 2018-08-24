@@ -13,7 +13,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class GndOntologyTests {
+public class GndOntologyLabelTests {
 
 	@Parameters(name = "{0} -> {1}")
 	public static Collection<Object[]> data() {
@@ -40,7 +40,7 @@ public class GndOntologyTests {
 	private String id;
 	private String label;
 
-	public GndOntologyTests(String id, String label) {
+	public GndOntologyLabelTests(String id, String label) {
 		this.id = id;
 		this.label = label;
 	}
