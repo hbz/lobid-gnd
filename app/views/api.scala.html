@@ -104,14 +104,6 @@ $('input.search-gnd').autocomplete({
   @desc("Reconciliation-Anfrage (erwartet Formulardaten per HTTP POST, verwenden Sie diese URL in OpenRefine)", routes.Reconcile.reconcile())
   <p>Intern sendet OpenRefine folgende Art von Anfrage:</p>
   <pre>curl --data 'queries={"q1":{"query":"Twain, Mark"}}' http://lobid.org@routes.Reconcile.reconcile()</pre>
-  <p><b>Kurzanleitung</b></p>
-  <p>In OpenRefine -> <i>Create Project</i> -> <i>Clipboard</i>, dort einfügen:</p>
-  <pre>name;beruf;ort
-J. Weizenbaum;Informatiker;Berlin
-Twain, Mark;Schriftsteller;
-Kumar, Lalit;;
-Jemand;;</pre>
-  <p><i>Next</i> -> <i>Create Project</i> -> Spalte 'name' -> <i>Reconcile</i> -> <i>Start Reconciling</i></p>
-  <p><i>Add Standard Service...</i> -> <i>http://lobid.org@routes.Reconcile.reconcile()</i> -> <i>Add Service</i> -> <i>Start Reconciling</i></p>
-  <p>Siehe auch diesen Abschnitt zur <a href="http://blog.lobid.org/2018/07/02/lobid-update.html#openrefine-reconciliation-api">OpenRefine Reconciliation in unserem Blog</a>.</p>
+  <p><b>Tutorial</b></p>
+  <p>Eine Anleitung zur Verwendung der <a href='http://blog.lobid.org/2018/08/27/openrefine.html'>GND Reconciliation in OpenRefine</a> findet sich in unserem Blog.</p>
 }
