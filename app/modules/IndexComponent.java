@@ -255,6 +255,7 @@ class ElasticsearchServer implements IndexComponent {
 		for (String a : HomeController.AGGREGATIONS) {
 			requestBuilder.addAggregation(AggregationBuilders.terms(a).field(a).size(1000));
 		}
+		Logger.debug("Search request: {}", requestBuilder);
 		SearchResponse response = requestBuilder.get();
 		return response;
 	}
