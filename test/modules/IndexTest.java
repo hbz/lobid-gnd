@@ -26,7 +26,6 @@ import controllers.HomeController;
 import play.Application;
 import play.Logger;
 import play.api.inject.BindingKey;
-import play.api.inject.DefaultApplicationLifecycle;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 
@@ -73,9 +72,7 @@ public class IndexTest {
 		Application app = new GuiceApplicationBuilder().build();
 		index = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
 		ElasticsearchServer.deleteIndex(index.client(), indexName);
-		app.injector().instanceOf(DefaultApplicationLifecycle.class).stop();
-		index = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
-		index.client().admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
+		index.startup();
 	}
 
 	private static void indexEntityFacts() throws IOException {
