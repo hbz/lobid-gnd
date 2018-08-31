@@ -266,6 +266,8 @@ class ElasticsearchServer implements IndexComponent {
 
 	@Override
 	public QueryStringQueryBuilder queryStringQuery(String q) {
+		// Clean up single forward slash, but keep regular /expressions/
+		q = q.indexOf('/') == q.lastIndexOf('/') ? q.replace("/", " ") : q;
 		return QueryBuilders.queryStringQuery(q).defaultOperator(Operator.AND);
 	}
 }

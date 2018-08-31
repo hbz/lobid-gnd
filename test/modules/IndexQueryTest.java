@@ -58,6 +58,12 @@ public class IndexQueryTest extends IndexTest {
 	}
 
 	@Test
+	public void testSlashInQuery() {
+		Assert.assertEquals(1, index.query("Hauptschule / Lehrer").getHits().getTotalHits());
+		Assert.assertEquals(1, index.query("/[Hh]auptschulen?/").getHits().getTotalHits());
+	}
+
+	@Test
 	public void testContextQuery() {
 		Assert.assertEquals(0, index.query("context.jsonld").getHits().getTotalHits());
 	}
