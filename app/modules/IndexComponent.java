@@ -19,6 +19,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -63,8 +64,11 @@ public interface IndexComponent {
 		return query(q, "", 0, 10);
 	}
 
+	void startup();
+
 }
 
+@Singleton
 class ElasticsearchServer implements IndexComponent {
 
 	private static final Settings SETTINGS = Settings.builder()
@@ -94,7 +98,7 @@ class ElasticsearchServer implements IndexComponent {
 		return client;
 	}
 
-	private void startup() {
+	public void startup() {
 		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 		client.admin().indices().refresh(new RefreshRequest()).actionGet();
 		String pathToJson = config("data.jsonlines");
@@ -255,6 +259,7 @@ class ElasticsearchServer implements IndexComponent {
 		for (String a : HomeController.AGGREGATIONS) {
 			requestBuilder.addAggregation(AggregationBuilders.terms(a).field(a).size(1000));
 		}
+		Logger.debug("Search request: {}", requestBuilder);
 		SearchResponse response = requestBuilder.get();
 		return response;
 	}
