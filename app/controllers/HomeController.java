@@ -245,15 +245,36 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	public Result context() {
 		response().setHeader("Access-Control-Allow-Origin", "*");
+		return ok(readFile(config("context.file"))).as(config("context.content"));
+	}
+
+	/**
+	 * See https://www.w3.org/TR/dwbp/#metadata
+	 * 
+	 * @param format
+	 *            The format ("jsonld" or "")
+	 * 
+	 * @return JSON-LD dataset metadata
+	 */
+	public Result dataset(String format) {
+		response().setHeader("Access-Control-Allow-Origin", "*");
+		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
+		String content = readFile(config("dataset.file"));
+		return responseFormat.queryParamString.startsWith("json") ? //
+				ok(content).as(config("dataset.content")) : //
+				ok(views.html.dataset.render(Json.parse(content)));
+	}
+
+	private String readFile(String name) {
 		try {
-			File file = env.getFile(config("context.file"));
+			File file = env.getFile(name);
 			Path path = Paths.get(file.getAbsolutePath());
-			return ok(Files.readAllLines(path).stream().collect(Collectors.joining("\n")))
-					.as(config("context.content"));
+			String content = Files.readAllLines(path).stream().collect(Collectors.joining("\n"));
+			return content;
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.error("Couldn't get: " + name, e);
+			return null;
 		}
-		return null;
 	}
 
 	public Result gnd(String id) {
