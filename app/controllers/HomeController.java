@@ -126,7 +126,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				.setQuery(functionScoreQuery).setFrom(0).setSize(1);
 		SearchHit hit = requestBuilder.execute().actionGet().getHits().getAt(0);
 		AuthorityResource entity = entityWithImage(hit.getSourceAsString());
-		return ok(views.html.index.render(entity));
+		JsonNode dataset = Json.parse(readFile(config("dataset.file")));
+		return ok(views.html.index.render(entity, dataset));
 	}
 
 	/**

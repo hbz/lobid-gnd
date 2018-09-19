@@ -5,7 +5,7 @@
 @import helper._
 
 @main("", "Dataset: lobid-gnd") { 
-	<h3>Datenbeschreibung<small><a title="Beschreibung als JSON-LD anzeigen" href='@routes.HomeController.dataset("json")'><img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")'></a></small></h3>
+	<h3>Daten<small><a title="Beschreibung als JSON-LD anzeigen" href='@routes.HomeController.dataset("json")'><img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")'></a></small></h3>
 	<table class="table table-striped">
 		<tr><th width="20%"/><th width="80%"/></tr>
 		<tr>
@@ -33,12 +33,13 @@
 		<tr><td>Ergänzungsfrequenz</td><td>@json.get("accrualPeriodicity").get("name").get("de").asText()</td></tr>
 		<tr><td>Kontakt</td><td><a href='@json.get("contactPoint").asText()'>@json.get("contactPoint").asText()</a></td></tr>
 	</table>
-	<h3>Datendistribution</h3>
+	<h3>API</h3>
 	@defining(json.get("distribution").elements().next()) { dist =>
 	<table class="table table-striped">
 		<tr><th width="20%"/><th width="80%"/></tr>
 		<tr><td>Titel</td><td>@dist.get("name").get("de").asText()</td></tr>
 		<tr><td>Beschreibung</td><td>@Html(dist.get("description").get("de").asText())</td></tr>
+		<tr><td>Dokumentation</td><td><a href='@dist.get("documentation").asText()'>@Html(dist.get("documentation").asText())</a></td></tr>
 		<tr><td>URL</td><td><a href='@dist.get("url").asText()'>@dist.get("url").asText()</a></td></tr>
 		<tr><td>Lizenz</td><td><a href='@dist.get("license").asText()'>@dist.get("license").asText()</a></td></tr>
 		<tr><td>Medientypen</td><td>@dist.get("encodingFormat").toString().replaceAll("\",\"", ", ").replaceAll("[\"\\[\\]]", "")</td></tr>
