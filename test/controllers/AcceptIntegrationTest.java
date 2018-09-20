@@ -37,6 +37,13 @@ public class AcceptIntegrationTest extends IndexTest {
 	public static Collection<Object[]> data() {
 		// @formatter:off
 		return Arrays.asList(new Object[][] {
+			// service meta data: context and dataset description
+			{ fakeRequest(GET, "/gnd/context.jsonld"), /*->*/ "application/ld+json" },
+			{ fakeRequest(GET, "/gnd/dataset.jsonld"), /*->*/ "application/ld+json" },
+			{ fakeRequest(GET, "/gnd/dataset"), /*->*/ "application/ld+json" },
+			{ fakeRequest(GET, "/gnd/dataset").header("Accept", "text/html"), /*->*/ "text/html" },
+			{ fakeRequest(GET, "/gnd/dataset").header("Accept", "application/ld+json"), /*->*/ "application/ld+json" },
+			{ fakeRequest(GET, "/gnd/dataset").header("Accept", "application/json"), /*->*/ "application/ld+json" },
 			// search, default format: JSON
 			{ fakeRequest(GET, "/gnd/search?q=*"), /*->*/ "application/json" },
 			{ fakeRequest(GET, "/gnd/search?q=*").header("Accept", "*/*"), /*->*/ "application/json" },

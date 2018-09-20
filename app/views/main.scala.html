@@ -59,6 +59,9 @@
                           <li @if(title=="lobid-gnd - API"){class="active"}>
                             <a href="@routes.HomeController.api()" title="Programmierschnittstelle">Programmierschnittstelle (API)</a>
                           </li>
+                          <li @if(title=="Dataset: lobid-gnd"){class="active"}>
+                            <a href='@routes.HomeController.dataset("")'>Datenbeschreibung</a>
+                          </li>
                           <li class="divider"></li>
                           <li class="dropdown-header">Kontakt</li>
                           <li><a href="mailto:semweb@@hbz-nrw.de?subject=Feedback%20zu%20lobid-gnd,%20aktuelle%20URL%20@controllers.HomeController.currentUri()">Feedback zur aktuellen Seite</a></li>

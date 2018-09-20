@@ -237,3 +237,9 @@ figcaption {
 	max-height: 300px;
 	float: right;
 }
+
+.json-ld-icon {
+	margin-left: 1px;
+	float:right;
+	height: 1.4em
+}

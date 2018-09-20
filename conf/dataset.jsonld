@@ -1,0 +1,99 @@
+{
+   "@context":{
+      "id":"@id",
+      "type":"@type",
+      "@vocab":"http://schema.org/",
+      "accrualPeriodicity":{
+         "@id":"http://purl.org/dc/terms/accrualPeriodicity",
+         "@type":"@id"
+      },
+      "description":{
+         "@container":"@language"
+      },
+      "name":{
+         "@container":"@language"
+      },
+      "alternateName": {
+        "@container": "@language"
+      },
+      "Concept": "http://www.w3.org/2004/02/skos/core#Concept"
+   },
+   "id":"http://lobid.org/resources/dataset#!",
+   "type":"Dataset",
+   "name":{
+      "de":"lobid-gnd",
+      "en":"lobid-gnd"
+   },
+   "alternateName": {
+      "de":"LOD-API für die Gemeinsame Normdatei (GND)",
+      "en":"LOD-API for the Integrated Authority File (GND)"
+   },
+   "description":{
+      "de":"<p class='lead'>Die Gemeinsame Normdatei (GND) enthält über 15 Millionen Normdatensätze. Sie wird zur Katalogisierung von Literatur in Bibliotheken, sowie von Archiven, Museen, und Forschungsprojekten genutzt.</p><p>Die GND enthält normierte Einträge für Personen, Körperschaften, Kongresse, Geografika, Sachschlagwörter und Werktitel. Sie wird von der Deutschen Nationalbibliothek (DNB), den deutschsprachigen Bibliotheksverbünden, der Zeitschriftendatenbank (ZDB) und zahlreichen weiteren Institutionen kooperativ geführt. Die Daten sind unter CC0 lizenziert.</p><p>lobid-gnd bietet eine <a href=\"http://lobid.org/gnd/search\">Rechercheoberfläche zum Durchsuchen der GND</a> und eine <a href=\"http://lobid.org/gnd/api\">Web-API auf Basis von JSON-LD</a> zur Verwendung der Daten in verschiedenen Kontexten.</p>",
+      "en":"<p class='lead'>The Integrated Authority File (GND) contains more than 15 Million authority records. It is used for cataloging in libraries as well as in archives, museums and other contexts.</p><p>The GND contains authority records for persons, corporate bodies, congresses, places, subject headings and works. It is maintained cooperatively by the German National Library (DNB), German-speaking library networks, the German Union Catalogue of Serials (ZDB) and many other institutions. The data is licensed under CC0.</p><p>lobid-gnd provides a <a href=\"http://lobid.org/gnd/search\">search interface for exploring GND</a> and <a href=\"http://lobid.org/gnd/api\">a web API based on JSON-LD</a> to enable use of the data in different contexts.</p>"
+   },
+   "keywords":[
+      "authority data",
+      "Germany",
+      "Austria",
+      "Switzerland"
+   ],
+   "datePublished":"2018-07-11",
+   "contactPoint":"http://lobid.org/contact",
+   "accrualPeriodicity":{
+      "id":"http://purl.org/linked-data/sdmx/2009/code#freq-B",
+      "type": "Concept",
+      "name":{
+         "en":"Daily - business week",
+         "de":"Täglich (werktags)"
+      }
+   },
+   "inLanguage":[
+      "de"
+   ],
+   "publisher":{
+      "id":"http://lobid.org/organisations/DE-605#!",
+      "type": "Organization",
+      "name":{
+         "de":"Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen",
+         "en":"North Rhine-Westphalian Library Service"
+      },
+      "alternateName":[
+         "hbz"
+      ]
+   },
+   "isBasedOn": {
+     "type": "Dataset",
+     "url": "http://d-nb.info/gnd/7749153-1",
+     "name":{
+        "de":"Gemeinsame Normdatei (GND)",
+        "en":"Integrated Authority File (GND)"
+     },
+     "description":{
+        "de":"Genutzt werden die von der DNB bereitgestellten RDF-Datenabzüge der GND, siehe <a href=\"http://www.dnb.de/DE/Service/DigitaleDienste/LinkedData/linkeddata_node.html\">http://www.dnb.de/DE/Service/DigitaleDienste/LinkedData/linkeddata_node.html</a>.",
+        "en":"lobid-gnd uses the RDF dumps of the GND as provided by DNB, see <a href=\"http://www.dnb.de/EN/Service/DigitaleDienste/LinkedData/linkeddata_node.html\"></a>."
+     },
+     "license": "https://creativecommons.org/publicdomain/zero/1.0/"
+   },
+   "distribution":[
+      {
+         "id":"http://lobid.org/gnd/search",
+         "type":"WebAPI",
+         "name": {
+           "de": "lobid-gnd-API",
+           "en": "lobid-gnd API"
+         },
+         "description": {
+         "en": "<p>The API gives access to machine-readable data (JSON-LD via HTTP).</p>",
+         "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP).</p>"
+         },
+         "url":"http://lobid.org/gnd/search",
+         "documentation": "http://lobid.org/gnd/api",
+         "encodingFormat":[
+            "application/json",
+            "application/ld+json"
+         ],
+   "license": "https://creativecommons.org/publicdomain/zero/1.0/"
+      }
+   ]
+}
