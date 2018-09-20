@@ -33,6 +33,7 @@ public class HomeControllerTest extends IndexTest {
 				{ routes.HomeController.search("*", "", 0, 10, "json").toString(), Status.OK },
 				{ routes.HomeController.search("*", "", 0, 10, "jsonl").toString(), Status.OK },
 				{ routes.HomeController.search("*", "", 0, 10, "json:suggest").toString(), Status.OK },
+				{ routes.HomeController.search("++test", "", 0, 10, "html").toString(), Status.OK },
 				{ routes.HomeController.search("*", "", 0, 10, "jsonfoo").toString(), Status.UNSUPPORTED_MEDIA_TYPE },
 				{ routes.HomeController.search("*", "", 0, 10, "ttl").toString(), Status.UNSUPPORTED_MEDIA_TYPE },
 				{ routes.HomeController.search("*", "", 0, 10, "rdf").toString(), Status.UNSUPPORTED_MEDIA_TYPE },

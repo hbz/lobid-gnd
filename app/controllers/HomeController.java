@@ -361,7 +361,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	private Result htmlSearch(String q, String type, int from, int size, String format, SearchResponse response) {
 		return ok(views.html.search.render(q, type, from, size, returnAsJson(q, response),
-				response.getHits().getTotalHits()));
+				response == null ? 0 : response.getHits().getTotalHits()));
 	}
 
 	private static Result withCallback(final String json) {
@@ -434,6 +434,9 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	private static String returnAsJson(String q, SearchResponse queryResponse) {
+		if (queryResponse == null) {
+			return Json.newObject().toString();
+		}
 		List<Map<String, Object>> hits = Arrays.asList(queryResponse.getHits().getHits()).stream()
 				.map(hit -> hit.getSource()).collect(Collectors.toList());
 		ObjectNode object = Json.newObject();

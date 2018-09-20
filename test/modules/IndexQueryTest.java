@@ -122,4 +122,9 @@ public class IndexQueryTest extends IndexTest {
 		Assert.assertEquals(1, index.query("namenlosen").getHits().getTotalHits());
 	}
 
+	@Test
+	public void testInvalidQuery() {
+		Assert.assertNull(index.query("++test"));
+	}
+
 }
