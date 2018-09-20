@@ -178,8 +178,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		if (responseFormat == null || responseFormat == Accept.Format.JSON_LINES
 				|| format != null && format.contains(":")) {
-			return unsupportedMediaType(String.format("Unsupported for single resource: format=%s, accept=%s", format,
-					request().acceptedTypes()));
+			return unsupportedMediaType(views.html.error.render(id, String.format(
+					"Unsupported for single resource: format=%s, accept=%s", format, request().acceptedTypes())));
 		}
 		try {
 			switch (responseFormat) {
@@ -199,7 +199,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			}
 		} catch (Exception e) {
 			Logger.error("Could not create response", e);
-			return internalServerError(e.getMessage());
+			return internalServerError(views.html.error.render(id, e.getMessage()));
 		}
 	}
 
@@ -297,31 +297,37 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		if (responseFormat == null || Stream.of(RdfFormat.values()).map(RdfFormat::getParam)
 				.anyMatch(f -> f.equals(responseFormat.queryParamString))) {
-			return unsupportedMediaType(
-					String.format("Unsupported for search: format=%s, accept=%s", format, request().acceptedTypes()));
+			return unsupportedMediaType(views.html.error.render(q,
+					String.format("Unsupported for search: format=%s, accept=%s", format, request().acceptedTypes())));
 		}
 		String queryString = (q == null || q.isEmpty()) ? "*" : q;
-		SearchResponse response = index.query(queryString, filter, from, size);
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		String[] formatAndConfig = format == null ? new String[] {} : format.split(":");
-		boolean returnSuggestions = formatAndConfig.length == 2;
-		if (returnSuggestions) {
-			List<Map<String, Object>> hits = Arrays.asList(response.getHits().getHits()).stream()
-					.map(hit -> hit.getSource()).collect(Collectors.toList());
-			return withCallback(toSuggestions(Json.toJson(hits), formatAndConfig[1]));
-		}
-		switch (responseFormat) {
-		case HTML: {
-			return htmlSearch(q, filter, from, size, responseFormat.queryParamString, response);
-		}
-		case JSON_LINES: {
-			response().setHeader("Content-Disposition",
-					String.format("attachment; filename=\"lobid-gnd-bulk-%s.jsonl\"", System.currentTimeMillis()));
-			return jsonLines(queryString, filter, response);
-		}
-		default: {
-			return ok(returnAsJson(q, response)).as(config("index.content"));
-		}
+		try {
+			SearchResponse response = index.query(queryString, filter, from, size);
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			String[] formatAndConfig = format == null ? new String[] {} : format.split(":");
+			boolean returnSuggestions = formatAndConfig.length == 2;
+			if (returnSuggestions) {
+				List<Map<String, Object>> hits = Arrays.asList(response.getHits().getHits()).stream()
+						.map(hit -> hit.getSource()).collect(Collectors.toList());
+				return withCallback(toSuggestions(Json.toJson(hits), formatAndConfig[1]));
+			}
+			switch (responseFormat) {
+			case HTML: {
+				return htmlSearch(q, filter, from, size, responseFormat.queryParamString, response);
+			}
+			case JSON_LINES: {
+				response().setHeader("Content-Disposition",
+						String.format("attachment; filename=\"lobid-gnd-bulk-%s.jsonl\"", System.currentTimeMillis()));
+				return jsonLines(queryString, filter, response);
+			}
+			default: {
+				return ok(returnAsJson(q, response)).as(config("index.content"));
+			}
+			}
+		} catch (Throwable t) {
+			String message = t.getMessage() + (t.getCause() != null ? ", cause: " + t.getCause().getMessage() : "");
+			Logger.error("Error: {}", message);
+			return internalServerError(views.html.error.render(q, "Error: " + message));
 		}
 	}
 

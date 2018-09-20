@@ -259,15 +259,9 @@ class ElasticsearchServer implements IndexComponent {
 		for (String a : HomeController.AGGREGATIONS) {
 			requestBuilder.addAggregation(AggregationBuilders.terms(a).field(a).size(1000));
 		}
-		try {
-			Logger.debug("Search request: {}", requestBuilder);
-			SearchResponse response = requestBuilder.get();
-			return response;
-		} catch (Throwable t) {
-			Logger.error("Could not execute request: {}, cause: {}", t.getMessage(), t.getCause().getMessage());
-			Logger.debug("Could not execute request", t);
-			return null;
-		}
+		Logger.debug("Search request: {}", requestBuilder);
+		SearchResponse response = requestBuilder.get();
+		return response;
 	}
 
 	@Override
