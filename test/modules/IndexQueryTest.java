@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Set;
 
+import org.elasticsearch.action.search.SearchPhaseExecutionException;
 import org.elasticsearch.action.search.SearchResponse;
 import org.junit.Assert;
 import org.junit.Test;
@@ -120,6 +121,11 @@ public class IndexQueryTest extends IndexTest {
 	public void testNoStemming() {
 		Assert.assertEquals(0, index.query("namenlose").getHits().getTotalHits());
 		Assert.assertEquals(1, index.query("namenlosen").getHits().getTotalHits());
+	}
+
+	@Test(expected = SearchPhaseExecutionException.class)
+	public void testInvalidQuery() {
+		index.query("++test");
 	}
 
 }
