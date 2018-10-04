@@ -1,3 +1,5 @@
+/* Copyright 2017-2018 Fabian Steeg, hbz. Licensed under the EPL 2.0 */
+
 package controllers;
 
 import java.io.File;
