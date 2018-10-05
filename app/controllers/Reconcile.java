@@ -1,4 +1,4 @@
-/* Copyright 2014-2018, hbz. Licensed under the Eclipse Public License 1.0 */
+/* Copyright 2017-2018 Fabian Steeg, hbz. Licensed under the EPL 2.0 */
 
 package controllers;
 
