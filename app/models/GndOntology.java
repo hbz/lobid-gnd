@@ -162,6 +162,7 @@ public class GndOntology {
 	private static void process(String f) throws SAXException, IOException {
 		Match match = $(new File(f)).find(or( //
 				selector("Class"), //
+				selector("Property"), //
 				selector("ObjectProperty"), //
 				selector("AnnotationProperty"), //
 				selector("DatatypeProperty"), //
@@ -175,15 +176,16 @@ public class GndOntology {
 				String label = $(c).find(or(//
 						selector("label"), //
 						selector("prefLabel"))).filter(attr("lang", "de")).content();
-				label = label == null ? label : label.replaceAll("\\s+", " ").replace("hat ", "");
-				checkAmibiguity(shortId, label);
-				labels.put(shortId, label);
+				if (label != null) {
+					labels.put(shortId, label.replaceAll("\\s+", " ").replace("hat ", ""));
+				}
 			}
 		});
 	}
 
 	private static void loadProperties(String f) throws SAXException, IOException {
 		Match match = $(new File(f)).find(or( //
+				selector("Property"), //
 				selector("ObjectProperty"), //
 				selector("AnnotationProperty"), //
 				selector("DatatypeProperty")));
@@ -211,6 +213,7 @@ public class GndOntology {
 
 	private static void loadTypes(String f) throws SAXException, IOException {
 		Match match = $(new File(f)).find(or( //
+				selector("Property"), //
 				selector("ObjectProperty"), //
 				selector("AnnotationProperty"), //
 				selector("DatatypeProperty")));
@@ -246,14 +249,6 @@ public class GndOntology {
 		}
 		if (!property.matches("(preferred|variant)Name.+")) {
 			propertiesForType.add(property);
-		}
-	}
-
-	private static void checkAmibiguity(String shortId, String label) {
-		String oldLabel = labels.get(shortId);
-		if (oldLabel != null && !oldLabel.equals(label)) {
-			throw new IllegalStateException(
-					String.format("Ambiguous key: %s=%s -> %s=%s", shortId, oldLabel, shortId, label));
 		}
 	}
 

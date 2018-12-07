@@ -32,6 +32,8 @@ public class GndOntologyLabelTests {
 				{ "hasChild", "Kind" }, //
 				{ "hasSpouse", "Ehepartner" }, //
 				{ "hasAncestor", "Vorfahr" }, //
+				{ "hasParent", "Elternteil" }, //
+				{ "professionalRelationship", "Berufliche Beziehung" }, //
 				{ "broadMatch", "Oberbegriff" }, //
 				{ "exactMatch", "Entspricht" }, //
 				{ "relatedMatch", "Verwandter Begriff" } });
