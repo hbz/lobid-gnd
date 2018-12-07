@@ -61,17 +61,18 @@ public class Reconcile extends Controller {
 	 *         `callback`
 	 */
 	public Result meta(String callback) {
+		final String host = HomeController.config("host");
 		ObjectNode result = Json.newObject();
 		result.put("name", "GND reconciliation for OpenRefine");
-		result.put("identifierSpace", "http://lobid.org/gnd");
-		result.put("schemaSpace", "http://lobid.org/gnd");
+		result.put("identifierSpace", host + "/gnd");
+		result.put("schemaSpace", host + "/gnd");
 		result.set("defaultTypes", TYPES);
 		result.set("view", Json.newObject()//
-				.put("url", "http://lobid.org/gnd/{{id}}"));
+				.put("url", host + "/gnd/{{id}}"));
 		result.set("preview", Json.newObject()//
 				.put("height", 100)//
 				.put("width", 320)//
-				.put("url", HomeController.config("host") + "/gnd/{{id}}.preview"));
+				.put("url", host + "/gnd/{{id}}.preview"));
 		result.set("extend", Json.toJson(ImmutableMap.of(//
 				"property_settings", Json.newArray()//
 						.add(Json.newObject()//
@@ -94,7 +95,7 @@ public class Reconcile extends Controller {
 												.put("value", "literal")//
 												.put("name", "Literal")))), //
 				"propose_properties", Json.newObject()//
-						.put("service_url", HomeController.config("host"))//
+						.put("service_url", host)//
 						.put("service_path", routes.Reconcile.properties("", "", "").toString()))));
 		return callback.isEmpty() ? ok(result)
 				: ok(String.format("/**/%s(%s);", callback, result.toString())).as("application/json");
