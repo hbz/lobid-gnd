@@ -2,12 +2,6 @@
    "@context":{
       "type": "@type",
       "id": "@id",
-      "dnba":"http://d-nb.info/standards/elementset/agrelon#",
-      "gnd":"http://d-nb.info/standards/elementset/gnd#",
-      "dnb":"http://d-nb.info/standards/elementset/dnb#",
-      "skos":"http://www.w3.org/2004/02/skos/core#",
-      "rdfs":"http://www.w3.org/2000/01/rdf-schema#",
-      "foaf":"http://xmlns.com/foaf/0.1/",
       "AdministrativeUnit":"http://d-nb.info/standards/elementset/gnd#AdministrativeUnit",
       "AuthorityResource":"http://d-nb.info/standards/elementset/gnd#AuthorityResource",
       "BuildingOrMemorial":"http://d-nb.info/standards/elementset/gnd#BuildingOrMemorial",
@@ -74,15 +68,16 @@
       "gndIdentifier": "http://d-nb.info/standards/elementset/gnd#gndIdentifier",
       "preferredName": "http://d-nb.info/standards/elementset/gnd#preferredName",
       "preferredNameEntityForThePerson":"http://d-nb.info/standards/elementset/gnd#preferredNameEntityForThePerson",
-      "label": "rdfs:label",
-      "collection": "dnb:isDescribedIn",
+      "label": "http://www.w3.org/2000/01/rdf-schema#label",
+      "contentType": "http://rdaregistry.info/Elements/u/P60049",
+      "collection": "http://d-nb.info/standards/elementset/dnb#isDescribedIn",
       "publisher": "http://purl.org/dc/elements/1.1/publisher",
       "abbr": "http://dbpedia.org/ontology/abbreviation",
-      "name": "foaf:name",
-      "icon": "foaf:logo",
-      "depiction": "foaf:depiction",
-      "thumbnail": "foaf:thumbnail",
-      "url": "foaf:page",
+      "name": "http://xmlns.com/foaf/0.1/name",
+      "icon": "http://xmlns.com/foaf/0.1/logo",
+      "depiction": "http://xmlns.com/foaf/0.1/depiction",
+      "thumbnail": "http://xmlns.com/foaf/0.1/thumbnail",
+      "url": "http://xmlns.com/foaf/0.1/page",
       "accordingWork":{
          "@id":"http://d-nb.info/standards/elementset/gnd#accordingWork",
          "@type":"@id",
@@ -316,7 +311,7 @@
          "@container":"@set"
       },
       "deprecatedUri": {
-         "@id": "dnb:deprecatedUri",
+         "@id": "http://d-nb.info/standards/elementset/dnb#deprecatedUri",
          "@container": "@set"
       },
       "designer":{
@@ -445,62 +440,62 @@
          "@container":"@set"
       },
       "hasAuntUncle": {
-         "@id":"dnba:hasAuntUncle",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasAuntUncle",
          "@type":"@id",
          "@container":"@set"
       },
       "hasChild": {
-         "@id":"dnba:hasChild",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasChild",
          "@type":"@id",
          "@container":"@set"
       },
       "hasColleague": {
-         "@id":"dnba:hasColleague",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasColleague",
          "@type":"@id",
          "@container":"@set"
       },
       "hasFriend": {
-         "@id":"dnba:hasFriend",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasFriend",
          "@type":"@id",
          "@container":"@set"
       },
       "hasGrandChild": {
-         "@id":"dnba:hasGrandChild",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasGrandChild",
          "@type":"@id",
          "@container":"@set"
       },
       "hasGrandParent": {
-         "@id":"dnba:hasGrandParent",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasGrandParent",
          "@type":"@id",
          "@container":"@set"
       },
       "hasNieceNephew": {
-         "@id":"dnba:hasNieceNephew",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasNieceNephew",
          "@type":"@id",
          "@container":"@set"
       },
       "hasParent": {
-         "@id":"dnba:hasParent",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasParent",
          "@type":"@id",
          "@container":"@set"
       },
       "hasSibling": {
-         "@id":"dnba:hasSibling",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasSibling",
          "@type":"@id",
          "@container":"@set"
       },
       "hasSpouse": {
-         "@id":"dnba:hasSpouse",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasSpouse",
          "@type":"@id",
          "@container":"@set"
       },
       "hasStudent": {
-         "@id":"dnba:hasStudent",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasStudent",
          "@type":"@id",
          "@container":"@set"
       },
       "hasTeacher": {
-         "@id":"dnba:hasTeacher",
+         "@id":"http://d-nb.info/standards/elementset/agrelon#hasTeacher",
          "@type":"@id",
          "@container":"@set"
       },
@@ -1246,15 +1241,15 @@
          "@container":"@set"
       },
       "exactMatch": {
-         "@id":"skos:exactMatch",
+         "@id":"http://www.w3.org/2004/02/skos/core#exactMatch",
          "@container":"@set"
       },
       "broadMatch": {
-         "@id":"skos:broadMatch",
+         "@id":"http://www.w3.org/2004/02/skos/core#broadMatch",
          "@container":"@set"
       },
       "relatedMatch": {
-         "@id":"skos:relatedMatch",
+         "@id":"http://www.w3.org/2004/02/skos/core#relatedMatch",
          "@container":"@set"
       },
       "canonicalUri": {
