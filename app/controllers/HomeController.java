@@ -448,8 +448,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		List<Map<String, Object>> hits = Arrays.asList(queryResponse.getHits().getHits()).stream()
 				.map(hit -> hit.getSource()).collect(Collectors.toList());
 		ObjectNode object = Json.newObject();
-		object.put("@context", "http://" + request().host() + routes.HomeController.context());
-		object.put("id", "http://" + request().host() + request().uri());
+		object.put("@context", config("host") + routes.HomeController.context());
+		object.put("id", config("host") + request().uri());
 		object.put("totalItems", queryResponse.getHits().getTotalHits());
 		object.set("member", Json.toJson(hits));
 
