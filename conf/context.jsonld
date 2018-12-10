@@ -1254,6 +1254,10 @@
          "@id":"http://www.w3.org/2004/02/skos/core#broadMatch",
          "@container":"@set"
       },
+      "narrowMatch": {
+         "@id":"http://www.w3.org/2004/02/skos/core#narrowMatch",
+         "@container":"@set"
+      },
       "relatedMatch": {
          "@id":"http://www.w3.org/2004/02/skos/core#relatedMatch",
          "@container":"@set"
