@@ -4,6 +4,7 @@ package controllers;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertFalse;
@@ -38,6 +39,8 @@ public class ReconcileTest extends IndexTest {
 			assertNotNull(result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			assertNotNull(Json.parse(contentAsString(result)));
+			assertThat(contentAsString(result), containsString("https:"));
+			assertThat(contentAsString(result), not(containsString("http:")));
 		});
 	}
 
