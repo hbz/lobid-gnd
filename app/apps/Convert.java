@@ -142,6 +142,7 @@ public class Convert {
 		String gnd = "http://d-nb.info/standards/elementset/gnd#";
 		String collection = "http://d-nb.info/standards/elementset/dnb#isDescribedIn";
 		String deprecatedUri = "http://d-nb.info/standards/elementset/dnb#deprecatedUri";
+		String describedBy = "http://www.w3.org/2007/05/powder-s#describedby";
 		Set<Statement> toRemove = new HashSet<>();
 		Set<Statement> toAdd = new HashSet<>();
 		model.listStatements().forEachRemaining(statement -> {
@@ -162,7 +163,7 @@ public class Convert {
 								model.createProperty(collection), model.createResource(collectionId(o.toString())));
 						toAdd.add(collectionStatement);
 						toAdd.addAll(collectionDetails(o.toString(), model));
-					} else {
+					} else if (!p.equals(describedBy)) {
 						// Add `label` statement for any link
 						// See https://github.com/hbz/lobid-gnd/issues/85
 						// See https://github.com/hbz/lobid-gnd/issues/24

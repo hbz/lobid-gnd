@@ -22,17 +22,23 @@ h2. Data
 
 h3. Baseline
 
-Get the GND RDF/XML source data:
+Get the GND RDF/XML source data (for the @2018_10@ release here, find current at "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/):
 
-@wget -O GND.rdf.gz http://datendienst.dnb.de/cgi-bin/mabit.pl?cmd=fetch&userID=opendata&pass=opendata&mabheft=GND.rdf.gz@
+@cd GND ; wget https://data.dnb.de/opendata/T{b,f,g,n,p,s,u}gesamt2018_10gnd.rdf.gz@
 
-@gunzip GND.rdf.gz@
+This should give you 7 local files ending with '.rdf.gz'. You can configure locations in 'conf/application.conf'.
 
-This should give you a local file called 'GND.rdf'. You can configure file names in 'conf/application.conf'.
+Go back to the project root directory:
+
+@cd ..@
 
 Convert the data to JSON-LD lines, the index data format:
 
 @sbt "runMain apps.ConvertBaseline"@
+
+To be able to log out from the server while the conversion is running, we actually use:
+
+@setsid nohup sbt "runMain apps.ConvertBaseline" &@
 
 With the default 'conf/application.conf' this should give you a local file called 'GND.jsonl'.
 
@@ -55,6 +61,8 @@ In 'lobid-gnd', run the web application:
 Open "http://localhost:9000/gnd":http://localhost:9000/gnd
 
 If the index configured in @application.conf@ does not exists, indexing will happen automatically on the first startup.
+
+To re-index, set up a new @index.name@ in @application.conf@.
 
 h2. Eclipse
 

@@ -16,6 +16,8 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +30,11 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
@@ -39,16 +45,28 @@ import com.google.common.collect.ImmutableMap;
 
 import play.libs.Json;
 
+@RunWith(Parameterized.class)
 public class ConvertTest {
 
-	@Test
+	@Parameters(name = "{0}")
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][] { { "test/GND.rdf" }, { "test/GND" } });
+	}
+
+	private String data;
+
+	public ConvertTest(String data) {
+		this.data = data;
+	}
+
+	@Before
 	public void testConvertBaseline() {
 		String output = "test/GND.jsonl";
 		File file = new File(output);
 		if (file.exists()) {
 			file.delete();
 		}
-		ConvertBaseline.main(new String[] { "test/GND.rdf", output });
+		ConvertBaseline.main(new String[] { data, output });
 		assertTrue("Output should exist", file.exists());
 	}
 
