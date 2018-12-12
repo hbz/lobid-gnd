@@ -24,7 +24,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.admin.indices.settings.put.UpdateSettingsResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
@@ -146,19 +145,11 @@ class ElasticsearchServer implements IndexComponent {
 		}
 	}
 
-	static void deleteIndex(final Client client, final String index) {
-		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
-		if (indexExists(client, index)) {
-			client.admin().indices().delete(new DeleteIndexRequest(index)).actionGet();
-		}
-	}
-
-	private static boolean indexExists(final Client client, final String index) {
+	static boolean indexExists(final Client client, final String index) {
 		return client.admin().indices().prepareExists(index).execute().actionGet().isExists();
 	}
 
 	static void createEmptyIndex(final Client client, final String index, final String mappings) throws IOException {
-		deleteIndex(client, index);
 		CreateIndexRequestBuilder cirb = client.admin().indices().prepareCreate(index);
 		cirb.setSettings(Settings.builder()
 				// bulk indexing only
