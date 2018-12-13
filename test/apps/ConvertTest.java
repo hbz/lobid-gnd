@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -50,24 +49,22 @@ public class ConvertTest {
 
 	@Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][] { { "test/GND.rdf" }, { "test/GND" } });
+		return Arrays.asList(new Object[][] { //
+				{ "test/data/GND.rdf", "test/data" }, //
+				{ "test/data/input", "test/data/index" } });
 	}
 
-	private String data;
+	private String input;
+	private String index;
 
-	public ConvertTest(String data) {
-		this.data = data;
+	public ConvertTest(String input, String index) {
+		this.input = input;
+		this.index = index;
 	}
 
 	@Before
 	public void testConvertBaseline() {
-		String output = "test/GND.jsonl";
-		File file = new File(output);
-		if (file.exists()) {
-			file.delete();
-		}
-		ConvertBaseline.main(new String[] { data, output });
-		assertTrue("Output should exist", file.exists());
+		ConvertBaseline.main(new String[] { input, index });
 	}
 
 	@Test

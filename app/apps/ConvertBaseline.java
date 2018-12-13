@@ -25,11 +25,11 @@ public class ConvertBaseline {
 
 	public static void main(String[] args) {
 		if (args.length == 2 || args.length == 0) {
-			File f = new File(args.length == 2 ? args[0] : config("data.rdfxml"));
-			List<String> input = f.isDirectory()
-					? Arrays.asList(f.listFiles()).stream().map(File::getAbsolutePath).collect(Collectors.toList())
-					: Arrays.asList(f.getAbsolutePath());
-			String output = args.length == 2 ? args[1] : config("data.jsonlines");
+			File inFile = new File(args.length == 2 ? args[0] : config("data.rdfxml"));
+			List<String> input = inFile.isDirectory()
+					? Arrays.asList(inFile.listFiles()).stream().map(File::getAbsolutePath).collect(Collectors.toList())
+					: Arrays.asList(inFile.getAbsolutePath());
+			File outFile = new File(args.length == 2 ? args[1] : config("data.jsonlines"));
 			XmlElementSplitter splitter = new XmlElementSplitter();
 			splitter.setElementName("Description");
 			splitter.setTopLevelElement("rdf:RDF");
@@ -39,7 +39,8 @@ public class ConvertBaseline {
 			new File(config("index.delete")).delete();
 			for (String file : input) {
 				FileOpener opener = new FileOpener();
-				final ObjectWriter<String> writer = new ObjectWriter<>(output);
+				File out = new File(outFile, new File(file).getName() + ".jsonl");
+				final ObjectWriter<String> writer = new ObjectWriter<>(out.getAbsolutePath());
 				opener//
 						.setReceiver(new XmlDecoder())//
 						.setReceiver(splitter)//
@@ -48,6 +49,7 @@ public class ConvertBaseline {
 						.setReceiver(writer);
 				opener.process(file);
 				opener.closeStream();
+				writer.closeStream();
 			}
 			try (PrintWriter pw = new PrintWriter(new FileOutputStream(HomeController.config("index.delete"), true))) {
 				encodeJson.deprecated.forEach(id -> pw.println(id));

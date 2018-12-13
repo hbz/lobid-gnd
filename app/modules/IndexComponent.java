@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.admin.indices.settings.put.UpdateSettingsResponse;
@@ -169,9 +170,11 @@ class ElasticsearchServer implements IndexComponent {
 		// Set number_of_replicas to 0 for faster indexing. See:
 		// https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
 		updateSettings(client, index, Settings.builder().put("index.number_of_replicas", 0));
-		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8))) {
-			bulkIndex(br, client, index);
+		for (String p : new File(path).list(new SuffixFileFilter("jsonl"))) {
+			try (BufferedReader br = new BufferedReader(
+					new InputStreamReader(new FileInputStream(new File(path, p)), StandardCharsets.UTF_8))) {
+				bulkIndex(br, client, index);
+			}
 		}
 		updateSettings(client, index, Settings.builder().put("index.number_of_replicas", 1));
 		client.admin().indices().refresh(new RefreshRequest()).actionGet();

@@ -40,7 +40,7 @@ public class IndexTest {
 	private static final boolean USE_LOCALHOST_CONTEXT_URL = false;
 	protected static final File[] TTL_TEST_FILES = new File("test/ttl").listFiles();
 	protected static final File[] EF_TEST_FILES = new File("test/entityfacts").listFiles();
-	protected static final String PATH = "GND.jsonl";
+	protected static final String PATH = HomeController.config("data.jsonlines") + "/GND.jsonl";
 
 	protected static IndexComponent index;
 

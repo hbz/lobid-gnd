@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:schema="http://schema.org/"
+	xmlns:gndo="http://d-nb.info/standards/elementset/gnd#"
+	xmlns:lib="http://purl.org/library/"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:editeur="https://ns.editeur.org/thema/"
+	xmlns:geo="http://www.opengis.net/ont/geosparql#"
+	xmlns:umbel="http://umbel.org/umbel#"
+	xmlns:rdau="http://rdaregistry.info/Elements/u/"
+	xmlns:sf="http://www.opengis.net/ont/sf#"
+	xmlns:bflc="http://id.loc.gov/ontologies/bflc/"
+	xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:vivo="http://vivoweb.org/ontology/core#"
+	xmlns:isbd="http://iflastandards.info/ns/isbd/elements/"
+	xmlns:foaf="http://xmlns.com/foaf/0.1/"
+	xmlns:mo="http://purl.org/ontology/mo/"
+	xmlns:marcRole="http://id.loc.gov/vocabulary/relators/"
+	xmlns:dnba="http://d-nb.info/standards/elementset/agrelon#"
+	xmlns:dcmitype="http://purl.org/dc/dcmitype/"
+	xmlns:dbp="http://dbpedia.org/property/"
+	xmlns:dnbt="http://d-nb.info/standards/elementset/dnb#"
+	xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#"
+	xmlns:dnb_intern="http://dnb.de/"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:v="http://www.w3.org/2006/vcard/ns#"
+	xmlns:wdrs="http://www.w3.org/2007/05/powder-s#"
+	xmlns:ebu="http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#"
+	xmlns:bibo="http://purl.org/ontology/bibo/"
+	xmlns:gbv="http://purl.org/ontology/gbv/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description rdf:about="http://d-nb.info/gnd/100019552">
+	<wdrs:describedby>
+		<rdf:Description rdf:about="http://d-nb.info/gnd/100019552/about">
+			<dcterms:license rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/"/>
+			<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2015-11-02T15:23:38.000</dcterms:modified>
+		</rdf:Description>
+	</wdrs:describedby>
+	<rdf:type rdf:resource="http://d-nb.info/standards/elementset/gnd#DifferentiatedPerson"/>
+	<gndo:gndIdentifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">100019552</gndo:gndIdentifier>
+	<foaf:page rdf:resource="https://de.wikipedia.org/wiki/Johann_Andreas_Frommann"/>
+	<owl:sameAs rdf:resource="http://viaf.org/viaf/34793356"/>
+	<gndo:oldAuthorityNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(DE-588)1050472748</gndo:oldAuthorityNumber>
+	<owl:sameAs rdf:resource="http://d-nb.info/gnd/1050472748"/>
+	<dnbt:deprecatedUri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://d-nb.info/gnd/1050472748</dnbt:deprecatedUri>
+	<gndo:oldAuthorityNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(DE-588)1032153881</gndo:oldAuthorityNumber>
+	<owl:sameAs rdf:resource="http://d-nb.info/gnd/1032153881"/>
+	<dnbt:deprecatedUri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://d-nb.info/gnd/1032153881</dnbt:deprecatedUri>
+	<gndo:oldAuthorityNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(DE-588a)100019552</gndo:oldAuthorityNumber>
+	<gndo:oldAuthorityNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(DE-588c)4709301-8</gndo:oldAuthorityNumber>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fromann, Johann Andreas</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291889">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Johann Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fromann</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fromann, Johann Andreas, sen.</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291890">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Johann Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fromann</gndo:surname>
+			<gndo:nameAddition rdf:datatype="http://www.w3.org/2001/XMLSchema#string">sen.</gndo:nameAddition>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fromman, Johann Andreas</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291891">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Johann Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fromman</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fromman, Johannes Andreas</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291892">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Johannes Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fromman</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann, Joh. Andr.</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291893">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Joh. Andr.</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann, Joh. Andreas</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291894">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Joh. Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann, Johann A.</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291895">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Johann A.</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann, Johan-Andreas</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291896">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Johan-Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann, Johann-Andreas</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291897">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Johann-Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann, Johannes Andreas</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291898">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Johannes Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann, Joannes Andreas</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291899">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Joannes Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann, Joh-Andreas</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291900">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Joh-Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommannus, Johannes Andreas</gndo:variantNameForThePerson>
+	<gndo:variantNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291901">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Johannes Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommannus</gndo:surname>
+		</rdf:Description>
+	</gndo:variantNameEntityForThePerson>
+	<gndo:preferredNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann, Johann Andreas</gndo:preferredNameForThePerson>
+	<gndo:preferredNameEntityForThePerson>
+		<rdf:Description rdf:nodeID="node1cujlidknx291902">
+			<gndo:forename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Johann Andreas</gndo:forename>
+			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frommann</gndo:surname>
+		</rdf:Description>
+	</gndo:preferredNameEntityForThePerson>
+	<gndo:familialRelationship rdf:resource="http://d-nb.info/gnd/104156058"/>
+	<gndo:familialRelationship rdf:resource="http://d-nb.info/gnd/13172293X"/>
+	<dnba:hasChild rdf:resource="http://d-nb.info/gnd/13172293X"/>
+	<gndo:familialRelationship rdf:resource="http://d-nb.info/gnd/131890476"/>
+	<dnba:hasChild rdf:resource="http://d-nb.info/gnd/131890476"/>
+	<gndo:familialRelationship rdf:resource="http://d-nb.info/gnd/122499689"/>
+	<gndo:affiliationAsLiteral rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Universität Tübingen</gndo:affiliationAsLiteral>
+	<gndo:academicDegree rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Doktor</gndo:academicDegree>
+	<gndo:professionOrOccupation rdf:resource="http://d-nb.info/gnd/4029050-5"/>
+	<gndo:professionOrOccupation rdf:resource="http://d-nb.info/gnd/4025243-7"/>
+	<gndo:gndSubjectCategory rdf:resource="http://d-nb.info/standards/vocab/gnd/gnd-sc#7.14p"/>
+	<gndo:geographicAreaCode rdf:resource="http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DE"/>
+	<gndo:publication rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Wurmser, Johann: Problemata canonica, ex materia iudic. citat. ... - 1653</gndo:publication>
+	<gndo:publication rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hypotyposis iuris furiosorum singularis. - 1655</gndo:publication>
+	<gndo:publication rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Disputatio inauguralis de senatusconsulto Macedoniano. - 1668</gndo:publication>
+	<gndo:placeOfBirth rdf:resource="http://d-nb.info/gnd/4010325-0"/>
+	<gndo:placeOfDeath rdf:resource="http://d-nb.info/gnd/4061147-4"/>
+	<gndo:placeOfActivity rdf:resource="http://d-nb.info/gnd/4001388-1"/>
+	<gndo:placeOfActivity rdf:resource="http://d-nb.info/gnd/4057878-1"/>
+	<gndo:placeOfActivity rdf:resource="http://d-nb.info/gnd/4061147-4"/>
+	<gndo:gender rdf:resource="http://d-nb.info/standards/vocab/gnd/gender#male"/>
+	<gndo:dateOfBirth rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1626-09-02</gndo:dateOfBirth>
+	<gndo:dateOfDeath rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1690-02-07</gndo:dateOfDeath>
+</rdf:Description>
+
+</rdf:RDF>
