@@ -50,7 +50,7 @@ public class ConvertTest {
 	@Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] { //
-				{ "test/data/GND.rdf", "test/data" }, //
+				{ "test/data/GND.rdf", "test/data/GND.jsonl" }, //
 				{ "test/data/input", "test/data/index" } });
 	}
 

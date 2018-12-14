@@ -39,7 +39,7 @@ public class ConvertBaseline {
 			new File(config("index.delete")).delete();
 			for (String file : input) {
 				FileOpener opener = new FileOpener();
-				File out = new File(outFile, new File(file).getName() + ".jsonl");
+				File out = outFile.isDirectory() ? new File(outFile, new File(file).getName() + ".jsonl") : outFile;
 				final ObjectWriter<String> writer = new ObjectWriter<>(out.getAbsolutePath());
 				opener//
 						.setReceiver(new XmlDecoder())//
