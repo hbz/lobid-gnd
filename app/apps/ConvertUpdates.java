@@ -33,11 +33,9 @@ public class ConvertUpdates {
 	public static void main(String[] args) throws IOException {
 		if (args.length == 1 || args.length == 2) {
 			Pair<String, String> startAndEnd = getUpdates(args[0], args.length == 2 ? args[1] : null);
-			String start = startAndEnd.getLeft();
-			String end = startAndEnd.getRight();
-			backup(new File(config("data.updates.rdf")), new File(config("data.rdfxml")), start, end);
+			backup(new File(config("data.updates.rdf")), startAndEnd.getLeft(), startAndEnd.getRight());
 			ConvertBaseline.main(new String[] { config("data.updates.rdf"), config("data.updates.data") });
-			backup(new File(config("data.updates.data")), new File(config("data.jsonlines")), start, end);
+			backup(new File(config("data.updates.data")), startAndEnd.getLeft(), startAndEnd.getRight());
 		} else {
 			System.err.println(
 					"Pass either one argument, the start date for getting updates, or two, the start and the end date.");
@@ -122,10 +120,10 @@ public class ConvertUpdates {
 		}
 	}
 
-	private static void backup(File source, File folder, String start, String end) throws IOException {
+	private static void backup(File source, String start, String end) throws IOException {
 		String name = source.getName();
-		File target = new File(folder, String.format("%s_%s_%s%s", name.substring(0, name.lastIndexOf('.')), start, end,
-				name.substring(name.lastIndexOf('.'))));
+		File target = new File(new File(config("data.backup")), String.format("%s_%s_%s%s",
+				name.substring(0, name.lastIndexOf('.')), start, end, name.substring(name.lastIndexOf('.'))));
 		Files.copy(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
 
