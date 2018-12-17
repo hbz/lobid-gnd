@@ -7,6 +7,7 @@ import static controllers.HomeController.config;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -170,9 +171,11 @@ class ElasticsearchServer implements IndexComponent {
 		// Set number_of_replicas to 0 for faster indexing. See:
 		// https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
 		updateSettings(client, index, Settings.builder().put("index.number_of_replicas", 0));
-		for (String p : new File(path).list(new SuffixFileFilter("jsonl"))) {
+		File file = new File(path);
+		FileFilter fileFilter = new SuffixFileFilter("jsonl");
+		for (File f : file.isDirectory() ? file.listFiles(fileFilter) : new File[] { file }) {
 			try (BufferedReader br = new BufferedReader(
-					new InputStreamReader(new FileInputStream(new File(path, p)), StandardCharsets.UTF_8))) {
+					new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))) {
 				bulkIndex(br, client, index);
 			}
 		}
