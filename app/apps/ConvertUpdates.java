@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +21,7 @@ import java.time.temporal.ChronoUnit;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.joox.JOOX;
 import org.joox.Match;
 import org.xml.sax.SAXException;
@@ -27,17 +30,19 @@ import ORG.oclc.oai.harvester2.app.RawWrite;
 
 public class ConvertUpdates {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		if (args.length == 1 || args.length == 2) {
-			getUpdates(args[0], args.length == 2 ? args[1] : null);
+			Pair<String, String> startAndEnd = getUpdates(args[0], args.length == 2 ? args[1] : null);
+			backup(new File(config("data.updates.rdf")), startAndEnd.getLeft(), startAndEnd.getRight());
 			ConvertBaseline.main(new String[] { config("data.updates.rdf"), config("data.updates.data") });
+			backup(new File(config("data.updates.data")), startAndEnd.getLeft(), startAndEnd.getRight());
 		} else {
 			System.err.println(
 					"Pass either one argument, the start date for getting updates, or two, the start and the end date.");
 		}
 	}
 
-	private static void getUpdates(String startOfUpdates, String endOfUpdates) {
+	private static Pair<String, String> getUpdates(String startOfUpdates, String endOfUpdates) {
 		int intervalSize = Convert.CONFIG.getInt("data.updates.interval");
 		String start = startOfUpdates;
 		String end = endOfUpdates == null ? addDays(start, intervalSize) : endOfUpdates;
@@ -71,6 +76,7 @@ public class ConvertUpdates {
 					+ "xmlns:skos=\"http://www.w3.org/2004/02/skos/core#\" "//
 					+ "xmlns:umbel=\"http://umbel.org/umbel#\" "//
 					+ "xmlns:v=\"http://www.w3.org/2006/vcard/ns#\" "//
+					+ "xmlns:wdrs=\"http://www.w3.org/2007/05/powder-s#\" "//
 					+ "xmlns:vivo=\"http://vivoweb.org/ontology/core#\">");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -93,6 +99,7 @@ public class ConvertUpdates {
 			e.printStackTrace();
 		}
 		writeLastSuccessfulUpdate(end);
+		return Pair.of(startOfUpdates, end);
 	}
 
 	public static void process(final String baseUrl, String from, String until, File result)
@@ -111,6 +118,13 @@ public class ConvertUpdates {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static void backup(File source, String start, String end) throws IOException {
+		String name = source.getName();
+		File target = new File(new File(config("data.backup")), String.format("%s_%s_%s%s",
+				name.substring(0, name.lastIndexOf('.')), start, end, name.substring(name.lastIndexOf('.'))));
+		Files.copy(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	private static String addDays(String start, int intervalSize) {

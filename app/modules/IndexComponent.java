@@ -7,6 +7,7 @@ import static controllers.HomeController.config;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,8 +24,8 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.admin.indices.settings.put.UpdateSettingsResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
@@ -146,19 +147,11 @@ class ElasticsearchServer implements IndexComponent {
 		}
 	}
 
-	static void deleteIndex(final Client client, final String index) {
-		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
-		if (indexExists(client, index)) {
-			client.admin().indices().delete(new DeleteIndexRequest(index)).actionGet();
-		}
-	}
-
-	private static boolean indexExists(final Client client, final String index) {
+	static boolean indexExists(final Client client, final String index) {
 		return client.admin().indices().prepareExists(index).execute().actionGet().isExists();
 	}
 
 	static void createEmptyIndex(final Client client, final String index, final String mappings) throws IOException {
-		deleteIndex(client, index);
 		CreateIndexRequestBuilder cirb = client.admin().indices().prepareCreate(index);
 		cirb.setSettings(Settings.builder()
 				// bulk indexing only
@@ -178,9 +171,13 @@ class ElasticsearchServer implements IndexComponent {
 		// Set number_of_replicas to 0 for faster indexing. See:
 		// https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
 		updateSettings(client, index, Settings.builder().put("index.number_of_replicas", 0));
-		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8))) {
-			bulkIndex(br, client, index);
+		File file = new File(path);
+		FileFilter fileFilter = new SuffixFileFilter("jsonl");
+		for (File f : file.isDirectory() ? file.listFiles(fileFilter) : new File[] { file }) {
+			try (BufferedReader br = new BufferedReader(
+					new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))) {
+				bulkIndex(br, client, index);
+			}
 		}
 		updateSettings(client, index, Settings.builder().put("index.number_of_replicas", 1));
 		client.admin().indices().refresh(new RefreshRequest()).actionGet();
