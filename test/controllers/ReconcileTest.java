@@ -41,6 +41,18 @@ public class ReconcileTest extends IndexTest {
 			assertNotNull(Json.parse(contentAsString(result)));
 			assertThat(contentAsString(result), containsString("https:"));
 			assertThat(contentAsString(result), not(containsString("http:")));
+			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
+		});
+	}
+
+	@Test
+	public void reconcilePropertiesRequest() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			Result result = route(application, fakeRequest(GET, "/gnd/reconcile/properties"));
+			assertNotNull(result);
+			assertThat(result.contentType().get(), is(equalTo("application/json")));
+			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
 		});
 	}
 
@@ -67,6 +79,7 @@ public class ReconcileTest extends IndexTest {
 			assertThat(content, containsString("q99"));
 			assertThat(content, containsString("\"match\":false"));
 			assertThat(content, containsString("\"match\":true"));
+			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
 		});
 	}
 
