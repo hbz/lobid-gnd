@@ -97,6 +97,7 @@ public class Reconcile extends Controller {
 				"propose_properties", Json.newObject()//
 						.put("service_url", host)//
 						.put("service_path", routes.Reconcile.properties("", "", "").toString()))));
+		response().setHeader("Access-Control-Allow-Origin", "*");
 		return callback.isEmpty() ? ok(result)
 				: ok(String.format("/**/%s(%s);", callback, result.toString())).as("application/json");
 	}
@@ -117,6 +118,7 @@ public class Reconcile extends Controller {
 		JsonNode response = (limit.isEmpty() ? Json.newObject() : Json.newObject().put("limit", L))//
 				.put("type", type)//
 				.set("properties", Json.toJson(properties));
+		response().setHeader("Access-Control-Allow-Origin", "*");
 		return callback.isEmpty() ? ok(response)
 				: ok(String.format("/**/%s(%s);", callback, response.toString())).as("application/json");
 	}
@@ -124,6 +126,7 @@ public class Reconcile extends Controller {
 	/** @return Reconciliation data for the queries in the request */
 	public Result reconcile() {
 		Map<String, String[]> body = request().body().asFormUrlEncoded();
+		response().setHeader("Access-Control-Allow-Origin", "*");
 		return body.containsKey("extend") ? extend(body.get("extend")[0]) : queries(body.get("queries")[0]);
 	}
 
