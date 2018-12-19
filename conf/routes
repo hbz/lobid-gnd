@@ -19,7 +19,7 @@ GET     /gnd/context.jsonld controllers.HomeController.context()
 GET     /gnd/dataset.jsonld controllers.HomeController.dataset(format="json")
 GET     /gnd/dataset        controllers.HomeController.dataset(format?="")
 
-GET     /gnd/search         controllers.HomeController.search(q ?= "", filter ?= "", from: Int ?= 0, size: Int ?= 10, format ?= null)
+GET     /gnd/search         controllers.HomeController.search(q ?= "", filter ?= "", sort ?= "", from: Int ?= 0, size: Int ?= 10, format ?= null)
 
 GET     /gnd/:id.:format    controllers.HomeController.authorityDotFormat(id, format)
 

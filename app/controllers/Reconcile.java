@@ -262,7 +262,7 @@ public class Reconcile extends Controller {
 		int limit = limitNode == null ? -1 : limitNode.asInt();
 		JsonNode typeNode = entry.getValue().get("type");
 		String filter = typeNode == null ? "" : "type:" + typeNode.asText();
-		return index.query(queryString, filter, 0, limit);
+		return index.query(queryString, filter, "", 0, limit);
 	}
 
 	private String buildQueryString(Entry<String, JsonNode> entry) {

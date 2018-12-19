@@ -169,7 +169,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	public Result authority(String id, String format) {
 		SearchHits hits = index
-				.query(String.format("deprecatedUri:\"%s%s\"", AuthorityResource.DNB_PREFIX, id), "", 0, 1).getHits();
+				.query(String.format("deprecatedUri:\"%s%s\"", AuthorityResource.DNB_PREFIX, id), "", "", 0, 1)
+				.getHits();
 		if (hits.getTotalHits() > 0 && !hits.getAt(0).getId().equals(id)) {
 			return movedPermanently(controllers.routes.HomeController.authority(hits.getAt(0).getId(), format));
 		}
@@ -215,7 +216,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	private List<String> creatorOf(String id) {
 		String q = String.format("firstAuthor:\"%s\" OR firstComposer:\"%s\"", id, id);
-		SearchResponse response = index.query(q, "", 0, 1000);
+		SearchResponse response = index.query(q, "", "", 0, 1000);
 		Stream<String> ids = Arrays.asList(response.getHits().getHits()).stream()
 				.map(hit -> AuthorityResource.DNB_PREFIX + hit.getId());
 		return ids.collect(Collectors.toList());
@@ -295,7 +296,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
 	}
 
-	public Result search(String q, String filter, int from, int size, String format) {
+	public Result search(String q, String filter, String sort, int from, int size, String format) {
 		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		if (responseFormat == null || Stream.of(RdfFormat.values()).map(RdfFormat::getParam)
 				.anyMatch(f -> f.equals(responseFormat.queryParamString))) {
@@ -304,7 +305,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		}
 		String queryString = (q == null || q.isEmpty()) ? "*" : q;
 		try {
-			SearchResponse response = index.query(queryString, filter, from, size);
+			SearchResponse response = index.query(queryString, filter, sort, from, size);
 			response().setHeader("Access-Control-Allow-Origin", "*");
 			String[] formatAndConfig = format == null ? new String[] {} : format.split(":");
 			boolean returnSuggestions = formatAndConfig.length == 2;
