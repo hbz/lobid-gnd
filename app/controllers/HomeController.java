@@ -141,14 +141,14 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	public Result api() {
 		String format = "json";
 		ImmutableMap<String, String> searchSamples = ImmutableMap.of(//
-				"Alles", controllers.routes.HomeController.search("*", "", 0, 10, format).toString(), //
-				"Alle Felder", controllers.routes.HomeController.search("london", "", 0, 10, format).toString(), //
+				"Alles", controllers.routes.HomeController.search("*", "", "", 0, 10, format).toString(), //
+				"Alle Felder", controllers.routes.HomeController.search("london", "", "", 0, 10, format).toString(), //
 				"Feldsuche",
-				controllers.routes.HomeController.search("preferredName:Twain", "", 0, 10, format).toString(), //
+				controllers.routes.HomeController.search("preferredName:Twain", "", "", 0, 10, format).toString(), //
 				"Filter",
-				controllers.routes.HomeController.search("preferredName:Twain", "type:Person", 0, 10, format)
+				controllers.routes.HomeController.search("preferredName:Twain", "type:Person", "", 0, 10, format)
 						.toString(), //
-				"Paginierung", controllers.routes.HomeController.search("london", "", 50, 100, format).toString());
+				"Paginierung", controllers.routes.HomeController.search("london", "", "", 50, 100, format).toString());
 		ImmutableMap<String, String> getSamples = ImmutableMap.of(//
 				"London", controllers.routes.HomeController.authorityDotFormat("4074335-4", "json").toString(), //
 				"hbz", controllers.routes.HomeController.authorityDotFormat("2047974-8", "json").toString(), //

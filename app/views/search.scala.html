@@ -10,17 +10,17 @@
   <nav>
     <ul class="pagination">
       <li class="previous @if(from==0){disabled}">
-        <a href="@if(from==0){#} else {@routes.HomeController.search(q,f,from-size,size,"html")}">&larr;</a>
+        <a href="@if(from==0){#} else {@routes.HomeController.search(q,f,"",from-size,size,"html")}">&larr;</a>
       </li>
       @defining((((from+1)/size)+1,(if(allHits%size==0) allHits/size else allHits/size+1).toInt)) { case (currentPage,lastPage) =>
           @defining(Math.min(Math.max(1,currentPage-4)+9,lastPage)) { toPage =>
               @for(i <- Math.max(1,toPage-9) to toPage){
-                  <li @if(currentPage==i){class="active"}><a href="@routes.HomeController.search(q,f,(i*size)-size,size,"html")">@i</a></li>
+                  <li @if(currentPage==i){class="active"}><a href="@routes.HomeController.search(q,f,"",(i*size)-size,size,"html")">@i</a></li>
               }
           }
       }
       <li class="next @if(from+size >= allHits){disabled}">
-        <a href="@if(from+size >= allHits){#} else {@routes.HomeController.search(q,f,from+size,size,"html")}">&rarr;</a>
+        <a href="@if(from+size >= allHits){#} else {@routes.HomeController.search(q,f,"",from+size,size,"html")}">&rarr;</a>
       </li>
     </ul>
   </nav>
@@ -28,7 +28,7 @@
 
 @pageLink(num: Int)={
 <li @if(size==num){class="active"}>
-  <a href="@routes.HomeController.search(q,f,from,num,"html")">@num</a>
+  <a href="@routes.HomeController.search(q,f,"",from,num,"html")">@num</a>
 </li>
 }
 
