@@ -32,4 +32,10 @@ libraryDependencies += "org.jooq" % "joox-java-6" % "1.6.0"
 
 libraryDependencies += "log4j" % "log4j" % "1.2.17"
 
+libraryDependencies += "org.dspace" % "xoai-common" % "4.2.0"
+
+libraryDependencies += "org.dspace" % "xoai-service-provider" % "4.2.0"
+
+libraryDependencies += "org.dspace" % "xoai-data-provider" % "4.2.0"
+
 resolvers += Resolver.mavenLocal

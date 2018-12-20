@@ -107,6 +107,7 @@ public class ConvertUpdates {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		RawWrite.run(baseUrl, from, until, "RDFxml", "authorities", stream);
 		Match m = JOOX.$(new InputStreamReader(new ByteArrayInputStream(stream.toByteArray()), StandardCharsets.UTF_8));
+		m.write(new FileWriter("oai-pmh.xml", true));
 		m.find("Description").write(new FileWriter(result, true));
 	}
 
