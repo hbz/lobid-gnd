@@ -835,8 +835,8 @@
          "@type":"@id",
          "@container":"@set"
       },
-      "relatedSubjecHeading":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedSubjecHeading",
+      "relatedSubjectHeading":{
+         "@id":"http://d-nb.info/standards/elementset/gnd#relatedSubjectHeading",
          "@type":"@id",
          "@container":"@set"
       },
