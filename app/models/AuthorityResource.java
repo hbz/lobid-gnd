@@ -333,7 +333,7 @@ public class AuthorityResource {
 				.collect(Collectors.toList());
 		List<String> typeLinks = (subTypes.isEmpty() ? getType() : subTypes).stream()
 				.map(t -> String.format("<a href='%s'>%s</a>",
-						controllers.routes.HomeController.search("", "+(type:" + t + ")", 0, 10, "").toString(),
+						controllers.routes.HomeController.search("", "+(type:" + t + ")", "", 0, 10, "").toString(),
 						models.GndOntology.label(t)))
 				.collect(Collectors.toList());
 		return typeLinks;
@@ -370,10 +370,12 @@ public class AuthorityResource {
 		} else if (Arrays.asList("wikipedia", "sameAs", "depiction", "homepage").contains(field)) {
 			result = String.format("<a href='%s'>%s</a>", value, value);
 		} else if (value.startsWith("http")) {
-			String link = value.startsWith(DNB_PREFIX) ? controllers.routes.HomeController
-					.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html").toString() : value;
-			String search = controllers.routes.HomeController.search(field + ".id:\"" + value + "\"", "", 0, 10, "html")
-					.toString();
+			String link = value.startsWith(DNB_PREFIX)
+					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
+							.toString()
+					: value;
+			String search = controllers.routes.HomeController
+					.search(field + ".id:\"" + value + "\"", "", "", 0, 10, "html").toString();
 			String entityLink = String.format(
 					"<a id='%s-%s' title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>%s</a>", //
 					field, i, label, link, label);

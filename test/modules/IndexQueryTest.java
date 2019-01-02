@@ -123,6 +123,19 @@ public class IndexQueryTest extends IndexTest {
 		Assert.assertEquals(1, index.query("namenlosen").getHits().getTotalHits());
 	}
 
+	@Test
+	public void testSort() {
+		Assert.assertEquals("Abudacnus, Josephus", first("id").preferredName);
+		Assert.assertEquals("Aachen", first("preferredName.keyword").preferredName);
+		Assert.assertEquals("Aachen", first("preferredName.keyword:asc").preferredName);
+		Assert.assertNotEquals("Aachen", first("preferredName.keyword:desc").preferredName);
+	}
+
+	private AuthorityResource first(String sort) {
+		return new AuthorityResource(
+				Json.parse(index.query("*", "", sort, 0, 10).getHits().getHits()[0].getSourceAsString()));
+	}
+
 	@Test(expected = SearchPhaseExecutionException.class)
 	public void testInvalidQuery() {
 		index.query("++test");

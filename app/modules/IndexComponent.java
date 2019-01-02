@@ -46,6 +46,9 @@ import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -59,12 +62,12 @@ import play.mvc.Http.Status;
 public interface IndexComponent {
 	Client client();
 
-	SearchResponse query(String q, String filter, int from, int size);
+	SearchResponse query(String q, String filter, String sort, int from, int size);
 
 	QueryStringQueryBuilder queryStringQuery(String q);
 
 	public default SearchResponse query(String q) {
-		return query(q, "", 0, 10);
+		return query(q, "", "", 0, 10);
 	}
 
 	void startup();
@@ -243,7 +246,7 @@ class ElasticsearchServer implements IndexComponent {
 	}
 
 	@Override
-	public SearchResponse query(String q, String filter, int from, int size) {
+	public SearchResponse query(String q, String filter, String sort, int from, int size) {
 		QueryStringQueryBuilder positive = queryStringQuery(q).field("_all").field("preferredName.ngrams")
 				.field("variantName.ngrams").field("preferredName", 2f).field("variantName", 1f)
 				.field("gndIdentifier", 2f);
@@ -255,6 +258,12 @@ class ElasticsearchServer implements IndexComponent {
 		}
 		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name")).setQuery(query).setFrom(from)
 				.setSize(size);
+		if (!sort.isEmpty()) {
+			String[] fieldAndOrder = sort.split(":");
+			FieldSortBuilder fieldSort = SortBuilders.fieldSort(fieldAndOrder[0]);
+			requestBuilder.addSort(
+					fieldAndOrder.length == 2 ? fieldSort.order(SortOrder.fromString(fieldAndOrder[1])) : fieldSort);
+		}
 		for (String a : HomeController.AGGREGATIONS) {
 			requestBuilder.addAggregation(AggregationBuilders.terms(a).field(a).size(1000));
 		}

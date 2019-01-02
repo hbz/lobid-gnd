@@ -103,6 +103,9 @@
 							"type": "text",
 							"analyzer": "autocomplete",
 							"search_analyzer": "default"
+						},
+						"keyword": {
+							"type": "keyword"
 						}
 					}
 				}, 
@@ -113,6 +116,9 @@
 							"type": "text",
 							"analyzer": "autocomplete",
 							"search_analyzer": "default"
+						},
+						"keyword": {
+							"type": "keyword"
 						}
 					}
 				}
