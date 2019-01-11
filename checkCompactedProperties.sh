@@ -30,7 +30,7 @@ fi
 
 echo "there are uncompacted fields: $MESSAGE"
 
-mail -s "Alert GND: found not compacted field(s)!" "$RECIPIENT@hbz-nrw.de" -a "From: sol@quaoar1" << EOF
+mail -s "Alert GND: found not compacted field(s)!" "$RECIPIENT@hbz-nrw.de" << EOF
 $MESSAGE
 EOF
 exit 1
