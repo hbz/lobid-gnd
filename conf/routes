@@ -3,6 +3,8 @@
 # ~~~~
 
 # Handle trailing slashes
+GET     /gnd/reconcile/     controllers.Reconcile.meta(callback ?= "")
+POST    /gnd/reconcile/     controllers.Reconcile.reconcile()
 GET     /*path/             controllers.HomeController.redirectSlash(path: String)
 
 #OpenRefine reconciliation endpoint
