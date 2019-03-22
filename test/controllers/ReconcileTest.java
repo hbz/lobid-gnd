@@ -34,9 +34,18 @@ public class ReconcileTest extends IndexTest {
 
 	@Test
 	public void reconcileMetadataRequestNoCallback() {
+		metadataRequest("/gnd/reconcile");
+	}
+
+	@Test
+	public void reconcileMetadataRequestNoCallbackTrailingSlash() {
+		metadataRequest("/gnd/reconcile/");
+	}
+
+	private void metadataRequest(String uri) {
 		Application application = fakeApplication();
 		running(application, () -> {
-			Result result = route(application, fakeRequest(GET, "/gnd/reconcile"));
+			Result result = route(application, fakeRequest(GET, uri));
 			assertNotNull(result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			assertNotNull(Json.parse(contentAsString(result)));
@@ -59,9 +68,18 @@ public class ReconcileTest extends IndexTest {
 
 	@Test
 	public void reconcileMetadataRequestWithCallback() {
+		metadataRequestWithCallback("/gnd/reconcile?callback=jsonp");
+	}
+
+	@Test
+	public void reconcileMetadataRequestWithCallbackTrailingSlash() {
+		metadataRequestWithCallback("/gnd/reconcile/?callback=jsonp");
+	}
+
+	private void metadataRequestWithCallback(String uri) {
 		Application application = fakeApplication();
 		running(application, () -> {
-			Result result = route(application, fakeRequest(GET, "/gnd/reconcile?callback=jsonp"));
+			Result result = route(application, fakeRequest(GET, uri));
 			assertNotNull(result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			assertThat(contentAsString(result), startsWith("/**/jsonp("));
@@ -71,9 +89,19 @@ public class ReconcileTest extends IndexTest {
 	@Test
 	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/gnd/reconcile
 	public void reconcileRequest() {
+		reconcileRequest("/gnd/reconcile");
+	}
+
+	@Test
+	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/gnd/reconcile/
+	public void reconcileRequestTrailingSlash() {
+		reconcileRequest("/gnd/reconcile/");
+	}
+
+	private void reconcileRequest(String uri) {
 		Application application = fakeApplication();
 		running(application, () -> {
-			Result result = route(application, fakeRequest(POST, "/gnd/reconcile")
+			Result result = route(application, fakeRequest(POST, uri)
 					.bodyForm(ImmutableMap.of("queries", "{\"q99\":{\"query\":\"Twain, Mark\"}}")));
 			String content = contentAsString(result);
 			Logger.debug(Json.prettyPrint(Json.parse(content)));
