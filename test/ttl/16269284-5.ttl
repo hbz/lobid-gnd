@@ -30,7 +30,7 @@
 	gndo:gndIdentifier "16269284-5" ;
 	owl:sameAs <http://viaf.org/viaf/203623556> ;
 	gndo:oldAuthorityNumber "(DE-588b)16269284-5" ;
-	gndo:preferredNameForTheConferenceOrEvent "Conference Number Theory and Its Applications (1997 : Kyoto)" ;
+	gndo:preferredNameForTheConferenceOrEvent "Conference Number Theory and Its Applications (1997 : Kyoto : Japan)" ;
 	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XB-JP> ;
 	gndo:dateOfConferenceOrEvent "1997" ;
 	gndo:placeOfConferenceOrEvent <http://d-nb.info/gnd/4073426-2> .

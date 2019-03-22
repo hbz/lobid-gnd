@@ -26,6 +26,7 @@ import modules.IndexTest;
 import play.Application;
 import play.Logger;
 import play.libs.Json;
+import play.mvc.Http;
 import play.mvc.Result;
 
 @SuppressWarnings("javadoc")
@@ -80,6 +81,21 @@ public class ReconcileTest extends IndexTest {
 			assertThat(content, containsString("\"match\":false"));
 			assertThat(content, containsString("\"match\":true"));
 			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
+		});
+	}
+
+	@Test
+	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/gnd/reconcile
+	public void reconcileRequestReservedChars() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			Result result = route(application, fakeRequest(POST, "/gnd/reconcile")//
+					.bodyForm(ImmutableMap.of("queries",
+							"{\"q99\":{\"query\":\"Conference +-=<>(){}[]^ (1997 : Kyoto : Japan)\"}}")));
+			assertThat(result.status(), is(equalTo(Http.Status.OK)));
+			String content = contentAsString(result);
+			Logger.debug(Json.prettyPrint(Json.parse(content)));
+			assertThat(content, containsString("16269284-5"));
 		});
 	}
 

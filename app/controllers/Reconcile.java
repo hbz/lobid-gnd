@@ -276,7 +276,7 @@ public class Reconcile extends Controller {
 				queryString += " " + p.get("v").asText();
 			}
 		}
-		return queryString;
+		return queryString.replaceAll("[:+\\-=<>(){}\\[\\]^]", "");
 	}
 
 	private String mainQuery(Entry<String, JsonNode> entry) {
