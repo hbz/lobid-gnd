@@ -229,6 +229,8 @@ public class ConvertTest {
 		assertNotNull("JSON-LD should exist", jsonLd);
 		JsonNode node = Json.parse(jsonLd);
 		JsonNode sameAsAll = node.get("sameAs");
+		assertTrue("sameAs should contain original data",
+				sameAsAll.toString().contains("http://dbpedia.org/resource/Mark_Twain"));
 		assertTrue("Enrichment for sameAs should exist", sameAsAll.size() > 5);
 		assertTrue("Enrichment for sameAs should exist", sameAsAll.size() > 5);
 		JsonNode sameAs = sameAsAll.elements().next();

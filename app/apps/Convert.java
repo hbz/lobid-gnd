@@ -307,7 +307,11 @@ public class Convert {
 				sameAsMap.remove("@id");
 				return Json.toJson(sameAsMap);
 			}).collect(Collectors.toList());
-			map.put("sameAs", labelled);
+			if (!map.containsKey("sameAs")) {
+				map.put("sameAs", labelled);
+			} else {
+				((List<JsonNode>) map.get("sameAs")).addAll(labelled);
+			}
 		}
 		if (depiction != null) {
 			map.put("depiction",
