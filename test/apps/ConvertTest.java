@@ -206,6 +206,25 @@ public class ConvertTest {
 	}
 
 	@Test
+	public void testSameAsCollectionEnrichmentOrcid() throws IOException {
+		String id = "1173843892";
+		String jsonLd = jsonLdFor(id);
+		assertNotNull("JSON-LD should exist", jsonLd);
+		assertTrue("sameAs should exist", Json.parse(jsonLd).has("sameAs"));
+		JsonNode sameAs = Json.parse(jsonLd).get("sameAs");
+		assertTrue("sameAs should contain an ORCID entry", sameAs.toString().contains("http://orcid.org"));
+		sameAs.elements().forEachRemaining(elem -> {
+			assertTrue("sameAs should have a collection", elem.has("collection"));
+			assertTrue("collection should not be empty", elem.get("collection").size() > 0);
+			assertTrue("collection should have an id", elem.get("collection").has("id"));
+			assertTrue("collection should have an icon", elem.get("collection").has("icon"));
+			assertTrue("collection should have a name", elem.get("collection").has("name"));
+			assertTrue("collection should have an abbr", elem.get("collection").has("abbr"));
+			assertTrue("collection should have a publisher", elem.get("collection").has("publisher"));
+		});
+	}
+
+	@Test
 	public void testEntityFactsDepictionEnrichment() throws IOException {
 		String id = "118624822";
 		indexEntityFacts(id);
