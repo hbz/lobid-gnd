@@ -288,6 +288,8 @@ public class Convert {
 				JsonNode sameAs = json.get("sameAs");
 				Map<String, Object> map = addIfExits(result, depiction, sameAs);
 				result = Json.toJson(map);
+			} else {
+				Logger.debug("No EntityFacts response for {}", id);
 			}
 		} catch (Exception e) {
 			Logger.warn("Could not enrich {} from EntityFacts: {}", id, e.getMessage());
@@ -319,6 +321,8 @@ public class Convert {
 							"id", depiction.get("@id"), //
 							"url", depiction.get("url"), //
 							"thumbnail", depiction.get("thumbnail").get("@id"))));
+		} else {
+			Logger.debug("No EntityFacts depiction for {}", result);
 		}
 		return map;
 	}
