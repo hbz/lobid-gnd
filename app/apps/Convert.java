@@ -279,17 +279,19 @@ public class Convert {
 	private static JsonNode withEntityFacts(String id, JsonNode node) {
 		JsonNode result = node;
 		try {
-			GetResponse response = CLIENT
-					.prepareGet(config("index.entityfacts.index"), config("index.entityfacts.type"), id).execute()
-					.actionGet();
+			String index = config("index.entityfacts.index");
+			String type = config("index.entityfacts.type");
+			Logger.debug("EntityFacts request, index {} type {} id {}", index, type, id);
+			GetResponse response = CLIENT.prepareGet(index, type, id).execute().actionGet();
 			if (response.isExists()) {
 				JsonNode json = Json.parse(response.getSourceAsString());
 				JsonNode depiction = json.get("depiction");
 				JsonNode sameAs = json.get("sameAs");
-				Map<String, Object> map = addIfExits(result, depiction, sameAs);
+				Map<String, Object> map = addIfExists(result, depiction, sameAs);
 				result = Json.toJson(map);
+				Logger.debug("Final JSON for {}: {}", id, result);
 			} else {
-				Logger.debug("No EntityFacts response for {}", id);
+				Logger.debug("No EntityFacts response {} for {}", response.getSourceAsString(), id);
 			}
 		} catch (Exception e) {
 			Logger.warn("Could not enrich {} from EntityFacts: {}", id, e.getMessage());
@@ -298,7 +300,7 @@ public class Convert {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Map<String, Object> addIfExits(JsonNode result, JsonNode depiction, JsonNode sameAs) {
+	private static Map<String, Object> addIfExists(JsonNode result, JsonNode depiction, JsonNode sameAs) {
 		Map<String, Object> map = Json.fromJson(result, Map.class);
 		if (sameAs != null) {
 			List<Map<String, Object>> fromJson = Json.fromJson(sameAs, List.class);
@@ -316,6 +318,7 @@ public class Convert {
 			}
 		}
 		if (depiction != null) {
+			Logger.debug("Adding depiction {} to {}", depiction, result);
 			map.put("depiction",
 					Arrays.asList(ImmutableMap.of(//
 							"id", depiction.get("@id"), //
