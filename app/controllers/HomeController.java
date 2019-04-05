@@ -126,8 +126,12 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()));
 		SearchRequestBuilder requestBuilder = index.client().prepareSearch(config("index.name"))
 				.setQuery(functionScoreQuery).setFrom(0).setSize(1);
-		SearchHit hit = requestBuilder.execute().actionGet().getHits().getAt(0);
-		AuthorityResource entity = entityWithImage(hit.getSourceAsString());
+		SearchHits hits = requestBuilder.execute().actionGet().getHits();
+		AuthorityResource entity = null;
+		if (hits.getTotalHits() > 0) {
+			SearchHit hit = hits.getAt(0);
+			entity = entityWithImage(hit.getSourceAsString());
+		}
 		JsonNode dataset = Json.parse(readFile(config("dataset.file")));
 		return ok(views.html.index.render(entity, dataset));
 	}

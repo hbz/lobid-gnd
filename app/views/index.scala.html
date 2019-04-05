@@ -10,15 +10,15 @@
         <h1>lobid-gnd <small>&mdash; Rechercheoberfläche &amp; LOD-API für die GND</small></h1>
     </div>
     <div class="row">
-	    <div class="col-md-9 intro">
+	    <div class="col-md-@if(entity!=null){9}else{12} intro">
 	       @Html(dataset.get("description").get("de").asText())
 	    </div>
-	    <div class="col-md-3">
+	    @if(entity!=null){<div class="col-md-3">
 		<figure>
 			<a href='@routes.HomeController.authority(entity.getId)'><img id="index-image" src='@entity.getImage.image'/></a>
 			<figcaption><a href='@routes.HomeController.authority(entity.getId)'>@entity.preferredName</a><br/><small>(@Html(entity.imageAttribution))</small></figcaption>
 		</figure>
-		</div>
+		</div>}
     </div>
     <script type="application/ld+json">
     {
