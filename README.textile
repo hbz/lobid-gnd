@@ -22,15 +22,25 @@ h2. Data
 
 h3. Baseline
 
-Get the GND RDF/XML source data (for the @2018_10@ release here, find current at "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/):
+Set up a location for the input data:
 
-@cd GND ; wget https://data.dnb.de/opendata/T{b,f,g,n,p,s,u}gesamt2018_10gnd.rdf.gz@
+@mkdir input_data; cd input_data@
 
-This should give you 7 local files ending with '.rdf.gz'. You can configure locations in 'conf/application.conf'.
+Set up 'input_data' as the 'data.rdfxml' location in 'conf/application.conf'.
 
-Go back to the project root directory:
+Get the GND RDF/XML source data – for the @20190213@ release here, find current at "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/:
+
+@wget https://data.dnb.de/opendata/authorities-{geografikum,koerperschaft,kongress,name,person,sachbegriff,werk}_lds_20190213.rdf.gz@
+
+This should give you 7 local files ending with '.rdf.gz'. Go back to the project root directory:
 
 @cd ..@
+
+Set up a location for the index data:
+
+@mkdir index_data@
+
+Set up 'index_data' as the 'data.jsonlines' location in 'conf/application.conf'.
 
 Convert the data to JSON-LD lines, the index data format:
 
@@ -40,7 +50,7 @@ To be able to log out from the server while the conversion is running, we actual
 
 @setsid nohup sbt "runMain apps.ConvertBaseline" &@
 
-With the default 'conf/application.conf' this should give you a local file called 'GND.jsonl'.
+This should create 7 '*.jsonl' files in 'index_data'.
 
 h3. Updates
 
@@ -48,7 +58,7 @@ Updates are pulled via "the DNB OAI-PMH interface":http://www.dnb.de/DE/Service/
 
 Pass either one argument, the start date for getting updates, or two, the start and the end date:
 
-@sbt "runMain apps.ConvertUpdates 2017-10-01 2017-10-02"@
+@sbt "runMain apps.ConvertUpdates 2019-02-13 2019-03-13"@
 
 The date of the most recent update is stored in 'GND-lastSuccessfulUpdate.txt' (can be changed in the config).
 
@@ -60,9 +70,9 @@ In 'lobid-gnd', run the web application:
 
 Open "http://localhost:9000/gnd":http://localhost:9000/gnd
 
-If the index configured in @application.conf@ does not exists, indexing will happen automatically on the first startup.
+If the index configured in 'application.conf' does not exists, indexing will happen automatically on the first startup.
 
-To re-index, set up a new @index.name@ in @application.conf@.
+To re-index, set up a new 'index.name' in 'application.conf'.
 
 h2. Eclipse
 
