@@ -134,7 +134,8 @@ public class Convert {
 		String academicDegree = "http://d-nb.info/standards/elementset/gnd#academicDegree";
 		String dateOfBirth = "http://d-nb.info/standards/elementset/gnd#dateOfBirth";
 		String dateOfDeath = "http://d-nb.info/standards/elementset/gnd#dateOfDeath";
-		String sameAs = "http://www.w3.org/2002/07/owl#sameAs";
+		String sameAsOwl = "http://www.w3.org/2002/07/owl#sameAs";
+		String sameAsSchema = "http://schema.org/sameAs";
 		String preferredName = "http://d-nb.info/standards/elementset/gnd#preferredNameFor";
 		String variantName = "http://d-nb.info/standards/elementset/gnd#variantNameFor";
 		String type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
@@ -156,13 +157,16 @@ public class Convert {
 				if (s.equals(o.toString())) { // remove self-ref statements
 					toRemove.add(statement);
 				} else {
-					if (p.equals(sameAs)) {
+					if (p.equals(sameAsOwl)) {
 						// Add `collection` details for `sameAs`
 						// See https://github.com/hbz/lobid-gnd/issues/69
 						Statement collectionStatement = model.createStatement(model.createResource(o.toString()),
 								model.createProperty(collection), model.createResource(collectionId(o.toString())));
 						toAdd.add(collectionStatement);
 						toAdd.addAll(collectionDetails(o.toString(), model));
+						// owl->schema:sameAs,https://github.com/hbz/lobid-gnd/issues/185
+						toRemove.add(statement);
+						toAdd.add(model.createStatement(statement.getSubject(), model.createProperty(sameAsSchema), o));
 					} else if (!p.equals(describedBy)) {
 						// Add `label` statement for any link
 						// See https://github.com/hbz/lobid-gnd/issues/85
@@ -183,11 +187,12 @@ public class Convert {
 					&& o.isLiteral() && o.asLiteral().getDatatypeURI() != null) {
 				// See https://github.com/hbz/lobid-gnd/commit/2cb4b9b
 				replaceObjectLiteral(model, statement, o.asLiteral().getString(), toRemove, toAdd);
-			} else if ((p.equals(sameAs)) //
+			} else if ((p.equals(sameAsOwl)) //
 					&& o.isLiteral() && o.asLiteral().getDatatypeURI() != null) {
 				// See https://github.com/hbz/lobid-gnd/commit/00ca2a6
 				toRemove.add(statement);
-				toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
+				// owl->schema:sameAs,https://github.com/hbz/lobid-gnd/issues/185
+				toAdd.add(model.createStatement(statement.getSubject(), model.createProperty(sameAsSchema),
 						model.createResource(o.asLiteral().getString())));
 			} else if (p.startsWith(preferredName) || p.startsWith(variantName)) {
 				// See https://github.com/hbz/lobid-gnd/issues/3

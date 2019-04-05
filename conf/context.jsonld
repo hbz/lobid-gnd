@@ -986,7 +986,7 @@
          "@container":"@set"
       },
       "sameAs": {
-         "@id": "http://www.w3.org/2002/07/owl#sameAs",
+         "@id": "http://schema.org/sameAs",
          "@type":"@id",
          "@container":"@set"
       },
