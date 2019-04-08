@@ -194,6 +194,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			return unsupportedMediaType(views.html.error.render(id, String.format(
 					"Unsupported for single resource: format=%s, accept=%s", format, request().acceptedTypes())));
 		}
+		addLinkHeader(id);
 		try {
 			switch (responseFormat) {
 			case PREVIEW: {
@@ -214,6 +215,14 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			Logger.error("Could not create response", e);
 			return internalServerError(views.html.error.render(id, e.getMessage()));
 		}
+	}
+
+	private void addLinkHeader(String id) {
+		String inbox = String.format("<%s/inbox?target=%s/gnd/%s>; rel=\"http://www.w3.org/ns/ldp#inbox\"",
+				config("skohub.host"), config("skohub.lobid"), id);
+		String hub = String.format("<%s/hub>; rel=\"hub\"", config("skohub.host"));
+		String self = String.format("<%s/gnd/%s>; rel=\"self\"", config("skohub.lobid"), id);
+		response().setHeader("Link", String.format("%s, %s, %s", inbox, hub, self));
 	}
 
 	private AuthorityResource entityWithImage(String jsonLd) {
