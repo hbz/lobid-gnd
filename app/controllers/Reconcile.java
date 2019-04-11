@@ -51,8 +51,11 @@ public class Reconcile extends Controller {
 	@Inject
 	IndexComponent index;
 
-	private static final JsonNode TYPES = Json.toJson(HomeController.CONFIG.getStringList("topLevelTypes").stream()
-			.map(t -> ImmutableMap.of("id", t, "name", GndOntology.label(t))));
+	private static final JsonNode TYPES = Json
+			.toJson(HomeController.CONFIG.getStringList("topLevelTypes").stream().map(t -> {
+				String type = t.equals("Person") ? "DifferentiatedPerson" : t;
+				return ImmutableMap.of("id", type, "name", GndOntology.label(type));
+			}));
 
 	/**
 	 * @param callback
