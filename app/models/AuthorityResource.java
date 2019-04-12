@@ -112,10 +112,10 @@ public class AuthorityResource {
 		@SuppressWarnings("unchecked")
 		String geoString = ((List<String>) hasGeometry.get(0).get("asWKT")).get(0);
 		List<Double> lonLat = scanGeoCoordinates(geoString);
-		if (lonLat.size() != 2) {
+		if (lonLat.size() < 2) {
 			throw new IllegalArgumentException("Could not scan geo location from: " + geoString + ", got: " + lonLat);
 		}
-		return new GeoPoint(lonLat.get(1), lonLat.get(0));
+		return new GeoPoint(lonLat.get(lonLat.size() - 1), lonLat.get(lonLat.size() - 2));
 	}
 
 	public List<Pair<String, String>> generalFields() {
