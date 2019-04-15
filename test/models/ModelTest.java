@@ -27,6 +27,12 @@ public class ModelTest {
 		Assert.assertEquals(new GeoPoint(51.508530, -0.125740), res.location());
 	}
 
+	@Test
+	public void testModelCreationPolygonLocation() throws FileNotFoundException {
+		Assert.assertEquals(new GeoPoint(47.659166, 8.876111),
+				new AuthorityResource(Json.parse(jsonLdFor("4057120-8"))).location());
+	}
+
 	private String jsonLdFor(String id) throws FileNotFoundException {
 		Model sourceModel = ModelFactory.createDefaultModel();
 		sourceModel.read(new FileReader("test/ttl/" + id + ".ttl"), null, "TTL");

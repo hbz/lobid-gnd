@@ -42,6 +42,7 @@
       "Person":"http://d-nb.info/standards/elementset/gnd#Person",
       "PlaceOrGeographicName":"http://d-nb.info/standards/elementset/gnd#PlaceOrGeographicName",
       "Point": "http://www.opengis.net/ont/sf#Point",
+      "Polygon": "http://www.opengis.net/ont/sf#Polygon",
       "PreferredNameOfThePerson":"http://d-nb.info/standards/elementset/gnd#PreferredNameOfThePerson",
       "ProductNameOrBrandName":"http://d-nb.info/standards/elementset/gnd#ProductNameOrBrandName",
       "ProjectOrProgram":"http://d-nb.info/standards/elementset/gnd#ProjectOrProgram",
