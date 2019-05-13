@@ -371,8 +371,7 @@ public class AuthorityResource {
 			result = String.format("<a href='%s'>%s</a>", value, value);
 		} else if (value.startsWith("http")) {
 			String link = value.startsWith(DNB_PREFIX)
-					? controllers.routes.HomeController.authorityDotFormat(value.replace(DNB_PREFIX, ""), "html")
-							.toString()
+					? controllers.routes.HomeController.authority(value.replace(DNB_PREFIX, ""), null).toString()
 					: value;
 			String search = controllers.routes.HomeController
 					.search(field + ".id:\"" + value + "\"", "", "", 0, 10, "html").toString();
