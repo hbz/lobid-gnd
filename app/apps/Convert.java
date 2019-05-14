@@ -12,8 +12,10 @@ import java.net.URI;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -299,7 +301,7 @@ public class Convert {
 				Logger.debug("No EntityFacts response {} for {}", response.getSourceAsString(), id);
 			}
 		} catch (Exception e) {
-			Logger.warn("Could not enrich {} from EntityFacts: {}", id, e.getMessage());
+			Logger.error("Could not enrich {} from EntityFacts: {} ({})", id, e.getClass(), e.getMessage());
 		}
 		return result;
 	}
@@ -309,17 +311,19 @@ public class Convert {
 		Map<String, Object> map = Json.fromJson(result, Map.class);
 		if (sameAs != null) {
 			List<Map<String, Object>> fromJson = Json.fromJson(sameAs, List.class);
-			List<JsonNode> labelled = fromJson.stream().map((Map<String, Object> sameAsMap) -> {
+			List<Map<String, Object>> newSameAs = fromJson.stream().map((Map<String, Object> sameAsMap) -> {
 				Map<String, Object> collection = (Map<String, Object>) sameAsMap.get("collection");
 				collection.put("id", collectionId(sameAsMap.get("@id").toString()));
 				sameAsMap.put("id", sameAsMap.get("@id"));
 				sameAsMap.remove("@id");
-				return Json.toJson(sameAsMap);
+				return sameAsMap;
 			}).collect(Collectors.toList());
 			if (!map.containsKey("sameAs")) {
-				map.put("sameAs", labelled);
+				map.put("sameAs", newSameAs);
 			} else {
-				((List<JsonNode>) map.get("sameAs")).addAll(labelled);
+				List<Map<String, Object>> mergedSameAs = new ArrayList<>(newSameAs);
+				mergedSameAs.addAll((List<Map<String, Object>>) map.get("sameAs"));
+				map.put("sameAs", unique(mergedSameAs));
 			}
 		}
 		if (depiction != null) {
@@ -332,7 +336,24 @@ public class Convert {
 		} else {
 			Logger.debug("No EntityFacts depiction for {}", result);
 		}
+		map.put("sameAs", sorted((List<Map<String, Object>>) map.get("sameAs")));
 		return map;
+	}
+
+	private static List<Map<String, Object>> unique(List<Map<String, Object>> sameAs) {
+		Map<String, Map<String, Object>> unique = new HashMap<>();
+		sameAs.forEach(s -> unique.put(s.get("id").toString(), s));
+		return new ArrayList<>(unique.values());
+	}
+
+	private static List<Map<String, Object>> sorted(List<Map<String, Object>> result) {
+		Collections.sort(result, new Comparator<Map<String, Object>>() {
+			@Override
+			public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+				return o1.get("id").toString().compareTo(o2.get("id").toString());
+			}
+		});
+		return result;
 	}
 
 	private static String collectionId(String id) {
