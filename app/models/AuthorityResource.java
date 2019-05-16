@@ -307,7 +307,11 @@ public class AuthorityResource {
 	}
 
 	private void addValues(String field, List<Pair<String, String>> result) {
-		addValues(field, get(field), result);
+		// literals are displayed in the same row as their non-literal variants,
+		// show literal fields in their own row only if there is no non-literal variant:
+		if (!field.endsWith("AsLiteral") || get(field.replace("AsLiteral", "")).isEmpty()) {
+			addValues(field, get(field), result);
+		}
 	}
 
 	private void addValues(String field, List<String> list, List<Pair<String, String>> result) {
@@ -319,12 +323,27 @@ public class AuthorityResource {
 		try {
 			if (list != null && list.size() > 0) {
 				String value = IntStream.range(0, list.size()).mapToObj(function).collect(Collectors.joining(" | "));
+				value = addLiterals(field, value);
 				result.add(Pair.of(field, value));
 			}
 		} catch (Exception e) {
 			Logger.warn("Could not add IDs for field {} in {}", field, json);
 			e.printStackTrace();
 		}
+	}
+
+	private String addLiterals(String field, String result) {
+		String literalField = field + "AsLiteral";
+		for (Object literal : get(literalField)) {
+			String search = controllers.routes.HomeController
+					.search(literalField + ":\"" + literal + "\"", "", "", 0, 10, "html").toString();
+			result = result + "&nbsp;" + "|" + "&nbsp;" + literal + "&nbsp;"
+					+ String.format(
+							"<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>"
+									+ "<i class='octicon octicon-search' aria-hidden='true'></i></a>",
+							GndOntology.label(literalField), literal, search);
+		}
+		return result;
 	}
 
 	private List<String> typeLinks() {
