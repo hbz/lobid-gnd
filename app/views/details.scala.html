@@ -160,10 +160,10 @@
 @fields() = {
 <table class='table table-striped table-condensed'>
   @for(f <- resource.generalFields) {
-    <tr><td>@models.GndOntology.label(f.getLeft)</td><td class='field-value'>@Html(f.getRight) @moreToggle(f.getLeft, f.getRight)</td></tr>
+    <tr><td>@models.GndOntology.label(f.getLeft).replace(" (Literal)", "")</td><td class='field-value'>@Html(f.getRight) @moreToggle(f.getLeft, f.getRight)</td></tr>
   }
   @for(f <- resource.additionalLinks) {
-    <tr><td>@models.GndOntology.label(f.getLeft)</td><td class='field-value'>@Html(f.getRight) @moreToggle(f.getLeft, f.getRight)</td></tr>
+    <tr><td>@models.GndOntology.label(f.getLeft).replace(" (Literal)", "")</td><td class='field-value'>@Html(f.getRight) @moreToggle(f.getLeft, f.getRight)</td></tr>
   }
 </table>
 }

@@ -1,0 +1,61 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix editeur: <https://ns.editeur.org/thema/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vivo: <http://vivoweb.org/ontology/core#> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix agrelon: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix madsrdf: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix wdrs: <http://www.w3.org/2007/05/powder-s#> .
+@prefix ebu: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/119697785> wdrs:describedby <http://d-nb.info/gnd/119697785/about> .
+
+<http://d-nb.info/gnd/119697785/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/> ;
+	dcterms:modified "2014-06-13T23:36:25.000"^^xsd:dateTime .
+
+<http://d-nb.info/gnd/119697785> a gndo:DifferentiatedPerson ;
+	gndo:gndIdentifier "119697785" ;
+	owl:sameAs <http://viaf.org/viaf/61903905> , <http://www.isni.org/0000000012545041> ;
+	gndo:oldAuthorityNumber "(DE-588a)119697785" ;
+	gndo:variantNameForThePerson "Halver, Hieronymus" ;
+	gndo:variantNameEntityForThePerson _:node1d99irmt8x20440538 .
+
+_:node1d99irmt8x20440538 gndo:forename "Hieronymus" ;
+	gndo:surname "Halver" .
+
+<http://d-nb.info/gnd/119697785> gndo:preferredNameForThePerson "Halverius, Hieronymus" ;
+	gndo:preferredNameEntityForThePerson _:node1d99irmt8x20440539 .
+
+_:node1d99irmt8x20440539 gndo:forename "Hieronymus" ;
+	gndo:surname "Halverius" .
+
+<http://d-nb.info/gnd/119697785> gndo:acquaintanceshipOrFriendship <http://d-nb.info/gnd/118534289> ;
+	gndo:professionOrOccupationAsLiteral "Übersetzer" ;
+	gndo:publication "Giovio, Paolo <der Ältere>: Pauli Jouij von Com Bischoffs zu Nucera: Warhafftige Beschreibunge aller ...  1570.  (VD16 G 2075)" , "Savonarola, Hieronymus: Christliche vnd Geistreiche Außlegung des heiligen Vatter Vnsers des XXXI. Auch LI. Vnnd ...  1569.  (VD16 S 2034)" , "Savonarola, Hieronymus: Deß heiligen Vater vnsers Christliche vnnd Geistreiche außlegung Gebetsweise ...  1597.  (VD16 S 2035)" ;
+	gndo:periodOfActivity "1562-1570" ;
+	gndo:placeOfBirthAsLiteral "Sankt Goar" ;
+	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#notKnown> .
+

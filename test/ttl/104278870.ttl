@@ -1,0 +1,78 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix editeur: <https://ns.editeur.org/thema/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vivo: <http://vivoweb.org/ontology/core#> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix agrelon: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix madsrdf: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix wdrs: <http://www.w3.org/2007/05/powder-s#> .
+@prefix ebu: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://d-nb.info/gnd/104278870> wdrs:describedby <http://d-nb.info/gnd/104278870/about> .
+
+<http://d-nb.info/gnd/104278870/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/> ;
+	dcterms:modified "2017-02-03T16:34:00.000"^^xsd:dateTime .
+
+<http://d-nb.info/gnd/104278870> a gndo:DifferentiatedPerson ;
+	gndo:gndIdentifier "104278870" ;
+	foaf:page <https://de.wikipedia.org/wiki/Johann_Sigismund_Scholze> ;
+	owl:sameAs <http://dbpedia.org/resource/Johann_Sigismund_Scholze> , <http://viaf.org/viaf/17657662> , <http://www.isni.org/0000000108756740> , <http://www.wikidata.org/entity/Q104593> , <http://id.loc.gov/authorities/no90014686> ;
+	gndo:oldAuthorityNumber "(DE-588a)104278870" , "(DE-588a)135465877" , "(DE-101c)311155871" ;
+	gndo:variantNameForThePerson "Sperontes" ;
+	gndo:variantNameEntityForThePerson _:node1daga55bex5630160 .
+
+_:node1daga55bex5630160 gndo:personalName "Sperontes" .
+
+<http://d-nb.info/gnd/104278870> gndo:variantNameForThePerson "Scholze, Johannes Sigismund" ;
+	gndo:variantNameEntityForThePerson _:node1daga55bex5630161 .
+
+_:node1daga55bex5630161 gndo:forename "Johannes Sigismund" ;
+	gndo:surname "Scholze" .
+
+<http://d-nb.info/gnd/104278870> gndo:variantNameForThePerson "Scholze, Joh. Sigismund" ;
+	gndo:variantNameEntityForThePerson _:node1daga55bex5630162 .
+
+_:node1daga55bex5630162 gndo:forename "Joh. Sigismund" ;
+	gndo:surname "Scholze" .
+
+<http://d-nb.info/gnd/104278870> gndo:preferredNameForThePerson "Scholze, Johann Sigismund" ;
+	gndo:preferredNameEntityForThePerson _:node1daga55bex5630163 .
+
+_:node1daga55bex5630163 gndo:forename "Johann Sigismund" ;
+	gndo:surname "Scholze" .
+
+<http://d-nb.info/gnd/104278870> gndo:professionOrOccupation <http://d-nb.info/gnd/4053309-8> , <http://d-nb.info/gnd/4398215-3> ;
+	gndo:professionOrOccupationAsLiteral "Musiksammler" ;
+	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DXDE> ;
+	gndo:publication "Fritzsch, Johann Gottlieb A.: Der Frühling. - 1749" , "Scholze, Johann S.: Singende Muse an der Pleisse. - 1905" , "Scholze, Johann S.: Singende Muse an der Pleisse. - 1909" , "Scholze, Johann S.: Singende Muse an der Pleisse. - 1958" , "Scholze, Johann S.: Singende Muse an der Pleisse. - 1964" ;
+	gndo:biographicalOrHistoricalInformation "geb. in Lobendau bei Liegnitz/Schlesien; Liedersammler"@de , "Schriftsteller, Liederdichter"@de ;
+	gndo:placeOfBirth <http://d-nb.info/gnd/7545864-0> ;
+	gndo:placeOfDeath <http://d-nb.info/gnd/4035206-7> ;
+	gndo:placeOfActivity <http://d-nb.info/gnd/4035206-7> ;
+	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#male> ;
+	gndo:dateOfBirth "1705-03-20"^^xsd:date ;
+	gndo:dateOfDeath "1750-09-28"^^xsd:date .
+
