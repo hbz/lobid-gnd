@@ -20,7 +20,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -254,6 +257,20 @@ public class ConvertTest {
 		assertTrue("Enrichment for sameAs should exist", sameAsAll.size() > 5);
 		JsonNode sameAs = sameAsAll.elements().next();
 		assertTrue("sameAs collection should have an id", sameAs.get("collection").has("id"));
+	}
+
+	@Test
+	public void testEntityFactsSameAsEnrichmentNoDuplicates() throws IOException {
+		String id = "118820591";
+		indexEntityFacts(id);
+		String jsonLd = jsonLdFor(id);
+		assertNotNull("JSON-LD should exist", jsonLd);
+		JsonNode node = Json.parse(jsonLd);
+		JsonNode sameAsAll = node.get("sameAs");
+		Iterable<JsonNode> iterable = () -> sameAsAll.elements();
+		Stream<JsonNode> stream = StreamSupport.stream(iterable.spliterator(), false);
+		Set<String> ids = stream.map(n -> n.get("id").textValue()).collect(Collectors.toSet());
+		assertEquals("sameAs entries should be unique", ids.size(), sameAsAll.size());
 	}
 
 	private void indexEntityFacts(String id) throws IOException {
