@@ -60,10 +60,25 @@ public class Reconcile extends Controller {
 	/**
 	 * @param callback
 	 *            The name of the JSONP function to wrap the response in
-	 * @return OpenRefine reconciliation endpoint meta data, wrapped in
-	 *         `callback`
+	 * @param queries
+	 *            The queries. If this and extend are empty, return service
+	 *            metadata
+	 * @param extend
+	 *            The extension data. If this and queries are empty, return
+	 *            service metadata
+	 * @return OpenRefine reconciliation results (if queries is not empty), data
+	 *         extension information (if extend is not empty), or endpoint meta
+	 *         data (if queries and extend are empty), wrapped in `callback`
 	 */
-	public Result meta(String callback) {
+	public Result main(String callback, String queries, String extend) {
+		ObjectNode result = queries.isEmpty() && extend.isEmpty() ? metadata()
+				: (!queries.isEmpty() ? queries(queries) : extend(extend));
+		response().setHeader("Access-Control-Allow-Origin", "*");
+		return callback.isEmpty() ? ok(result)
+				: ok(String.format("/**/%s(%s);", callback, result.toString())).as("application/json");
+	}
+
+	private ObjectNode metadata() {
 		final String host = HomeController.config("host");
 		ObjectNode result = Json.newObject();
 		result.put("name", "GND reconciliation for OpenRefine");
@@ -100,9 +115,7 @@ public class Reconcile extends Controller {
 				"propose_properties", Json.newObject()//
 						.put("service_url", host)//
 						.put("service_path", routes.Reconcile.properties("", "", "").toString()))));
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		return callback.isEmpty() ? ok(result)
-				: ok(String.format("/**/%s(%s);", callback, result.toString())).as("application/json");
+		return result;
 	}
 
 	/**
@@ -130,10 +143,10 @@ public class Reconcile extends Controller {
 	public Result reconcile() {
 		Map<String, String[]> body = request().body().asFormUrlEncoded();
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		return body.containsKey("extend") ? extend(body.get("extend")[0]) : queries(body.get("queries")[0]);
+		return body.containsKey("extend") ? ok(extend(body.get("extend")[0])) : ok(queries(body.get("queries")[0]));
 	}
 
-	private Result queries(String src) {
+	private ObjectNode queries(String src) {
 		JsonNode request = Json.parse(src);
 		Iterator<Entry<String, JsonNode>> inputQueries = request.fields();
 		ObjectNode response = Json.newObject();
@@ -147,10 +160,10 @@ public class Reconcile extends Controller {
 			Logger.debug("r: " + resultsForInputQuery);
 			response.set(inputQuery.getKey(), resultsForInputQuery);
 		}
-		return ok(response);
+		return response;
 	}
 
-	private Result extend(String src) {
+	private ObjectNode extend(String src) {
 		JsonNode request = Json.parse(src);
 		@SuppressWarnings("unchecked")
 		List<HashMap<String, Object>> properties = Json.fromJson(request.get("properties"), List.class);
@@ -178,7 +191,7 @@ public class Reconcile extends Controller {
 			}
 			return m;
 		}).collect(Collectors.toList());
-		return ok(Json.toJson(ImmutableMap.of("meta", Json.toJson(meta), "rows", rows)));
+		return (ObjectNode) Json.toJson(ImmutableMap.of("meta", Json.toJson(meta), "rows", rows));
 	}
 
 	private List<Map<String, Object>> propertyValues(JsonNode entityId, String propertyId, Object setting) {
