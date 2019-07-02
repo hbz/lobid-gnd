@@ -3,12 +3,12 @@
 # ~~~~
 
 # Handle trailing slashes
-GET     /gnd/reconcile/     controllers.Reconcile.meta(callback ?= "")
+GET     /gnd/reconcile/     controllers.Reconcile.main(callback ?= "", queries ?= "", extend ?= "")
 POST    /gnd/reconcile/     controllers.Reconcile.reconcile()
 GET     /*path/             controllers.HomeController.redirectSlash(path: String)
 
 #OpenRefine reconciliation endpoint
-GET     /gnd/reconcile            controllers.Reconcile.meta(callback ?= "")
+GET     /gnd/reconcile            controllers.Reconcile.main(callback ?= "", queries ?= "", extend ?= "")
 POST    /gnd/reconcile            controllers.Reconcile.reconcile()
 GET     /gnd/reconcile/properties controllers.Reconcile.properties(callback ?= "", type ?= "", limit ?= "")
 

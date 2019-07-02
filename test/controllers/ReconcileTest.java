@@ -18,6 +18,10 @@ import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.route;
 import static play.test.Helpers.running;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
@@ -109,6 +113,29 @@ public class ReconcileTest extends IndexTest {
 			assertThat(content, containsString("\"match\":false"));
 			assertThat(content, containsString("\"match\":true"));
 			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
+		});
+	}
+
+	@Test
+	// curl -g 'localhost:9000/gnd/reconcile?queries={"q99":{"query":"*"}}'
+	public void reconcileRequestGet() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			Result result = null;
+			try {
+				result = route(application,
+						fakeRequest(GET,
+								"/gnd/reconcile?queries=" + URLEncoder.encode(
+										"{\"q99\":{\"query\":\"Conference +-=<>(){}[]^ (1997 : Kyoto : Japan)\"}}",
+										StandardCharsets.UTF_8.name())));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			assertNotNull(result);
+			assertThat(result.status(), is(equalTo(Http.Status.OK)));
+			String content = contentAsString(result);
+			Logger.debug(Json.prettyPrint(Json.parse(content)));
+			assertThat(content, containsString("16269284-5"));
 		});
 	}
 

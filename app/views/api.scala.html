@@ -102,8 +102,8 @@ $('input.search-gnd').autocomplete({
   <h2 id="openrefine">OpenRefine <small><a href="#openrefine"><span class="glyphicon glyphicon-link"></span></a></small></h2>
 
   <p>Dieser Dienst bietet eine Implementierung der OpenRefine <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation">Reconciliation</a> <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API">API</a> an.</p>
-  @desc("Metadaten-Anfrage (\"callback\": optionaler JSONP-Callback, in den die Antwort verpackt wird)", routes.Reconcile.meta("jsonp"))
-  @desc("Reconciliation-Anfrage (erwartet Formulardaten per HTTP POST, verwenden Sie diese URL in OpenRefine)", routes.Reconcile.reconcile())
+  @desc("Metadaten-Anfrage (\"callback\": optionaler JSONP-Callback, in den die Antwort verpackt wird)", routes.Reconcile.main("jsonp"))
+  @desc("Reconciliation-Anfrage (verwenden Sie diese URL in OpenRefine)", routes.Reconcile.reconcile())
   <p>Intern sendet OpenRefine folgende Art von Anfrage:</p>
   <pre>curl --data 'queries={"q1":{"query":"Twain, Mark"}}' http://lobid.org@routes.Reconcile.reconcile()</pre>
   <p><b>Tutorial</b></p>
