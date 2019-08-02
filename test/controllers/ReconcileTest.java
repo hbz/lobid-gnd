@@ -21,9 +21,14 @@ import static play.test.Helpers.running;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 
 import modules.IndexTest;
@@ -108,7 +113,10 @@ public class ReconcileTest extends IndexTest {
 			Result result = route(application, fakeRequest(POST, uri)
 					.bodyForm(ImmutableMap.of("queries", "{\"q99\":{\"query\":\"Twain, Mark\"}}")));
 			String content = contentAsString(result);
-			Logger.debug(Json.prettyPrint(Json.parse(content)));
+			List<JsonNode> types = StreamSupport.stream(//
+					Json.parse(content).findValue("type").spliterator(), false).collect(Collectors.toList());
+			// e.g. AuthorityResource, Person, DifferentiatedPerson
+			assertThat(types.size(), Matchers.lessThanOrEqualTo(3));
 			assertThat(content, containsString("q99"));
 			assertThat(content, containsString("\"match\":false"));
 			assertThat(content, containsString("\"match\":true"));
