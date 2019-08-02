@@ -115,7 +115,19 @@ public class Reconcile extends Controller {
 				"propose_properties", Json.newObject()//
 						.put("service_url", host)//
 						.put("service_path", routes.Reconcile.properties("", "", "").toString()))));
+		ObjectNode suggest = Json.newObject();
+		suggest.set("property", suggestService("property"));
+		suggest.set("entity", suggestService("entity"));
+		suggest.set("type", suggestService("type"));
+		result.set("suggest", suggest);
 		return result;
+	}
+
+	private ObjectNode suggestService(String suggest) {
+		return Json.newObject()//
+				.put("service_url", HomeController.config("host") + "/gnd/reconcile")//
+				.put("service_path", "/suggest/" + suggest)//
+				.put("flyout_service_path", "/flyout/" + suggest + "?id=${id}");
 	}
 
 	/**
