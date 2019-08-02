@@ -32,4 +32,6 @@ libraryDependencies += "org.jooq" % "joox-java-6" % "1.6.0"
 
 libraryDependencies += "log4j" % "log4j" % "1.2.17"
 
+libraryDependencies += "org.hamcrest" % "hamcrest-library" % "1.3" % Test
+
 resolvers += Resolver.mavenLocal

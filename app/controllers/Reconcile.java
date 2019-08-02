@@ -271,7 +271,11 @@ public class Reconcile extends Controller {
 			resultForHit.put("name", name);
 			resultForHit.put("score", hit.getScore());
 			resultForHit.put("match", mainQuery.equalsIgnoreCase(name));
-			resultForHit.set("type", TYPES);
+			List<JsonNode> types = StreamSupport.stream(Json.toJson(//
+					hit.getSource().get("type")).spliterator(), false).collect(Collectors.toList());
+			List<JsonNode> filtered = StreamSupport.stream(TYPES.spliterator(), false)
+					.filter(t -> types.contains(Json.toJson(t.get("id")))).collect(Collectors.toList());
+			resultForHit.set("type", Json.toJson(filtered));
 			return resultForHit;
 		}).collect(Collectors.toList());
 	}
