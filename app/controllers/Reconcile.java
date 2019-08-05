@@ -2,6 +2,8 @@
 
 package controllers;
 
+import static controllers.HomeController.config;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -181,7 +183,20 @@ public class Reconcile extends Controller {
 		switch (Service.valueOf(service.toUpperCase())) {
 		case ENTITY:
 			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
-			break;
+			return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
+					"code", "/api/status/ok", //
+					"status", "200 OK", //
+					"prefix", prefix, //
+					"result",
+					StreamSupport.stream(index.query(prefix, "", "", start, limit).getHits().spliterator(), false)
+							.map(hit -> new AuthorityResource(Json.parse(hit.getSourceAsString())))
+							.map(entity -> Json.toJson(ImmutableMap.of(//
+									"id", entity.getId(), //
+									"name", entity.title(), //
+									"description", entity.subTitle(), //
+									"notable", labelledTypes(entity.getType()))))
+							.collect(Collectors.toList())))
+					.toString());
 		case TYPE:
 			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.TYPE);
 			break;
@@ -212,7 +227,9 @@ public class Reconcile extends Controller {
 		switch (Service.valueOf(service.toUpperCase())) {
 		case ENTITY:
 			Logger.info("Flyout {}:{} -> {}", service, id, Service.ENTITY);
-			break;
+			return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
+					"id", id, //
+					"html", previewHtml(id))).toString());
 		case TYPE:
 			Logger.info("Flyout {}:{} -> {}", service, id, Service.TYPE);
 			break;
@@ -225,6 +242,13 @@ public class Reconcile extends Controller {
 						"id", id, //
 						"html", "<p style=\"font-size: 0.8em; color: black;\">Varianter Name: Nichtsein</p>"))
 				.toString());
+	}
+
+	private String previewHtml(String id) {
+		GetResponse getResponse = index.client().prepareGet().setIndex(config("index.name")).setId(id).get();
+		JsonNode entityJson = Json.parse(getResponse.getSourceAsString());
+		return views.html.preview.render(//
+				HomeController.toSuggestions(Json.parse("[" + entityJson + "]"), "suggest")).toString();
 	}
 
 	/** @return Reconciliation data for the queries in the request */
@@ -359,13 +383,16 @@ public class Reconcile extends Controller {
 			resultForHit.put("name", name);
 			resultForHit.put("score", hit.getScore());
 			resultForHit.put("match", mainQuery.equalsIgnoreCase(name));
-			List<JsonNode> types = StreamSupport.stream(Json.toJson(//
-					hit.getSource().get("type")).spliterator(), false).collect(Collectors.toList());
-			List<JsonNode> filtered = StreamSupport.stream(TYPES.spliterator(), false)
-					.filter(t -> types.contains(Json.toJson(t.get("id")))).collect(Collectors.toList());
-			resultForHit.set("type", Json.toJson(filtered));
+			resultForHit.set("type",
+					labelledTypes(StreamSupport.stream(Json.toJson(hit.getSource().get("type")).spliterator(), false)
+							.map(json -> json.toString()).collect(Collectors.toList())));
 			return resultForHit;
 		}).collect(Collectors.toList());
+	}
+
+	private JsonNode labelledTypes(List<String> types) {
+		return Json.toJson(StreamSupport.stream(TYPES.spliterator(), false)
+				.filter(t -> types.contains(t.get("id").textValue())).collect(Collectors.toList()));
 	}
 
 	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString) {
