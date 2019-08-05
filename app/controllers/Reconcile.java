@@ -151,6 +151,82 @@ public class Reconcile extends Controller {
 				: ok(String.format("/**/%s(%s);", callback, response.toString())).as("application/json");
 	}
 
+	private enum Service {
+		ENTITY, TYPE, PROPERTY
+	}
+
+	/**
+	 * Suggest API: suggest entry point
+	 * 
+	 * https://github.com/OpenRefine/OpenRefine/wiki/Suggest-API#suggest-entry-point
+	 * 
+	 * @param callback
+	 *            The JSONP callback
+	 * @param service
+	 *            The service (one of: entity, type, property)
+	 * @param prefix
+	 *            The prefix to suggest something for
+	 * @param type
+	 *            The type or array-of-types of results to return
+	 * @param typeStrict
+	 *            How to deal with array-of-types (one of: any, all, should)
+	 * @param limit
+	 *            How many results to return
+	 * @param start
+	 *            First result to return
+	 * @return The suggest JSON data
+	 */
+	public Result suggest(String callback, String service, String prefix, String type, String typeStrict, int limit,
+			int start) {
+		switch (Service.valueOf(service.toUpperCase())) {
+		case ENTITY:
+			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
+			break;
+		case TYPE:
+			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.TYPE);
+			break;
+		case PROPERTY:
+			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.PROPERTY);
+			break;
+		}
+		return HomeController.withCallback(Json.toJson(Arrays.asList(ImmutableMap.of(//
+				"id", "4042122-3", //
+				"name", "Nichts", //
+				"description", "Varianter Name: Nichtsein"))).toString());
+	}
+
+	/**
+	 * Suggest API: flyout entry point
+	 * 
+	 * https://github.com/OpenRefine/OpenRefine/wiki/Suggest-API#flyout-entry-point
+	 * 
+	 * @param callback
+	 *            The JSONP callback
+	 * @param service
+	 *            The service (one of: entity, type, property)
+	 * @param id
+	 *            The ID to return a flyout for
+	 * @return The flyout JSON data
+	 */
+	public Result flyout(String callback, String service, String id) {
+		switch (Service.valueOf(service.toUpperCase())) {
+		case ENTITY:
+			Logger.info("Flyout {}:{} -> {}", service, id, Service.ENTITY);
+			break;
+		case TYPE:
+			Logger.info("Flyout {}:{} -> {}", service, id, Service.TYPE);
+			break;
+		case PROPERTY:
+			Logger.info("Flyout {}:{} -> {}", service, id, Service.PROPERTY);
+			break;
+		}
+		return HomeController.withCallback(Json
+				.toJson(ImmutableMap.of(//
+						"id", id, //
+						"html", "<p style=\"font-size: 0.8em; color: black;\">Varianter Name: Nichtsein</p>"))
+				.toString());
+	}
+
 	/** @return Reconciliation data for the queries in the request */
 	public Result reconcile() {
 		Map<String, String[]> body = request().body().asFormUrlEncoded();

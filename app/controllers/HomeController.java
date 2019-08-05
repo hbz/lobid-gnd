@@ -383,7 +383,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				response == null ? 0 : response.getHits().getTotalHits()));
 	}
 
-	private static Result withCallback(final String json) {
+	static Result withCallback(final String json) {
 		/* JSONP callback support for remote server calls with JavaScript: */
 		final String[] callback = request() == null || request().queryString() == null ? null
 				: request().queryString().get("callback");
