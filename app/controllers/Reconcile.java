@@ -185,7 +185,7 @@ public class Reconcile extends Controller {
 		case ENTITY:
 			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
 			List<?> results = StreamSupport
-					.stream(index.query(prefix, "", "", start, limit).getHits().spliterator(), false)
+					.stream(index.query(prefix, type, "", start, limit).getHits().spliterator(), false)
 					.map(hit -> new AuthorityResource(Json.parse(hit.getSourceAsString())))
 					.map(entity -> Json.toJson(ImmutableMap.of(//
 							"id", entity.getId(), //
