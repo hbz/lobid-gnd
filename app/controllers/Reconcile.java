@@ -191,7 +191,11 @@ public class Reconcile extends Controller {
 							"id", entity.getId(), //
 							"name", entity.title(), //
 							"description", entity.subTitle(), //
-							"notable", labelledTypes(entity.getType()))))
+							"notable",
+							entity.getType().stream()
+									.map(t -> Json.toJson(ImmutableMap.of(//
+											"id", t, //
+											"name", GndOntology.label(t)))))))
 					.collect(Collectors.toList());
 			return withCallback(suggestApiResponse(prefix, results).toString());
 		case TYPE:
@@ -402,16 +406,13 @@ public class Reconcile extends Controller {
 			resultForHit.put("name", name);
 			resultForHit.put("score", hit.getScore());
 			resultForHit.put("match", mainQuery.equalsIgnoreCase(name));
-			resultForHit.set("type",
-					labelledTypes(StreamSupport.stream(Json.toJson(hit.getSource().get("type")).spliterator(), false)
-							.map(json -> json.toString()).collect(Collectors.toList())));
+			List<JsonNode> types = StreamSupport.stream(Json.toJson(//
+					hit.getSource().get("type")).spliterator(), false).collect(Collectors.toList());
+			List<JsonNode> filtered = StreamSupport.stream(TYPES.spliterator(), false)
+					.filter(t -> types.contains(Json.toJson(t.get("id")))).collect(Collectors.toList());
+			resultForHit.set("type", Json.toJson(filtered));
 			return resultForHit;
 		}).collect(Collectors.toList());
-	}
-
-	private JsonNode labelledTypes(List<String> types) {
-		return Json.toJson(StreamSupport.stream(TYPES.spliterator(), false)
-				.filter(t -> types.contains(t.get("id").textValue())).collect(Collectors.toList()));
 	}
 
 	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString) {
