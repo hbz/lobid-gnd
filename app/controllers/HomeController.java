@@ -452,7 +452,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return null;
 	}
 
-	private static String returnAsJson(String q, SearchResponse queryResponse) {
+	static String returnAsJson(String q, SearchResponse queryResponse) {
 		if (queryResponse == null) {
 			return Json.newObject().toString();
 		}

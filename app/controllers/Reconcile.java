@@ -3,6 +3,7 @@
 package controllers;
 
 import static controllers.HomeController.config;
+import static controllers.HomeController.withCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -183,31 +184,45 @@ public class Reconcile extends Controller {
 		switch (Service.valueOf(service.toUpperCase())) {
 		case ENTITY:
 			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
-			return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
-					"code", "/api/status/ok", //
-					"status", "200 OK", //
-					"prefix", prefix, //
-					"result",
-					StreamSupport.stream(index.query(prefix, "", "", start, limit).getHits().spliterator(), false)
-							.map(hit -> new AuthorityResource(Json.parse(hit.getSourceAsString())))
-							.map(entity -> Json.toJson(ImmutableMap.of(//
-									"id", entity.getId(), //
-									"name", entity.title(), //
-									"description", entity.subTitle(), //
-									"notable", labelledTypes(entity.getType()))))
-							.collect(Collectors.toList())))
-					.toString());
+			List<?> results = StreamSupport
+					.stream(index.query(prefix, "", "", start, limit).getHits().spliterator(), false)
+					.map(hit -> new AuthorityResource(Json.parse(hit.getSourceAsString())))
+					.map(entity -> Json.toJson(ImmutableMap.of(//
+							"id", entity.getId(), //
+							"name", entity.title(), //
+							"description", entity.subTitle(), //
+							"notable", labelledTypes(entity.getType()))))
+					.collect(Collectors.toList());
+			return withCallback(suggestApiResponse(prefix, results).toString());
 		case TYPE:
 			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.TYPE);
-			break;
+			Stream<JsonNode> labelledTypes = StreamSupport
+					.stream(Json.parse(HomeController.returnAsJson("*", index.query("*", "", "", start, limit)))
+							.get("aggregation").get("type").spliterator(), false)
+					.map(typeAggregation -> Json.toJson(ImmutableMap.of(//
+							"id", typeAggregation.get("key"), //
+							"name", GndOntology.label(typeAggregation.get("key").asText()))));
+			return withCallback(suggestApiResponse(prefix,
+					labelledTypes.filter(
+							candidateType -> candidateType.toString().toLowerCase().contains(prefix.toLowerCase()))
+							.collect(Collectors.toList())).toString());
 		case PROPERTY:
 			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.PROPERTY);
 			break;
 		}
-		return HomeController.withCallback(Json.toJson(Arrays.asList(ImmutableMap.of(//
-				"id", "4042122-3", //
-				"name", "Nichts", //
-				"description", "Varianter Name: Nichtsein"))).toString());
+		return withCallback(suggestApiResponse(prefix,
+				Arrays.asList(ImmutableMap.of(//
+						"id", "4042122-3", //
+						"name", "Nichts", //
+						"description", "Varianter Name: Nichtsein"))).toString());
+	}
+
+	private JsonNode suggestApiResponse(String prefix, List<?> results) {
+		return Json.toJson(ImmutableMap.of(//
+				"code", "/api/status/ok", //
+				"status", "200 OK", //
+				"prefix", prefix, //
+				"result", results));
 	}
 
 	/**
@@ -232,16 +247,16 @@ public class Reconcile extends Controller {
 					"html", previewHtml(id))).toString());
 		case TYPE:
 			Logger.info("Flyout {}:{} -> {}", service, id, Service.TYPE);
-			break;
+			return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
+					"id", id, //
+					"html", labelAndIdHtml(id))).toString());
 		case PROPERTY:
 			Logger.info("Flyout {}:{} -> {}", service, id, Service.PROPERTY);
 			break;
 		}
-		return HomeController.withCallback(Json
-				.toJson(ImmutableMap.of(//
-						"id", id, //
-						"html", "<p style=\"font-size: 0.8em; color: black;\">Varianter Name: Nichtsein</p>"))
-				.toString());
+		return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
+				"id", id, //
+				"html", labelAndIdHtml("4042122-3"))).toString());
 	}
 
 	private String previewHtml(String id) {
@@ -249,6 +264,10 @@ public class Reconcile extends Controller {
 		JsonNode entityJson = Json.parse(getResponse.getSourceAsString());
 		return views.html.preview.render(//
 				HomeController.toSuggestions(Json.parse("[" + entityJson + "]"), "suggest")).toString();
+	}
+
+	private String labelAndIdHtml(String id) {
+		return "<p style=\"font-size: 0.8em; color: black;\"><b>" + GndOntology.label(id) + "</b> (" + id + ")</p>";
 	}
 
 	/** @return Reconciliation data for the queries in the request */
