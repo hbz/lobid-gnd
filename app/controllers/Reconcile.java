@@ -200,19 +200,16 @@ public class Reconcile extends Controller {
 			return withCallback(suggestApiResponse(prefix, results).toString());
 		case TYPE:
 			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.TYPE);
-			Stream<JsonNode> labelledTypes = StreamSupport
-					.stream(Json.parse(HomeController.returnAsJson("*", index.query("*", "", "", start, limit)))
-							.get("aggregation").get("type").spliterator(), false)
-					.map(typeAggregation -> Json.toJson(ImmutableMap.of(//
-							"id", typeAggregation.get("key"), //
-							"name", GndOntology.label(typeAggregation.get("key").asText()))));
-			return withCallback(suggestApiResponse(prefix,
-					labelledTypes.filter(
-							candidateType -> candidateType.toString().toLowerCase().contains(prefix.toLowerCase()))
-							.collect(Collectors.toList())).toString());
+			SearchResponse aggregationQuery = index.query("*", "", "", start, limit);
+			Stream<JsonNode> labelledTypes = labelledIds(
+					StreamSupport.stream(Json.parse(HomeController.returnAsJson("*", aggregationQuery))
+							.get("aggregation").get("type").spliterator(), false).map(t -> t.get("key").asText()));
+			return withCallback(suggestApiResponse(prefix, matchingEntries(prefix, labelledTypes)).toString());
 		case PROPERTY:
-			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.PROPERTY);
-			break;
+			Logger.info("Suggest {}:{} -> {}", service, prefix, "", Service.PROPERTY);
+			Stream<String> propertyIds = GndOntology.properties("").stream();
+			Stream<JsonNode> labelledProperties = labelledIds(propertyIds);
+			return withCallback(suggestApiResponse(prefix, matchingEntries(prefix, labelledProperties)).toString());
 		}
 		return withCallback(suggestApiResponse(prefix,
 				Arrays.asList(ImmutableMap.of(//
@@ -227,6 +224,19 @@ public class Reconcile extends Controller {
 				"status", "200 OK", //
 				"prefix", prefix, //
 				"result", results));
+	}
+
+	private Stream<JsonNode> labelledIds(Stream<String> ids) {
+		Stream<JsonNode> labelledIds = ids.map(id -> Json.toJson(ImmutableMap.of(//
+				"id", id, //
+				"name", GndOntology.label(id))));
+		return labelledIds;
+	}
+
+	private List<JsonNode> matchingEntries(String prefix, Stream<JsonNode> labelledIds) {
+		return labelledIds//
+				.filter(candidate -> candidate.toString().toLowerCase().contains(prefix.toLowerCase()))
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -251,16 +261,14 @@ public class Reconcile extends Controller {
 					"html", previewHtml(id))).toString());
 		case TYPE:
 			Logger.info("Flyout {}:{} -> {}", service, id, Service.TYPE);
-			return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
-					"id", id, //
-					"html", labelAndIdHtml(id))).toString());
+			break;
 		case PROPERTY:
 			Logger.info("Flyout {}:{} -> {}", service, id, Service.PROPERTY);
 			break;
 		}
 		return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
 				"id", id, //
-				"html", labelAndIdHtml("4042122-3"))).toString());
+				"html", labelAndIdHtml(id))).toString());
 	}
 
 	private String previewHtml(String id) {

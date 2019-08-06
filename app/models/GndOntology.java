@@ -132,7 +132,8 @@ public class GndOntology {
 	 * @return The short IDs for properties in the domain of the given type
 	 */
 	public static List<String> properties(String type) {
-		List<String> result = properties.get(type);
+		List<String> result = type.isEmpty() ? properties.entrySet().stream().flatMap(e -> e.getValue().stream())
+				.distinct().collect(Collectors.toList()) : properties.get(type);
 		result = result == null ? new ArrayList<>() : result;
 		result.addAll(ADDITIONAL_PROPERTIES);
 		return new ArrayList<>(new TreeSet<>(result));
