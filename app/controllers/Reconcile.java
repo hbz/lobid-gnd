@@ -183,7 +183,7 @@ public class Reconcile extends Controller {
 			int start) {
 		switch (Service.valueOf(service.toUpperCase())) {
 		case ENTITY:
-			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
+			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
 			List<?> results = StreamSupport
 					.stream(index.query(prefix, type, "", start, limit).getHits().spliterator(), false)
 					.map(hit -> new AuthorityResource(Json.parse(hit.getSourceAsString())))
@@ -199,14 +199,14 @@ public class Reconcile extends Controller {
 					.collect(Collectors.toList());
 			return withCallback(suggestApiResponse(prefix, results).toString());
 		case TYPE:
-			Logger.info("Suggest {}:{} -> {}", service, prefix, Service.TYPE);
+			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.TYPE);
 			SearchResponse aggregationQuery = index.query("*", "", "", start, limit);
 			Stream<JsonNode> labelledTypes = labelledIds(
 					StreamSupport.stream(Json.parse(HomeController.returnAsJson("*", aggregationQuery))
 							.get("aggregation").get("type").spliterator(), false).map(t -> t.get("key").asText()));
 			return withCallback(suggestApiResponse(prefix, matchingEntries(prefix, labelledTypes)).toString());
 		case PROPERTY:
-			Logger.info("Suggest {}:{} -> {}", service, prefix, "", Service.PROPERTY);
+			Logger.debug("Suggest {}:{} -> {}", service, prefix, "", Service.PROPERTY);
 			Stream<String> propertyIds = GndOntology.properties("").stream();
 			Stream<JsonNode> labelledProperties = labelledIds(propertyIds);
 			return withCallback(suggestApiResponse(prefix, matchingEntries(prefix, labelledProperties)).toString());
@@ -255,15 +255,15 @@ public class Reconcile extends Controller {
 	public Result flyout(String callback, String service, String id) {
 		switch (Service.valueOf(service.toUpperCase())) {
 		case ENTITY:
-			Logger.info("Flyout {}:{} -> {}", service, id, Service.ENTITY);
+			Logger.debug("Flyout {}:{} -> {}", service, id, Service.ENTITY);
 			return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
 					"id", id, //
 					"html", previewHtml(id))).toString());
 		case TYPE:
-			Logger.info("Flyout {}:{} -> {}", service, id, Service.TYPE);
+			Logger.debug("Flyout {}:{} -> {}", service, id, Service.TYPE);
 			break;
 		case PROPERTY:
-			Logger.info("Flyout {}:{} -> {}", service, id, Service.PROPERTY);
+			Logger.debug("Flyout {}:{} -> {}", service, id, Service.PROPERTY);
 			break;
 		}
 		return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
@@ -435,7 +435,7 @@ public class Reconcile extends Controller {
 		String queryString = clean(mainQuery(entry));
 		JsonNode props = entry.getValue().get("properties");
 		if (props != null) {
-			Logger.info("Properties: {}", props);
+			Logger.debug("Properties: {}", props);
 			for (JsonNode p : props) {
 				String field = p.get("pid").asText();
 				String value = clean(p.get("v").asText());
@@ -444,7 +444,7 @@ public class Reconcile extends Controller {
 				queryString += " OR (" + segment + ")";
 			}
 		}
-		Logger.info("Query string: {}", queryString);
+		Logger.debug("Query string: {}", queryString);
 		return queryString;
 	}
 
