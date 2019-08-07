@@ -297,7 +297,7 @@ public class Reconcile extends Controller {
 			Entry<String, JsonNode> inputQuery = inputQueries.next();
 			Logger.debug("q: " + inputQuery);
 			SearchResponse searchResponse = executeQuery(inputQuery, buildQueryString(inputQuery));
-			List<JsonNode> results = mapToResults(mainQuery(inputQuery), searchResponse.getHits());
+			List<ObjectNode> results = mapToResults(mainQuery(inputQuery), searchResponse.getHits());
 			ObjectNode resultsForInputQuery = Json.newObject();
 			resultsForInputQuery.set("result", Json.toJson(results));
 			Logger.debug("r: " + resultsForInputQuery);
@@ -404,8 +404,8 @@ public class Reconcile extends Controller {
 		return response.getSource();
 	}
 
-	private List<JsonNode> mapToResults(String mainQuery, SearchHits searchHits) {
-		return Arrays.asList(searchHits.getHits()).stream().map(hit -> {
+	private List<ObjectNode> mapToResults(String mainQuery, SearchHits searchHits) {
+		List<ObjectNode> result = Arrays.asList(searchHits.getHits()).stream().map(hit -> {
 			Map<String, Object> map = hit.getSource();
 			ObjectNode resultForHit = Json.newObject();
 			resultForHit.put("id", hit.getId());
@@ -421,6 +421,10 @@ public class Reconcile extends Controller {
 			resultForHit.set("type", Json.toJson(filtered));
 			return resultForHit;
 		}).collect(Collectors.toList());
+		if (result.size() > 1 && result.get(0).get("score").asDouble() > result.get(1).get("score").asDouble() * 2) {
+			result.get(0).put("match", true);
+		}
+		return result;
 	}
 
 	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString) {
@@ -438,7 +442,7 @@ public class Reconcile extends Controller {
 			Logger.debug("Properties: {}", props);
 			for (JsonNode p : props) {
 				String field = p.get("pid").asText();
-				String value = clean(p.get("v").asText());
+				String value = clean(p.get("v").asText()).replace(" ", " OR ");
 				// if pid is a valid field, add field search, else just value:
 				String segment = (GndOntology.properties("").contains(field) ? field + ":" : "") + value;
 				queryString += " OR (" + segment + ")";
