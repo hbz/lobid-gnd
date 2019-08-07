@@ -432,13 +432,23 @@ public class Reconcile extends Controller {
 	}
 
 	private String buildQueryString(Entry<String, JsonNode> entry) {
-		String queryString = mainQuery(entry);
+		String queryString = clean(mainQuery(entry));
 		JsonNode props = entry.getValue().get("properties");
 		if (props != null) {
+			Logger.info("Properties: {}", props);
 			for (JsonNode p : props) {
-				queryString += " " + p.get("v").asText();
+				String field = p.get("pid").asText();
+				String value = clean(p.get("v").asText());
+				// if pid is a valid field, add field search, else just value:
+				String segment = (GndOntology.properties("").contains(field) ? field + ":" : "") + value;
+				queryString += " OR (" + segment + ")";
 			}
 		}
+		Logger.info("Query string: {}", queryString);
+		return queryString;
+	}
+
+	private String clean(String queryString) {
 		return queryString.replaceAll("[:+\\-=<>(){}\\[\\]^]", "");
 	}
 
