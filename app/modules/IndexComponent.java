@@ -54,6 +54,7 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import apps.Index;
 import controllers.HomeController;
 import play.Logger;
 import play.inject.ApplicationLifecycle;
@@ -111,7 +112,7 @@ class ElasticsearchServer implements IndexComponent {
 		String pathToUpdates = config("data.updates.data");
 		String indexName = config("index.name");
 		try {
-			if (!indexExists(client, indexName)) {
+			if (!Index.indexExists(client, indexName)) {
 				createEmptyIndex(client, indexName, config("index.settings"));
 				if (new File(pathToJson).exists()) {
 					indexData(client, pathToJson, indexName);
@@ -148,10 +149,6 @@ class ElasticsearchServer implements IndexComponent {
 			}
 			client.admin().indices().refresh(new RefreshRequest()).actionGet();
 		}
-	}
-
-	static boolean indexExists(final Client client, final String index) {
-		return client.admin().indices().prepareExists(index).execute().actionGet().isExists();
 	}
 
 	static void createEmptyIndex(final Client client, final String index, final String mappings) throws IOException {
