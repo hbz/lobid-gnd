@@ -48,22 +48,20 @@ public class Index {
 	public static IndexComponent index;
 
 	public static void main(String[] args) {
-		index = indexData();
+		index = indexBaselineAndUpdates(//
+				args.length > 0 ? args[0] : null, //
+				args.length > 1 ? args[1] : null, //
+				args.length > 2 ? args[2] : null);
 	}
 
 	static String indexName = HomeController.config("index.name");
 
 	protected static final File[] ENTITYFACTS_FILES = new File("test/entityfacts").listFiles();
 
-	public static IndexComponent indexData() {
+	public static void deleteIndex(final String index) {
 		Application app = new GuiceApplicationBuilder().build();
-		IndexComponent index = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
-		deleteIndex(index.client(), indexName);
-		index.startup();
-		return index;
-	}
-
-	static void deleteIndex(final Client client, final String index) {
+		IndexComponent indexComponent = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
+		Client client = indexComponent.client();
 		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 		if (indexExists(client, index)) {
 			List<String> hosts = CONFIG.getStringList("index.hosts");
@@ -107,9 +105,41 @@ public class Index {
 		client.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
-	static BulkRequestBuilder bulkRequest = null;
+	public static IndexComponent indexBaselineAndUpdates() {
+		return indexBaselineAndUpdates(null, null, null);
+	}
 
-	public static void indexData(final Client client, final String path, final String index) throws IOException {
+	public static IndexComponent indexBaselineAndUpdates(String baseline, String updates, String indexName) {
+		Application app = new GuiceApplicationBuilder().build();
+		IndexComponent index = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
+		Client client = index.client();
+		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
+		client.admin().indices().refresh(new RefreshRequest()).actionGet();
+		String pathToJson = baseline == null ? config("data.jsonlines") : baseline;
+		String pathToUpdates = updates == null ? config("data.updates.data") : updates;
+		indexName = indexName == null ? config("index.name") : indexName;
+		try {
+			if (!Index.indexExists(client, indexName)) {
+				Index.createEmptyIndex(client, indexName, config("index.settings"));
+				if (new File(pathToJson).exists()) {
+					Index.indexData(client, pathToJson, indexName);
+				}
+			} else {
+				Logger.info("Index {} exists. Delete index or change index name in config to reindex from {}",
+						indexName, pathToJson);
+			}
+			if (new File(pathToUpdates).exists()) {
+				Logger.info("Indexing updates from " + pathToUpdates);
+				Index.indexData(client, pathToUpdates, indexName);
+			}
+			deleteDeprecatedResources(client);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return index;
+	}
+
+	private static void indexData(final Client client, final String path, final String index) throws IOException {
 		// Set number_of_replicas to 0 for faster indexing. See:
 		// https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
 		updateSettings(client, index, Settings.builder().put("index.number_of_replicas", 0));
@@ -132,6 +162,8 @@ public class Index {
 			Logger.error("Not acknowledged: Update index settings {}: {}", settings, response);
 		}
 	}
+
+	static BulkRequestBuilder bulkRequest = null;
 
 	private static void bulkIndex(final BufferedReader br, final Client client, final String indexName)
 			throws IOException {
@@ -182,32 +214,6 @@ public class Index {
 			});
 		}
 		Logger.info("Indexed {} docs, took: {}", pendingIndexRequests, bulkResponse.getTook());
-	}
-
-	public static void indexBaselineAndUpdates(Client client) {
-		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
-		client.admin().indices().refresh(new RefreshRequest()).actionGet();
-		String pathToJson = config("data.jsonlines");
-		String pathToUpdates = config("data.updates.data");
-		String indexName = config("index.name");
-		try {
-			if (!Index.indexExists(client, indexName)) {
-				Index.createEmptyIndex(client, indexName, config("index.settings"));
-				if (new File(pathToJson).exists()) {
-					Index.indexData(client, pathToJson, indexName);
-				}
-			} else {
-				Logger.info("Index {} exists. Delete index or change index name in config to reindex from {}",
-						indexName, pathToJson);
-			}
-			if (new File(pathToUpdates).exists()) {
-				Logger.info("Indexing updates from " + pathToUpdates);
-				Index.indexData(client, pathToUpdates, indexName);
-			}
-			deleteDeprecatedResources(client);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private static void deleteDeprecatedResources(Client client) throws IOException {

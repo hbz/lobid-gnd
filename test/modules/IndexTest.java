@@ -35,7 +35,7 @@ public class IndexTest {
 		Logger.info("Converting and indexing test data");
 		Index.indexEntityFacts();
 		convertData();
-		index = Index.indexData();
+		index = Index.indexBaselineAndUpdates();
 	}
 
 	private static void convertData() throws FileNotFoundException, IOException {

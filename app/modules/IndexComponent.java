@@ -29,7 +29,6 @@ import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
-import apps.Index;
 import controllers.HomeController;
 import play.Logger;
 import play.inject.ApplicationLifecycle;
@@ -44,8 +43,6 @@ public interface IndexComponent {
 	public default SearchResponse query(String q) {
 		return query(q, "", "", 0, 10);
 	}
-
-	void startup();
 
 }
 
@@ -67,7 +64,6 @@ class ElasticsearchServer implements IndexComponent {
 				e.printStackTrace();
 			}
 		});
-		startup();
 		lifecycle.addStopHook(() -> {
 			client.close();
 			return null;
@@ -77,11 +73,6 @@ class ElasticsearchServer implements IndexComponent {
 	@Override
 	public Client client() {
 		return client;
-	}
-
-	public void startup() {
-		Index.indexBaselineAndUpdates(client);
-		Logger.info("Using Elasticsearch index settings: {}", SETTINGS.getAsMap());
 	}
 
 	@Override
