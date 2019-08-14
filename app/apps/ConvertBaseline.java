@@ -19,7 +19,6 @@ import org.culturegraph.mf.xml.XmlDecoder;
 import org.culturegraph.mf.xml.XmlElementSplitter;
 
 import apps.Convert.ToAuthorityJson;
-import controllers.HomeController;
 
 public class ConvertBaseline {
 
@@ -35,8 +34,8 @@ public class ConvertBaseline {
 			splitter.setTopLevelElement("rdf:RDF");
 			ToAuthorityJson encodeJson = new ToAuthorityJson();
 			JsonToElasticsearchBulk bulk = new JsonToElasticsearchBulk("id", config("index.type"),
-					config("index.name"));
-			new File(config("index.delete")).delete();
+					config("index.name.prod"));
+			new File(config("index.delete.baseline")).delete();
 			for (String file : input) {
 				FileOpener opener = new FileOpener();
 				File out = outFile.isDirectory() ? new File(outFile, new File(file).getName() + ".jsonl") : outFile;
@@ -51,7 +50,7 @@ public class ConvertBaseline {
 				opener.closeStream();
 				writer.closeStream();
 			}
-			try (PrintWriter pw = new PrintWriter(new FileOutputStream(HomeController.config("index.delete"), true))) {
+			try (PrintWriter pw = new PrintWriter(new FileOutputStream(config("index.delete.baseline"), true))) {
 				encodeJson.deprecated.forEach(id -> pw.println(id));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

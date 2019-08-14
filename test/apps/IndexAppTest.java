@@ -1,5 +1,7 @@
 package apps;
 
+import static apps.Convert.config;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,8 +43,9 @@ public class IndexAppTest {
 	@Before
 	public void setUpIndex() throws IOException {
 		String indexName = "test";
+		index = Index.index;
 		Index.deleteIndex(indexName);
-		index = Index.indexBaselineAndUpdates(input, input, indexName);
+		Index.index(indexName, index.client(), input, config("index.delete.baseline"));
 	}
 
 	@Test

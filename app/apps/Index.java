@@ -1,7 +1,7 @@
 package apps;
 
+import static apps.Convert.config;
 import static controllers.HomeController.CONFIG;
-import static controllers.HomeController.config;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,16 +45,29 @@ import play.mvc.Http.Status;
 
 public class Index {
 
-	public static IndexComponent index;
+	public static IndexComponent index = new GuiceApplicationBuilder().build().injector()
+			.instanceOf(new BindingKey<>(IndexComponent.class));
 
 	public static void main(String[] args) {
-		index = indexBaselineAndUpdates(//
-				args.length > 0 ? args[0] : null, //
-				args.length > 1 ? args[1] : null, //
-				args.length > 2 ? args[2] : null);
+		if (args.length == 1 && (args[0].equals("baseline") || args[0].equals("updates"))) {
+			if (args[0].equals("baseline")) {
+				index(indexName, client, config("data.jsonlines"), config("index.delete.baseline"));
+			} else {
+				index(indexName, client, config("data.updates.data"), config("index.delete.updates"));
+			}
+		} else {
+			System.err.println("Pass one argument, 'baseline' or 'updates'. See config/application.conf.");
+		}
 	}
 
-	static String indexName = HomeController.config("index.name");
+	static String indexName = HomeController.config("index.name.prod");
+
+	static Client client = index.client();
+
+	static {
+		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
+		client.admin().indices().refresh(new RefreshRequest()).actionGet();
+	}
 
 	protected static final File[] ENTITYFACTS_FILES = new File("test/entityfacts").listFiles();
 
@@ -106,40 +119,32 @@ public class Index {
 	}
 
 	public static IndexComponent indexBaselineAndUpdates() {
-		return indexBaselineAndUpdates(null, null, null);
-	}
-
-	public static IndexComponent indexBaselineAndUpdates(String baseline, String updates, String indexName) {
-		Application app = new GuiceApplicationBuilder().build();
-		IndexComponent index = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
-		Client client = index.client();
-		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
-		client.admin().indices().refresh(new RefreshRequest()).actionGet();
-		String pathToJson = baseline == null ? config("data.jsonlines") : baseline;
-		String pathToUpdates = updates == null ? config("data.updates.data") : updates;
-		indexName = indexName == null ? config("index.name") : indexName;
-		try {
-			if (!Index.indexExists(client, indexName)) {
-				Index.createEmptyIndex(client, indexName, config("index.settings"));
-				if (new File(pathToJson).exists()) {
-					Index.indexData(client, pathToJson, indexName);
-				}
-			} else {
-				Logger.info("Index {} exists. Delete index or change index name in config to reindex from {}",
-						indexName, pathToJson);
-			}
-			if (new File(pathToUpdates).exists()) {
-				Logger.info("Indexing updates from " + pathToUpdates);
-				Index.indexData(client, pathToUpdates, indexName);
-			}
-			deleteDeprecatedResources(client);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		index(indexName, client, config("data.jsonlines"), config("index.delete.baseline"));
+		index(indexName, client, config("data.updates.data"), config("index.delete.updates"));
 		return index;
 	}
 
-	private static void indexData(final Client client, final String path, final String index) throws IOException {
+	static void index(String indexName, Client client, String pathToJson, String pathToDeprecated) {
+		indexName = indexName == null ? config("index.name.prod") : indexName;
+		try {
+			if (!Index.indexExists(client, indexName)) {
+				Logger.info("Creating new empty index {}", indexName);
+				Index.createEmptyIndex(client, indexName, config("index.settings"));
+			} else {
+				Logger.info("Index {} exists. Delete index or change index name in config to create new index",
+						indexName);
+			}
+			if (new File(pathToJson).exists()) {
+				Logger.info("Indexing {} into index {}", pathToJson, indexName);
+				Index.indexData(client, pathToJson, indexName);
+			}
+			deleteDeprecatedResources(client, pathToDeprecated);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void indexData(final Client client, final String path, final String index) throws IOException {
 		// Set number_of_replicas to 0 for faster indexing. See:
 		// https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
 		updateSettings(client, index, Settings.builder().put("index.number_of_replicas", 0));
@@ -216,14 +221,14 @@ public class Index {
 		Logger.info("Indexed {} docs, took: {}", pendingIndexRequests, bulkResponse.getTook());
 	}
 
-	private static void deleteDeprecatedResources(Client client) throws IOException {
-		File file = new File(config("index.delete"));
+	private static void deleteDeprecatedResources(Client client, String delete) throws IOException {
+		File file = new File(delete);
 		Logger.info("Deleting entities listed in {}", file);
 		if (file.exists()) {
 			try (Scanner s = new Scanner(new FileInputStream(file))) {
 				while (s.hasNextLine()) {
 					String id = s.nextLine();
-					DeleteResponse response = client.prepareDelete(config("index.name"), config("index.type"), id)
+					DeleteResponse response = client.prepareDelete(config("index.name.prod"), config("index.type"), id)
 							.execute().actionGet();
 					Logger.debug("Delete {}: status {}: {}", id, response.status(), response);
 					if (response.status().getStatus() == Status.OK) {

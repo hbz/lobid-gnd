@@ -12,6 +12,8 @@ import java.util.Set;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.elasticsearch.client.Client;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 import com.google.common.collect.ImmutableMap;
@@ -36,6 +38,15 @@ public class IndexTest {
 		Index.indexEntityFacts();
 		convertData();
 		index = Index.indexBaselineAndUpdates();
+		Client client = index.client();
+		String bootstrappingIndexName = HomeController.config("index.name.boot");
+		Index.createEmptyIndex(client, bootstrappingIndexName, HomeController.config("index.settings"));
+		Index.indexData(client, "test/data/index", bootstrappingIndexName);
+	}
+
+	@AfterClass
+	public static void tearDownBootstrappingIndex() {
+		Index.deleteIndex(HomeController.config("index.name.boot"));
 	}
 
 	private static void convertData() throws FileNotFoundException, IOException {
@@ -53,7 +64,8 @@ public class IndexTest {
 				out.write(jsonLd + "\n");
 			}
 		}
-		try (PrintWriter pw = new PrintWriter(new FileOutputStream(HomeController.config("index.delete"), true))) {
+		try (PrintWriter pw = new PrintWriter(
+				new FileOutputStream(HomeController.config("index.delete.tests"), true))) {
 			deprecated.forEach(id -> pw.println(id));
 		}
 	}

@@ -86,8 +86,8 @@ class ElasticsearchServer implements IndexComponent {
 		if (!filter.isEmpty()) {
 			query = query.filter(queryStringQuery(filter));
 		}
-		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name")).setQuery(query).setFrom(from)
-				.setSize(size);
+		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name.prod")).setQuery(query)
+				.setFrom(from).setSize(size);
 		if (!sort.isEmpty()) {
 			String[] fieldAndOrder = sort.split(":");
 			FieldSortBuilder fieldSort = SortBuilders.fieldSort(fieldAndOrder[0]);

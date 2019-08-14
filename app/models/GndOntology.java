@@ -152,7 +152,7 @@ public class GndOntology {
 	private static String indexLabel(String id) {
 		id = id.substring(AuthorityResource.DNB_PREFIX.length());
 		GetResponse response = CLIENT
-				.prepareGet(HomeController.config("index.name"), HomeController.config("index.type"), id).get();
+				.prepareGet(HomeController.config("index.name.boot"), HomeController.config("index.type"), id).get();
 		if (!response.isExists()) {
 			Logger.warn("{} does not exists in index", id);
 			return id;

@@ -30,9 +30,12 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -45,6 +48,11 @@ import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
 import com.google.common.collect.ImmutableMap;
 
+import controllers.HomeController;
+import modules.IndexComponent;
+import play.Application;
+import play.api.inject.BindingKey;
+import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 
 @RunWith(Parameterized.class)
@@ -63,6 +71,21 @@ public class ConvertTest {
 	public ConvertTest(String input, String index) {
 		this.input = input;
 		this.index = index;
+	}
+
+	@BeforeClass
+	public static void setUpBootstrappingIndex() throws IOException {
+		Application app = new GuiceApplicationBuilder().build();
+		IndexComponent indexComponent = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
+		Client client = indexComponent.client();
+		String bootstrappingIndexName = HomeController.config("index.name.boot");
+		Index.createEmptyIndex(client, bootstrappingIndexName, HomeController.config("index.settings"));
+		Index.indexData(client, "test/data/index", bootstrappingIndexName);
+	}
+
+	@AfterClass
+	public static void tearDownBootstrappingIndex() {
+		Index.deleteIndex(HomeController.config("index.name.boot"));
 	}
 
 	@Before
