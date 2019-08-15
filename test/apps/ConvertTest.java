@@ -90,7 +90,7 @@ public class ConvertTest {
 
 	@Before
 	public void testConvertBaseline() {
-		ConvertBaseline.main(new String[] { input, index });
+		ConvertBaseline.main(new String[] { input, index, config("index.delete.tests") });
 	}
 
 	@Test

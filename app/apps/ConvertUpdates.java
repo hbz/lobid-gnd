@@ -34,7 +34,8 @@ public class ConvertUpdates {
 		if (args.length == 1) {
 			Pair<String, String> startAndEnd = getUpdates(args[0]);
 			backup(new File(config("data.updates.rdf")), startAndEnd.getLeft(), startAndEnd.getRight());
-			ConvertBaseline.main(new String[] { config("data.updates.rdf"), config("data.updates.data") });
+			ConvertBaseline.main(new String[] { config("data.updates.rdf"), config("data.updates.data"),
+					config("index.delete.updates") });
 			backup(new File(config("data.updates.data")), startAndEnd.getLeft(), startAndEnd.getRight());
 		} else {
 			System.err.println("Pass one argument: get updates since a given date in ISO format, e.g. 2019-06-13");

@@ -23,19 +23,20 @@ import apps.Convert.ToAuthorityJson;
 public class ConvertBaseline {
 
 	public static void main(String[] args) {
-		if (args.length == 2 || args.length == 0) {
-			File inFile = new File(args.length == 2 ? args[0] : config("data.rdfxml"));
+		if (args.length == 3 || args.length == 0) {
+			File inFile = new File(args.length == 3 ? args[0] : config("data.rdfxml"));
 			List<String> input = inFile.isDirectory()
 					? Arrays.asList(inFile.listFiles()).stream().map(File::getAbsolutePath).collect(Collectors.toList())
 					: Arrays.asList(inFile.getAbsolutePath());
-			File outFile = new File(args.length == 2 ? args[1] : config("data.jsonlines"));
+			File outFile = new File(args.length == 3 ? args[1] : config("data.jsonlines"));
 			XmlElementSplitter splitter = new XmlElementSplitter();
 			splitter.setElementName("Description");
 			splitter.setTopLevelElement("rdf:RDF");
 			ToAuthorityJson encodeJson = new ToAuthorityJson();
 			JsonToElasticsearchBulk bulk = new JsonToElasticsearchBulk("id", config("index.type"),
 					config("index.name.prod"));
-			new File(config("index.delete.baseline")).delete();
+			File deprecatedFile = new File(args.length == 3 ? args[2] : config("index.delete.baseline"));
+			deprecatedFile.delete();
 			for (String file : input) {
 				FileOpener opener = new FileOpener();
 				File out = outFile.isDirectory() ? new File(outFile, new File(file).getName() + ".jsonl") : outFile;
@@ -50,14 +51,15 @@ public class ConvertBaseline {
 				opener.closeStream();
 				writer.closeStream();
 			}
-			try (PrintWriter pw = new PrintWriter(new FileOutputStream(config("index.delete.baseline"), true))) {
+			try (PrintWriter pw = new PrintWriter(new FileOutputStream(deprecatedFile, true))) {
 				encodeJson.deprecated.forEach(id -> pw.println(id));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
 		} else {
-			System.err.println("Pass either two arguments, the input (file or directory), and the output file, "
-					+ "or none, for input and output locations specified in application.conf");
+			System.err.println(
+					"Pass either three arguments, the input (file or directory), the output file, and the file to store deprecated IDs,"
+							+ "or none, for input, output, and deprecated locations specified in application.conf");
 		}
 	}
 }
