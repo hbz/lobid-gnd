@@ -74,9 +74,9 @@ h4. Get and convert the updates
 
 Updates are pulled via "the DNB OAI-PMH interface":http://www.dnb.de/DE/Service/DigitaleDienste/OAI/oai_node.html.
 
-Pass either one argument, the start date for getting updates, or two, the start and the end date:
+Pass one argument: get updates since a given date:
 
-@sbt "runMain apps.ConvertUpdates 2019-02-13 2019-03-13"@
+@sbt "runMain apps.ConvertUpdates 2019-06-13"@
 
 The date of the most recent update is stored in 'GND-lastSuccessfulUpdate.txt' (can be changed in the config).
 
