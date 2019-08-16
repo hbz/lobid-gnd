@@ -58,6 +58,9 @@ public class Index {
 		} else {
 			System.err.println("Pass one argument, 'baseline' or 'updates'. See config/application.conf.");
 		}
+		client.close();
+		// Why is this required? Also needs 'trapExit := false' in build.sbt
+		System.exit(0);
 	}
 
 	static String indexName = HomeController.config("index.name.prod");
@@ -142,6 +145,7 @@ public class Index {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		Logger.info("Indexing done");
 	}
 
 	public static void indexData(final Client client, final String path, final String index) throws IOException {
@@ -237,6 +241,7 @@ public class Index {
 				}
 			}
 			client.admin().indices().refresh(new RefreshRequest()).actionGet();
+			Logger.info("Delete and refresh done");
 		}
 	}
 
