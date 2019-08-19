@@ -383,7 +383,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				response == null ? 0 : response.getHits().getTotalHits()));
 	}
 
-	private static Result withCallback(final String json) {
+	static Result withCallback(final String json) {
 		/* JSONP callback support for remote server calls with JavaScript: */
 		final String[] callback = request() == null || request().queryString() == null ? null
 				: request().queryString().get("callback");
@@ -392,7 +392,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				: ok(json).as("application/json; charset=utf-8");
 	}
 
-	private static String toSuggestions(JsonNode json, String labelFields) {
+	static String toSuggestions(JsonNode json, String labelFields) {
 		Stream<String> defaultFields = Stream.of("preferredName", "dateOfBirth-dateOfDeath", "professionOrOccupation",
 				"placeOfBusiness", "firstAuthor", "firstComposer", "dateOfProduction");
 		String fields = labelFields.equals("suggest") ? defaultFields.collect(Collectors.joining(",")) : labelFields;
@@ -452,7 +452,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return null;
 	}
 
-	private static String returnAsJson(String q, SearchResponse queryResponse) {
+	static String returnAsJson(String q, SearchResponse queryResponse) {
 		if (queryResponse == null) {
 			return Json.newObject().toString();
 		}

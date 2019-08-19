@@ -2,6 +2,9 @@
 
 package controllers;
 
+import static controllers.HomeController.config;
+import static controllers.HomeController.withCallback;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -115,7 +118,19 @@ public class Reconcile extends Controller {
 				"propose_properties", Json.newObject()//
 						.put("service_url", host)//
 						.put("service_path", routes.Reconcile.properties("", "", "").toString()))));
+		ObjectNode suggest = Json.newObject();
+		suggest.set("property", suggestService("property"));
+		suggest.set("entity", suggestService("entity"));
+		suggest.set("type", suggestService("type"));
+		result.set("suggest", suggest);
 		return result;
+	}
+
+	private ObjectNode suggestService(String suggest) {
+		return Json.newObject()//
+				.put("service_url", HomeController.config("host") + "/gnd/reconcile")//
+				.put("service_path", "/suggest/" + suggest)//
+				.put("flyout_service_path", "/flyout/" + suggest + "?id=${id}");
 	}
 
 	/**
@@ -139,6 +154,134 @@ public class Reconcile extends Controller {
 				: ok(String.format("/**/%s(%s);", callback, response.toString())).as("application/json");
 	}
 
+	private enum Service {
+		ENTITY, TYPE, PROPERTY
+	}
+
+	/**
+	 * Suggest API: suggest entry point
+	 * 
+	 * https://github.com/OpenRefine/OpenRefine/wiki/Suggest-API#suggest-entry-point
+	 * 
+	 * @param callback
+	 *            The JSONP callback
+	 * @param service
+	 *            The service (one of: entity, type, property)
+	 * @param prefix
+	 *            The prefix to suggest something for
+	 * @param type
+	 *            The type or array-of-types of results to return
+	 * @param typeStrict
+	 *            How to deal with array-of-types (one of: any, all, should)
+	 * @param limit
+	 *            How many results to return
+	 * @param start
+	 *            First result to return
+	 * @return The suggest JSON data
+	 */
+	public Result suggest(String callback, String service, String prefix, String type, String typeStrict, int limit,
+			int start) {
+		switch (Service.valueOf(service.toUpperCase())) {
+		case ENTITY:
+			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
+			List<?> results = StreamSupport
+					.stream(index.query(prefix, type, "", start, limit).getHits().spliterator(), false)
+					.map(hit -> new AuthorityResource(Json.parse(hit.getSourceAsString())))
+					.map(entity -> Json.toJson(ImmutableMap.of(//
+							"id", entity.getId(), //
+							"name", entity.title(), //
+							"description", entity.subTitle(), //
+							"notable",
+							entity.getType().stream()
+									.map(t -> Json.toJson(ImmutableMap.of(//
+											"id", t, //
+											"name", GndOntology.label(t)))))))
+					.collect(Collectors.toList());
+			return withCallback(suggestApiResponse(prefix, results).toString());
+		case TYPE:
+			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.TYPE);
+			SearchResponse aggregationQuery = index.query("*", "", "", start, limit);
+			Stream<JsonNode> labelledTypes = labelledIds(
+					StreamSupport.stream(Json.parse(HomeController.returnAsJson("*", aggregationQuery))
+							.get("aggregation").get("type").spliterator(), false).map(t -> t.get("key").asText()));
+			return withCallback(suggestApiResponse(prefix, matchingEntries(prefix, labelledTypes)).toString());
+		case PROPERTY:
+			Logger.debug("Suggest {}:{} -> {}", service, prefix, "", Service.PROPERTY);
+			Stream<String> propertyIds = GndOntology.properties("").stream();
+			Stream<JsonNode> labelledProperties = labelledIds(propertyIds);
+			return withCallback(suggestApiResponse(prefix, matchingEntries(prefix, labelledProperties)).toString());
+		}
+		return withCallback(suggestApiResponse(prefix,
+				Arrays.asList(ImmutableMap.of(//
+						"id", "4042122-3", //
+						"name", "Nichts", //
+						"description", "Varianter Name: Nichtsein"))).toString());
+	}
+
+	private JsonNode suggestApiResponse(String prefix, List<?> results) {
+		return Json.toJson(ImmutableMap.of(//
+				"code", "/api/status/ok", //
+				"status", "200 OK", //
+				"prefix", prefix, //
+				"result", results));
+	}
+
+	private Stream<JsonNode> labelledIds(Stream<String> ids) {
+		Stream<JsonNode> labelledIds = ids.map(id -> Json.toJson(ImmutableMap.of(//
+				"id", id, //
+				"name", GndOntology.label(id))));
+		return labelledIds;
+	}
+
+	private List<JsonNode> matchingEntries(String prefix, Stream<JsonNode> labelledIds) {
+		return labelledIds//
+				.filter(candidate -> candidate.toString().toLowerCase().contains(prefix.toLowerCase()))
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Suggest API: flyout entry point
+	 * 
+	 * https://github.com/OpenRefine/OpenRefine/wiki/Suggest-API#flyout-entry-point
+	 * 
+	 * @param callback
+	 *            The JSONP callback
+	 * @param service
+	 *            The service (one of: entity, type, property)
+	 * @param id
+	 *            The ID to return a flyout for
+	 * @return The flyout JSON data
+	 */
+	public Result flyout(String callback, String service, String id) {
+		switch (Service.valueOf(service.toUpperCase())) {
+		case ENTITY:
+			Logger.debug("Flyout {}:{} -> {}", service, id, Service.ENTITY);
+			return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
+					"id", id, //
+					"html", previewHtml(id))).toString());
+		case TYPE:
+			Logger.debug("Flyout {}:{} -> {}", service, id, Service.TYPE);
+			break;
+		case PROPERTY:
+			Logger.debug("Flyout {}:{} -> {}", service, id, Service.PROPERTY);
+			break;
+		}
+		return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
+				"id", id, //
+				"html", labelAndIdHtml(id))).toString());
+	}
+
+	private String previewHtml(String id) {
+		GetResponse getResponse = index.client().prepareGet().setIndex(config("index.name")).setId(id).get();
+		JsonNode entityJson = Json.parse(getResponse.getSourceAsString());
+		return views.html.preview.render(//
+				HomeController.toSuggestions(Json.parse("[" + entityJson + "]"), "suggest")).toString();
+	}
+
+	private String labelAndIdHtml(String id) {
+		return "<p style=\"font-size: 0.8em; color: black;\"><b>" + GndOntology.label(id) + "</b> (" + id + ")</p>";
+	}
+
 	/** @return Reconciliation data for the queries in the request */
 	public Result reconcile() {
 		Map<String, String[]> body = request().body().asFormUrlEncoded();
@@ -154,7 +297,7 @@ public class Reconcile extends Controller {
 			Entry<String, JsonNode> inputQuery = inputQueries.next();
 			Logger.debug("q: " + inputQuery);
 			SearchResponse searchResponse = executeQuery(inputQuery, buildQueryString(inputQuery));
-			List<JsonNode> results = mapToResults(mainQuery(inputQuery), searchResponse.getHits());
+			List<ObjectNode> results = mapToResults(mainQuery(inputQuery), searchResponse.getHits());
 			ObjectNode resultsForInputQuery = Json.newObject();
 			resultsForInputQuery.set("result", Json.toJson(results));
 			Logger.debug("r: " + resultsForInputQuery);
@@ -261,8 +404,8 @@ public class Reconcile extends Controller {
 		return response.getSource();
 	}
 
-	private List<JsonNode> mapToResults(String mainQuery, SearchHits searchHits) {
-		return Arrays.asList(searchHits.getHits()).stream().map(hit -> {
+	private List<ObjectNode> mapToResults(String mainQuery, SearchHits searchHits) {
+		List<ObjectNode> result = Arrays.asList(searchHits.getHits()).stream().map(hit -> {
 			Map<String, Object> map = hit.getSource();
 			ObjectNode resultForHit = Json.newObject();
 			resultForHit.put("id", hit.getId());
@@ -278,6 +421,10 @@ public class Reconcile extends Controller {
 			resultForHit.set("type", Json.toJson(filtered));
 			return resultForHit;
 		}).collect(Collectors.toList());
+		if (result.size() > 1 && result.get(0).get("score").asDouble() > result.get(1).get("score").asDouble() * 2) {
+			result.get(0).put("match", true);
+		}
+		return result;
 	}
 
 	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString) {
@@ -289,13 +436,23 @@ public class Reconcile extends Controller {
 	}
 
 	private String buildQueryString(Entry<String, JsonNode> entry) {
-		String queryString = mainQuery(entry);
+		String queryString = clean(mainQuery(entry));
 		JsonNode props = entry.getValue().get("properties");
 		if (props != null) {
+			Logger.debug("Properties: {}", props);
 			for (JsonNode p : props) {
-				queryString += " " + p.get("v").asText();
+				String field = p.get("pid").asText();
+				String value = clean(p.get("v").asText()).replace(" ", " OR ");
+				// if pid is a valid field, add field search, else just value:
+				String segment = (GndOntology.properties("").contains(field) ? field + ":" : "") + value;
+				queryString += " OR (" + segment + ")";
 			}
 		}
+		Logger.debug("Query string: {}", queryString);
+		return queryString;
+	}
+
+	private String clean(String queryString) {
 		return queryString.replaceAll("[:+\\-=<>(){}\\[\\]^]", "");
 	}
 
