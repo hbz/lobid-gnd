@@ -120,12 +120,10 @@ $('input.search-gnd').autocomplete({
   <p><b>CORS header</b></p>
   <code>curl --head @controllers.HomeController.config("host")@routes.Reconcile.reconcile() | grep Access-Control-Allow-Origin</code>
 
-  <h3>Template URLs</h3>
+  <h3>View API</h3>
 
-  <p><b>Preview entities (<a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API#preview-api">spec</a>)</b></p>
-  <p><code>curl @controllers.HomeController.config("host")@routes.Reconcile.reconcile() | jq .preview.url</code></p>
-  <p><b>View entities (<a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API#service-metadata">spec</a>)</b></p>
-  <p><code>curl @controllers.HomeController.config("host")@routes.Reconcile.reconcile() | jq .view.url</code></p>
+  @desc("Preview entities (<a href=\"https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API#preview-api\">spec</a>)", routes.HomeController.authorityDotFormat("118624822", "preview"))
+  @desc("View entities (<a href=\"https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API#service-metadata\">spec</a>)", routes.HomeController.authority("118624822"))
 
   <h3>Query API <small>(<a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API#query-request">spec</a>)</small></h3>
 
