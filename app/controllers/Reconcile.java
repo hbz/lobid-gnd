@@ -272,7 +272,7 @@ public class Reconcile extends Controller {
 	}
 
 	private String previewHtml(String id) {
-		GetResponse getResponse = index.client().prepareGet().setIndex(config("index.name")).setId(id).get();
+		GetResponse getResponse = index.client().prepareGet().setIndex(config("index.name.prod")).setId(id).get();
 		JsonNode entityJson = Json.parse(getResponse.getSourceAsString());
 		return views.html.preview.render(//
 				HomeController.toSuggestions(Json.parse("[" + entityJson + "]"), "suggest")).toString();
@@ -397,7 +397,7 @@ public class Reconcile extends Controller {
 
 	private Map<String, Object> getAuthorityResource(String id) {
 		GetResponse response = index.client()
-				.prepareGet(HomeController.config("index.name"), HomeController.config("index.type"), id).get();
+				.prepareGet(HomeController.config("index.name.prod"), HomeController.config("index.type"), id).get();
 		if (!response.isExists()) {
 			return null;
 		}

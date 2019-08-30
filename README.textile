@@ -1,6 +1,6 @@
 h1. About
 
-lobid-gnd: access GND data as JSON-LD over HTTP.
+lobid-gnd: access GND+EntityFacts data as JSON-LD over HTTP.
 
 "!https://secure.travis-ci.org/hbz/lobid-gnd.png?branch=master!":https://travis-ci.org/hbz/lobid-gnd
 
@@ -20,7 +20,43 @@ Get the code, change into the project directory, and run the tests:
 
 h2. Data
 
-h3. Baseline
+The are three data sources involved:
+
+EntityFacts (JSON-LD over HTTP), GND baseline (RDF-XML over HTTP), and GND updates (RDF-XML over OAI-PMH).
+
+h3. EntityFacts
+
+Set up a location for the EntityFacts input data:
+
+@mkdir entityfacts ; cd entityfacts@
+
+Get the EntityFacts data from the DNB:
+
+@wget https://data.dnb.de/opendata/authorities_entityfacts.jsonld.gz@
+
+Unpack the data:
+
+@gunzip < authorities_entityfacts.jsonld.gz > authorities_entityfacts.jsonld@
+
+Go back to the root directory:
+
+@cd ..@
+
+Set up the data location in 'conf/application.conf' (data.entityfacts):
+
+@data { ... entityfacts: "entityfacts/authorities_entityfacts.jsonld" ...@
+
+Set up the name for the index to create in 'conf/application.conf' (index.entityfacts.index):
+
+@index { ... entityfacts { index: "entityfacts-20190816-1500" ...@
+
+Index the data:
+
+@sbt "runMain apps.Index entityfacts"@
+
+h3. GND Baseline
+
+h4. Get the RDF data
 
 Set up a location for the input data:
 
@@ -36,11 +72,17 @@ This should give you 7 local files ending with '.rdf.gz'. Go back to the project
 
 @cd ..@
 
+h4. Convert RDF to JSON
+
 Set up a location for the index data:
 
 @mkdir index_data@
 
 Set up 'index_data' as the 'data.jsonlines' location in 'conf/application.conf'.
+
+Set 'index.name.boot' in 'conf/application.conf' to an existing index name. This index will be used to get labels during the conversion process.
+
+Set 'index.name.prod' in 'conf/application.conf' to a non-existing index name. This index name will be used in the indexing data created during conversion.
 
 Convert the data to JSON-LD lines, the index data format:
 
@@ -52,15 +94,35 @@ To be able to log out from the server while the conversion is running, we actual
 
 This should create 7 '*.jsonl' files in 'index_data'.
 
+h4. Index the JSON data
+
+If the 'index.name.prod' configured in 'application.conf' does not exists, a new index will be created.
+
+To start the indexing, run:
+
+@sbt "runMain apps.Index baseline"@
+
 h3. Updates
+
+h4. Get and convert the updates
 
 Updates are pulled via "the DNB OAI-PMH interface":http://www.dnb.de/DE/Service/DigitaleDienste/OAI/oai_node.html.
 
-Pass either one argument, the start date for getting updates, or two, the start and the end date:
+Pass one argument: get updates since a given date:
 
-@sbt "runMain apps.ConvertUpdates 2019-02-13 2019-03-13"@
+@sbt "runMain apps.ConvertUpdates 2019-06-13"@
 
 The date of the most recent update is stored in 'GND-lastSuccessfulUpdate.txt' (can be changed in the config).
+
+The original downloaded data and the converted data are stored in separate files. To convert the data again without downloading it, use the steps described above under 'Convert RDF to JSON' with the update RDF data.
+
+h4. Index the updates
+
+To index the updates run:
+
+@sbt "runMain apps.Index updates"@
+
+See 'application.conf' for details on the configured file names etc.
 
 h2. Web
 
@@ -69,10 +131,6 @@ In 'lobid-gnd', run the web application:
 @sbt run@
 
 Open "http://localhost:9000/gnd":http://localhost:9000/gnd
-
-If the index configured in 'application.conf' does not exists, indexing will happen automatically on the first startup.
-
-To re-index, set up a new 'index.name' in 'application.conf'.
 
 h2. Eclipse
 

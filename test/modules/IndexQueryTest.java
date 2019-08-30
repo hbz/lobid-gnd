@@ -29,7 +29,7 @@ public class IndexQueryTest extends IndexTest {
 
 	@Test
 	public void testTotalHits() {
-		Assert.assertEquals(TTL_TEST_FILES.length - 1, index.query("*").getHits().getTotalHits());
+		Assert.assertEquals(TTL_TEST_FILES.length, index.query("*").getHits().getTotalHits());
 	}
 
 	@Test
@@ -38,12 +38,12 @@ public class IndexQueryTest extends IndexTest {
 		Assert.assertEquals(1, index.query("preferredName:\"Weizenbaum, Joseph\"").getHits().getTotalHits());
 		Assert.assertEquals(1, index.query("preferredName:\"weizenbaum, joseph\"").getHits().getTotalHits());
 		Assert.assertEquals(0, index.query("id:\"Weizenbaum, Joseph\"").getHits().getTotalHits());
-		Assert.assertEquals(1, index.query("preferredName:\"Erdmann, Elisabeth von\"").getHits().getTotalHits());
+		Assert.assertEquals(2, index.query("preferredName:\"Erdmann, Elisabeth von\"").getHits().getTotalHits());
 	}
 
 	@Test
 	public void testDateQuery() {
-		Assert.assertEquals(14, index.query("dateOfBirth:*").getHits().getTotalHits());
+		Assert.assertEquals(15, index.query("dateOfBirth:*").getHits().getTotalHits());
 		Assert.assertEquals(5, index.query("dateOfBirth:[* TO 1750]").getHits().getTotalHits());
 		Assert.assertEquals(9, index.query("dateOfDeath:*").getHits().getTotalHits());
 		Assert.assertEquals(2, index.query("dateOfDeath:[* TO 1750]").getHits().getTotalHits());

@@ -31,21 +31,21 @@ import ORG.oclc.oai.harvester2.app.RawWrite;
 public class ConvertUpdates {
 
 	public static void main(String[] args) throws IOException {
-		if (args.length == 1 || args.length == 2) {
-			Pair<String, String> startAndEnd = getUpdates(args[0], args.length == 2 ? args[1] : null);
+		if (args.length == 1) {
+			Pair<String, String> startAndEnd = getUpdates(args[0]);
 			backup(new File(config("data.updates.rdf")), startAndEnd.getLeft(), startAndEnd.getRight());
-			ConvertBaseline.main(new String[] { config("data.updates.rdf"), config("data.updates.data") });
+			ConvertBaseline.main(new String[] { config("data.updates.rdf"), config("data.updates.data"),
+					config("index.delete.updates") });
 			backup(new File(config("data.updates.data")), startAndEnd.getLeft(), startAndEnd.getRight());
 		} else {
-			System.err.println(
-					"Pass either one argument, the start date for getting updates, or two, the start and the end date.");
+			System.err.println("Pass one argument: get updates since a given date in ISO format, e.g. 2019-06-13");
 		}
 	}
 
-	private static Pair<String, String> getUpdates(String startOfUpdates, String endOfUpdates) {
+	private static Pair<String, String> getUpdates(String startOfUpdates) {
 		int intervalSize = Convert.CONFIG.getInt("data.updates.interval");
 		String start = startOfUpdates;
-		String end = endOfUpdates == null ? addDays(start, intervalSize) : endOfUpdates;
+		String end = addDays(start, intervalSize);
 		int intervals = calculateIntervals(startOfUpdates, intervalSize);
 		File file = new File(config("data.updates.rdf"));
 		try (FileWriter writer = new FileWriter(file, false)) {

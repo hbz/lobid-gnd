@@ -11,12 +11,12 @@ sbt "runMain apps.ConvertUpdates $(tail -n1 GND-lastSuccessfulUpdate.txt)"
 
 # copy and index to stage, and check:
 scp GND-updates.jsonl weywot2:git/lobid-gnd/
-ssh sol@weywot2 "cd /home/sol/git/lobid-gnd ; sh restart.sh lobid-gnd;
- tail -f ./logs/application.log |grep -q main\ -\ Application\ started  ; bash ./checkCompactedProperties.sh gnd"
+scp GND-deprecated-updates.txt weywot2:git/lobid-gnd/
+ssh sol@weywot2 'cd /home/sol/git/lobid-gnd ; sbt "runMain apps.Index updates" ; bash ./checkCompactedProperties.sh gnd'
 
 # if check ok, index to productive instance:
 if [  $? -eq 0 ]; then
-	sh restart.sh lobid-gnd
+	sbt "runMain apps.Index updates"
 	else MESSAGE="check fail :("
 mail -s "Alert GND: test bad " "$RECIPIENT@hbz-nrw.de" << EOF
 Because of these uncompacted fields the data is not indexed into the productive service:

@@ -35,3 +35,5 @@ libraryDependencies += "log4j" % "log4j" % "1.2.17"
 libraryDependencies += "org.hamcrest" % "hamcrest-library" % "1.3" % Test
 
 resolvers += Resolver.mavenLocal
+
+trapExit := false
