@@ -14,9 +14,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
@@ -41,6 +43,7 @@ import play.Application;
 import play.Logger;
 import play.api.inject.BindingKey;
 import play.inject.guice.GuiceApplicationBuilder;
+import play.libs.Json;
 import play.mvc.Http.Status;
 
 public class Index {
@@ -49,14 +52,17 @@ public class Index {
 			.instanceOf(new BindingKey<>(IndexComponent.class));
 
 	public static void main(String[] args) {
-		if (args.length == 1 && (args[0].equals("baseline") || args[0].equals("updates"))) {
-			if (args[0].equals("baseline")) {
+		List<String> options = Arrays.asList("baseline", "updates", "entityfacts");
+		if (args.length == 1 && options.contains(args[0])) {
+			if (args[0].equals(options.get(0))) {
 				index(indexName, client, config("data.jsonlines"), config("index.delete.baseline"));
-			} else {
+			} else if (args[0].equals(options.get(1))) {
 				index(indexName, client, config("data.updates.data"), config("index.delete.updates"));
+			} else {
+				indexEntityFactsJsonLdDump();
 			}
 		} else {
-			System.err.println("Pass one argument, 'baseline' or 'updates'. See config/application.conf.");
+			System.err.println("Pass one argument, on of " + options + ". See config/application.conf.");
 		}
 		client.close();
 		// Why is this required? Also needs 'trapExit := false' in build.sbt
@@ -89,7 +95,7 @@ public class Index {
 		}
 	}
 
-	public static void indexEntityFacts() throws IOException {
+	public static void indexEntityFactsTurtleFiles() throws IOException {
 		Application app = new GuiceApplicationBuilder().build();
 		IndexComponent index = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
 		for (File file : ENTITYFACTS_FILES) {
@@ -242,6 +248,41 @@ public class Index {
 			}
 			client.admin().indices().refresh(new RefreshRequest()).actionGet();
 			Logger.info("Delete and refresh done");
+		}
+	}
+
+	static void indexEntityFactsJsonLdDump() {
+		String data = config("data.entityfacts");
+		try (Stream<String> stream = Files.lines(Paths.get(data))) {
+			int prefixLength = "http://d-nb.info/gnd/".length();
+			String indexName = HomeController.config("index.entityfacts.index");
+			String indexType = HomeController.config("index.entityfacts.type");
+			if (indexExists(client, indexName)) {
+				System.err.println("Index " + indexName + " exists! "
+						+ "Please configure a fresh index (index.entityfacts.index in application.conf)");
+				return;
+			}
+			Logger.info("Indexing {} into new index {}", data, indexName);
+			createEmptyIndex(client, indexName, null);
+			updateSettings(client, indexName, Settings.builder().put("index.number_of_replicas", 0));
+			bulkRequest = client.prepareBulk();
+			stream.forEach(line -> {
+				String json = line.substring(1);
+				if (!json.isEmpty()) {
+					String id = Json.parse(json).get("@id").textValue().substring(prefixLength);
+					bulkRequest.add(index.client().prepareIndex(indexName, indexType).setId(id).setSource(json,
+							XContentType.JSON));
+					if (bulkRequest.numberOfActions() == 1000) {
+						executeBulk(bulkRequest.numberOfActions());
+						bulkRequest = client.prepareBulk();
+					}
+				}
+			});
+			executeBulk(bulkRequest.numberOfActions());
+			updateSettings(client, indexName, Settings.builder().put("index.number_of_replicas", 1));
+			index.client().admin().indices().refresh(new RefreshRequest()).actionGet();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

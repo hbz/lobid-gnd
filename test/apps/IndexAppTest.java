@@ -37,7 +37,7 @@ public class IndexAppTest {
 
 	@BeforeClass
 	public static void setUpEntityFacts() throws IOException {
-		Index.indexEntityFacts();
+		Index.indexEntityFactsTurtleFiles();
 	}
 
 	@Before

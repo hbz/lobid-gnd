@@ -1,6 +1,6 @@
 h1. About
 
-lobid-gnd: access GND data as JSON-LD over HTTP.
+lobid-gnd: access GND+EntityFacts data as JSON-LD over HTTP.
 
 "!https://secure.travis-ci.org/hbz/lobid-gnd.png?branch=master!":https://travis-ci.org/hbz/lobid-gnd
 
@@ -20,7 +20,41 @@ Get the code, change into the project directory, and run the tests:
 
 h2. Data
 
-h3. Baseline
+The are three data sources involved:
+
+EntityFacts (JSON-LD over HTTP), GND baseline (RDF-XML over HTTP), and GND updates (RDF-XML over OAI-PMH).
+
+h3. EntityFacts
+
+Set up a location for the EntityFacts input data:
+
+@mkdir entityfacts ; cd entityfacts@
+
+Get the EntityFacts data from the DNB:
+
+@wget https://data.dnb.de/opendata/authorities_entityfacts.jsonld.gz@
+
+Unpack the data:
+
+@gunzip < authorities_entityfacts.jsonld.gz > authorities_entityfacts.jsonld@
+
+Go back to the root directory:
+
+@cd ..@
+
+Set up the data location in 'conf/application.conf' (data.entityfacts):
+
+@data { ... entityfacts: "entityfacts/authorities_entityfacts.jsonld" ...@
+
+Set up the name for the index to create in 'conf/application.conf' (index.entityfacts.index):
+
+@index { ... entityfacts { index: "entityfacts-20190816-1500" ...@
+
+Index the data:
+
+@sbt "runMain apps.Index entityfacts"@
+
+h3. GND Baseline
 
 h4. Get the RDF data
 
