@@ -45,6 +45,9 @@
                       <li @if(title=="lobid-gnd - search"){ class="active" }>
                         <a href="@routes.HomeController.search()" title="Die gesamte GND erkunden">Erkunden</a>
                       </li>
+                      <li @if(title=="lobid-gnd - API"){class="active"}>
+                        <a href="@routes.HomeController.api()" title="Programmierschnittstelle">API</a>
+                      </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                       <li class="divider"></li>
@@ -52,16 +55,12 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Info"><span class="glyphicon glyphicon-info-sign"></span><b class="caret"></b></a>
                         <ul class="dropdown-menu">
                           <li class="dropdown-header">Dokumentation</li>
-                          <li><a href="http://blog.lobid.org/2018/07/04/lobid-gnd-suche.html" target="_blank">Suche und Navigation</a></li>
-                          <li><a href="http://blog.lobid.org/2018/07/06/lobid-gnd-queries.html" target="_blank">Formulierung komplexer Suchanfragen</a></li>
-                          <li><a href="http://blog.lobid.org/2018/08/27/openrefine.html" target="_blank">Integration in OpenRefine</a></li>
-                          <li class="divider"></li>
-                          <li @if(title=="lobid-gnd - API"){class="active"}>
-                            <a href="@routes.HomeController.api()" title="Programmierschnittstelle">Programmierschnittstelle (API)</a>
-                          </li>
                           <li @if(title=="Dataset: lobid-gnd"){class="active"}>
                             <a href='@routes.HomeController.dataset("")'>Datenbeschreibung</a>
                           </li>
+                          <li><a href="http://blog.lobid.org/2018/07/04/lobid-gnd-suche.html" target="_blank">Suche und Navigation</a></li>
+                          <li><a href="http://blog.lobid.org/2018/07/06/lobid-gnd-queries.html" target="_blank">Formulierung komplexer Suchanfragen</a></li>
+                          <li><a href="http://blog.lobid.org/2018/08/27/openrefine.html" target="_blank">Integration in OpenRefine</a></li>
                           <li class="divider"></li>
                           <li class="dropdown-header">Kontakt</li>
                           <li><a href="mailto:semweb@@hbz-nrw.de?subject=Feedback%20zu%20lobid-gnd,%20aktuelle%20URL%20@controllers.HomeController.currentUri()">Feedback zur aktuellen Seite</a></li>
