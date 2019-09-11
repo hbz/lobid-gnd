@@ -442,10 +442,21 @@ public class Reconcile extends Controller {
 			Logger.debug("Properties: {}", props);
 			for (JsonNode p : props) {
 				String field = p.get("pid").asText();
-				String value = clean(p.get("v").asText()).replace(" ", " OR ");
-				// if pid is a valid field, add field search, else just value:
-				String segment = (GndOntology.properties("").contains(field) ? field + ":" : "") + value;
-				queryString += " OR (" + segment + ")";
+				String value = clean(p.get("v").asText()).trim().replace(" ", " OR ");
+				if (!value.isEmpty()) {
+					// if pid is a valid field, add field search, else just value:
+					String segment = value;
+					if (GndOntology.properties("").contains(field)) {
+						if (field.endsWith("AsLiteral")) {
+							segment = String.format("%s:%s", field, value);
+						} else if (value.startsWith("http")) {
+							segment = String.format("%s.id:\"%s\"", field, value);
+						} else {
+							segment = String.format("%s.label:%s", field, value);
+						}
+					}
+					queryString += " OR (" + segment + ")";
+				}
 			}
 		}
 		Logger.debug("Query string: {}", queryString);
