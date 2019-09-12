@@ -456,12 +456,14 @@ public class Reconcile extends Controller {
 					// if pid is a valid field, add field search, else just value:
 					String segment = value;
 					if (GndOntology.properties("").contains(field)) {
-						if (field.endsWith("AsLiteral")) {
+						if (field.endsWith("AsLiteral") || Arrays.asList("type", "dateOfBirth", "dateOfDeath",
+								"oldAuthorityNumber", "biographicalOrHistoricalInformation", "gndIdentifier",
+								"preferredName", "variantName").contains(field)) {
 							segment = String.format("%s:%s", field, clean(value));
 						} else if (value.startsWith("http")) {
-							segment = String.format("%s.id:\"%s\"", field, value);
+							segment = String.format("%s.\\*:\"%s\"", field, value);
 						} else {
-							segment = String.format("%s.label:%s", field, clean(value));
+							segment = String.format("%s.\\*:%s", field, clean(value));
 						}
 					}
 					segments.add("(" + segment + ")");
