@@ -36,12 +36,12 @@ import play.inject.ApplicationLifecycle;
 public interface IndexComponent {
 	Client client();
 
-	SearchResponse query(String q, String filter, String sort, int from, int size);
+	SearchResponse query(String q, String filter, String optional, String sort, int from, int size);
 
 	QueryStringQueryBuilder queryStringQuery(String q);
 
 	public default SearchResponse query(String q) {
-		return query(q, "", "", 0, 10);
+		return query(q, "", "", "", 0, 10);
 	}
 
 }
@@ -76,7 +76,7 @@ class ElasticsearchServer implements IndexComponent {
 	}
 
 	@Override
-	public SearchResponse query(String q, String filter, String sort, int from, int size) {
+	public SearchResponse query(String q, String filter, String optional, String sort, int from, int size) {
 		QueryStringQueryBuilder positive = queryStringQuery(q).field("_all").field("preferredName.ngrams")
 				.field("variantName.ngrams").field("preferredName", 2f).field("variantName", 1f)
 				.field("gndIdentifier", 2f);
@@ -85,6 +85,9 @@ class ElasticsearchServer implements IndexComponent {
 		BoolQueryBuilder query = QueryBuilders.boolQuery().must(boostQuery);
 		if (!filter.isEmpty()) {
 			query = query.filter(queryStringQuery(filter));
+		}
+		if (!optional.isEmpty()) {
+			query = query.should(QueryBuilders.queryStringQuery(optional));
 		}
 		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name.prod")).setQuery(query)
 				.setFrom(from).setSize(size);

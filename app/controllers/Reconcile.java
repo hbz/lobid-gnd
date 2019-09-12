@@ -185,7 +185,7 @@ public class Reconcile extends Controller {
 		case ENTITY:
 			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
 			List<?> results = StreamSupport
-					.stream(index.query(prefix, type, "", start, limit).getHits().spliterator(), false)
+					.stream(index.query(prefix, type, "", "", start, limit).getHits().spliterator(), false)
 					.map(hit -> new AuthorityResource(Json.parse(hit.getSourceAsString())))
 					.map(entity -> Json.toJson(ImmutableMap.of(//
 							"id", entity.getId(), //
@@ -200,7 +200,7 @@ public class Reconcile extends Controller {
 			return withCallback(suggestApiResponse(prefix, results).toString());
 		case TYPE:
 			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.TYPE);
-			SearchResponse aggregationQuery = index.query("*", "", "", start, limit);
+			SearchResponse aggregationQuery = index.query("*", "", "", "", start, limit);
 			Stream<JsonNode> labelledTypes = labelledIds(
 					StreamSupport.stream(Json.parse(HomeController.returnAsJson("*", aggregationQuery))
 							.get("aggregation").get("type").spliterator(), false).map(t -> t.get("key").asText()));
@@ -296,7 +296,8 @@ public class Reconcile extends Controller {
 		while (inputQueries.hasNext()) {
 			Entry<String, JsonNode> inputQuery = inputQueries.next();
 			Logger.debug("q: " + inputQuery);
-			SearchResponse searchResponse = executeQuery(inputQuery, buildQueryString(inputQuery));
+			SearchResponse searchResponse = executeQuery(inputQuery, clean(mainQuery(inputQuery)),
+					propQuery(inputQuery));
 			List<ObjectNode> results = mapToResults(mainQuery(inputQuery), searchResponse.getHits());
 			ObjectNode resultsForInputQuery = Json.newObject();
 			resultsForInputQuery.set("result", Json.toJson(results));
@@ -413,7 +414,7 @@ public class Reconcile extends Controller {
 			String name = nameObject == null ? "" : nameObject + "";
 			resultForHit.put("name", name);
 			resultForHit.put("score", hit.getScore());
-			resultForHit.put("match", mainQuery.equalsIgnoreCase(name));
+			resultForHit.put("match", false);
 			List<JsonNode> types = StreamSupport.stream(Json.toJson(//
 					hit.getSource().get("type")).spliterator(), false).collect(Collectors.toList());
 			List<JsonNode> filtered = StreamSupport.stream(TYPES.spliterator(), false)
@@ -421,34 +422,56 @@ public class Reconcile extends Controller {
 			resultForHit.set("type", Json.toJson(filtered));
 			return resultForHit;
 		}).collect(Collectors.toList());
-		if (result.size() > 1 && result.get(0).get("score").asDouble() > result.get(1).get("score").asDouble() * 2) {
-			result.get(0).put("match", true);
-		}
+		markMatch(result);
 		return result;
 	}
 
-	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString) {
+	private void markMatch(List<ObjectNode> result) {
+		if (!result.isEmpty()) {
+			ObjectNode topResult = result.get(0);
+			int bestScore = topResult.get("score").asInt();
+			if (bestScore > 30 && (result.size() == 1 || bestScore - result.get(1).get("score").asInt() >= 5)) {
+				topResult.put("match", true);
+			}
+		}
+	}
+
+	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString, String propQuery) {
 		JsonNode limitNode = entry.getValue().get("limit");
 		int limit = limitNode == null ? -1 : limitNode.asInt();
 		JsonNode typeNode = entry.getValue().get("type");
 		String filter = typeNode == null ? "" : "type:" + typeNode.asText();
-		return index.query(queryString, filter, "", 0, limit);
+		return index.query(queryString, filter, propQuery, "", 0, limit);
 	}
 
-	private String buildQueryString(Entry<String, JsonNode> entry) {
-		String queryString = clean(mainQuery(entry));
+	private String propQuery(Entry<String, JsonNode> entry) {
+		List<String> segments = new ArrayList<>();
 		JsonNode props = entry.getValue().get("properties");
 		if (props != null) {
 			Logger.debug("Properties: {}", props);
 			for (JsonNode p : props) {
 				String field = p.get("pid").asText();
-				String value = clean(p.get("v").asText()).replace(" ", " OR ");
-				// if pid is a valid field, add field search, else just value:
-				String segment = (GndOntology.properties("").contains(field) ? field + ":" : "") + value;
-				queryString += " OR (" + segment + ")";
+				String value = p.get("v").asText().trim().replace(" ", " OR ");
+				if (!value.isEmpty()) {
+					// if pid is a valid field, add field search, else just value:
+					String segment = value;
+					if (GndOntology.properties("").contains(field)) {
+						if (field.endsWith("AsLiteral") || Arrays.asList("type", "dateOfBirth", "dateOfDeath",
+								"oldAuthorityNumber", "biographicalOrHistoricalInformation", "gndIdentifier",
+								"preferredName", "variantName").contains(field)) {
+							segment = String.format("%s:%s", field, clean(value));
+						} else if (value.startsWith("http")) {
+							segment = String.format("%s.\\*:\"%s\"", field, value);
+						} else {
+							segment = String.format("%s.\\*:%s", field, clean(value));
+						}
+					}
+					segments.add("(" + segment + ")");
+				}
 			}
 		}
-		Logger.debug("Query string: {}", queryString);
+		String queryString = segments.stream().collect(Collectors.joining(" OR "));
+		Logger.debug("Property query string: {}", queryString);
 		return queryString;
 	}
 
