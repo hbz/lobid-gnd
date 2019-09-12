@@ -413,7 +413,7 @@ public class Reconcile extends Controller {
 			String name = nameObject == null ? "" : nameObject + "";
 			resultForHit.put("name", name);
 			resultForHit.put("score", hit.getScore());
-			resultForHit.put("match", mainQuery.equalsIgnoreCase(name));
+			resultForHit.put("match", false);
 			List<JsonNode> types = StreamSupport.stream(Json.toJson(//
 					hit.getSource().get("type")).spliterator(), false).collect(Collectors.toList());
 			List<JsonNode> filtered = StreamSupport.stream(TYPES.spliterator(), false)
@@ -421,10 +421,18 @@ public class Reconcile extends Controller {
 			resultForHit.set("type", Json.toJson(filtered));
 			return resultForHit;
 		}).collect(Collectors.toList());
-		if (result.size() > 1 && result.get(0).get("score").asDouble() > result.get(1).get("score").asDouble() * 2) {
-			result.get(0).put("match", true);
-		}
+		markMatch(result);
 		return result;
+	}
+
+	private void markMatch(List<ObjectNode> result) {
+		if (!result.isEmpty()) {
+			ObjectNode topResult = result.get(0);
+			int bestScore = topResult.get("score").asInt();
+			if (bestScore > 30 && (result.size() == 1 || bestScore - result.get(1).get("score").asInt() >= 5)) {
+				topResult.put("match", true);
+			}
+		}
 	}
 
 	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString) {
@@ -436,7 +444,7 @@ public class Reconcile extends Controller {
 	}
 
 	private String buildQueryString(Entry<String, JsonNode> entry) {
-		String queryString = clean(mainQuery(entry));
+		String queryString = "(" + clean(mainQuery(entry)) + ")";
 		JsonNode props = entry.getValue().get("properties");
 		if (props != null) {
 			Logger.debug("Properties: {}", props);

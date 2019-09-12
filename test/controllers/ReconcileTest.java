@@ -119,7 +119,6 @@ public class ReconcileTest extends IndexTest {
 			assertThat(types.size(), Matchers.lessThanOrEqualTo(3));
 			assertThat(content, containsString("q99"));
 			assertThat(content, containsString("\"match\":false"));
-			assertThat(content, containsString("\"match\":true"));
 			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
 		});
 	}
