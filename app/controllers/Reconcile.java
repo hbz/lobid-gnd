@@ -185,7 +185,7 @@ public class Reconcile extends Controller {
 		case ENTITY:
 			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
 			List<?> results = StreamSupport
-					.stream(index.query(prefix, type, "", start, limit).getHits().spliterator(), false)
+					.stream(index.query(prefix, type, "", "", start, limit).getHits().spliterator(), false)
 					.map(hit -> new AuthorityResource(Json.parse(hit.getSourceAsString())))
 					.map(entity -> Json.toJson(ImmutableMap.of(//
 							"id", entity.getId(), //
@@ -200,7 +200,7 @@ public class Reconcile extends Controller {
 			return withCallback(suggestApiResponse(prefix, results).toString());
 		case TYPE:
 			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.TYPE);
-			SearchResponse aggregationQuery = index.query("*", "", "", start, limit);
+			SearchResponse aggregationQuery = index.query("*", "", "", "", start, limit);
 			Stream<JsonNode> labelledTypes = labelledIds(
 					StreamSupport.stream(Json.parse(HomeController.returnAsJson("*", aggregationQuery))
 							.get("aggregation").get("type").spliterator(), false).map(t -> t.get("key").asText()));
@@ -296,7 +296,8 @@ public class Reconcile extends Controller {
 		while (inputQueries.hasNext()) {
 			Entry<String, JsonNode> inputQuery = inputQueries.next();
 			Logger.debug("q: " + inputQuery);
-			SearchResponse searchResponse = executeQuery(inputQuery, buildQueryString(inputQuery));
+			SearchResponse searchResponse = executeQuery(inputQuery, clean(mainQuery(inputQuery)),
+					propQuery(inputQuery));
 			List<ObjectNode> results = mapToResults(mainQuery(inputQuery), searchResponse.getHits());
 			ObjectNode resultsForInputQuery = Json.newObject();
 			resultsForInputQuery.set("result", Json.toJson(results));
@@ -435,16 +436,16 @@ public class Reconcile extends Controller {
 		}
 	}
 
-	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString) {
+	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString, String propQuery) {
 		JsonNode limitNode = entry.getValue().get("limit");
 		int limit = limitNode == null ? -1 : limitNode.asInt();
 		JsonNode typeNode = entry.getValue().get("type");
 		String filter = typeNode == null ? "" : "type:" + typeNode.asText();
-		return index.query(queryString, filter, "", 0, limit);
+		return index.query(queryString, filter, propQuery, "", 0, limit);
 	}
 
-	private String buildQueryString(Entry<String, JsonNode> entry) {
-		String queryString = "(" + clean(mainQuery(entry)) + ")";
+	private String propQuery(Entry<String, JsonNode> entry) {
+		List<String> segments = new ArrayList<>();
 		JsonNode props = entry.getValue().get("properties");
 		if (props != null) {
 			Logger.debug("Properties: {}", props);
@@ -463,11 +464,12 @@ public class Reconcile extends Controller {
 							segment = String.format("%s.label:%s", field, clean(value));
 						}
 					}
-					queryString += " OR (" + segment + ")";
+					segments.add("(" + segment + ")");
 				}
 			}
 		}
-		Logger.debug("Query string: {}", queryString);
+		String queryString = segments.stream().collect(Collectors.joining(" OR "));
+		Logger.debug("Property query string: {}", queryString);
 		return queryString;
 	}
 
