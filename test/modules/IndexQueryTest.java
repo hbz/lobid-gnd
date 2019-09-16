@@ -133,7 +133,7 @@ public class IndexQueryTest extends IndexTest {
 
 	private AuthorityResource first(String sort) {
 		return new AuthorityResource(
-				Json.parse(index.query("*", "", "", sort, 0, 10).getHits().getHits()[0].getSourceAsString()));
+				Json.parse(index.query("*", "", sort, 0, 10).getHits().getHits()[0].getSourceAsString()));
 	}
 
 	@Test(expected = SearchPhaseExecutionException.class)
