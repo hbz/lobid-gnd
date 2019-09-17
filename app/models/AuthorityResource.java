@@ -359,7 +359,10 @@ public class AuthorityResource {
 	}
 
 	private List<LinkWithImage> getLinks() {
-		return sameAs == null ? Collections.emptyList() : sameAs.stream().map(map -> {
+		String dnbIcon = "https://portal.dnb.de/favicon.ico";
+		String dnbLabel = "Deutsche Nationalbibliothek (DNB)";
+		String dnbSubstring = "d-nb.info/gnd";
+		List<LinkWithImage> result = sameAs == null ? Collections.emptyList() : sameAs.stream().map(map -> {
 			String url = map.get("id").toString();
 			Object icon = null;
 			Object label = null;
@@ -367,17 +370,24 @@ public class AuthorityResource {
 			if (collection != null) {
 				@SuppressWarnings("unchecked")
 				Map<String, Object> collectionMap = (Map<String, Object>) collection;
-				icon = collectionMap.get("icon");
+				icon = url.contains(dnbSubstring) ? dnbIcon : collectionMap.get("icon");
 				label = collectionMap.get("name");
 			}
 			return new LinkWithImage(url, icon == null ? "" : icon.toString(), label == null ? "" : label.toString());
 		}).collect(Collectors.toList());
+		if (!result.stream().anyMatch(linkWithImage -> linkWithImage.url.contains(dnbSubstring))) {
+			result.add(new LinkWithImage(id, dnbIcon, dnbLabel));
+		}
+		return result;
 	}
 
 	private String html(String field, ArrayList<LinkWithImage> links, int i) {
 		LinkWithImage link = links.get(i);
-		String result = String.format("<a href='%s'><img src='%s' style='height:1em'/>&nbsp;%s</a>", //
-				link.url, link.image, link.label);
+		boolean hasImage = !link.image.isEmpty();
+		boolean hasLabel = !link.label.isEmpty();
+		String result = String.format(
+				"<a href='%s'>" + (hasImage ? "<img src='%s' style='height:1em'/>&nbsp;" : "%s") + "%s</a>", //
+				link.url, link.image, hasLabel ? link.label : link.url);
 		return withDefaultHidden(field, links.size(), i, result);
 	}
 
