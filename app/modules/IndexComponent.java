@@ -21,6 +21,7 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.BoostingQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.Operator;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -36,12 +37,14 @@ import play.inject.ApplicationLifecycle;
 public interface IndexComponent {
 	Client client();
 
-	SearchResponse query(String q, String filter, String optional, String sort, int from, int size);
+	SearchResponse query(String q, String filter, String sort, int from, int size);
+
+	SearchResponse query(QueryBuilder q, String filter, QueryBuilder optional, String sort, int from, int size);
 
 	QueryStringQueryBuilder queryStringQuery(String q);
 
 	public default SearchResponse query(String q) {
-		return query(q, "", "", "", 0, 10);
+		return query(q, "", "", 0, 10);
 	}
 
 }
@@ -76,18 +79,30 @@ class ElasticsearchServer implements IndexComponent {
 	}
 
 	@Override
-	public SearchResponse query(String q, String filter, String optional, String sort, int from, int size) {
-		QueryStringQueryBuilder positive = queryStringQuery(q).field("_all").field("preferredName.ngrams")
-				.field("variantName.ngrams").field("preferredName", 2f).field("variantName", 1f)
-				.field("gndIdentifier", 2f);
+	public SearchResponse query(String q, String filter, String sort, int from, int size) {
+		return runQuery(filter, null, sort, from, size, mainQuery(q));
+	}
+
+	@Override
+	public SearchResponse query(QueryBuilder q, String filter, QueryBuilder optional, String sort, int from, int size) {
+		return runQuery(filter, optional, sort, from, size, q);
+	}
+
+	private QueryBuilder mainQuery(String q) {
+		return queryStringQuery(q).field("_all").field("preferredName.ngrams").field("variantName.ngrams")
+				.field("preferredName", 2f).field("variantName", 1f).field("gndIdentifier", 2f);
+	}
+
+	private SearchResponse runQuery(String filter, QueryBuilder optional, String sort, int from, int size,
+			QueryBuilder positive) {
 		MatchQueryBuilder negative = QueryBuilders.matchQuery("type", "UndifferentiatedPerson");
 		BoostingQueryBuilder boostQuery = QueryBuilders.boostingQuery(positive, negative).negativeBoost(0.1f);
 		BoolQueryBuilder query = QueryBuilders.boolQuery().must(boostQuery);
 		if (!filter.isEmpty()) {
 			query = query.filter(queryStringQuery(filter));
 		}
-		if (!optional.isEmpty()) {
-			query = query.should(QueryBuilders.queryStringQuery(optional));
+		if (optional != null) {
+			query = query.should(optional);
 		}
 		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name.prod")).setQuery(query)
 				.setFrom(from).setSize(size);

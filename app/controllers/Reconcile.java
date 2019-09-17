@@ -23,6 +23,8 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.SearchHits;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -185,7 +187,7 @@ public class Reconcile extends Controller {
 		case ENTITY:
 			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
 			List<?> results = StreamSupport
-					.stream(index.query(clean(prefix), type, "", "", start, limit).getHits().spliterator(), false)
+					.stream(index.query(clean(prefix), type, "", start, limit).getHits().spliterator(), false)
 					.map(hit -> new AuthorityResource(Json.parse(hit.getSourceAsString())))
 					.map(entity -> Json.toJson(ImmutableMap.of(//
 							"id", entity.getId(), //
@@ -200,7 +202,7 @@ public class Reconcile extends Controller {
 			return withCallback(suggestApiResponse(prefix, results).toString());
 		case TYPE:
 			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.TYPE);
-			SearchResponse aggregationQuery = index.query("*", "", "", "", start, limit);
+			SearchResponse aggregationQuery = index.query("*", "", "", start, limit);
 			Stream<JsonNode> labelledTypes = labelledIds(
 					StreamSupport.stream(Json.parse(HomeController.returnAsJson("*", aggregationQuery))
 							.get("aggregation").get("type").spliterator(), false).map(t -> t.get("key").asText()));
@@ -430,18 +432,27 @@ public class Reconcile extends Controller {
 		if (!result.isEmpty()) {
 			ObjectNode topResult = result.get(0);
 			int bestScore = topResult.get("score").asInt();
-			if (bestScore > 30 && (result.size() == 1 || bestScore - result.get(1).get("score").asInt() >= 5)) {
+			if (bestScore > 50 && (result.size() == 1 || bestScore - result.get(1).get("score").asInt() >= 5)) {
 				topResult.put("match", true);
 			}
 		}
 	}
 
-	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString, String propQuery) {
+	private SearchResponse executeQuery(Entry<String, JsonNode> entry, String queryString, String propString) {
 		JsonNode limitNode = entry.getValue().get("limit");
 		int limit = limitNode == null ? -1 : limitNode.asInt();
 		JsonNode typeNode = entry.getValue().get("type");
 		String filter = typeNode == null ? "" : "type:" + typeNode.asText();
-		return index.query(queryString, filter, propQuery, "", 0, limit);
+		QueryStringQueryBuilder mainQuery = QueryBuilders.queryStringQuery(queryString)//
+				.field("preferredName", 4f)//
+				.field("variantName", 2f)//
+				.field("temporaryName")//
+				.field("abbreviatedNameForTheConferenceOrEvent")//
+				.field("abbreviatedNameForThePlaceOrGeographicName")//
+				.field("abbreviatedNameForTheWork")//
+				.field("abbreviatedNameForTheCorporateBody");//
+		QueryStringQueryBuilder propQuery = QueryBuilders.queryStringQuery(propString).boost(5f);
+		return index.query(mainQuery, filter, propQuery, "", 0, limit);
 	}
 
 	private String propQuery(Entry<String, JsonNode> entry) {
