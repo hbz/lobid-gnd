@@ -383,8 +383,11 @@ public class AuthorityResource {
 
 	private String html(String field, ArrayList<LinkWithImage> links, int i) {
 		LinkWithImage link = links.get(i);
-		String result = String.format("<a href='%s'><img src='%s' style='height:1em'/>&nbsp;%s</a>", //
-				link.url, link.image, link.label);
+		boolean hasImage = !link.image.isEmpty();
+		boolean hasLabel = !link.label.isEmpty();
+		String result = String.format(
+				"<a href='%s'>" + (hasImage ? "<img src='%s' style='height:1em'/>&nbsp;" : "%s") + "%s</a>", //
+				link.url, link.image, hasLabel ? link.label : link.url);
 		return withDefaultHidden(field, links.size(), i, result);
 	}
 
