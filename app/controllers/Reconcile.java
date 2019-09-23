@@ -208,8 +208,8 @@ public class Reconcile extends Controller {
 							.get("aggregation").get("type").spliterator(), false).map(t -> t.get("key").asText()));
 			return withCallback(suggestApiResponse(prefix, matchingEntries(prefix, labelledTypes)).toString());
 		case PROPERTY:
-			Logger.debug("Suggest {}:{} -> {}", service, prefix, "", Service.PROPERTY);
-			Stream<String> propertyIds = GndOntology.properties("").stream();
+			Logger.debug("Suggest service: {} prefix: {} type: {} -> {}", service, prefix, type, Service.PROPERTY);
+			Stream<String> propertyIds = GndOntology.properties(type.contains("/") ? "" : type).stream();
 			Stream<JsonNode> labelledProperties = labelledIds(propertyIds);
 			return withCallback(suggestApiResponse(prefix, matchingEntries(prefix, labelledProperties)).toString());
 		}
