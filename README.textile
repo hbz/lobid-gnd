@@ -80,9 +80,9 @@ Set up a location for the index data:
 
 Set up 'index_data' as the 'data.jsonlines' location in 'conf/application.conf'.
 
-Set 'index.name.boot' in 'conf/application.conf' to an existing index name. This index will be used to get labels during the conversion process.
+Set 'index.boot' in 'conf/application.conf' to an existing index. This index will be used to get labels during the conversion process.
 
-Set 'index.name.prod' in 'conf/application.conf' to a non-existing index name. This index name will be used in the indexing data created during conversion.
+Set 'index.prod' in 'conf/application.conf' to a non-existing index. This index name will be used in the indexing data created during conversion.
 
 Convert the data to JSON-LD lines, the index data format:
 
@@ -96,7 +96,7 @@ This should create 7 '*.jsonl' files in 'index_data'.
 
 h4. Index the JSON data
 
-If the 'index.name.prod' configured in 'application.conf' does not exists, a new index will be created.
+If the 'index.prod' configured in 'application.conf' does not exists, a new index will be created.
 
 To start the indexing, run:
 

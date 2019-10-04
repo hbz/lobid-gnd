@@ -65,10 +65,10 @@ public class Convert {
 	static final Config CONFIG = ConfigFactory.parseFile(new File("conf/application.conf"));
 
 	static final TransportClient CLIENT = new PreBuiltTransportClient(
-			Settings.builder().put("cluster.name", HomeController.config("index.cluster")).build());
+			Settings.builder().put("cluster.name", HomeController.config("index.boot.cluster")).build());
 
 	static {
-		ConfigFactory.parseFile(new File("conf/application.conf")).getStringList("index.hosts").forEach((host) -> {
+		ConfigFactory.parseFile(new File("conf/application.conf")).getStringList("index.boot.hosts").forEach((host) -> {
 			try {
 				CLIENT.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), 9300));
 			} catch (UnknownHostException e) {

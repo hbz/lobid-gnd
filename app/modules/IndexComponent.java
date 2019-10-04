@@ -53,14 +53,14 @@ public interface IndexComponent {
 class ElasticsearchServer implements IndexComponent {
 
 	private static final Settings SETTINGS = Settings.builder()
-			.put("cluster.name", HomeController.config("index.cluster")).build();
+			.put("cluster.name", HomeController.config("index.prod.cluster")).build();
 
 	private final TransportClient client;
 
 	@Inject
 	public ElasticsearchServer(ApplicationLifecycle lifecycle) {
 		client = new PreBuiltTransportClient(SETTINGS);
-		CONFIG.getStringList("index.hosts").forEach((host) -> {
+		CONFIG.getStringList("index.prod.hosts").forEach((host) -> {
 			try {
 				client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), 9300));
 			} catch (UnknownHostException e) {
@@ -104,7 +104,7 @@ class ElasticsearchServer implements IndexComponent {
 		if (optional != null) {
 			query = query.should(optional);
 		}
-		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.name.prod")).setQuery(query)
+		SearchRequestBuilder requestBuilder = client().prepareSearch(config("index.prod.name")).setQuery(query)
 				.setFrom(from).setSize(size);
 		if (!sort.isEmpty()) {
 			String[] fieldAndOrder = sort.split(":");

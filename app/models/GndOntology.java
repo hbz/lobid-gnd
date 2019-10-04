@@ -35,10 +35,10 @@ import play.Logger;
 public class GndOntology {
 
 	private static final TransportClient CLIENT = new PreBuiltTransportClient(
-			Settings.builder().put("cluster.name", HomeController.config("index.cluster")).build());
+			Settings.builder().put("cluster.name", HomeController.config("index.boot.cluster")).build());
 
 	static {
-		ConfigFactory.parseFile(new File("conf/application.conf")).getStringList("index.hosts").forEach((host) -> {
+		ConfigFactory.parseFile(new File("conf/application.conf")).getStringList("index.boot.hosts").forEach((host) -> {
 			try {
 				CLIENT.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), 9300));
 			} catch (UnknownHostException e) {
@@ -152,7 +152,7 @@ public class GndOntology {
 	private static String indexLabel(String id) {
 		id = id.substring(AuthorityResource.DNB_PREFIX.length());
 		GetResponse response = CLIENT
-				.prepareGet(HomeController.config("index.name.boot"), HomeController.config("index.type"), id).get();
+				.prepareGet(HomeController.config("index.boot.name"), HomeController.config("index.type"), id).get();
 		if (!response.isExists()) {
 			Logger.warn("{} does not exists in index", id);
 			return id;

@@ -69,7 +69,7 @@ public class Index {
 		System.exit(0);
 	}
 
-	static String indexName = HomeController.config("index.name.prod");
+	static String indexName = HomeController.config("index.prod.name");
 
 	static Client client = index.client();
 
@@ -86,7 +86,7 @@ public class Index {
 		Client client = indexComponent.client();
 		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 		if (indexExists(client, index)) {
-			List<String> hosts = CONFIG.getStringList("index.hosts");
+			List<String> hosts = CONFIG.getStringList("index.prod.hosts");
 			if (hosts.stream().anyMatch(s -> !s.equals("localhost"))) {
 				Assert.fail(String.format("Running against remote hosts: '%s', skipping deletion and indexing. "
 						+ "Delete index '%s' manually or configure a new index.", hosts, index));
@@ -119,7 +119,7 @@ public class Index {
 				// bulk indexing only
 				.put("index.refresh_interval", "-1")
 				// 1 shard per node
-				.put("index.number_of_shards", CONFIG.getStringList("index.hosts").size()));
+				.put("index.number_of_shards", CONFIG.getStringList("index.prod.hosts").size()));
 		if (mappings != null) {
 			cirb.setSource(Files.lines(Paths.get(mappings)).collect(Collectors.joining()), XContentType.JSON);
 		}
@@ -134,7 +134,7 @@ public class Index {
 	}
 
 	static void index(String indexName, Client client, String pathToJson, String pathToDeprecated) {
-		indexName = indexName == null ? config("index.name.prod") : indexName;
+		indexName = indexName == null ? config("index.prod.name") : indexName;
 		try {
 			if (!Index.indexExists(client, indexName)) {
 				Logger.info("Creating new empty index {}", indexName);
@@ -238,7 +238,7 @@ public class Index {
 			try (Scanner s = new Scanner(new FileInputStream(file))) {
 				while (s.hasNextLine()) {
 					String id = s.nextLine();
-					DeleteResponse response = client.prepareDelete(config("index.name.prod"), config("index.type"), id)
+					DeleteResponse response = client.prepareDelete(config("index.prod.name"), config("index.type"), id)
 							.execute().actionGet();
 					Logger.debug("Delete {}: status {}: {}", id, response.status(), response);
 					if (response.status().getStatus() == Status.OK) {

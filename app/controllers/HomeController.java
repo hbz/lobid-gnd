@@ -124,7 +124,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		QueryStringQueryBuilder query = index.queryStringQuery("depiction:*");
 		FunctionScoreQueryBuilder functionScoreQuery = QueryBuilders.functionScoreQuery(query,
 				ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()));
-		SearchRequestBuilder requestBuilder = index.client().prepareSearch(config("index.name.prod"))
+		SearchRequestBuilder requestBuilder = index.client().prepareSearch(config("index.prod.name"))
 				.setQuery(functionScoreQuery).setFrom(0).setSize(1);
 		SearchHits hits = requestBuilder.execute().actionGet().getHits();
 		AuthorityResource entity = null;
@@ -233,7 +233,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	private String getAuthorityResource(String id) {
-		GetResponse response = index.client().prepareGet(config("index.name.prod"), config("index.type"), id).get();
+		GetResponse response = index.client().prepareGet(config("index.prod.name"), config("index.type"), id).get();
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		if (!response.isExists()) {
 			return null;
@@ -350,7 +350,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			query = query.filter(index.queryStringQuery(filter));
 		}
 		TimeValue keepAlive = new TimeValue(60000);
-		SearchRequestBuilder scrollRequest = index.client().prepareSearch(config("index.name.prod"))
+		SearchRequestBuilder scrollRequest = index.client().prepareSearch(config("index.prod.name"))
 				.addSort(FieldSortBuilder.DOC_FIELD_NAME, SortOrder.ASC).setScroll(keepAlive).setQuery(query)
 				.setSize(100 /* hits per shard for each scroll */);
 		Logger.debug("Scrolling with query: q={}, request={}", q, scrollRequest);
