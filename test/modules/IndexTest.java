@@ -39,14 +39,14 @@ public class IndexTest {
 		convertData();
 		index = Index.indexBaselineAndUpdates();
 		Client client = index.client();
-		String bootstrappingIndexName = HomeController.config("index.name.boot");
+		String bootstrappingIndexName = HomeController.config("index.boot.name");
 		Index.createEmptyIndex(client, bootstrappingIndexName, HomeController.config("index.settings"));
 		Index.indexData(client, "test/data/index", bootstrappingIndexName);
 	}
 
 	@AfterClass
 	public static void tearDownBootstrappingIndex() {
-		Index.deleteIndex(HomeController.config("index.name.boot"));
+		Index.deleteIndex(HomeController.config("index.boot.name"));
 	}
 
 	private static void convertData() throws FileNotFoundException, IOException {

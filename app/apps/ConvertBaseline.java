@@ -34,7 +34,7 @@ public class ConvertBaseline {
 			splitter.setTopLevelElement("rdf:RDF");
 			ToAuthorityJson encodeJson = new ToAuthorityJson();
 			JsonToElasticsearchBulk bulk = new JsonToElasticsearchBulk("id", config("index.type"),
-					config("index.name.prod"));
+					config("index.prod.name"));
 			File deprecatedFile = new File(args.length == 3 ? args[2] : config("index.delete.baseline"));
 			deprecatedFile.delete();
 			for (String file : input) {
