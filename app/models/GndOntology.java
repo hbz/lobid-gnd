@@ -139,6 +139,12 @@ public class GndOntology {
 		return new ArrayList<>(new TreeSet<>(result));
 	}
 
+	/**
+	 * @param property
+	 *            The short property, e.g. placeOfBirth
+	 * @return The type of values for the given property (if they are GND
+	 *         entities, otherwise null), e.g. PlaceOrGeographicName
+	 */
 	public static String type(String property) {
 		return types.get(property);
 	}
@@ -225,7 +231,8 @@ public class GndOntology {
 				$(property).find(selector("range")).forEach(domain -> {
 					String type = domain.getAttribute("rdf:resource");
 					String shortType;
-					if (type != null && type.contains("#") && !(shortType = type.split("#")[1]).equals("Literal")) {
+					if (type != null && type.startsWith("http://d-nb.info/standards/elementset/gnd#")
+							&& !(shortType = type.split("#")[1]).equals("Literal")) {
 						types.put(shortPropertyId, shortType);
 					}
 				});
