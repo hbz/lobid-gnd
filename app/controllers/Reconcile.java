@@ -87,8 +87,8 @@ public class Reconcile extends Controller {
 		final String host = HomeController.config("host");
 		ObjectNode result = Json.newObject();
 		result.put("name", "GND reconciliation for OpenRefine");
-		result.put("identifierSpace", host + "/gnd");
-		result.put("schemaSpace", host + "/gnd");
+		result.put("identifierSpace", host + "/gnd/");
+		result.put("schemaSpace", "https://d-nb.info/standards/elementset/gnd#AuthorityResource");
 		result.set("defaultTypes", TYPES);
 		result.set("view", Json.newObject()//
 				.put("url", host + "/gnd/{{id}}"));
