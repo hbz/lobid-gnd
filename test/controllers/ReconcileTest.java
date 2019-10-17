@@ -174,4 +174,33 @@ public class ReconcileTest extends IndexTest {
 		});
 	}
 
+	@Test
+	// curl -g
+	// 'localhost:9000/gnd/reconcile?extend=
+	// {"ids":[],"properties":[{"id":"geographicAreaCode"},{"id":"professionOrOccupation"}]}'
+	// See https://github.com/hbz/lobid-gnd/issues/241
+	public void extendRequestMeta() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			Result result = null;
+			try {
+				String extensionQuery = "{\"ids\":[],\"properties\":[" + //
+				"{\"id\":\"geographicAreaCode\"}," + //
+				"{\"id\":\"professionOrOccupation\"}]}";
+				result = route(application, fakeRequest(GET,
+						"/gnd/reconcile?extend=" + URLEncoder.encode(extensionQuery, StandardCharsets.UTF_8.name())));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			assertNotNull(result);
+			assertThat(result.status(), is(equalTo(Http.Status.OK)));
+			String content = contentAsString(result);
+			Logger.debug(Json.prettyPrint(Json.parse(content)));
+			// reconciled value in this service / identifierSpace:
+			assertThat(content, containsString("SubjectHeading"));
+			// has type in GND ontology, but different identifierSpace:
+			assertThat(content, not(containsString("GeographicAreaCodeValue")));
+		});
+	}
+
 }

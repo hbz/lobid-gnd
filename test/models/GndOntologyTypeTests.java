@@ -20,6 +20,7 @@ public class GndOntologyTypeTests {
 		return Arrays.asList(new Object[][] { //
 				{ "professionOrOccupation", "SubjectHeading" }, //
 				{ "placeOfBirth", "PlaceOrGeographicName" }, //
+				{ "geographicAreaCode", null }, //
 				{ "definition", null } });
 	}
 
