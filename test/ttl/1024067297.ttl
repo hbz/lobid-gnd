@@ -1,5 +1,5 @@
 @prefix schema: <http://schema.org/> .
-@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
 @prefix lib: <http://purl.org/library/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -14,10 +14,10 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
-@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dnba: <https://d-nb.info/standards/elementset/agrelon#> .
 @prefix dcmitype: <http://purl.org/dc/dcmitype/> .
 @prefix dbp: <http://dbpedia.org/property/> .
-@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
 @prefix dnb_intern: <http://dnb.de/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix v: <http://www.w3.org/2006/vcard/ns#> .
@@ -26,7 +26,7 @@
 @prefix gbv: <http://purl.org/ontology/gbv/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-<http://d-nb.info/gnd/1024067297> a gndo:DifferentiatedPerson , gndo:LiteraryOrLegendaryCharacter ;
+<https://d-nb.info/gnd/1024067297> a gndo:DifferentiatedPerson , gndo:LiteraryOrLegendaryCharacter ;
 	gndo:gndIdentifier "1024067297" ;
 	owl:sameAs <http://viaf.org/viaf/254287891> ;
 	gndo:variantNameForThePerson "Maugantius, Anglus" ;
@@ -35,14 +35,14 @@
 _:node1c84re5bcx10580030 gndo:personalName "Maugantius" ;
 	gndo:nameAddition "Anglus" .
 
-<http://d-nb.info/gnd/1024067297> gndo:preferredNameForThePerson "Maugantius" ;
+<https://d-nb.info/gnd/1024067297> gndo:preferredNameForThePerson "Maugantius" ;
 	gndo:preferredNameEntityForThePerson _:node1c84re5bcx10580031 .
 
 _:node1c84re5bcx10580031 gndo:personalName "Maugantius" .
 
-<http://d-nb.info/gnd/1024067297> gndo:professionOrOccupation <http://d-nb.info/gnd/4306746-3> ;
-	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB> ;
+<https://d-nb.info/gnd/1024067297> gndo:professionOrOccupation <https://d-nb.info/gnd/4306746-3> ;
+	gndo:geographicAreaCode <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB> ;
 	gndo:biographicalOrHistoricalInformation "Ratgeber d. brit. Kriegsherrn Vortigern; vermutlich fiktiv"@de ;
-	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#male> ;
+	gndo:gender <https://d-nb.info/standards/vocab/gnd/gender#male> ;
 	gndo:dateOfBirthAndDeath "[5. Jh.]" .
 

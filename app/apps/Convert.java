@@ -99,7 +99,7 @@ public class Convert {
 				Logger.warn("XPath evaluation failed for {}: {}", name, e.getMessage());
 				return;
 			}
-			Model model = sourceModel(value);
+			Model model = sourceModel(value.replace("https://d-nb.info", "http://d-nb.info"));
 			String jsonLd = Convert.toJsonLd(id, model, false, deprecated);
 			getReceiver().process(jsonLd);
 		}

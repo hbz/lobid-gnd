@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF
 	xmlns:schema="http://schema.org/"
-	xmlns:gndo="http://d-nb.info/standards/elementset/gnd#"
+	xmlns:gndo="https://d-nb.info/standards/elementset/gnd#"
 	xmlns:lib="http://purl.org/library/"
 	xmlns:owl="http://www.w3.org/2002/07/owl#"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
@@ -19,10 +19,10 @@
 	xmlns:foaf="http://xmlns.com/foaf/0.1/"
 	xmlns:mo="http://purl.org/ontology/mo/"
 	xmlns:marcRole="http://id.loc.gov/vocabulary/relators/"
-	xmlns:dnba="http://d-nb.info/standards/elementset/agrelon#"
+	xmlns:dnba="https://d-nb.info/standards/elementset/agrelon#"
 	xmlns:dcmitype="http://purl.org/dc/dcmitype/"
 	xmlns:dbp="http://dbpedia.org/property/"
-	xmlns:dnbt="http://d-nb.info/standards/elementset/dnb#"
+	xmlns:dnbt="https://d-nb.info/standards/elementset/dnb#"
 	xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#"
 	xmlns:dnb_intern="http://dnb.de/"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -32,19 +32,19 @@
 	xmlns:bibo="http://purl.org/ontology/bibo/"
 	xmlns:gbv="http://purl.org/ontology/gbv/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/">
-<rdf:Description rdf:about="http://d-nb.info/gnd/100002617">
+<rdf:Description rdf:about="https://d-nb.info/gnd/100002617">
 	<wdrs:describedby>
-		<rdf:Description rdf:about="http://d-nb.info/gnd/100002617/about">
+		<rdf:Description rdf:about="https://d-nb.info/gnd/100002617/about">
 			<dcterms:license rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/"/>
 			<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-09-27T17:46:29.000</dcterms:modified>
 		</rdf:Description>
 	</wdrs:describedby>
-	<rdf:type rdf:resource="http://d-nb.info/standards/elementset/gnd#DifferentiatedPerson"/>
+	<rdf:type rdf:resource="https://d-nb.info/standards/elementset/gnd#DifferentiatedPerson"/>
 	<gndo:gndIdentifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">100002617</gndo:gndIdentifier>
 	<owl:sameAs rdf:resource="http://viaf.org/viaf/71732342"/>
 	<gndo:oldAuthorityNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(DE-588)1089743769</gndo:oldAuthorityNumber>
-	<owl:sameAs rdf:resource="http://d-nb.info/gnd/1089743769"/>
-	<dnbt:deprecatedUri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://d-nb.info/gnd/1089743769</dnbt:deprecatedUri>
+	<owl:sameAs rdf:resource="https://d-nb.info/gnd/1089743769"/>
+	<dnbt:deprecatedUri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://d-nb.info/gnd/1089743769</dnbt:deprecatedUri>
 	<gndo:oldAuthorityNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(DE-588a)100002617</gndo:oldAuthorityNumber>
 	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Abū Ḏaqan, Yūsuf</gndo:variantNameForThePerson>
 	<gndo:variantNameEntityForThePerson>
@@ -119,12 +119,12 @@
 			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Abudacnus</gndo:surname>
 		</rdf:Description>
 	</gndo:preferredNameEntityForThePerson>
-	<gndo:affiliation rdf:resource="http://d-nb.info/gnd/80092-2"/>
-	<gndo:professionOrOccupation rdf:resource="http://d-nb.info/gnd/4025098-2"/>
-	<gndo:professionOrOccupation rdf:resource="http://d-nb.info/gnd/4199236-2"/>
-	<gndo:geographicAreaCode rdf:resource="http://d-nb.info/standards/vocab/gnd/geographic-area-code#XC-EG"/>
-	<gndo:geographicAreaCode rdf:resource="http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB"/>
-	<gndo:geographicAreaCode rdf:resource="http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-BE"/>
+	<gndo:affiliation rdf:resource="https://d-nb.info/gnd/80092-2"/>
+	<gndo:professionOrOccupation rdf:resource="https://d-nb.info/gnd/4025098-2"/>
+	<gndo:professionOrOccupation rdf:resource="https://d-nb.info/gnd/4199236-2"/>
+	<gndo:geographicAreaCode rdf:resource="https://d-nb.info/standards/vocab/gnd/geographic-area-code#XC-EG"/>
+	<gndo:geographicAreaCode rdf:resource="https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB"/>
+	<gndo:geographicAreaCode rdf:resource="https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-BE"/>
 	<gndo:publication rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Speculum Hebraicum .... - 1615</gndo:publication>
 	<gndo:publication rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Historia Jacobitarum. - 1675</gndo:publication>
 	<gndo:publication rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The history of the Cophites. - 1693</gndo:publication>
@@ -133,8 +133,8 @@
 	<gndo:publication rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Historia Jacobitarum, seu Coptorum in Aegypto, Lybia, Nubia, ... - 1675</gndo:publication>
 	<gndo:publication rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Historia Iacobitarum seu coptorum in Aegypto, Lybia, Nubia, ... - 1733</gndo:publication>
 	<gndo:biographicalOrHistoricalInformation xml:lang="de">Ägyptischer Jesuit, Historiker und Philologe, unterrichtete Arabisch in Oxford und Löwen</gndo:biographicalOrHistoricalInformation>
-	<gndo:placeOfBirth rdf:resource="http://d-nb.info/gnd/4029236-8"/>
-	<gndo:gender rdf:resource="http://d-nb.info/standards/vocab/gnd/gender#male"/>
+	<gndo:placeOfBirth rdf:resource="https://d-nb.info/gnd/4029236-8"/>
+	<gndo:gender rdf:resource="https://d-nb.info/standards/vocab/gnd/gender#male"/>
 	<gndo:dateOfBirth rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">1570</gndo:dateOfBirth>
 	<gndo:dateOfDeath rdf:datatype="http://www.w3.org/2001/XMLSchema#string">[16XX]</gndo:dateOfDeath>
 </rdf:Description>

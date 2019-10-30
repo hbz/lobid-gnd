@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF
 	xmlns:schema="http://schema.org/"
-	xmlns:gndo="http://d-nb.info/standards/elementset/gnd#"
+	xmlns:gndo="https://d-nb.info/standards/elementset/gnd#"
 	xmlns:lib="http://purl.org/library/"
 	xmlns:marcRole="http://id.loc.gov/vocabulary/relators/"
 	xmlns:owl="http://www.w3.org/2002/07/owl#"
@@ -11,7 +11,7 @@
 	xmlns:geo="http://www.opengis.net/ont/geosparql#"
 	xmlns:umbel="http://umbel.org/umbel#"
 	xmlns:dbp="http://dbpedia.org/property/"
-	xmlns:dnbt="http://d-nb.info/standards/elementset/dnb#"
+	xmlns:dnbt="https://d-nb.info/standards/elementset/dnb#"
 	xmlns:rdau="http://rdaregistry.info/Elements/u/"
 	xmlns:sf="http://www.opengis.net/ont/sf#"
 	xmlns:dnb_intern="http://dnb.de/"
@@ -23,25 +23,25 @@
 	xmlns:isbd="http://iflastandards.info/ns/isbd/elements/"
 	xmlns:foaf="http://xmlns.com/foaf/0.1/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/">
-<rdf:Description rdf:about="http://d-nb.info/gnd/1-2">
-	<rdf:type rdf:resource="http://d-nb.info/standards/elementset/gnd#SeriesOfConferenceOrEvent"/>
+<rdf:Description rdf:about="https://d-nb.info/gnd/1-2">
+	<rdf:type rdf:resource="https://d-nb.info/standards/elementset/gnd#SeriesOfConferenceOrEvent"/>
 	<gndo:gndIdentifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1-2</gndo:gndIdentifier>
 	<gndo:oldAuthorityNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(DE-588b)1-2</gndo:oldAuthorityNumber>
 	<gndo:variantNameForTheConferenceOrEvent rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Conferentie van Niet-Kernwapenstaten</gndo:variantNameForTheConferenceOrEvent>
 	<gndo:variantNameForTheConferenceOrEvent rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Conference on Non-Nuclear Weapon States</gndo:variantNameForTheConferenceOrEvent>
 	<gndo:preferredNameForTheConferenceOrEvent rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Conference of Non-Nuclear Weapon States</gndo:preferredNameForTheConferenceOrEvent>
 </rdf:Description>
-<rdf:Description rdf:about="http://d-nb.info/gnd/2-4">
-	<rdf:type rdf:resource="http://d-nb.info/standards/elementset/gnd#ConferenceOrEvent"/>
+<rdf:Description rdf:about="https://d-nb.info/gnd/2-4">
+	<rdf:type rdf:resource="https://d-nb.info/standards/elementset/gnd#ConferenceOrEvent"/>
 	<gndo:gndIdentifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2-4</gndo:gndIdentifier>
 	<gndo:oldAuthorityNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(DE-588b)2-4</gndo:oldAuthorityNumber>
 	<gndo:preferredNameForTheConferenceOrEvent rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Conferenza Nazionale della Ceramica (1963 : Vicenza)</gndo:preferredNameForTheConferenceOrEvent>
-	<gndo:geographicAreaCode rdf:resource="http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-IT"/>
+	<gndo:geographicAreaCode rdf:resource="https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-IT"/>
 	<gndo:dateOfConferenceOrEvent rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1963</gndo:dateOfConferenceOrEvent>
-	<gndo:placeOfConferenceOrEvent rdf:resource="http://d-nb.info/gnd/4063445-0"/>
+	<gndo:placeOfConferenceOrEvent rdf:resource="https://d-nb.info/gnd/4063445-0"/>
 </rdf:Description>
-<rdf:Description rdf:about="http://d-nb.info/gnd/1077774206">
-	<rdf:type rdf:resource="http://d-nb.info/standards/elementset/gnd#DifferentiatedPerson"></rdf:type>
+<rdf:Description rdf:about="https://d-nb.info/gnd/1077774206">
+	<rdf:type rdf:resource="https://d-nb.info/standards/elementset/gnd#DifferentiatedPerson"></rdf:type>
 	<owl:sameAs rdf:resource="http://viaf.org/viaf/182144782963056229916"></owl:sameAs>
 	<gndo:gndIdentifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1077774206</gndo:gndIdentifier>
 	<gndo:preferredNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Clasen, Thomas</gndo:preferredNameForThePerson>
@@ -51,13 +51,13 @@
 			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Clasen</gndo:surname>
 		</rdf:Description>
 	</gndo:preferredNameEntityForThePerson>
-	<gndo:geographicAreaCode rdf:resource="http://d-nb.info/standards/vocab/gnd/geographic-area-code#XD-US"></gndo:geographicAreaCode>
+	<gndo:geographicAreaCode rdf:resource="https://d-nb.info/standards/vocab/gnd/geographic-area-code#XD-US"></gndo:geographicAreaCode>
 	<gndo:biographicalOrHistoricalInformation xml:lang="de">Rollins School of Public Health, Emory University, Atlanta, Ga.</gndo:biographicalOrHistoricalInformation>
 	<gndo:biographicalOrHistoricalInformation xml:lang="de">Faculty of Infectious and Tropical Diseases, London School of Hygiene and Tropic&#100044;&#1048655;&#100003;&#100030;&#100048;&#100047;&#1048652;&#100046;&#1048652;&#100051;&#100048;</gndo:biographicalOrHistoricalInformation>
-	<gndo:gender rdf:resource="http://d-nb.info/standards/vocab/gnd/gender#male"></gndo:gender>
+	<gndo:gender rdf:resource="https://d-nb.info/standards/vocab/gnd/gender#male"></gndo:gender>
 </rdf:Description>
-<rdf:Description rdf:about="http://d-nb.info/gnd/1072719991">
-	<rdf:type rdf:resource="http://d-nb.info/standards/elementset/gnd#DifferentiatedPerson"></rdf:type>
+<rdf:Description rdf:about="https://d-nb.info/gnd/1072719991">
+	<rdf:type rdf:resource="https://d-nb.info/standards/elementset/gnd#DifferentiatedPerson"></rdf:type>
 	<owl:sameAs rdf:resource="http://viaf.org/viaf/316502188"></owl:sameAs>
 	<gndo:gndIdentifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1072719991</gndo:gndIdentifier>
 	<gndo:variantNameForThePerson rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zhao Liangshu</gndo:variantNameForThePerson>
@@ -86,13 +86,13 @@
 			<gndo:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zhao</gndo:surname>
 		</rdf:Description>
 	</gndo:preferredNameEntityForThePerson>
-	<gndo:geographicAreaCode rdf:resource="http://d-nb.info/standards/vocab/gnd/geographic-area-code#XB-CN"></gndo:geographicAreaCode>
+	<gndo:geographicAreaCode rdf:resource="https://d-nb.info/standards/vocab/gnd/geographic-area-code#XB-CN"></gndo:geographicAreaCode>
 	<gndo:biographicalOrHistoricalInformation xml:lang="de">Chines. Gelehrter der Qing-Dynastie, Jinshi-Grad 1795</gndo:biographicalOrHistoricalInformation>
 	<gndo:periodOfActivity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1795-</gndo:periodOfActivity>
-	<gndo:gender rdf:resource="http://d-nb.info/standards/vocab/gnd/gender#notKnown"></gndo:gender>
+	<gndo:gender rdf:resource="https://d-nb.info/standards/vocab/gnd/gender#notKnown"></gndo:gender>
 </rdf:Description>
-<rdf:Description rdf:about="http://d-nb.info/gnd/118846981">
-	<owl:sameAs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://d-nb.info/gnd/102421064</owl:sameAs>
-	<dnbt:canonicalUri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://d-nb.info/gnd/102421064</dnbt:canonicalUri>
+<rdf:Description rdf:about="https://d-nb.info/gnd/118846981">
+	<owl:sameAs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://d-nb.info/gnd/102421064</owl:sameAs>
+	<dnbt:canonicalUri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://d-nb.info/gnd/102421064</dnbt:canonicalUri>
 </rdf:Description>
 </rdf:RDF>

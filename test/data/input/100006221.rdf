@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF
 	xmlns:schema="http://schema.org/"
-	xmlns:gndo="http://d-nb.info/standards/elementset/gnd#"
+	xmlns:gndo="https://d-nb.info/standards/elementset/gnd#"
 	xmlns:lib="http://purl.org/library/"
 	xmlns:owl="http://www.w3.org/2002/07/owl#"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
@@ -19,10 +19,10 @@
 	xmlns:foaf="http://xmlns.com/foaf/0.1/"
 	xmlns:mo="http://purl.org/ontology/mo/"
 	xmlns:marcRole="http://id.loc.gov/vocabulary/relators/"
-	xmlns:dnba="http://d-nb.info/standards/elementset/agrelon#"
+	xmlns:dnba="https://d-nb.info/standards/elementset/agrelon#"
 	xmlns:dcmitype="http://purl.org/dc/dcmitype/"
 	xmlns:dbp="http://dbpedia.org/property/"
-	xmlns:dnbt="http://d-nb.info/standards/elementset/dnb#"
+	xmlns:dnbt="https://d-nb.info/standards/elementset/dnb#"
 	xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#"
 	xmlns:dnb_intern="http://dnb.de/"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -32,14 +32,14 @@
 	xmlns:bibo="http://purl.org/ontology/bibo/"
 	xmlns:gbv="http://purl.org/ontology/gbv/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/">
-<rdf:Description rdf:about="http://d-nb.info/gnd/100006221">
+<rdf:Description rdf:about="https://d-nb.info/gnd/100006221">
 	<wdrs:describedby>
-		<rdf:Description rdf:about="http://d-nb.info/gnd/100006221/about">
+		<rdf:Description rdf:about="https://d-nb.info/gnd/100006221/about">
 			<dcterms:license rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/"/>
 			<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2008-04-05T15:30:19.000</dcterms:modified>
 		</rdf:Description>
 	</wdrs:describedby>
-	<rdf:type rdf:resource="http://d-nb.info/standards/elementset/gnd#DifferentiatedPerson"/>
+	<rdf:type rdf:resource="https://d-nb.info/standards/elementset/gnd#DifferentiatedPerson"/>
 	<gndo:gndIdentifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">100006221</gndo:gndIdentifier>
 	<owl:sameAs rdf:resource="http://viaf.org/viaf/115881785"/>
 	<gndo:oldAuthorityNumber rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(DE-588a)100006221</gndo:oldAuthorityNumber>
@@ -100,7 +100,7 @@
 	<gndo:publication rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Uytenhage de Mist, Johannes: Apologie pour la Maison de Nassau, ou refutation des calomnies co*. - 1664</gndo:publication>
 	<gndo:publication rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Uytenhage de Mist, Johannes: Aesopus defensor sig erbarmende over de diepe sugten van den klagen*. - 1662</gndo:publication>
 	<gndo:biographicalOrHistoricalInformation xml:lang="de">Niederl. Publizist und Jurist</gndo:biographicalOrHistoricalInformation>
-	<gndo:gender rdf:resource="http://d-nb.info/standards/vocab/gnd/gender#notKnown"/>
+	<gndo:gender rdf:resource="https://d-nb.info/standards/vocab/gnd/gender#notKnown"/>
 	<gndo:dateOfBirth rdf:datatype="http://www.w3.org/2001/XMLSchema#string">[1635/36]</gndo:dateOfBirth>
 	<gndo:dateOfDeath rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">1684</gndo:dateOfDeath>
 </rdf:Description>

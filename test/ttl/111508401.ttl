@@ -1,5 +1,5 @@
 @prefix schema: <http://schema.org/> .
-@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
 @prefix lib: <http://purl.org/library/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -15,10 +15,10 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
-@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dnba: <https://d-nb.info/standards/elementset/agrelon#> .
 @prefix dcmitype: <http://purl.org/dc/dcmitype/> .
 @prefix dbp: <http://dbpedia.org/property/> .
-@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
 @prefix dnb_intern: <http://dnb.de/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix v: <http://www.w3.org/2006/vcard/ns#> .
@@ -27,12 +27,12 @@
 @prefix gbv: <http://purl.org/ontology/gbv/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-<http://d-nb.info/gnd/111508401> a gndo:DifferentiatedPerson ;
+<https://d-nb.info/gnd/111508401> a gndo:DifferentiatedPerson ;
 	gndo:gndIdentifier "111508401" ;
 	owl:sameAs <http://viaf.org/viaf/17268654> ;
 	gndo:oldAuthorityNumber "(DE-588)1090750048" ;
-	owl:sameAs <http://d-nb.info/gnd/1090750048> ;
-	dnbt:deprecatedUri "http://d-nb.info/gnd/1090750048" ;
+	owl:sameAs <https://d-nb.info/gnd/1090750048> ;
+	dnbt:deprecatedUri "https://d-nb.info/gnd/1090750048" ;
 	gndo:oldAuthorityNumber "(DE-588a)111508401" ;
 	gndo:variantNameForThePerson "Erdmann-Panǆić, Elisabeth von" ;
 	gndo:variantNameEntityForThePerson _:node1cf9s15esx3412322 .
@@ -41,24 +41,24 @@ _:node1cf9s15esx3412322 gndo:forename "Elisabeth" ;
 	gndo:prefix "von" ;
 	gndo:surname "Erdmann-Panǆić" .
 
-<http://d-nb.info/gnd/111508401> gndo:variantNameForThePerson "Panǆić, Elisabeth von Erdmann-" ;
+<https://d-nb.info/gnd/111508401> gndo:variantNameForThePerson "Panǆić, Elisabeth von Erdmann-" ;
 	gndo:variantNameEntityForThePerson _:node1cf9s15esx3412323 .
 
 _:node1cf9s15esx3412323 gndo:forename "Elisabeth von Erdmann-" ;
 	gndo:surname "Panǆić" .
 
-<http://d-nb.info/gnd/111508401> gndo:preferredNameForThePerson "Erdmann, Elisabeth von" ;
+<https://d-nb.info/gnd/111508401> gndo:preferredNameForThePerson "Erdmann, Elisabeth von" ;
 	gndo:preferredNameEntityForThePerson _:node1cf9s15esx3412324 .
 
 _:node1cf9s15esx3412324 gndo:forename "Elisabeth" ;
 	gndo:prefix "von" ;
 	gndo:surname "Erdmann" .
 
-<http://d-nb.info/gnd/111508401> gndo:affiliation <http://d-nb.info/gnd/2024186-0> ;
-	gndo:professionOrOccupation <http://d-nb.info/gnd/7626630-8> , <http://d-nb.info/gnd/4160219-5> ;
+<https://d-nb.info/gnd/111508401> gndo:affiliation <https://d-nb.info/gnd/2024186-0> ;
+	gndo:professionOrOccupation <https://d-nb.info/gnd/7626630-8> , <https://d-nb.info/gnd/4160219-5> ;
 	gndo:academicDegree "Prof. Dr. phil." ;
-	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DE> ;
+	gndo:geographicAreaCode <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DE> ;
 	gndo:biographicalOrHistoricalInformation "Lehrstuhl für Slavische Literaturwissenschaft an der Universität Bamberg; seit 1994 Professorin für Slavistik in Erlangen; Prof. für Slavistik"@de ;
-	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#female> ;
+	gndo:gender <https://d-nb.info/standards/vocab/gnd/gender#female> ;
 	gndo:dateOfBirth "1956"^^<http://www.w3.org/2001/XMLSchema#gYear> .
 

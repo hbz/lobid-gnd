@@ -1,5 +1,5 @@
 @prefix schema: <http://schema.org/> .
-@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
 @prefix lib: <http://purl.org/library/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -15,10 +15,10 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
-@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dnba: <https://d-nb.info/standards/elementset/agrelon#> .
 @prefix dcmitype: <http://purl.org/dc/dcmitype/> .
 @prefix dbp: <http://dbpedia.org/property/> .
-@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
 @prefix dnb_intern: <http://dnb.de/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix v: <http://www.w3.org/2006/vcard/ns#> .
@@ -27,16 +27,16 @@
 @prefix gbv: <http://purl.org/ontology/gbv/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-<http://d-nb.info/gnd/4005728-8> a gndo:TerritorialCorporateBodyOrAdministrativeUnit , gndo:MemberState ;
+<https://d-nb.info/gnd/4005728-8> a gndo:TerritorialCorporateBodyOrAdministrativeUnit , gndo:MemberState ;
 	gndo:gndIdentifier "4005728-8" ;
 	foaf:page <https://de.wikipedia.org/wiki/Berlin> ;
 	owl:sameAs <http://viaf.org/viaf/122530980> ;
 	gndo:oldAuthorityNumber "(DE-588)7761961-4" ;
-	owl:sameAs <http://d-nb.info/gnd/7761961-4> ;
-	dnbt:deprecatedUri "http://d-nb.info/gnd/7761961-4" ;
+	owl:sameAs <https://d-nb.info/gnd/7761961-4> ;
+	dnbt:deprecatedUri "https://d-nb.info/gnd/7761961-4" ;
 	gndo:oldAuthorityNumber "(DE-588c)7761961-4" , "(DE-588)2004272-3" ;
-	owl:sameAs <http://d-nb.info/gnd/2004272-3> ;
-	dnbt:deprecatedUri "http://d-nb.info/gnd/2004272-3" ;
+	owl:sameAs <https://d-nb.info/gnd/2004272-3> ;
+	dnbt:deprecatedUri "https://d-nb.info/gnd/2004272-3" ;
 	gndo:oldAuthorityNumber "(DE-588b)10182267-4" , "(DE-588b)2004272-3" , "(DE-588c)4005728-8" ;
 	gndo:relatedDdcWithDegreeOfDeterminacy4 <http://dewey.info/class/2--43155/> ;
 	owl:sameAs <http://sws.geonames.org/2950157> ;
@@ -45,12 +45,12 @@
 _:node1cee8f0u6x1550978 geo:asWKT "Point ( +013.416669 +052.500000 )"^^geo:wktLiteral ;
 	a sf:Point .
 
-<http://d-nb.info/gnd/4005728-8> gndo:relatedTerm <http://d-nb.info/gnd/4442496-6> ;
-	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DE-BE> , <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DXDE> ;
+<https://d-nb.info/gnd/4005728-8> gndo:relatedTerm <https://d-nb.info/gnd/4442496-6> ;
+	gndo:geographicAreaCode <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DE-BE> , <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DXDE> ;
 	gndo:homepage <http://www.berlin.de> ;
 	gndo:biographicalOrHistoricalInformation "(bis 1948 und ab 1991)"@de ;
 	gndo:definition "Hauptstadt u. Bundesland; 1237 (Cölln) bzw. 1244 (Berlin) urkundl. erwähnt, 1230/40 bzw. nach 1250 Stadtrecht, 1307 Union, 1370 gemeinsamer Rat, 1432 Vereinigung der Doppelstadt"@de ;
 	gndo:variantNameForThePlaceOrGeographicName "Großberlin" , "Groß-Berlin" , "Haupt- und Residenz-Stadt Berlin" , "Reichshauptstadt Berlin" , "Berlino" , "Berolino" , "Stadtgemeinde Berlin" , "Hauptstadt Berlin" , "Birlīn" , "Barlīn" , "Berolinon" , "Land Berlin" , "Coloniae Brandenburgicae" , "Berlinum" , "Verolino" , "Berolinum" , "Cölln an der Spree" , "Colonia Brandenburgica" , "Colonia Marchica" , "Cöln an der Spree" , "Berlin (1945-1948)" , "\"Besonderes Gebiet\" Berlin" , "Gross-Berlin" ;
 	gndo:preferredNameForThePlaceOrGeographicName "Berlin" ;
-	gndo:relatedPlaceOrGeographicName <http://d-nb.info/gnd/4087295-6> , <http://d-nb.info/gnd/4069304-1> , <http://d-nb.info/gnd/1081214-3> , <http://d-nb.info/gnd/2042164-3> , <http://d-nb.info/gnd/142540-7> , <http://d-nb.info/gnd/142541-9> .
+	gndo:relatedPlaceOrGeographicName <https://d-nb.info/gnd/4087295-6> , <https://d-nb.info/gnd/4069304-1> , <https://d-nb.info/gnd/1081214-3> , <https://d-nb.info/gnd/2042164-3> , <https://d-nb.info/gnd/142540-7> , <https://d-nb.info/gnd/142541-9> .
 

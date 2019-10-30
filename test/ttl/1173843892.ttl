@@ -1,5 +1,5 @@
 @prefix schema: <http://schema.org/> .
-@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
 @prefix lib: <http://purl.org/library/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -17,10 +17,10 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
-@prefix agrelon: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix agrelon: <https://d-nb.info/standards/elementset/agrelon#> .
 @prefix dcmitype: <http://purl.org/dc/dcmitype/> .
 @prefix dbp: <http://dbpedia.org/property/> .
-@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
 @prefix madsrdf: <http://www.loc.gov/mads/rdf/v1#> .
 @prefix dnb_intern: <http://dnb.de/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -31,12 +31,12 @@
 @prefix gbv: <http://purl.org/ontology/gbv/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-<http://d-nb.info/gnd/1173843892> wdrs:describedby <http://d-nb.info/gnd/1173843892/about> .
+<https://d-nb.info/gnd/1173843892> wdrs:describedby <https://d-nb.info/gnd/1173843892/about> .
 
-<http://d-nb.info/gnd/1173843892/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/> ;
+<https://d-nb.info/gnd/1173843892/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/> ;
 	dcterms:modified "2018-12-19T15:22:24.000"^^xsd:dateTime .
 
-<http://d-nb.info/gnd/1173843892> a gndo:DifferentiatedPerson ;
+<https://d-nb.info/gnd/1173843892> a gndo:DifferentiatedPerson ;
 	owl:sameAs <http://orcid.org/0000-0002-3854-3831> ;
 	gndo:gndIdentifier "1173843892" ;
 	owl:sameAs <http://viaf.org/viaf/7146513284532210392> ;
@@ -46,15 +46,15 @@
 _:node1d59taf5jx20038411 gndo:forename "Berit Bihlar" ;
 	gndo:surname "Muld" .
 
-<http://d-nb.info/gnd/1173843892> gndo:preferredNameForThePerson "Bihlar Muld, Berit" ;
+<https://d-nb.info/gnd/1173843892> gndo:preferredNameForThePerson "Bihlar Muld, Berit" ;
 	gndo:preferredNameEntityForThePerson _:node1d59taf5jx20038412 .
 
 _:node1d59taf5jx20038412 gndo:forename "Berit" ;
 	gndo:surname "Bihlar Muld" .
 
-<http://d-nb.info/gnd/1173843892> gndo:academicDegree "Ph.D." ;
-	gndo:professionOrOccupation <http://d-nb.info/gnd/4176224-1> ;
-	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-SE> ;
-	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#female> ;
+<https://d-nb.info/gnd/1173843892> gndo:academicDegree "Ph.D." ;
+	gndo:professionOrOccupation <https://d-nb.info/gnd/4176224-1> ;
+	gndo:geographicAreaCode <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-SE> ;
+	gndo:gender <https://d-nb.info/standards/vocab/gnd/gender#female> ;
 	gndo:dateOfBirth "1950"^^xsd:gYear .
 

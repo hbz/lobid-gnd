@@ -1,5 +1,5 @@
 @prefix schema: <http://schema.org/> .
-@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
 @prefix lib: <http://purl.org/library/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -17,10 +17,10 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
-@prefix agrelon: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix agrelon: <https://d-nb.info/standards/elementset/agrelon#> .
 @prefix dcmitype: <http://purl.org/dc/dcmitype/> .
 @prefix dbp: <http://dbpedia.org/property/> .
-@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
 @prefix madsrdf: <http://www.loc.gov/mads/rdf/v1#> .
 @prefix dnb_intern: <http://dnb.de/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -31,34 +31,34 @@
 @prefix gbv: <http://purl.org/ontology/gbv/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-<http://d-nb.info/gnd/4057120-8> wdrs:describedby <http://d-nb.info/gnd/040571203/about> .
+<https://d-nb.info/gnd/4057120-8> wdrs:describedby <https://d-nb.info/gnd/040571203/about> .
 
-<http://d-nb.info/gnd/040571203/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/> ;
+<https://d-nb.info/gnd/040571203/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/> ;
 	dcterms:modified "2018-01-30T11:53:56.000"^^xsd:dateTime .
 
-<http://d-nb.info/gnd/4057120-8> a gndo:TerritorialCorporateBodyOrAdministrativeUnit ;
+<https://d-nb.info/gnd/4057120-8> a gndo:TerritorialCorporateBodyOrAdministrativeUnit ;
 	gndo:gndIdentifier "4057120-8" ;
 	foaf:page <https://de.wikipedia.org/wiki/Stein_am_Rhein> ;
 	owl:sameAs <http://viaf.org/viaf/157558769> , <http://www.wikidata.org/entity/Q11939> , <http://id.loc.gov/authorities/nr96015510> ;
 	gndo:oldAuthorityNumber "(DE-588)1086444787" ;
-	owl:sameAs <http://d-nb.info/gnd/1086444787> ;
-	dnbt:deprecatedUri "http://d-nb.info/gnd/1086444787" ;
+	owl:sameAs <https://d-nb.info/gnd/1086444787> ;
+	dnbt:deprecatedUri "https://d-nb.info/gnd/1086444787" ;
 	gndo:oldAuthorityNumber "(DE-588)1087251435" ;
-	owl:sameAs <http://d-nb.info/gnd/1087251435> ;
-	dnbt:deprecatedUri "http://d-nb.info/gnd/1087251435" ;
+	owl:sameAs <https://d-nb.info/gnd/1087251435> ;
+	dnbt:deprecatedUri "https://d-nb.info/gnd/1087251435" ;
 	gndo:oldAuthorityNumber "(DE-588)2022967-7" ;
-	owl:sameAs <http://d-nb.info/gnd/2022967-7> ;
-	dnbt:deprecatedUri "http://d-nb.info/gnd/2022967-7" ;
+	owl:sameAs <https://d-nb.info/gnd/2022967-7> ;
+	dnbt:deprecatedUri "https://d-nb.info/gnd/2022967-7" ;
 	gndo:oldAuthorityNumber "(DE-588b)2022967-7" , "(DE-588c)4057120-8" ;
 	geo:hasGeometry _:node1d88b4ld0x236466 .
 
 _:node1d88b4ld0x236466 geo:asWKT "Polygon (( +008.876111 +047.659166, +008.876111 +047.659166, +008.859444 +047.659166, +008.859444 +047.659166, +008.876111 +047.659166 ))"^^geo:wktLiteral ;
 	a sf:Polygon .
 
-<http://d-nb.info/gnd/4057120-8> gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-CH-SH> ;
+<https://d-nb.info/gnd/4057120-8> gndo:geographicAreaCode <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-CH-SH> ;
 	gndo:homepage <http://www.steinamrhein.ch/> ;
 	gndo:biographicalOrHistoricalInformation "Polit. Gemeinde, bis 1999 Hauptort des Bezirks Stein, um 1015 als Marktort der Benediktinerabtei St. Georgen angelegt, 1267 Stadt"@de ;
 	gndo:variantNameForThePlaceOrGeographicName "Stadt Stein am Rhein" , "Stein, Rhein" , "Stein (Kanton Schaffhausen)" , "Stein (SH)" , "Stein (Stein am Rhein)" ;
 	gndo:preferredNameForThePlaceOrGeographicName "Stein am Rhein" ;
-	gndo:broaderTermPartitive <http://d-nb.info/gnd/4051995-8> .
+	gndo:broaderTermPartitive <https://d-nb.info/gnd/4051995-8> .
 

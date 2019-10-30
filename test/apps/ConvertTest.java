@@ -1,6 +1,7 @@
 package apps;
 
 import static apps.Convert.config;
+import static models.ModelTest.jsonLdFor;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -8,7 +9,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -339,12 +338,5 @@ public class ConvertTest {
 
 	private InputStream in(String s) {
 		return new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
-	}
-
-	private String jsonLdFor(String id) throws FileNotFoundException {
-		Model sourceModel = ModelFactory.createDefaultModel();
-		sourceModel.read(new FileReader("test/ttl/" + id + ".ttl"), null, "TTL");
-		String jsonLd = Convert.toJsonLd(id, sourceModel, true, new HashSet<>());
-		return jsonLd;
 	}
 }
