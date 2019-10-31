@@ -8,17 +8,17 @@ import java.util.Collection;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import modules.IndexComponent;
+import modules.IndexTest;
 import play.Logger;
 
 @RunWith(Parameterized.class)
-public class IndexAppTest {
+public class IndexAppTest extends IndexTest {
 
 	private static IndexComponent index;
 
@@ -33,11 +33,6 @@ public class IndexAppTest {
 
 	public IndexAppTest(String input) {
 		IndexAppTest.input = input;
-	}
-
-	@BeforeClass
-	public static void setUpEntityFacts() throws IOException {
-		Index.indexEntityFactsTurtleFiles();
 	}
 
 	@Before

@@ -202,7 +202,9 @@ public class Convert {
 				String general = p//
 						.replaceAll("preferredNameFor[^\"]+", "preferredName")
 						.replaceAll("variantNameFor[^\"]+", "variantName");
-				toAdd.add(model.createStatement(statement.getSubject(), model.createProperty(general), o));
+				RDFNode object = o.asLiteral().getLanguage().isEmpty() ? o
+						: model.createLiteral(o.asLiteral().getValue().toString());
+				toAdd.add(model.createStatement(statement.getSubject(), model.createProperty(general), object));
 			} else if (p.equals(type) && o.toString().startsWith(gnd)) {
 				// https://github.com/hbz/lobid-gnd/issues/1#issuecomment-312597639
 				if (s.equals("http://d-nb.info/gnd/" + id)) {

@@ -17,12 +17,13 @@ import static play.test.Helpers.running;
 
 import org.junit.Test;
 
+import modules.IndexTest;
 import play.Application;
 import play.libs.Json;
 import play.mvc.Result;
 
 @SuppressWarnings("javadoc")
-public class JsonResponseTest {
+public class JsonResponseTest extends IndexTest {
 
 	@Test
 	public void jsonRequestNoInternalUrl() {

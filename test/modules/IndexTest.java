@@ -43,14 +43,20 @@ public class IndexTest {
 		convertData();
 		index = Index.indexBaselineAndUpdates();
 		Client client = index.client();
-		String bootstrappingIndexName = HomeController.config("index.boot.name");
-		Index.createEmptyIndex(client, bootstrappingIndexName, HomeController.config("index.settings"));
-		Index.indexData(client, "test/data/index", bootstrappingIndexName);
+		createIndex(client, HomeController.config("index.boot.name"));
+		createIndex(client, HomeController.config("index.prod.name"));
+	}
+
+	private static void createIndex(Client client, String name) throws IOException {
+		Index.deleteIndex(name);
+		Index.createEmptyIndex(client, name, HomeController.config("index.settings"));
+		Index.indexData(client, "test/data/index", name);
 	}
 
 	@AfterClass
-	public static void tearDownBootstrappingIndex() {
+	public static void deleteIndexes() {
 		Index.deleteIndex(HomeController.config("index.boot.name"));
+		Index.deleteIndex(HomeController.config("index.prod.name"));
 	}
 
 	private static void convertData() throws FileNotFoundException, IOException {
