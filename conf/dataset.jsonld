@@ -64,7 +64,7 @@
    },
    "isBasedOn": {
      "type": "Dataset",
-     "url": "http://d-nb.info/gnd/7749153-1",
+     "url": "https://d-nb.info/gnd/7749153-1",
      "name":{
         "de":"Gemeinsame Normdatei (GND)",
         "en":"Integrated Authority File (GND)"

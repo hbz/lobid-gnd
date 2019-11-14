@@ -1,7 +1,7 @@
 {
   "@context" : "http://hub.culturegraph.org/entityfacts/context/v1/entityfacts.jsonld",
   "@type" : "place",
-  "@id" : "http://d-nb.info/gnd/4005728-8",
+  "@id" : "https://d-nb.info/gnd/4005728-8",
   "location" : {
     "type" : "Feature",
     "geometry" : {
@@ -17,26 +17,26 @@
   },
   "variantName" : [ "Großberlin", "Groß-Berlin", "Haupt-und Residenz-Stadt Berlin", "Reichshauptstadt Berlin", "Berlino", "Berolino", "Stadtgemeinde Berlin", "Hauptstadt Berlin", "Birlīn", "Barlīn", "Berolinon", "Land Berlin", "Coloniae Brandenburgicae", "Berlinum", "Verolino", "Berolinum", "Cölln an der Spree", "Colonia Brandenburgica", "Colonia Marchica", "Cöln an der Spree", "Berlin (1945-1948)", "\"Besonderes Gebiet\" Berlin", "Gross-Berlin", "柏林" ],
   "associatedPlace" : [ {
-    "@id" : "http://d-nb.info/gnd/4087295-6",
+    "@id" : "https://d-nb.info/gnd/4087295-6",
     "preferredName" : "Berlin (Ost)"
   }, {
-    "@id" : "http://d-nb.info/gnd/4069304-1",
+    "@id" : "https://d-nb.info/gnd/4069304-1",
     "preferredName" : "Berlin (West)"
   }, {
-    "@id" : "http://d-nb.info/gnd/1081214-3",
+    "@id" : "https://d-nb.info/gnd/1081214-3",
     "preferredName" : "Berlin (Amerikanischer Sektor)"
   }, {
-    "@id" : "http://d-nb.info/gnd/2042164-3",
+    "@id" : "https://d-nb.info/gnd/2042164-3",
     "preferredName" : "Berlin (Britischer Sektor)"
   }, {
-    "@id" : "http://d-nb.info/gnd/142540-7",
+    "@id" : "https://d-nb.info/gnd/142540-7",
     "preferredName" : "Berlin (Französischer Sektor)"
   }, {
-    "@id" : "http://d-nb.info/gnd/142541-9",
+    "@id" : "https://d-nb.info/gnd/142541-9",
     "preferredName" : "Berlin (Sowjetischer Sektor)"
   } ],
   "relatedSubject" : [ {
-    "@id" : "http://d-nb.info/gnd/4442496-6",
+    "@id" : "https://d-nb.info/gnd/4442496-6",
     "preferredName" : "Berliner"
   } ],
   "biographicalOrHistoricalInformation" : "(bis 1948 und ab 1991)",
@@ -49,7 +49,7 @@
     "url" : "https://commons.wikimedia.org/wiki/File:Cityscape_Berlin.jpg?uselang=en"
   },
   "sameAs" : [ {
-    "@id" : "http://d-nb.info/gnd/4005728-8/about",
+    "@id" : "https://d-nb.info/gnd/4005728-8/about",
     "collection" : {
       "abbr" : "DNB",
       "name" : "Gemeinsame Normdatei (GND) im Katalog der Deutschen Nationalbibliothek",

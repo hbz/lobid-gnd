@@ -43,7 +43,6 @@ public class ModelTest {
 			Model sourceModel = ModelFactory.createDefaultModel();
 			String ttl = Files.readAllLines(Paths.get(new File("test/ttl/" + id + ".ttl").toURI())).stream()
 					.collect(Collectors.joining("\n"));
-			ttl = ttl.replace("https://d-nb.info", "http://d-nb.info");
 			sourceModel.read(new BufferedReader(new StringReader(ttl)), null, "TTL");
 			return Convert.toJsonLd(id, sourceModel, true, new HashSet<>());
 		} catch (IOException e) {

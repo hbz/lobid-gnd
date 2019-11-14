@@ -1,7 +1,7 @@
 {
   "@context" : "http://hub.culturegraph.org/entityfacts/context/v1/entityfacts.jsonld",
   "@type" : "person",
-  "@id" : "http://d-nb.info/gnd/118624822",
+  "@id" : "https://d-nb.info/gnd/118624822",
   "preferredName" : "Mark Twain",
   "surname" : "Twain",
   "forename" : "Mark",
@@ -12,44 +12,44 @@
   },
   "variantName" : [ "Marc Twain", "Mark Twayn", "Make Tuwen", "Māku Towein", "Marḳ Tvein", "Mark Tvėn", "Marks Tvēns", "M. Tvens", "Mark Twen", "Marks Twens", "Marka Ṭvena", "Markas Tvenas", "Morkas Tvénas", "Mārk Twayn", "Mārk Tuwayn", "Ma-k`o T`u-wen", "Māku Touein", "Makū Touen", "Marek Twain", "Mark Tuein", "Mark Tven", "M. Tven", "Marḳ Ṭṿain", "Mark Twėn", "Maku Touein", "Mark Twain", "Mark Twėn", "Ma ke Tu wen", "Make-Tuwen", "Mark Tewin", "מארק טווין" ],
   "pseudonym" : [ {
-    "@id" : "http://d-nb.info/gnd/1106406737",
+    "@id" : "https://d-nb.info/gnd/1106406737",
     "preferredName" : "Quintus Curtius Snodgrass"
   }, {
-    "@id" : "http://d-nb.info/gnd/1106407008",
+    "@id" : "https://d-nb.info/gnd/1106407008",
     "preferredName" : "Louis de Conte"
   } ],
   "realIdentity" : [ {
-    "@id" : "http://d-nb.info/gnd/1106405730",
+    "@id" : "https://d-nb.info/gnd/1106405730",
     "preferredName" : "Samuel Langhorne Clemens"
   } ],
   "dateOfBirth" : "November 30, 1835",
   "dateOfDeath" : "April 21, 1910",
   "placeOfBirth" : [ {
-    "@id" : "http://d-nb.info/gnd/110640968X",
+    "@id" : "https://d-nb.info/gnd/110640968X",
     "preferredName" : "Florida, Mo."
   } ],
   "placeOfDeath" : [ {
-    "@id" : "http://d-nb.info/gnd/1025527097",
+    "@id" : "https://d-nb.info/gnd/1025527097",
     "preferredName" : "Redding, Conn."
   } ],
   "professionOrOccupation" : [ {
-    "@id" : "http://d-nb.info/gnd/4053309-8",
+    "@id" : "https://d-nb.info/gnd/4053309-8",
     "preferredName" : "Schriftsteller"
   }, {
-    "@id" : "http://d-nb.info/gnd/4028781-6",
+    "@id" : "https://d-nb.info/gnd/4028781-6",
     "preferredName" : "Journalist"
   }, {
-    "@id" : "http://d-nb.info/gnd/4013091-5",
+    "@id" : "https://d-nb.info/gnd/4013091-5",
     "preferredName" : "Drucker"
   }, {
-    "@id" : "http://d-nb.info/gnd/4036380-6",
+    "@id" : "https://d-nb.info/gnd/4036380-6",
     "preferredName" : "Lotse"
   }, {
-    "@id" : "http://d-nb.info/gnd/4055409-0",
+    "@id" : "https://d-nb.info/gnd/4055409-0",
     "preferredName" : "Soldat"
   } ],
   "gender" : {
-    "@id" : "http://d-nb.info/standards/vocab/gnd/gender#male",
+    "@id" : "https://d-nb.info/standards/vocab/gnd/gender#male",
     "label" : "Mann"
   },
   "biographicalOrHistoricalInformation" : "Amerikan. Schriftsteller, auch Übersetzungen und Reisebeschreibungen; zunächst Drucker, Lotse, Soldat, Journalist",
@@ -61,7 +61,7 @@
     "url" : "https://commons.wikimedia.org/wiki/File:MarkTwain.LOC.jpg?uselang=en"
   },
   "sameAs" : [ {
-    "@id" : "http://d-nb.info/gnd/118624822/about",
+    "@id" : "https://d-nb.info/gnd/118624822/about",
     "collection" : {
       "abbr" : "DNB",
       "name" : "Gemeinsame Normdatei (GND) im Katalog der Deutschen Nationalbibliothek",

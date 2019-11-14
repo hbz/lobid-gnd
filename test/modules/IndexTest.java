@@ -39,7 +39,7 @@ public class IndexTest {
 	@BeforeClass
 	public static void setUp() throws IOException {
 		Logger.info("Converting and indexing test data");
-		Index.indexEntityFactsTurtleFiles();
+		Index.indexEntityFactsJsonFiles();
 		convertData();
 		index = Index.indexBaselineAndUpdates();
 		Client client = index.client();
@@ -65,7 +65,6 @@ public class IndexTest {
 			for (File file : TTL_TEST_FILES) {
 				Model sourceModel = ModelFactory.createDefaultModel();
 				String ttl = Files.readAllLines(Paths.get(file.toURI())).stream().collect(Collectors.joining("\n"));
-				ttl = ttl.replace("https://d-nb.info", "http://d-nb.info");
 				sourceModel.read(new BufferedReader(new StringReader(ttl)), null, "TTL");
 				String id = file.getName().split("\\.")[0];
 				String jsonLd = Convert.toJsonLd(id, sourceModel, USE_LOCALHOST_CONTEXT_URL, deprecated);

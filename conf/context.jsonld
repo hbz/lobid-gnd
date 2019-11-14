@@ -2,76 +2,76 @@
    "@context":{
       "type": "@type",
       "id": "@id",
-      "AdministrativeUnit":"http://d-nb.info/standards/elementset/gnd#AdministrativeUnit",
-      "AuthorityResource":"http://d-nb.info/standards/elementset/gnd#AuthorityResource",
-      "BuildingOrMemorial":"http://d-nb.info/standards/elementset/gnd#BuildingOrMemorial",
-      "CharactersOrMorphemes":"http://d-nb.info/standards/elementset/gnd#CharactersOrMorphemes",
-      "Collection":"http://d-nb.info/standards/elementset/gnd#Collection",
-      "CollectiveManuscript":"http://d-nb.info/standards/elementset/gnd#CollectiveManuscript",
-      "CollectivePseudonym":"http://d-nb.info/standards/elementset/gnd#CollectivePseudonym",
-      "Company":"http://d-nb.info/standards/elementset/gnd#Company",
-      "ConferenceOrEvent":"http://d-nb.info/standards/elementset/gnd#ConferenceOrEvent",
-      "CorporateBody":"http://d-nb.info/standards/elementset/gnd#CorporateBody",
-      "Country":"http://d-nb.info/standards/elementset/gnd#Country",
-      "DifferentiatedPerson":"http://d-nb.info/standards/elementset/gnd#DifferentiatedPerson",
-      "EarlierNameOfThePerson":"http://d-nb.info/standards/elementset/gnd#EarlierNameOfThePerson",
-      "EthnographicName":"http://d-nb.info/standards/elementset/gnd#EthnographicName",
-      "Expression":"http://d-nb.info/standards/elementset/gnd#Expression",
-      "ExtraterrestrialTerritory":"http://d-nb.info/standards/elementset/gnd#ExtraterrestrialTerritory",
-      "Family":"http://d-nb.info/standards/elementset/gnd#Family",
-      "FictiveCorporateBody":"http://d-nb.info/standards/elementset/gnd#FictiveCorporateBody",
-      "FictivePlace":"http://d-nb.info/standards/elementset/gnd#FictivePlace",
-      "FictiveTerm":"http://d-nb.info/standards/elementset/gnd#FictiveTerm",
-      "FullerFormOfNameOfThePerson":"http://d-nb.info/standards/elementset/gnd#FullerFormOfNameOfThePerson",
-      "Gods":"http://d-nb.info/standards/elementset/gnd#Gods",
-      "GroupOfPersons":"http://d-nb.info/standards/elementset/gnd#GroupOfPersons",
-      "HistoricSingleEventOrEra":"http://d-nb.info/standards/elementset/gnd#HistoricSingleEventOrEra",
-      "Language":"http://d-nb.info/standards/elementset/gnd#Language",
-      "LaterNameOfThePerson":"http://d-nb.info/standards/elementset/gnd#LaterNameOfThePerson",
-      "LiteraryOrLegendaryCharacter":"http://d-nb.info/standards/elementset/gnd#LiteraryOrLegendaryCharacter",
-      "Manuscript":"http://d-nb.info/standards/elementset/gnd#Manuscript",
-      "MeansOfTransportWithIndividualName":"http://d-nb.info/standards/elementset/gnd#MeansOfTransportWithIndividualName",
-      "MemberState":"http://d-nb.info/standards/elementset/gnd#MemberState",
-      "MusicalCorporateBody":"http://d-nb.info/standards/elementset/gnd#MusicalCorporateBody",
-      "MusicalWork":"http://d-nb.info/standards/elementset/gnd#MusicalWork",
-      "NameOfSmallGeographicUnitLyingWithinAnotherGeographicUnit":"http://d-nb.info/standards/elementset/gnd#NameOfSmallGeographicUnitLyingWithinAnotherGeographicUnit",
-      "NameOfThePerson":"http://d-nb.info/standards/elementset/gnd#NameOfThePerson",
-      "NaturalGeographicUnit":"http://d-nb.info/standards/elementset/gnd#NaturalGeographicUnit",
-      "NomenclatureInBiologyOrChemistry":"http://d-nb.info/standards/elementset/gnd#NomenclatureInBiologyOrChemistry",
-      "OrganOfCorporateBody":"http://d-nb.info/standards/elementset/gnd#OrganOfCorporateBody",
-      "Person":"http://d-nb.info/standards/elementset/gnd#Person",
-      "PlaceOrGeographicName":"http://d-nb.info/standards/elementset/gnd#PlaceOrGeographicName",
+      "AdministrativeUnit":"https://d-nb.info/standards/elementset/gnd#AdministrativeUnit",
+      "AuthorityResource":"https://d-nb.info/standards/elementset/gnd#AuthorityResource",
+      "BuildingOrMemorial":"https://d-nb.info/standards/elementset/gnd#BuildingOrMemorial",
+      "CharactersOrMorphemes":"https://d-nb.info/standards/elementset/gnd#CharactersOrMorphemes",
+      "Collection":"https://d-nb.info/standards/elementset/gnd#Collection",
+      "CollectiveManuscript":"https://d-nb.info/standards/elementset/gnd#CollectiveManuscript",
+      "CollectivePseudonym":"https://d-nb.info/standards/elementset/gnd#CollectivePseudonym",
+      "Company":"https://d-nb.info/standards/elementset/gnd#Company",
+      "ConferenceOrEvent":"https://d-nb.info/standards/elementset/gnd#ConferenceOrEvent",
+      "CorporateBody":"https://d-nb.info/standards/elementset/gnd#CorporateBody",
+      "Country":"https://d-nb.info/standards/elementset/gnd#Country",
+      "DifferentiatedPerson":"https://d-nb.info/standards/elementset/gnd#DifferentiatedPerson",
+      "EarlierNameOfThePerson":"https://d-nb.info/standards/elementset/gnd#EarlierNameOfThePerson",
+      "EthnographicName":"https://d-nb.info/standards/elementset/gnd#EthnographicName",
+      "Expression":"https://d-nb.info/standards/elementset/gnd#Expression",
+      "ExtraterrestrialTerritory":"https://d-nb.info/standards/elementset/gnd#ExtraterrestrialTerritory",
+      "Family":"https://d-nb.info/standards/elementset/gnd#Family",
+      "FictiveCorporateBody":"https://d-nb.info/standards/elementset/gnd#FictiveCorporateBody",
+      "FictivePlace":"https://d-nb.info/standards/elementset/gnd#FictivePlace",
+      "FictiveTerm":"https://d-nb.info/standards/elementset/gnd#FictiveTerm",
+      "FullerFormOfNameOfThePerson":"https://d-nb.info/standards/elementset/gnd#FullerFormOfNameOfThePerson",
+      "Gods":"https://d-nb.info/standards/elementset/gnd#Gods",
+      "GroupOfPersons":"https://d-nb.info/standards/elementset/gnd#GroupOfPersons",
+      "HistoricSingleEventOrEra":"https://d-nb.info/standards/elementset/gnd#HistoricSingleEventOrEra",
+      "Language":"https://d-nb.info/standards/elementset/gnd#Language",
+      "LaterNameOfThePerson":"https://d-nb.info/standards/elementset/gnd#LaterNameOfThePerson",
+      "LiteraryOrLegendaryCharacter":"https://d-nb.info/standards/elementset/gnd#LiteraryOrLegendaryCharacter",
+      "Manuscript":"https://d-nb.info/standards/elementset/gnd#Manuscript",
+      "MeansOfTransportWithIndividualName":"https://d-nb.info/standards/elementset/gnd#MeansOfTransportWithIndividualName",
+      "MemberState":"https://d-nb.info/standards/elementset/gnd#MemberState",
+      "MusicalCorporateBody":"https://d-nb.info/standards/elementset/gnd#MusicalCorporateBody",
+      "MusicalWork":"https://d-nb.info/standards/elementset/gnd#MusicalWork",
+      "NameOfSmallGeographicUnitLyingWithinAnotherGeographicUnit":"https://d-nb.info/standards/elementset/gnd#NameOfSmallGeographicUnitLyingWithinAnotherGeographicUnit",
+      "NameOfThePerson":"https://d-nb.info/standards/elementset/gnd#NameOfThePerson",
+      "NaturalGeographicUnit":"https://d-nb.info/standards/elementset/gnd#NaturalGeographicUnit",
+      "NomenclatureInBiologyOrChemistry":"https://d-nb.info/standards/elementset/gnd#NomenclatureInBiologyOrChemistry",
+      "OrganOfCorporateBody":"https://d-nb.info/standards/elementset/gnd#OrganOfCorporateBody",
+      "Person":"https://d-nb.info/standards/elementset/gnd#Person",
+      "PlaceOrGeographicName":"https://d-nb.info/standards/elementset/gnd#PlaceOrGeographicName",
       "Point": "http://www.opengis.net/ont/sf#Point",
       "Polygon": "http://www.opengis.net/ont/sf#Polygon",
-      "PreferredNameOfThePerson":"http://d-nb.info/standards/elementset/gnd#PreferredNameOfThePerson",
-      "ProductNameOrBrandName":"http://d-nb.info/standards/elementset/gnd#ProductNameOrBrandName",
-      "ProjectOrProgram":"http://d-nb.info/standards/elementset/gnd#ProjectOrProgram",
-      "ProvenanceCharacteristic":"http://d-nb.info/standards/elementset/gnd#ProvenanceCharacteristic",
-      "Pseudonym":"http://d-nb.info/standards/elementset/gnd#Pseudonym",
-      "PseudonymNameOfThePerson":"http://d-nb.info/standards/elementset/gnd#PseudonymNameOfThePerson",
-      "RealNameOfThePerson":"http://d-nb.info/standards/elementset/gnd#RealNameOfThePerson",
-      "ReligiousAdministrativeUnit":"http://d-nb.info/standards/elementset/gnd#ReligiousAdministrativeUnit",
-      "ReligiousCorporateBody":"http://d-nb.info/standards/elementset/gnd#ReligiousCorporateBody",
-      "ReligiousTerritory":"http://d-nb.info/standards/elementset/gnd#ReligiousTerritory",
-      "RoyalOrMemberOfARoyalHouse":"http://d-nb.info/standards/elementset/gnd#RoyalOrMemberOfARoyalHouse",
-      "SeriesOfConferenceOrEvent":"http://d-nb.info/standards/elementset/gnd#SeriesOfConferenceOrEvent",
-      "SoftwareProduct":"http://d-nb.info/standards/elementset/gnd#SoftwareProduct",
-      "Spirits":"http://d-nb.info/standards/elementset/gnd#Spirits",
-      "SubjectHeading":"http://d-nb.info/standards/elementset/gnd#SubjectHeading",
-      "SubjectHeadingSensoStricto":"http://d-nb.info/standards/elementset/gnd#SubjectHeadingSensoStricto",
-      "TerritorialCorporateBodyOrAdministrativeUnit":"http://d-nb.info/standards/elementset/gnd#TerritorialCorporateBodyOrAdministrativeUnit",
-      "UndifferentiatedPerson":"http://d-nb.info/standards/elementset/gnd#UndifferentiatedPerson",
-      "VariantNameOfThePerson":"http://d-nb.info/standards/elementset/gnd#VariantNameOfThePerson",
-      "VersionOfAMusicalWork":"http://d-nb.info/standards/elementset/gnd#VersionOfAMusicalWork",
-      "WayBorderOrLine":"http://d-nb.info/standards/elementset/gnd#WayBorderOrLine",
+      "PreferredNameOfThePerson":"https://d-nb.info/standards/elementset/gnd#PreferredNameOfThePerson",
+      "ProductNameOrBrandName":"https://d-nb.info/standards/elementset/gnd#ProductNameOrBrandName",
+      "ProjectOrProgram":"https://d-nb.info/standards/elementset/gnd#ProjectOrProgram",
+      "ProvenanceCharacteristic":"https://d-nb.info/standards/elementset/gnd#ProvenanceCharacteristic",
+      "Pseudonym":"https://d-nb.info/standards/elementset/gnd#Pseudonym",
+      "PseudonymNameOfThePerson":"https://d-nb.info/standards/elementset/gnd#PseudonymNameOfThePerson",
+      "RealNameOfThePerson":"https://d-nb.info/standards/elementset/gnd#RealNameOfThePerson",
+      "ReligiousAdministrativeUnit":"https://d-nb.info/standards/elementset/gnd#ReligiousAdministrativeUnit",
+      "ReligiousCorporateBody":"https://d-nb.info/standards/elementset/gnd#ReligiousCorporateBody",
+      "ReligiousTerritory":"https://d-nb.info/standards/elementset/gnd#ReligiousTerritory",
+      "RoyalOrMemberOfARoyalHouse":"https://d-nb.info/standards/elementset/gnd#RoyalOrMemberOfARoyalHouse",
+      "SeriesOfConferenceOrEvent":"https://d-nb.info/standards/elementset/gnd#SeriesOfConferenceOrEvent",
+      "SoftwareProduct":"https://d-nb.info/standards/elementset/gnd#SoftwareProduct",
+      "Spirits":"https://d-nb.info/standards/elementset/gnd#Spirits",
+      "SubjectHeading":"https://d-nb.info/standards/elementset/gnd#SubjectHeading",
+      "SubjectHeadingSensoStricto":"https://d-nb.info/standards/elementset/gnd#SubjectHeadingSensoStricto",
+      "TerritorialCorporateBodyOrAdministrativeUnit":"https://d-nb.info/standards/elementset/gnd#TerritorialCorporateBodyOrAdministrativeUnit",
+      "UndifferentiatedPerson":"https://d-nb.info/standards/elementset/gnd#UndifferentiatedPerson",
+      "VariantNameOfThePerson":"https://d-nb.info/standards/elementset/gnd#VariantNameOfThePerson",
+      "VersionOfAMusicalWork":"https://d-nb.info/standards/elementset/gnd#VersionOfAMusicalWork",
+      "WayBorderOrLine":"https://d-nb.info/standards/elementset/gnd#WayBorderOrLine",
       "WKTLiteral": "http://www.opengis.net/ont/geosparql#wktLiteral",
-      "Work":"http://d-nb.info/standards/elementset/gnd#Work",
-      "gndIdentifier": "http://d-nb.info/standards/elementset/gnd#gndIdentifier",
-      "preferredName": "http://d-nb.info/standards/elementset/gnd#preferredName",
-      "preferredNameEntityForThePerson":"http://d-nb.info/standards/elementset/gnd#preferredNameEntityForThePerson",
+      "Work":"https://d-nb.info/standards/elementset/gnd#Work",
+      "gndIdentifier": "https://d-nb.info/standards/elementset/gnd#gndIdentifier",
+      "preferredName": "https://d-nb.info/standards/elementset/gnd#preferredName",
+      "preferredNameEntityForThePerson":"https://d-nb.info/standards/elementset/gnd#preferredNameEntityForThePerson",
       "label": "http://www.w3.org/2000/01/rdf-schema#label",
       "contentType": "http://rdaregistry.info/Elements/u/P60049",
-      "collection": "http://d-nb.info/standards/elementset/dnb#isDescribedIn",
+      "collection": "https://d-nb.info/standards/elementset/dnb#isDescribedIn",
       "describedBy": "http://www.w3.org/2007/05/powder-s#describedby",
       "license": "http://purl.org/dc/terms/license",
       "dateModified": {
@@ -86,358 +86,358 @@
       "thumbnail": "http://xmlns.com/foaf/0.1/thumbnail",
       "url": "http://xmlns.com/foaf/0.1/page",
       "accordingWork":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#accordingWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#accordingWork",
          "@type":"@id",
          "@container":"@set"
       },
       "accreditedArtist":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#accreditedArtist",
+         "@id":"https://d-nb.info/standards/elementset/gnd#accreditedArtist",
          "@type":"@id",
          "@container":"@set"
       },
       "accreditedAuthor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#accreditedAuthor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#accreditedAuthor",
          "@type":"@id",
          "@container":"@set"
       },
       "accreditedComposer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#accreditedComposer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#accreditedComposer",
          "@type":"@id",
          "@container":"@set"
       },
       "acquaintanceshipOrFriendship":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#acquaintanceshipOrFriendship",
+         "@id":"https://d-nb.info/standards/elementset/gnd#acquaintanceshipOrFriendship",
          "@type":"@id",
          "@container":"@set"
       },
       "addressee":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#addressee",
+         "@id":"https://d-nb.info/standards/elementset/gnd#addressee",
          "@type":"@id",
          "@container":"@set"
       },
       "affiliation":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#affiliation",
+         "@id":"https://d-nb.info/standards/elementset/gnd#affiliation",
          "@type":"@id",
          "@container":"@set"
       },
       "annotator":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#annotator",
+         "@id":"https://d-nb.info/standards/elementset/gnd#annotator",
          "@type":"@id",
          "@container":"@set"
       },
       "architect":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#architect",
+         "@id":"https://d-nb.info/standards/elementset/gnd#architect",
          "@type":"@id",
          "@container":"@set"
       },
       "arranger":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#arranger",
+         "@id":"https://d-nb.info/standards/elementset/gnd#arranger",
          "@type":"@id",
          "@container":"@set"
       },
       "artist":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#artist",
+         "@id":"https://d-nb.info/standards/elementset/gnd#artist",
          "@type":"@id",
          "@container":"@set"
       },
       "associatedPlace":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#associatedPlace",
+         "@id":"https://d-nb.info/standards/elementset/gnd#associatedPlace",
          "@type":"@id",
          "@container":"@set"
       },
       "author":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#author",
+         "@id":"https://d-nb.info/standards/elementset/gnd#author",
          "@type":"@id",
          "@container":"@set"
       },
       "benefactor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#benefactor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#benefactor",
          "@type":"@id",
          "@container":"@set"
       },
       "bookbinder":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#bookbinder",
+         "@id":"https://d-nb.info/standards/elementset/gnd#bookbinder",
          "@type":"@id",
          "@container":"@set"
       },
       "bookdesigner":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#bookdesigner",
+         "@id":"https://d-nb.info/standards/elementset/gnd#bookdesigner",
          "@type":"@id"
       },
       "broaderTermGeneral":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#broaderTermGeneral",
+         "@id":"https://d-nb.info/standards/elementset/gnd#broaderTermGeneral",
          "@type":"@id",
          "@container":"@set"
       },
       "broaderTermGeneric":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#broaderTermGeneric",
+         "@id":"https://d-nb.info/standards/elementset/gnd#broaderTermGeneric",
          "@type":"@id",
          "@container":"@set"
       },
       "broaderTermInstantial":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#broaderTermInstantial",
+         "@id":"https://d-nb.info/standards/elementset/gnd#broaderTermInstantial",
          "@type":"@id",
          "@container":"@set"
       },
       "broaderTermPartitive":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#broaderTermPartitive",
+         "@id":"https://d-nb.info/standards/elementset/gnd#broaderTermPartitive",
          "@type":"@id",
          "@container":"@set"
       },
       "broaderTermWithMoreThanOneElement":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#broaderTermWithMoreThanOneElement",
+         "@id":"https://d-nb.info/standards/elementset/gnd#broaderTermWithMoreThanOneElement",
          "@type":"@id",
          "@container":"@set"
       },
       "buildingOwner":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#buildingOwner",
+         "@id":"https://d-nb.info/standards/elementset/gnd#buildingOwner",
          "@type":"@id",
          "@container":"@set"
       },
       "cartographer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#cartographer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#cartographer",
          "@type":"@id",
          "@container":"@set"
       },
       "celebratedCorporateBody":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#celebratedCorporateBody",
+         "@id":"https://d-nb.info/standards/elementset/gnd#celebratedCorporateBody",
          "@type":"@id",
          "@container":"@set"
       },
       "celebratedFamily":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#celebratedFamily",
+         "@id":"https://d-nb.info/standards/elementset/gnd#celebratedFamily",
          "@type":"@id"
       },
       "celebratedPerson":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#celebratedPerson",
+         "@id":"https://d-nb.info/standards/elementset/gnd#celebratedPerson",
          "@type":"@id",
          "@container":"@set"
       },
       "celebratedTopic":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#celebratedTopic",
+         "@id":"https://d-nb.info/standards/elementset/gnd#celebratedTopic",
          "@type":"@id",
          "@container":"@set"
       },
       "characteristicPlace":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#characteristicPlace",
+         "@id":"https://d-nb.info/standards/elementset/gnd#characteristicPlace",
          "@type":"@id",
          "@container":"@set"
       },
       "choreographer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#choreographer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#choreographer",
          "@type":"@id",
         "@container":"@set"
       },
       "citedArtist":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#citedArtist",
+         "@id":"https://d-nb.info/standards/elementset/gnd#citedArtist",
           "@type":"@id"
       },
       "citedAuthor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#citedAuthor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#citedAuthor",
          "@type":"@id",
          "@container":"@set"
       },
       "citedComposer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#citedComposer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#citedComposer",
          "@type":"@id",
          "@container":"@set"
       },
       "collector":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#collector",
+         "@id":"https://d-nb.info/standards/elementset/gnd#collector",
          "@type":"@id",
          "@container":"@set"
       },
       "compiler":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#compiler",
+         "@id":"https://d-nb.info/standards/elementset/gnd#compiler",
          "@type":"@id",
          "@container":"@set"
       },
       "complexSeeReferenceSubject":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#complexSeeReferenceSubject",
+         "@id":"https://d-nb.info/standards/elementset/gnd#complexSeeReferenceSubject",
          "@type":"@id",
          "@container":"@set"
       },
       "composer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#composer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#composer",
          "@type":"@id",
          "@container":"@set"
       },
       "conferrer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#conferrer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#conferrer",
          "@type":"@id",
          "@container":"@set"
       },
       "contributingCorporateBody":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#contributingCorporateBody",
+         "@id":"https://d-nb.info/standards/elementset/gnd#contributingCorporateBody",
          "@type":"@id",
          "@container":"@set"
       },
       "contributingFamily":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#contributingFamily",
+         "@id":"https://d-nb.info/standards/elementset/gnd#contributingFamily",
          "@type":"@id",
          "@container":"@set"
       },
       "contributingPerson":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#contributingPerson",
+         "@id":"https://d-nb.info/standards/elementset/gnd#contributingPerson",
          "@type":"@id",
          "@container":"@set"
       },
       "contributingPlaceOrGeographicName":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#contributingPlaceOrGeographicName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#contributingPlaceOrGeographicName",
          "@type":"@id",
          "@container":"@set"
       },
       "copist":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#copist",
+         "@id":"https://d-nb.info/standards/elementset/gnd#copist",
          "@type":"@id",
          "@container":"@set"
       },
       "corporateBodyIsMember":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#corporateBodyIsMember",
+         "@id":"https://d-nb.info/standards/elementset/gnd#corporateBodyIsMember",
          "@type":"@id",
          "@container":"@set"
       },
       "correspondent":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#correspondent",
+         "@id":"https://d-nb.info/standards/elementset/gnd#correspondent",
          "@type":"@id",
          "@container":"@set"
       },
       "creator":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#creator",
+         "@id":"https://d-nb.info/standards/elementset/gnd#creator",
          "@type":"@id",
          "@container":"@set"
       },
       "curator":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#curator",
+         "@id":"https://d-nb.info/standards/elementset/gnd#curator",
          "@type":"@id",
          "@container":"@set"
       },
       "dedicatee":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#dedicatee",
+         "@id":"https://d-nb.info/standards/elementset/gnd#dedicatee",
          "@type":"@id",
          "@container":"@set"
       },
       "deprecatedUri": {
-         "@id": "http://d-nb.info/standards/elementset/dnb#deprecatedUri",
+         "@id": "https://d-nb.info/standards/elementset/dnb#deprecatedUri",
          "@container": "@set"
       },
       "designer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#designer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#designer",
          "@type":"@id",
          "@container":"@set"
       },
       "director":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#director",
+         "@id":"https://d-nb.info/standards/elementset/gnd#director",
          "@type":"@id",
          "@container":"@set"
       },
       "directorOfPhotography":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#directorOfPhotography",
+         "@id":"https://d-nb.info/standards/elementset/gnd#directorOfPhotography",
          "@type":"@id",
          "@container":"@set"
       },
       "doubtfulArtist":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#doubtfulArtist",
+         "@id":"https://d-nb.info/standards/elementset/gnd#doubtfulArtist",
          "@type":"@id",
          "@container":"@set"
       },
       "doubtfulAuthor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#doubtfulAuthor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#doubtfulAuthor",
          "@type":"@id",
          "@container":"@set"
       },
       "doubtfulComposer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#doubtfulComposer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#doubtfulComposer",
          "@type":"@id",
          "@container":"@set"
       },
       "editor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#editor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#editor",
          "@type":"@id",
          "@container":"@set"
       },
       "engraver":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#engraver",
+         "@id":"https://d-nb.info/standards/elementset/gnd#engraver",
          "@type":"@id",
          "@container":"@set"
       },
       "etcher":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#etcher",
+         "@id":"https://d-nb.info/standards/elementset/gnd#etcher",
          "@type":"@id",
          "@container":"@set"
       },
       "exhibitor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#exhibitor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#exhibitor",
          "@type":"@id",
          "@container":"@set"
       },
       "familialRelationship":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#familialRelationship",
+         "@id":"https://d-nb.info/standards/elementset/gnd#familialRelationship",
          "@type":"@id",
          "@container":"@set"
       },
       "fictitiousAuthor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#fictitiousAuthor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#fictitiousAuthor",
          "@type":"@id",
          "@container":"@set"
       },
       "fieldOfActivity":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#fieldOfActivity",
+         "@id":"https://d-nb.info/standards/elementset/gnd#fieldOfActivity",
          "@type":"@id",
          "@container":"@set"
       },
       "fieldOfStudy":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#fieldOfStudy",
+         "@id":"https://d-nb.info/standards/elementset/gnd#fieldOfStudy",
          "@type":"@id",
          "@container":"@set"
       },
       "firstArtist":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#firstArtist",
+         "@id":"https://d-nb.info/standards/elementset/gnd#firstArtist",
          "@type":"@id",
          "@container":"@set"
       },
       "firstAuthor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#firstAuthor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#firstAuthor",
          "@type":"@id",
          "@container":"@set"
       },
       "firstComposer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#firstComposer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#firstComposer",
          "@type":"@id",
          "@container":"@set"
       },
       "formOfWorkAndExpression":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#formOfWorkAndExpression",
+         "@id":"https://d-nb.info/standards/elementset/gnd#formOfWorkAndExpression",
          "@type":"@id",
          "@container":"@set"
       },
       "formerOwner":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#formerOwner",
+         "@id":"https://d-nb.info/standards/elementset/gnd#formerOwner",
          "@type":"@id",
          "@container":"@set"
       },
       "founder":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#founder",
+         "@id":"https://d-nb.info/standards/elementset/gnd#founder",
          "@type":"@id",
          "@container":"@set"
       },
       "functionOrRole":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#functionOrRole",
+         "@id":"https://d-nb.info/standards/elementset/gnd#functionOrRole",
          "@type":"@id",
          "@container":"@set"
       },
       "gender":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#gender",
+         "@id":"https://d-nb.info/standards/elementset/gnd#gender",
          "@type":"@id",
          "@container":"@set"
       },
       "geographicAreaCode":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#geographicAreaCode",
+         "@id":"https://d-nb.info/standards/elementset/gnd#geographicAreaCode",
          "@type":"@id",
          "@container":"@set"
       },
       "gndSubjectCategory":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#gndSubjectCategory",
+         "@id":"https://d-nb.info/standards/elementset/gnd#gndSubjectCategory",
          "@type":"@id",
          "@container":"@set"
       },
@@ -447,542 +447,542 @@
          "@container":"@set"
       },
       "hasAuntUncle": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasAuntUncle",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasAuntUncle",
          "@type":"@id",
          "@container":"@set"
       },
       "hasChild": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasChild",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasChild",
          "@type":"@id",
          "@container":"@set"
       },
       "hasColleague": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasColleague",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasColleague",
          "@type":"@id",
          "@container":"@set"
       },
       "hasFriend": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasFriend",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasFriend",
          "@type":"@id",
          "@container":"@set"
       },
       "hasGrandChild": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasGrandChild",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasGrandChild",
          "@type":"@id",
          "@container":"@set"
       },
       "hasGrandParent": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasGrandParent",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasGrandParent",
          "@type":"@id",
          "@container":"@set"
       },
       "hasNieceNephew": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasNieceNephew",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasNieceNephew",
          "@type":"@id",
          "@container":"@set"
       },
       "hasParent": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasParent",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasParent",
          "@type":"@id",
          "@container":"@set"
       },
       "hasSibling": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasSibling",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasSibling",
          "@type":"@id",
          "@container":"@set"
       },
       "hasSpouse": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasSpouse",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasSpouse",
          "@type":"@id",
          "@container":"@set"
       },
       "hasStudent": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasStudent",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasStudent",
          "@type":"@id",
          "@container":"@set"
       },
       "hasTeacher": {
-         "@id":"http://d-nb.info/standards/elementset/agrelon#hasTeacher",
+         "@id":"https://d-nb.info/standards/elementset/agrelon#hasTeacher",
          "@type":"@id",
          "@container":"@set"
       },
       "hierarchicalSuperior":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#hierarchicalSuperior",
+         "@id":"https://d-nb.info/standards/elementset/gnd#hierarchicalSuperior",
          "@type":"@id",
          "@container":"@set"
       },
       "hierarchicalSuperiorOfPlaceOrGeographicName":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#hierarchicalSuperiorOfPlaceOrGeographicName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#hierarchicalSuperiorOfPlaceOrGeographicName",
          "@type":"@id",
          "@container":"@set"
       },
       "hierarchicalSuperiorOfTheConferenceOrEvent":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#hierarchicalSuperiorOfTheConferenceOrEvent",
+         "@id":"https://d-nb.info/standards/elementset/gnd#hierarchicalSuperiorOfTheConferenceOrEvent",
          "@type":"@id",
          "@container":"@set"
       },
       "hierarchicalSuperiorOfTheCorporateBody":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#hierarchicalSuperiorOfTheCorporateBody",
+         "@id":"https://d-nb.info/standards/elementset/gnd#hierarchicalSuperiorOfTheCorporateBody",
          "@type":"@id",
          "@container":"@set"
       },
       "homepage":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#homepage",
+         "@id":"https://d-nb.info/standards/elementset/gnd#homepage",
          "@type":"@id",
          "@container":"@set"
       },
       "illustratorOrIlluminator":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#illustratorOrIlluminator",
+         "@id":"https://d-nb.info/standards/elementset/gnd#illustratorOrIlluminator",
          "@type":"@id",
          "@container":"@set"
       },
       "initiator":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#initiator",
+         "@id":"https://d-nb.info/standards/elementset/gnd#initiator",
          "@type":"@id",
          "@container":"@set"
       },
       "instrument":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#instrument",
+         "@id":"https://d-nb.info/standards/elementset/gnd#instrument",
          "@type":"@id",
          "@container":"@set"
       },
       "instrumentalist":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#instrumentalist",
+         "@id":"https://d-nb.info/standards/elementset/gnd#instrumentalist",
          "@type":"@id",
          "@container":"@set"
       },
       "inventor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#inventor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#inventor",
          "@type":"@id",
          "@container":"@set"
       },
       "language":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#language",
+         "@id":"https://d-nb.info/standards/elementset/gnd#language",
          "@type":"@id",
          "@container":"@set"
       },
       "languageCode":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#languageCode",
+         "@id":"https://d-nb.info/standards/elementset/gnd#languageCode",
          "@type":"@id",
          "@container":"@set"
       },
       "librettist":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#librettist",
+         "@id":"https://d-nb.info/standards/elementset/gnd#librettist",
          "@type":"@id",
          "@container":"@set"
       },
       "literarySource":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#literarySource",
+         "@id":"https://d-nb.info/standards/elementset/gnd#literarySource",
          "@type":"@id",
          "@container":"@set"
       },
       "lithographer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#lithographer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#lithographer",
          "@type":"@id",
          "@container":"@set"
       },
       "manufacturer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#manufacturer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#manufacturer",
          "@type":"@id",
          "@container":"@set"
       },
       "mediumOfPerformance":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#mediumOfPerformance",
+         "@id":"https://d-nb.info/standards/elementset/gnd#mediumOfPerformance",
          "@type":"@id",
          "@container":"@set"
       },
       "member":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#member",
+         "@id":"https://d-nb.info/standards/elementset/gnd#member",
          "@type":"@id",
          "@container":"@set"
       },
       "memberOfTheFamily":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#memberOfTheFamily",
+         "@id":"https://d-nb.info/standards/elementset/gnd#memberOfTheFamily",
          "@type":"@id",
          "@container":"@set"
       },
       "musician":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#musician",
+         "@id":"https://d-nb.info/standards/elementset/gnd#musician",
          "@type":"@id",
          "@container":"@set"
       },
       "narrator":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#narrator",
+         "@id":"https://d-nb.info/standards/elementset/gnd#narrator",
          "@type":"@id",
          "@container":"@set"
       },
       "narrowerTermGeneral":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#narrowerTermGeneral",
+         "@id":"https://d-nb.info/standards/elementset/gnd#narrowerTermGeneral",
          "@type":"@id",
          "@container":"@set"
       },
       "narrowerTermGeneric":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#narrowerTermGeneric",
+         "@id":"https://d-nb.info/standards/elementset/gnd#narrowerTermGeneric",
          "@type":"@id",
          "@container":"@set"
       },
       "narrowerTermInstantial":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#narrowerTermInstantial",
+         "@id":"https://d-nb.info/standards/elementset/gnd#narrowerTermInstantial",
          "@type":"@id",
          "@container":"@set"
       },
       "narrowerTermPartitive":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#narrowerTermPartitive",
+         "@id":"https://d-nb.info/standards/elementset/gnd#narrowerTermPartitive",
          "@type":"@id",
          "@container":"@set"
       },
       "occasion":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#occasion",
+         "@id":"https://d-nb.info/standards/elementset/gnd#occasion",
          "@type":"@id",
          "@container":"@set"
       },
       "occasionOfTheSubjectHeading":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#occasionOfTheSubjectHeading",
+         "@id":"https://d-nb.info/standards/elementset/gnd#occasionOfTheSubjectHeading",
          "@type":"@id",
          "@container":"@set"
       },
       "occasionOfTheWork":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#occasionOfTheWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#occasionOfTheWork",
          "@type":"@id",
          "@container":"@set"
       },
       "organizerOrHost":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#organizerOrHost",
+         "@id":"https://d-nb.info/standards/elementset/gnd#organizerOrHost",
          "@type":"@id",
          "@container":"@set"
       },
       "otherPlace":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#otherPlace",
+         "@id":"https://d-nb.info/standards/elementset/gnd#otherPlace",
          "@type":"@id",
          "@container":"@set"
       },
       "owner":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#owner",
+         "@id":"https://d-nb.info/standards/elementset/gnd#owner",
          "@type":"@id",
          "@container":"@set"
       },
       "painter":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#painter",
+         "@id":"https://d-nb.info/standards/elementset/gnd#painter",
          "@type":"@id",
          "@container":"@set"
       },
       "photographer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#photographer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#photographer",
          "@type":"@id",
          "@container":"@set"
       },
       "place":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#place",
+         "@id":"https://d-nb.info/standards/elementset/gnd#place",
          "@type":"@id",
          "@container":"@set"
       },
       "placeOfActivity":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOfActivity",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOfActivity",
          "@type":"@id",
          "@container":"@set"
       },
       "placeOfBirth":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOfBirth",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOfBirth",
          "@type":"@id",
          "@container":"@set"
       },
       "placeOfBusiness":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOfBusiness",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOfBusiness",
          "@type":"@id",
          "@container":"@set"
       },
       "placeOfConferenceOrEvent":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOfConferenceOrEvent",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOfConferenceOrEvent",
          "@type":"@id",
          "@container":"@set"
       },
       "placeOfCustody":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOfCustody",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOfCustody",
          "@type":"@id",
          "@container":"@set"
       },
       "placeOfDeath":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOfDeath",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOfDeath",
          "@type":"@id",
          "@container":"@set"
       },
       "placeOfDiscovery":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOfDiscovery",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOfDiscovery",
          "@type":"@id",
          "@container":"@set"
       },
       "placeOfExile":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOfExile",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOfExile",
          "@type":"@id",
          "@container":"@set"
       },
       "placeOfManufacture":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOfManufacture",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOfManufacture",
          "@type":"@id",
          "@container":"@set"
       },
       "placeOrGeographicNameIsMember":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOrGeographicNameIsMember",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOrGeographicNameIsMember",
          "@type":"@id",
          "@container":"@set"
       },
       "playedInstrument":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#playedInstrument",
+         "@id":"https://d-nb.info/standards/elementset/gnd#playedInstrument",
          "@type":"@id",
          "@container":"@set"
       },
       "poet":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#poet",
+         "@id":"https://d-nb.info/standards/elementset/gnd#poet",
          "@type":"@id",
          "@container":"@set"
       },
       "precedingConferenceOrEvent":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#precedingConferenceOrEvent",
+         "@id":"https://d-nb.info/standards/elementset/gnd#precedingConferenceOrEvent",
          "@type":"@id",
          "@container":"@set"
       },
       "precedingCorporateBody":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#precedingCorporateBody",
+         "@id":"https://d-nb.info/standards/elementset/gnd#precedingCorporateBody",
          "@type":"@id",
          "@container":"@set"
       },
       "precedingPlaceOrGeographicName":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#precedingPlaceOrGeographicName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#precedingPlaceOrGeographicName",
          "@type":"@id",
          "@container":"@set"
       },
       "precedingSubject":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#precedingSubject",
+         "@id":"https://d-nb.info/standards/elementset/gnd#precedingSubject",
          "@type":"@id",
          "@container":"@set"
       },
       "precedingWork":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#precedingWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#precedingWork",
          "@type":"@id",
          "@container":"@set"
       },
       "predecessor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#predecessor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#predecessor",
          "@type":"@id",
          "@container":"@set"
       },
       "printer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#printer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#printer",
          "@type":"@id",
          "@container":"@set"
       },
       "professionOrOccupation":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#professionOrOccupation",
+         "@id":"https://d-nb.info/standards/elementset/gnd#professionOrOccupation",
          "@type":"@id",
          "@container":"@set"
       },
       "professionalRelationship":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#professionalRelationship",
+         "@id":"https://d-nb.info/standards/elementset/gnd#professionalRelationship",
          "@type":"@id",
          "@container":"@set"
       },
       "pseudonym":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#pseudonym",
+         "@id":"https://d-nb.info/standards/elementset/gnd#pseudonym",
          "@type":"@id",
          "@container":"@set"
       },
       "realIdentity":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#realIdentity",
+         "@id":"https://d-nb.info/standards/elementset/gnd#realIdentity",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedConferenceOrEvent":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedConferenceOrEvent",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedConferenceOrEvent",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedCorporateBody":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedCorporateBody",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedCorporateBody",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedDdcWithDegreeOfDeterminacy1":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedDdcWithDegreeOfDeterminacy1",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedDdcWithDegreeOfDeterminacy1",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedDdcWithDegreeOfDeterminacy2":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedDdcWithDegreeOfDeterminacy2",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedDdcWithDegreeOfDeterminacy2",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedDdcWithDegreeOfDeterminacy3":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedDdcWithDegreeOfDeterminacy3",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedDdcWithDegreeOfDeterminacy3",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedDdcWithDegreeOfDeterminacy4":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedDdcWithDegreeOfDeterminacy4",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedDdcWithDegreeOfDeterminacy4",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedFamily":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedFamily",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedFamily",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedPerson":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedPerson",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedPerson",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedPlaceOrGeographicName":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedPlaceOrGeographicName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedPlaceOrGeographicName",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedSubjectHeading":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedSubjectHeading",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedSubjectHeading",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedTerm":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedTerm",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedTerm",
          "@type":"@id",
          "@container":"@set"
       },
       "relatedWork":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#relatedWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedWork",
          "@type":"@id",
          "@container":"@set"
       },
       "restorer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#restorer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#restorer",
          "@type":"@id",
          "@container":"@set"
       },
       "revisor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#revisor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#revisor",
          "@type":"@id",
          "@container":"@set"
       },
       "screenwriter":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#screenwriter",
+         "@id":"https://d-nb.info/standards/elementset/gnd#screenwriter",
          "@type":"@id",
          "@container":"@set"
       },
       "scriptorium":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#scriptorium",
+         "@id":"https://d-nb.info/standards/elementset/gnd#scriptorium",
          "@type":"@id",
          "@container":"@set"
       },
       "sculptor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#sculptor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#sculptor",
          "@type":"@id",
          "@container":"@set"
       },
       "singer":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#singer",
+         "@id":"https://d-nb.info/standards/elementset/gnd#singer",
          "@type":"@id",
          "@container":"@set"
       },
       "spatialAreaOfActivity":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#spatialAreaOfActivity",
+         "@id":"https://d-nb.info/standards/elementset/gnd#spatialAreaOfActivity",
          "@type":"@id",
          "@container":"@set"
       },
       "sponsorOrPatron":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#sponsorOrPatron",
+         "@id":"https://d-nb.info/standards/elementset/gnd#sponsorOrPatron",
          "@type":"@id",
          "@container":"@set"
       },
       "startingOrFinalPointOfADistance":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#startingOrFinalPointOfADistance",
+         "@id":"https://d-nb.info/standards/elementset/gnd#startingOrFinalPointOfADistance",
          "@type":"@id",
          "@container":"@set"
       },
       "subeditor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#subeditor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#subeditor",
          "@type":"@id",
          "@container":"@set"
       },
       "succeedingConferenceOrEvent":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#succeedingConferenceOrEvent",
+         "@id":"https://d-nb.info/standards/elementset/gnd#succeedingConferenceOrEvent",
          "@type":"@id",
          "@container":"@set"
       },
       "succeedingCorporateBody":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#succeedingCorporateBody",
+         "@id":"https://d-nb.info/standards/elementset/gnd#succeedingCorporateBody",
          "@type":"@id",
          "@container":"@set"
       },
       "succeedingPlaceOrGeographicName":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#succeedingPlaceOrGeographicName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#succeedingPlaceOrGeographicName",
          "@type":"@id",
          "@container":"@set"
       },
       "succeedingSubjectHeading":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#succeedingSubjectHeading",
+         "@id":"https://d-nb.info/standards/elementset/gnd#succeedingSubjectHeading",
          "@type":"@id",
          "@container":"@set"
       },
       "succeedingWork":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#succeedingWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#succeedingWork",
          "@type":"@id",
          "@container":"@set"
       },
       "successor":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#successor",
+         "@id":"https://d-nb.info/standards/elementset/gnd#successor",
          "@type":"@id",
          "@container":"@set"
       },
       "superPropertyOf":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#superPropertyOf",
+         "@id":"https://d-nb.info/standards/elementset/gnd#superPropertyOf",
          "@type":"@id",
          "@container":"@set"
       },
       "temporaryName":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#temporaryName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#temporaryName",
          "@type":"@id",
          "@container":"@set"
       },
       "temporaryNameOfTheConferenceOrEvent":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#temporaryNameOfTheConferenceOrEvent",
+         "@id":"https://d-nb.info/standards/elementset/gnd#temporaryNameOfTheConferenceOrEvent",
          "@type":"@id",
          "@container":"@set"
       },
       "temporaryNameOfTheCorporateBody":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#temporaryNameOfTheCorporateBody",
+         "@id":"https://d-nb.info/standards/elementset/gnd#temporaryNameOfTheCorporateBody",
          "@type":"@id",
          "@container":"@set"
       },
       "temporaryNameOfThePlaceOrGeographicName":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#temporaryNameOfThePlaceOrGeographicName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#temporaryNameOfThePlaceOrGeographicName",
          "@type":"@id",
          "@container":"@set"
       },
       "titleOfNobility":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#titleOfNobility",
+         "@id":"https://d-nb.info/standards/elementset/gnd#titleOfNobility",
          "@type":"@id",
          "@container":"@set"
       },
       "topic":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#topic",
+         "@id":"https://d-nb.info/standards/elementset/gnd#topic",
          "@type":"@id",
          "@container":"@set"
       },
       "translator":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#translator",
+         "@id":"https://d-nb.info/standards/elementset/gnd#translator",
          "@type":"@id",
          "@container":"@set"
       },
       "typeOfCoordinates":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#typeOfCoordinates",
+         "@id":"https://d-nb.info/standards/elementset/gnd#typeOfCoordinates",
          "@type":"@id",
          "@container":"@set"
       },
       "variantNameEntityForThePerson":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#variantNameEntityForThePerson",
+         "@id":"https://d-nb.info/standards/elementset/gnd#variantNameEntityForThePerson",
          "@type":"@id",
          "@container":"@set"
       },
       "writerOfAddedCommentary":{
-         "@id":"http://d-nb.info/standards/elementset/gnd#writerOfAddedCommentary",
+         "@id":"https://d-nb.info/standards/elementset/gnd#writerOfAddedCommentary",
          "@type":"@id",
          "@container":"@set"
       },
@@ -997,31 +997,31 @@
          "@container":"@set"
       },
       "abbreviatedNameForTheConferenceOrEvent": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#abbreviatedNameForTheConferenceOrEvent",
+         "@id":"https://d-nb.info/standards/elementset/gnd#abbreviatedNameForTheConferenceOrEvent",
          "@container":"@set"
       },
       "abbreviatedNameForThePlaceOrGeographicName": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#abbreviatedNameForThePlaceOrGeographicName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#abbreviatedNameForThePlaceOrGeographicName",
          "@container":"@set"
       },
       "abbreviatedNameForTheWork": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#abbreviatedNameForTheWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#abbreviatedNameForTheWork",
          "@container":"@set"
       },
       "abbreviatedNameForTheCorporateBody": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#abbreviatedNameForTheCorporateBody",
+         "@id":"https://d-nb.info/standards/elementset/gnd#abbreviatedNameForTheCorporateBody",
          "@container":"@set"
       },
       "academicDegree": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#academicDegree",
+         "@id":"https://d-nb.info/standards/elementset/gnd#academicDegree",
          "@container":"@set"
       },
       "affiliationAsLiteral": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#affiliationAsLiteral",
+         "@id":"https://d-nb.info/standards/elementset/gnd#affiliationAsLiteral",
          "@container":"@set"
       },
       "associatedDate": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#associatedDate",
+         "@id":"https://d-nb.info/standards/elementset/gnd#associatedDate",
          "@container":"@set"
       },
       "asWKT": {
@@ -1030,221 +1030,221 @@
          "@type": "http://www.opengis.net/ont/geosparql#wktLiteral"
       },
       "beginningOfPeriod": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#beginningOfPeriod",
+         "@id":"https://d-nb.info/standards/elementset/gnd#beginningOfPeriod",
          "@container":"@set"
       },
       "biographicalOrHistoricalInformation": {
-        "@id": "http://d-nb.info/standards/elementset/gnd#biographicalOrHistoricalInformation",
+        "@id": "https://d-nb.info/standards/elementset/gnd#biographicalOrHistoricalInformation",
         "@language":"de",
         "@container": "@set"
       },
       "coordinates": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#coordinates",
+         "@id":"https://d-nb.info/standards/elementset/gnd#coordinates",
          "@container":"@set"
       },
       "counting": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#counting",
+         "@id":"https://d-nb.info/standards/elementset/gnd#counting",
          "@container":"@set"
       },
       "dateOfBirth": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#dateOfBirth",
+         "@id":"https://d-nb.info/standards/elementset/gnd#dateOfBirth",
          "@container":"@set"
       },
       "dateOfBirthAndDeath": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#dateOfBirthAndDeath",
+         "@id":"https://d-nb.info/standards/elementset/gnd#dateOfBirthAndDeath",
          "@container":"@set"
       },
       "dateOfConferenceOrEvent": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#dateOfConferenceOrEvent",
+         "@id":"https://d-nb.info/standards/elementset/gnd#dateOfConferenceOrEvent",
          "@container":"@set"
       },
       "dateOfDeath": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#dateOfDeath",
+         "@id":"https://d-nb.info/standards/elementset/gnd#dateOfDeath",
          "@container":"@set"
       },
       "dateOfDiscovery": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#dateOfDiscovery",
+         "@id":"https://d-nb.info/standards/elementset/gnd#dateOfDiscovery",
          "@container":"@set"
       },
       "dateOfEstablishment": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#dateOfEstablishment",
+         "@id":"https://d-nb.info/standards/elementset/gnd#dateOfEstablishment",
          "@container":"@set"
       },
       "dateOfEstablishmentAndTermination": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#dateOfEstablishmentAndTermination",
+         "@id":"https://d-nb.info/standards/elementset/gnd#dateOfEstablishmentAndTermination",
          "@container":"@set"
       },
       "dateOfProduction": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#dateOfProduction",
+         "@id":"https://d-nb.info/standards/elementset/gnd#dateOfProduction",
          "@container":"@set"
       },
       "dateOfPublication": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#dateOfPublication",
+         "@id":"https://d-nb.info/standards/elementset/gnd#dateOfPublication",
          "@container":"@set"
       },
       "dateOfTermination": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#dateOfTermination",
+         "@id":"https://d-nb.info/standards/elementset/gnd#dateOfTermination",
          "@container":"@set"
       },
       "definition": {
-        "@id": "http://d-nb.info/standards/elementset/gnd#definition",
+        "@id": "https://d-nb.info/standards/elementset/gnd#definition",
         "@language":"de",
         "@container": "@set"
       },
       "easternmostLongitude": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#easternmostLongitude",
+         "@id":"https://d-nb.info/standards/elementset/gnd#easternmostLongitude",
          "@container":"@set"
       },
       "endOfPeriod": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#endOfPeriod",
+         "@id":"https://d-nb.info/standards/elementset/gnd#endOfPeriod",
          "@container":"@set"
       },
       "forename": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#forename",
+         "@id":"https://d-nb.info/standards/elementset/gnd#forename",
          "@container":"@set"
       },
       "functionOrRoleAsLiteral": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#functionOrRoleAsLiteral",
+         "@id":"https://d-nb.info/standards/elementset/gnd#functionOrRoleAsLiteral",
          "@container":"@set"
       },
       "keyOfTheVersion": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#keyOfTheVersion",
+         "@id":"https://d-nb.info/standards/elementset/gnd#keyOfTheVersion",
          "@container":"@set"
       },
       "keyOfTheWork": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#keyOfTheWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#keyOfTheWork",
          "@container":"@set"
       },
       "nameAddition": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#nameAddition",
+         "@id":"https://d-nb.info/standards/elementset/gnd#nameAddition",
          "@container":"@set"
       },
       "northernmostLatitude": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#northernmostLatitude",
+         "@id":"https://d-nb.info/standards/elementset/gnd#northernmostLatitude",
          "@container":"@set"
       },
       "oldAuthorityNumber": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#oldAuthorityNumber",
+         "@id":"https://d-nb.info/standards/elementset/gnd#oldAuthorityNumber",
          "@container":"@set"
       },
       "opusNumericDesignationOfMusicalWork": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#opusNumericDesignationOfMusicalWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#opusNumericDesignationOfMusicalWork",
          "@container":"@set"
       },
       "periodOfActivity": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#periodOfActivity",
+         "@id":"https://d-nb.info/standards/elementset/gnd#periodOfActivity",
          "@container":"@set"
       },
       "personalName": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#personalName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#personalName",
          "@container":"@set"
       },
       "placeOfBirthAsLiteral": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOfBirthAsLiteral",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOfBirthAsLiteral",
          "@container":"@set"
       },
       "placeOfDeathAsLiteral": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#placeOfDeathAsLiteral",
+         "@id":"https://d-nb.info/standards/elementset/gnd#placeOfDeathAsLiteral",
          "@container":"@set"
       },
       "preferredNameForTheConferenceOrEvent": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#preferredNameForTheConferenceOrEvent",
+         "@id":"https://d-nb.info/standards/elementset/gnd#preferredNameForTheConferenceOrEvent",
          "@container":"@set"
       },
       "preferredNameForTheCorporateBody": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#preferredNameForTheCorporateBody",
+         "@id":"https://d-nb.info/standards/elementset/gnd#preferredNameForTheCorporateBody",
          "@container":"@set"
       },
       "preferredNameForTheFamily": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#preferredNameForTheFamily",
+         "@id":"https://d-nb.info/standards/elementset/gnd#preferredNameForTheFamily",
          "@container":"@set"
       },
       "preferredNameForThePerson": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#preferredNameForThePerson",
+         "@id":"https://d-nb.info/standards/elementset/gnd#preferredNameForThePerson",
          "@container":"@set"
       },
       "preferredNameForThePlaceOrGeographicName": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#preferredNameForThePlaceOrGeographicName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#preferredNameForThePlaceOrGeographicName",
          "@container":"@set"
       },
       "preferredNameForTheSubjectHeading": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#preferredNameForTheSubjectHeading",
+         "@id":"https://d-nb.info/standards/elementset/gnd#preferredNameForTheSubjectHeading",
          "@container":"@set"
       },
       "preferredNameForTheWork": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#preferredNameForTheWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#preferredNameForTheWork",
          "@container":"@set"
       },
       "prefix": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#prefix",
+         "@id":"https://d-nb.info/standards/elementset/gnd#prefix",
          "@container":"@set"
       },
       "professionOrOccupationAsLiteral": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#professionOrOccupationAsLiteral",
+         "@id":"https://d-nb.info/standards/elementset/gnd#professionOrOccupationAsLiteral",
          "@container":"@set"
       },
       "publication": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#publication",
+         "@id":"https://d-nb.info/standards/elementset/gnd#publication",
          "@container":"@set"
       },
       "serialNumericDesignationOfMusicalWork": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#serialNumericDesignationOfMusicalWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#serialNumericDesignationOfMusicalWork",
          "@container":"@set"
       },
       "southernmostLatitude": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#southernmostLatitude",
+         "@id":"https://d-nb.info/standards/elementset/gnd#southernmostLatitude",
          "@container":"@set"
       },
       "surname": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#surname",
+         "@id":"https://d-nb.info/standards/elementset/gnd#surname",
          "@container":"@set"
       },
       "thematicIndexNumericDesignationOfMusicalWork": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#thematicIndexNumericDesignationOfMusicalWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#thematicIndexNumericDesignationOfMusicalWork",
          "@container":"@set"
       },
       "titleOfNobilityAsLiteral": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#titleOfNobilityAsLiteral",
+         "@id":"https://d-nb.info/standards/elementset/gnd#titleOfNobilityAsLiteral",
          "@container":"@set"
       },
       "udkCode": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#udkCode",
+         "@id":"https://d-nb.info/standards/elementset/gnd#udkCode",
          "@container":"@set"
       },
       "variantName": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#variantName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#variantName",
          "@container":"@set"
       },
       "variantNameForTheConferenceOrEvent": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#variantNameForTheConferenceOrEvent",
+         "@id":"https://d-nb.info/standards/elementset/gnd#variantNameForTheConferenceOrEvent",
          "@container":"@set"
       },
       "variantNameForTheCorporateBody": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#variantNameForTheCorporateBody",
+         "@id":"https://d-nb.info/standards/elementset/gnd#variantNameForTheCorporateBody",
          "@container":"@set"
       },
       "variantNameForTheFamily": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#variantNameForTheFamily",
+         "@id":"https://d-nb.info/standards/elementset/gnd#variantNameForTheFamily",
          "@container":"@set"
       },
       "variantNameForThePerson": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#variantNameForThePerson",
+         "@id":"https://d-nb.info/standards/elementset/gnd#variantNameForThePerson",
          "@container":"@set"
       },
       "variantNameForThePlaceOrGeographicName": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#variantNameForThePlaceOrGeographicName",
+         "@id":"https://d-nb.info/standards/elementset/gnd#variantNameForThePlaceOrGeographicName",
          "@container":"@set"
       },
       "variantNameForTheSubjectHeading": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#variantNameForTheSubjectHeading",
+         "@id":"https://d-nb.info/standards/elementset/gnd#variantNameForTheSubjectHeading",
          "@container":"@set"
       },
       "variantNameForTheWork": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#variantNameForTheWork",
+         "@id":"https://d-nb.info/standards/elementset/gnd#variantNameForTheWork",
          "@container":"@set"
       },
       "westernmostLongitude": {
-         "@id":"http://d-nb.info/standards/elementset/gnd#westernmostLongitude",
+         "@id":"https://d-nb.info/standards/elementset/gnd#westernmostLongitude",
          "@container":"@set"
       },
       "exactMatch": {
@@ -1264,7 +1264,7 @@
          "@container":"@set"
       },
       "canonicalUri": {
-         "@id":"http://d-nb.info/standards/elementset/dnb#canonicalUri",
+         "@id":"https://d-nb.info/standards/elementset/dnb#canonicalUri",
          "@container":"@set"
       }
    }

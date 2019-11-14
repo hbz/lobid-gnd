@@ -1,6 +1,6 @@
 {
   "@context" : "http://hub.culturegraph.org/entityfacts/context/v1/entityfacts.jsonld",
-  "@id" : "http://d-nb.info/gnd/118820591",
+  "@id" : "https://d-nb.info/gnd/118820591",
   "preferredName" : "Joseph Weizenbaum",
   "surname" : "Weizenbaum",
   "forename" : "Joseph",
@@ -15,27 +15,27 @@
   "dateOfBirth" : "January 8, 1923",
   "dateOfDeath" : "March 5, 2008",
   "placeOfBirth" : [ {
-    "@id" : "http://d-nb.info/gnd/4005728-8",
+    "@id" : "https://d-nb.info/gnd/4005728-8",
     "preferredName" : "Berlin"
   } ],
   "placeOfDeath" : [ {
-    "@id" : "http://d-nb.info/gnd/4005728-8",
+    "@id" : "https://d-nb.info/gnd/4005728-8",
     "preferredName" : "Berlin"
   } ],
   "professionOrOccupation" : [ {
-    "@id" : "http://d-nb.info/gnd/4139395-8",
+    "@id" : "https://d-nb.info/gnd/4139395-8",
     "preferredName" : "Informatiker"
   }, {
-    "@id" : "http://d-nb.info/gnd/4037945-0",
+    "@id" : "https://d-nb.info/gnd/4037945-0",
     "preferredName" : "Mathematiker"
   } ],
   "gender" : {
-    "@id" : "http://d-nb.info/standards/vocab/gnd/gender#male",
+    "@id" : "https://d-nb.info/standards/vocab/gnd/gender#male",
     "label" : "Mann"
   },
   "biographicalOrHistoricalInformation" : "Informatiker",
   "affiliation" : [ {
-    "@id" : "http://d-nb.info/gnd/2179-9",
+    "@id" : "https://d-nb.info/gnd/2179-9",
     "preferredName" : "Massachusetts Institute of Technology"
   } ],
   "depiction" : {
@@ -46,7 +46,7 @@
     "url" : "https://commons.wikimedia.org/wiki/File:Joseph_Weizenbaum.jpg?uselang=en"
   },
   "sameAs" : [ {
-    "@id" : "http://d-nb.info/gnd/118820591/about",
+    "@id" : "https://d-nb.info/gnd/118820591/about",
     "collection" : {
       "abbr" : "DNB",
       "name" : "Gemeinsame Normdatei (GND) im Katalog der Deutschen Nationalbibliothek",

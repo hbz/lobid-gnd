@@ -38,6 +38,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import controllers.HomeController;
+import models.AuthorityResource;
 import modules.IndexComponent;
 import play.Application;
 import play.Logger;
@@ -95,7 +96,7 @@ public class Index {
 		}
 	}
 
-	public static void indexEntityFactsTurtleFiles() throws IOException {
+	public static void indexEntityFactsJsonFiles() throws IOException {
 		Application app = new GuiceApplicationBuilder().build();
 		IndexComponent index = app.injector().instanceOf(new BindingKey<>(IndexComponent.class));
 		for (File file : ENTITYFACTS_FILES) {
@@ -254,7 +255,7 @@ public class Index {
 	static void indexEntityFactsJsonLdDump() {
 		String data = config("data.entityfacts");
 		try (Stream<String> stream = Files.lines(Paths.get(data))) {
-			int prefixLength = "http://d-nb.info/gnd/".length();
+			int prefixLength = AuthorityResource.GND_PREFIX.length();
 			String indexName = HomeController.config("index.entityfacts.index");
 			String indexType = HomeController.config("index.entityfacts.type");
 			if (indexExists(client, indexName)) {

@@ -30,7 +30,9 @@ import play.libs.Json;
 public class AuthorityResource {
 
 	private static final int SHORTEN = 5;
-	public final static String DNB_PREFIX = "http://d-nb.info/gnd/";
+	public static final String DNB_PREFIX = "https://d-nb.info/";
+	public static final String GND_PREFIX = DNB_PREFIX + "gnd/";
+	public static final String ELEMENTSET = DNB_PREFIX + "standards/elementset/";
 	private static final List<String> SKIP = Arrays.asList(//
 			// handled explicitly:
 			"@context", "id", "type", "depiction", "sameAs", "preferredName", "hasGeometry", "definition",
@@ -65,7 +67,7 @@ public class AuthorityResource {
 	}
 
 	public String getId() {
-		return id.substring(DNB_PREFIX.length());
+		return id.substring(GND_PREFIX.length());
 	}
 
 	public void setId(String id) {
@@ -191,7 +193,7 @@ public class AuthorityResource {
 	private void addGndEntityNodes(List<Map<String, Object>> result) {
 		result.add(ImmutableMap.of("id", getId(), "label", wrapped(preferredName), "shape", "box"));
 		gndNodes().stream().flatMap(pair -> pair.getRight().stream()).distinct().forEach(node -> {
-			String id = node.get("id").asText().substring(DNB_PREFIX.length());
+			String id = node.get("id").asText().substring(GND_PREFIX.length());
 			String label = wrapped(node.get("label").asText());
 			String title = "Details zu " + label + " öffnen";
 			result.add(ImmutableMap.of("id", id, "label", label, "shape", "box", "title", title));
@@ -204,8 +206,8 @@ public class AuthorityResource {
 			String label = wrapped(GndOntology.label(rel));
 			result.add(ImmutableMap.of("from", getId(), "to", rel));
 			pair.getRight().forEach(node -> {
-				String to = node.get("id").asText().substring(DNB_PREFIX.length());
-				String title = String.format("Einträge mit %s '%s' suchen", label, GndOntology.label(DNB_PREFIX + to));
+				String to = node.get("id").asText().substring(GND_PREFIX.length());
+				String title = String.format("Einträge mit %s '%s' suchen", label, GndOntology.label(GND_PREFIX + to));
 				String id = rel + "_" + to;
 				result.add(ImmutableMap.of("from", rel, "to", to, "arrows", "to", "id", id, "title", title));
 			});
@@ -214,10 +216,10 @@ public class AuthorityResource {
 
 	private void addDirectConnections(List<Map<String, Object>> result) {
 		gndNodes().stream().filter(pair -> pair.getRight().size() == 1).forEach(pair -> {
-			String to = pair.getRight().get(0).get("id").asText().substring(DNB_PREFIX.length());
+			String to = pair.getRight().get(0).get("id").asText().substring(GND_PREFIX.length());
 			String rel = pair.getLeft();
 			String label = wrapped(GndOntology.label(rel));
-			String title = String.format("Einträge mit %s '%s' suchen", label, GndOntology.label(DNB_PREFIX + to));
+			String title = String.format("Einträge mit %s '%s' suchen", label, GndOntology.label(GND_PREFIX + to));
 			String id = rel + "_" + to;
 			result.add(ImmutableMap.<String, Object>builder().put("from", getId()).put("to", to).put("arrows", "to")
 					.put("label", label).put("id", id).put("title", title).build());
@@ -232,7 +234,7 @@ public class AuthorityResource {
 		return Lists.newArrayList(json.fieldNames()).stream().filter(key -> {
 			JsonNode node = json.get(key);
 			return !SKIP.contains(key) && node.isArray() && node.size() > 0 && node.elements().next().isObject()
-					&& node.toString().contains("http://d-nb.info/gnd/");
+					&& node.toString().contains(AuthorityResource.GND_PREFIX);
 		}).map(key -> Pair.of(key, Lists.newArrayList(json.get(key).elements()).stream().collect(Collectors.toList())))
 				.collect(Collectors.toList());
 	}
@@ -395,12 +397,12 @@ public class AuthorityResource {
 		String result = label;
 		if ("creatorOf".equals(field)) {
 			result = String.format("<a href='%s'>%s</a>",
-					controllers.routes.HomeController.authority(value.replace(DNB_PREFIX, ""), null), label);
+					controllers.routes.HomeController.authority(value.replace(GND_PREFIX, ""), null), label);
 		} else if (Arrays.asList("wikipedia", "sameAs", "depiction", "homepage").contains(field)) {
 			result = String.format("<a href='%s'>%s</a>", value, value);
 		} else if (value.startsWith("http")) {
-			String link = value.startsWith(DNB_PREFIX)
-					? controllers.routes.HomeController.authority(value.replace(DNB_PREFIX, ""), null).toString()
+			String link = value.startsWith(GND_PREFIX)
+					? controllers.routes.HomeController.authority(value.replace(GND_PREFIX, ""), null).toString()
 					: value;
 			String search = controllers.routes.HomeController
 					.search(field + ".id:\"" + value + "\"", "", "", 0, 10, "html").toString();

@@ -1,6 +1,6 @@
 {
   "@context" : "http://hub.culturegraph.org/entityfacts/context/v1/entityfacts.jsonld",
-  "@id" : "http://d-nb.info/gnd/118634313",
+  "@id" : "https://d-nb.info/gnd/118634313",
   "preferredName" : "Ludwig Wittgenstein",
   "surname" : "Wittgenstein",
   "forename" : "Ludwig",
@@ -14,43 +14,43 @@
   "dateOfBirth" : "April 26, 1889",
   "dateOfDeath" : "April 29, 1951",
   "placeOfBirth" : [ {
-    "@id" : "http://d-nb.info/gnd/4066009-6",
+    "@id" : "https://d-nb.info/gnd/4066009-6",
     "preferredName" : "Wien"
   } ],
   "placeOfDeath" : [ {
-    "@id" : "http://d-nb.info/gnd/4009351-7",
+    "@id" : "https://d-nb.info/gnd/4009351-7",
     "preferredName" : "Cambridge"
   } ],
   "professionOrOccupation" : [ {
-    "@id" : "http://d-nb.info/gnd/4045790-4",
+    "@id" : "https://d-nb.info/gnd/4045790-4",
     "preferredName" : "Philosoph"
   }, {
-    "@id" : "http://d-nb.info/gnd/4044300-0",
+    "@id" : "https://d-nb.info/gnd/4044300-0",
     "preferredName" : "Pädagoge"
   }, {
-    "@id" : "http://d-nb.info/gnd/4002844-6",
+    "@id" : "https://d-nb.info/gnd/4002844-6",
     "preferredName" : "Architekt"
   } ],
   "gender" : {
-    "@id" : "http://d-nb.info/standards/vocab/gnd/gender#male",
+    "@id" : "https://d-nb.info/standards/vocab/gnd/gender#male",
     "label" : "Mann"
   },
   "biographicalOrHistoricalInformation" : "Österr. Philosoph, lebte ab 1929 (mit Unterbrechungen) in England; Pädagoge ; Abschlussdiplom als Ingenieur 1908; Österr. Philosoph ; Philosoph, Architekt",
   "relatedPerson" : [ {
-    "@id" : "http://d-nb.info/gnd/129904481",
+    "@id" : "https://d-nb.info/gnd/129904481",
     "relationship" : "Bekannte",
     "preferredName" : "Marguerite Respinger"
   }, {
-    "@id" : "http://d-nb.info/gnd/120712016",
+    "@id" : "https://d-nb.info/gnd/120712016",
     "relationship" : "Schülerin",
     "preferredName" : "G. E. M. Anscombe"
   } ],
   "familialRelationship" : [ {
-    "@id" : "http://d-nb.info/gnd/124724744",
+    "@id" : "https://d-nb.info/gnd/124724744",
     "relationship" : "Schwester",
     "preferredName" : "Margarethe Stonborough-Wittgenstein"
   }, {
-    "@id" : "http://d-nb.info/gnd/117422959",
+    "@id" : "https://d-nb.info/gnd/117422959",
     "relationship" : "Bruder",
     "preferredName" : "Paul Wittgenstein"
   } ],
@@ -62,7 +62,7 @@
     "url" : "https://commons.wikimedia.org/wiki/File:Ludwig_Wittgenstein.jpg?uselang=en"
   },
   "sameAs" : [ {
-    "@id" : "http://d-nb.info/gnd/118634313/about",
+    "@id" : "https://d-nb.info/gnd/118634313/about",
     "collection" : {
       "abbr" : "DNB",
       "name" : "Gemeinsame Normdatei (GND) im Katalog der Deutschen Nationalbibliothek",

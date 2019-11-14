@@ -1,7 +1,7 @@
 {
   "@context" : "http://hub.culturegraph.org/entityfacts/context/v1/entityfacts.jsonld",
   "@type" : "place",
-  "@id" : "http://d-nb.info/gnd/4074335-4",
+  "@id" : "https://d-nb.info/gnd/4074335-4",
   "preferredName" : "London",
   "describedBy" : {
     "valid" : "2018-05-08T10:58:27+0200",
@@ -18,7 +18,7 @@
     "url" : "https://commons.wikimedia.org/wiki/File:London_Montage_2016.png?uselang=en"
   },
   "sameAs" : [ {
-    "@id" : "http://d-nb.info/gnd/4074335-4/about",
+    "@id" : "https://d-nb.info/gnd/4074335-4/about",
     "collection" : {
       "abbr" : "DNB",
       "name" : "Gemeinsame Normdatei (GND) im Katalog der Deutschen Nationalbibliothek",
