@@ -450,7 +450,9 @@ public class Reconcile extends Controller {
 				.field("abbreviatedNameForTheConferenceOrEvent")//
 				.field("abbreviatedNameForThePlaceOrGeographicName")//
 				.field("abbreviatedNameForTheWork")//
-				.field("abbreviatedNameForTheCorporateBody");//
+				.field("abbreviatedNameForTheCorporateBody")//
+				.field("gndIdentifier")//
+				.field("sameAs.id");//
 		QueryStringQueryBuilder propQuery = QueryBuilders.queryStringQuery(propString).boost(5f);
 		return index.query(mainQuery, filter, propQuery, "", 0, limit);
 	}
@@ -487,7 +489,8 @@ public class Reconcile extends Controller {
 	}
 
 	private String clean(String queryString) {
-		return queryString.replaceAll("[:+\\-=<>(){}\\[\\]^]", "");
+		return queryString.startsWith("http") ? "\"" + queryString + "\""
+				: queryString.replaceAll("[:+\\-=<>(){}\\[\\]^]", "");
 	}
 
 	private String mainQuery(Entry<String, JsonNode> entry) {

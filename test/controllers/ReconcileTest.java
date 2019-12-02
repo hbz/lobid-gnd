@@ -98,28 +98,39 @@ public class ReconcileTest extends IndexTest {
 	@Test
 	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/gnd/reconcile
 	public void reconcileRequest() {
-		reconcileRequest("/gnd/reconcile");
+		reconcileRequest("/gnd/reconcile", "Twain, Mark", /* -> */ "118624822");
 	}
 
 	@Test
 	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/gnd/reconcile/
 	public void reconcileRequestTrailingSlash() {
-		reconcileRequest("/gnd/reconcile/");
+		reconcileRequest("/gnd/reconcile/", "Twain, Mark", /* -> */ "118624822");
 	}
 
-	private void reconcileRequest(String uri) {
+	@Test
+	public void reconcileRequestWithGndId() {
+		reconcileRequest("/gnd/reconcile/", "118624822", /* -> */ "118624822");
+	}
+
+	@Test
+	public void reconcileRequestWithViafUri() {
+		reconcileRequest("/gnd/reconcile/", "http://viaf.org/viaf/50566653", /* -> */ "118624822");
+	}
+
+	private void reconcileRequest(String uri, String query, String gndId) {
 		Application application = fakeApplication();
 		running(application, () -> {
 			Result result = route(application, fakeRequest(POST, uri)
-					.bodyForm(ImmutableMap.of("queries", "{\"q99\":{\"query\":\"Twain, Mark\"}}")));
+					.bodyForm(ImmutableMap.of("queries", "{\"q99\":{\"query\":\"" + query + "\"}}")));
 			String content = contentAsString(result);
+			assertThat(content, containsString("q99"));
+			assertThat(content, containsString("\"" + gndId + "\""));
+			assertThat(content, containsString("\"match\":false"));
+			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
 			List<JsonNode> types = StreamSupport.stream(//
 					Json.parse(content).findValue("type").spliterator(), false).collect(Collectors.toList());
 			// e.g. AuthorityResource, Person, DifferentiatedPerson
 			assertThat(types.size(), Matchers.lessThanOrEqualTo(3));
-			assertThat(content, containsString("q99"));
-			assertThat(content, containsString("\"match\":false"));
-			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
 		});
 	}
 
