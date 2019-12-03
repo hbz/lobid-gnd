@@ -113,6 +113,21 @@ public class ReconcileTest extends IndexTest {
 	}
 
 	@Test
+	public void reconcileRequestWithGndUri() {
+		reconcileRequest("/gnd/reconcile/", "https://d-nb.info/gnd/118624822", /* -> */ "118624822");
+	}
+
+	@Test
+	public void reconcileRequestWithGndIdDash() {
+		reconcileRequest("/gnd/reconcile/", "2136169-1", /* -> */ "2136169-1");
+	}
+
+	@Test
+	public void reconcileRequestWithGndUriDash() {
+		reconcileRequest("/gnd/reconcile/", "https://d-nb.info/gnd/2136169-1", /* -> */ "2136169-1");
+	}
+
+	@Test
 	public void reconcileRequestWithViafUri() {
 		reconcileRequest("/gnd/reconcile/", "http://viaf.org/viaf/50566653", /* -> */ "118624822");
 	}
@@ -144,7 +159,7 @@ public class ReconcileTest extends IndexTest {
 				result = route(application,
 						fakeRequest(GET,
 								"/gnd/reconcile?queries=" + URLEncoder.encode(
-										"{\"q99\":{\"query\":\"Conference +-=<>(){}[]^ (1997 : Kyoto : Japan)\"}}",
+										"{\"q99\":{\"query\":\"Conference +=<>(){}[]^ (1997 : Kyoto : Japan)\"}}",
 										StandardCharsets.UTF_8.name())));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -164,7 +179,7 @@ public class ReconcileTest extends IndexTest {
 		running(application, () -> {
 			Result result = route(application, fakeRequest(POST, "/gnd/reconcile")//
 					.bodyForm(ImmutableMap.of("queries",
-							"{\"q99\":{\"query\":\"Conference +-=<>(){}[]^ (1997 : Kyoto : Japan)\"}}")));
+							"{\"q99\":{\"query\":\"Conference +=<>(){}[]^ (1997 : Kyoto : Japan)\"}}")));
 			assertThat(result.status(), is(equalTo(Http.Status.OK)));
 			String content = contentAsString(result);
 			Logger.debug(Json.prettyPrint(Json.parse(content)));
