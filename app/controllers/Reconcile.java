@@ -490,8 +490,11 @@ public class Reconcile extends Controller {
 	}
 
 	private String clean(String queryString) {
-		return queryString.startsWith("http") || queryString.contains("-") ? "\"" + queryString + "\""
-				: queryString.replaceAll("[:+\\=<>(){}\\[\\]^]", "");
+		return queryString.startsWith("http") || queryString.matches(
+				// https://www.wikidata.org/wiki/Property:P227#P1793
+				"1[012]?\\d{7}[0-9X]|[47]\\d{6}-\\d|[1-9]\\d{0,7}-[0-9X]|3\\d{7}[0-9X]") //
+						? "\"" + queryString + "\""
+						: queryString.replaceAll("[:+\\-=<>(){}\\[\\]^]", " ");
 	}
 
 	private String mainQuery(Entry<String, JsonNode> entry) {
