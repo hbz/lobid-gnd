@@ -30,13 +30,13 @@ Set up a location for the EntityFacts input data:
 
 @mkdir entityfacts ; cd entityfacts@
 
-Get the EntityFacts data from the DNB:
+Get the EntityFacts data from the DNB – for the @20191013@ release here, find current at "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/:
 
-@wget https://data.dnb.de/opendata/authorities_entityfacts.jsonld.gz@
+@wget https://data.dnb.de/opendata/authorities_entityfacts_20191013.jsonld.gz@
 
 Unpack the data:
 
-@gunzip < authorities_entityfacts.jsonld.gz > authorities_entityfacts.jsonld@
+@gunzip < authorities_entityfacts_20191013.jsonld.gz > authorities_entityfacts_20191013.jsonld@
 
 Go back to the root directory:
 
@@ -44,11 +44,11 @@ Go back to the root directory:
 
 Set up the data location in 'conf/application.conf' (data.entityfacts):
 
-@data { ... entityfacts: "entityfacts/authorities_entityfacts.jsonld" ...@
+@data { ... entityfacts: "entityfacts/authorities_entityfacts_20191013.jsonld" ...@
 
 Set up the name for the index to create in 'conf/application.conf' (index.entityfacts.index):
 
-@index { ... entityfacts { index: "entityfacts-20190816-1500" ...@
+@index { ... entityfacts { index: "entityfacts_20191013" ...@
 
 Index the data:
 
@@ -62,11 +62,11 @@ Set up a location for the input data:
 
 @mkdir input_data; cd input_data@
 
-Set up 'input_data' as the 'data.rdfxml' location in 'conf/application.conf'.
+Set 'data.rdfxml' in 'conf/application.conf' to the 'input_data' location.
 
-Get the GND RDF/XML source data – for the @20190213@ release here, find current at "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/:
+Get the GND RDF/XML source data – for the @20191013@ release here, find current at "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/:
 
-@wget https://data.dnb.de/opendata/authorities-{geografikum,koerperschaft,kongress,name,person,sachbegriff,werk}_lds_20190213.rdf.gz@
+@wget https://data.dnb.de/opendata/authorities-{geografikum,koerperschaft,kongress,name,person,sachbegriff,werk}_lds_20191013.rdf.gz@
 
 This should give you 7 local files ending with '.rdf.gz'. Go back to the project root directory:
 
@@ -78,7 +78,7 @@ Set up a location for the index data:
 
 @mkdir index_data@
 
-Set up 'index_data' as the 'data.jsonlines' location in 'conf/application.conf'.
+Set 'data.jsonlines' in 'conf/application.conf' to the 'index_data' location.
 
 Set 'index.boot' in 'conf/application.conf' to an existing index. This index will be used to get labels during the conversion process.
 
@@ -110,7 +110,7 @@ Updates are pulled via "the DNB OAI-PMH interface":http://www.dnb.de/DE/Service/
 
 Pass one argument: get updates since a given date:
 
-@sbt "runMain apps.ConvertUpdates 2019-06-13"@
+@sbt "runMain apps.ConvertUpdates 2019-10-13"@
 
 The date of the most recent update is stored in 'GND-lastSuccessfulUpdate.txt' (can be changed in the config).
 

@@ -49,35 +49,7 @@ public class ConvertUpdates {
 		int intervals = calculateIntervals(startOfUpdates, intervalSize);
 		File file = new File(config("data.updates.rdf"));
 		try (FileWriter writer = new FileWriter(file, false)) {
-			writer.write("<rdf:RDF " + "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" "//
-					+ "xmlns:bibo=\"http://purl.org/ontology/bibo/\" "//
-					+ "xmlns:dbp=\"http://dbpedia.org/property/\" "//
-					+ "xmlns:dc=\"http://purl.org/dc/elements/1.1/\" "//
-					+ "xmlns:dcmitype=\"http://purl.org/dc/dcmitype/\" "//
-					+ "xmlns:dcterms=\"http://purl.org/dc/terms/\" "//
-					+ "xmlns:dnb_intern=\"http://dnb.de/\" "//
-					+ "xmlns:dnba=\"http://d-nb.info/standards/elementset/agrelon#\" "//
-					+ "xmlns:dnbt=\"http://d-nb.info/standards/elementset/dnb#\" "//
-					+ "xmlns:ebu=\"http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#\" "//
-					+ "xmlns:editeur=\"https://ns.editeur.org/thema/\" "//
-					+ "xmlns:foaf=\"http://xmlns.com/foaf/0.1/\" "//
-					+ "xmlns:gbv=\"http://purl.org/ontology/gbv/\" "//
-					+ "xmlns:geo=\"http://www.opengis.net/ont/geosparql#\" "//
-					+ "xmlns:gndo=\"http://d-nb.info/standards/elementset/gnd#\" "//
-					+ "xmlns:isbd=\"http://iflastandards.info/ns/isbd/elements/\" "//
-					+ "xmlns:lib=\"http://purl.org/library/\" "//
-					+ "xmlns:marcRole=\"http://id.loc.gov/vocabulary/relators/\" "//
-					+ "xmlns:mo=\"http://purl.org/ontology/mo/\" "//
-					+ "xmlns:owl=\"http://www.w3.org/2002/07/owl#\" "//
-					+ "xmlns:rdau=\"http://rdaregistry.info/Elements/u/\" "//
-					+ "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" "//
-					+ "xmlns:schema=\"http://schema.org/\" "//
-					+ "xmlns:sf=\"http://www.opengis.net/ont/sf#\" "//
-					+ "xmlns:skos=\"http://www.w3.org/2004/02/skos/core#\" "//
-					+ "xmlns:umbel=\"http://umbel.org/umbel#\" "//
-					+ "xmlns:v=\"http://www.w3.org/2006/vcard/ns#\" "//
-					+ "xmlns:wdrs=\"http://www.w3.org/2007/05/powder-s#\" "//
-					+ "xmlns:vivo=\"http://vivoweb.org/ontology/core#\">");
+			writer.write("<RDF>");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -94,7 +66,7 @@ public class ConvertUpdates {
 				end = addDays(end, intervalSize);
 		}
 		try (FileWriter writer = new FileWriter(file, true)) {
-			writer.write("</rdf:RDF>");
+			writer.write("</RDF>");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

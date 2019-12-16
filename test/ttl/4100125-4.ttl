@@ -1,5 +1,5 @@
 @prefix schema: <http://schema.org/> .
-@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
 @prefix lib: <http://purl.org/library/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -14,10 +14,10 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
-@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dnba: <https://d-nb.info/standards/elementset/agrelon#> .
 @prefix dcmitype: <http://purl.org/dc/dcmitype/> .
 @prefix dbp: <http://dbpedia.org/property/> .
-@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
 @prefix dnb_intern: <http://dnb.de/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix v: <http://www.w3.org/2006/vcard/ns#> .
@@ -26,14 +26,14 @@
 @prefix gbv: <http://purl.org/ontology/gbv/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-<http://d-nb.info/gnd/4100125-4> a gndo:Language ;
+<https://d-nb.info/gnd/4100125-4> a gndo:Language ;
 	gndo:gndIdentifier "4100125-4" ;
 	gndo:oldAuthorityNumber "(DE-588c)4100125-4" ;
 	gndo:preferredNameForTheSubjectHeading "Manx" ;
-	gndo:broaderTermInstantial <http://d-nb.info/gnd/4100125-4> ;
-	gndo:broaderTermPartitive <http://d-nb.info/gnd/4120186-3> ;
-	gndo:gndSubjectCategory <http://d-nb.info/standards/vocab/gnd/gnd-sc#11.1a> ;
-	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB> ;
+	gndo:broaderTermInstantial <https://d-nb.info/gnd/4100125-4> ;
+	gndo:broaderTermPartitive <https://d-nb.info/gnd/4120186-3> ;
+	gndo:gndSubjectCategory <https://d-nb.info/standards/vocab/gnd/gnd-sc#11.1a> ;
+	gndo:geographicAreaCode <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB> ;
 	gndo:languageCode <http://id.loc.gov/vocabulary/iso639-2/glv> ;
-	gndo:relatedPlaceOrGeographicName <http://d-nb.info/gnd/4027756-2> .
+	gndo:relatedPlaceOrGeographicName <https://d-nb.info/gnd/4027756-2> .
 

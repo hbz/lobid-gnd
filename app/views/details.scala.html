@@ -90,7 +90,7 @@
         var rel = edge[0];
         var to = edge[1];
         if(validEdge(rel)){
-          var q = '"' + 'http://d-nb.info/gnd/' + to + '"';
+          var q = '"' + '@models.AuthorityResource.GND_PREFIX' + to + '"';
           var search = "/gnd/search?q=" + rel + ".id:" + q;
           window.location.href = search;
         }

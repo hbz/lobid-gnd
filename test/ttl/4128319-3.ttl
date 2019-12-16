@@ -1,5 +1,5 @@
 @prefix schema: <http://schema.org/> .
-@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
 @prefix lib: <http://purl.org/library/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -14,10 +14,10 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
-@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dnba: <https://d-nb.info/standards/elementset/agrelon#> .
 @prefix dcmitype: <http://purl.org/dc/dcmitype/> .
 @prefix dbp: <http://dbpedia.org/property/> .
-@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
 @prefix dnb_intern: <http://dnb.de/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix v: <http://www.w3.org/2006/vcard/ns#> .
@@ -26,13 +26,13 @@
 @prefix gbv: <http://purl.org/ontology/gbv/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-<http://d-nb.info/gnd/4128319-3> gndo:gndIdentifier "4128319-3" ;
+<https://d-nb.info/gnd/4128319-3> gndo:gndIdentifier "4128319-3" ;
 	gndo:oldAuthorityNumber "(DE-588c)4128319-3" ;
 	gndo:relatedDdcWithDegreeOfDeterminacy2 <http://dewey.info/class/373.11/> ;
 	gndo:variantNameForTheSubjectHeading "Hauptschule / Lehrer" ;
 	gndo:preferredNameForTheSubjectHeading "Hauptschullehrer" ;
-	gndo:broaderTermGeneral <http://d-nb.info/gnd/4035088-5> ;
-	gndo:relatedTerm <http://d-nb.info/gnd/4128319-3> ;
-	gndo:gndSubjectCategory <http://d-nb.info/standards/vocab/gnd/gnd-sc#6.3a> , <http://d-nb.info/standards/vocab/gnd/gnd-sc#9.4ab> ;
+	gndo:broaderTermGeneral <https://d-nb.info/gnd/4035088-5> ;
+	gndo:relatedTerm <https://d-nb.info/gnd/4128319-3> ;
+	gndo:gndSubjectCategory <https://d-nb.info/standards/vocab/gnd/gnd-sc#6.3a> , <https://d-nb.info/standards/vocab/gnd/gnd-sc#9.4ab> ;
 	a gndo:SubjectHeadingSensoStricto .
 

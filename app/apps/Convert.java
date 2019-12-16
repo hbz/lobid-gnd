@@ -2,6 +2,8 @@
 
 package apps;
 
+import static models.AuthorityResource.ELEMENTSET;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -133,18 +135,18 @@ public class Convert {
 	}
 
 	private static Model preprocess(Model model, String id, Set<String> deprecated) {
-		String academicDegree = "http://d-nb.info/standards/elementset/gnd#academicDegree";
-		String dateOfBirth = "http://d-nb.info/standards/elementset/gnd#dateOfBirth";
-		String dateOfDeath = "http://d-nb.info/standards/elementset/gnd#dateOfDeath";
+		String academicDegree = ELEMENTSET + "gnd#academicDegree";
+		String dateOfBirth = ELEMENTSET + "gnd#dateOfBirth";
+		String dateOfDeath = ELEMENTSET + "gnd#dateOfDeath";
 		String sameAsOwl = "http://www.w3.org/2002/07/owl#sameAs";
 		String sameAsSchema = "http://schema.org/sameAs";
-		String preferredName = "http://d-nb.info/standards/elementset/gnd#preferredNameFor";
-		String variantName = "http://d-nb.info/standards/elementset/gnd#variantNameFor";
+		String preferredName = ELEMENTSET + "gnd#preferredNameFor";
+		String variantName = ELEMENTSET + "gnd#variantNameFor";
 		String type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 		String label = "http://www.w3.org/2000/01/rdf-schema#label";
-		String gnd = "http://d-nb.info/standards/elementset/gnd#";
-		String collection = "http://d-nb.info/standards/elementset/dnb#isDescribedIn";
-		String deprecatedUri = "http://d-nb.info/standards/elementset/dnb#deprecatedUri";
+		String gnd = ELEMENTSET + "gnd#";
+		String collection = ELEMENTSET + "dnb#isDescribedIn";
+		String deprecatedUri = ELEMENTSET + "dnb#deprecatedUri";
 		String describedBy = "http://www.w3.org/2007/05/powder-s#describedby";
 		Set<Statement> toRemove = new HashSet<>();
 		Set<Statement> toAdd = new HashSet<>();
@@ -153,7 +155,7 @@ public class Convert {
 			String p = statement.getPredicate().toString();
 			RDFNode o = statement.getObject();
 			if (p.equals(deprecatedUri) && !s.equals(o.toString())) {
-				deprecated.add(o.toString().substring(AuthorityResource.DNB_PREFIX.length()));
+				deprecated.add(o.toString().substring(AuthorityResource.GND_PREFIX.length()));
 			}
 			if (o.isURIResource()) {
 				if (s.equals(o.toString())) { // remove self-ref statements
@@ -202,10 +204,12 @@ public class Convert {
 				String general = p//
 						.replaceAll("preferredNameFor[^\"]+", "preferredName")
 						.replaceAll("variantNameFor[^\"]+", "variantName");
-				toAdd.add(model.createStatement(statement.getSubject(), model.createProperty(general), o));
+				RDFNode object = o.asLiteral().getLanguage().isEmpty() ? o
+						: model.createLiteral(o.asLiteral().getValue().toString());
+				toAdd.add(model.createStatement(statement.getSubject(), model.createProperty(general), object));
 			} else if (p.equals(type) && o.toString().startsWith(gnd)) {
 				// https://github.com/hbz/lobid-gnd/issues/1#issuecomment-312597639
-				if (s.equals("http://d-nb.info/gnd/" + id)) {
+				if (s.equals(AuthorityResource.GND_PREFIX + id)) {
 					toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
 							model.createResource(config("data.superclass"))));
 				}

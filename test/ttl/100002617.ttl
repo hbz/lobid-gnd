@@ -1,5 +1,5 @@
 @prefix schema: <http://schema.org/> .
-@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
 @prefix lib: <http://purl.org/library/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -17,10 +17,10 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
-@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dnba: <https://d-nb.info/standards/elementset/agrelon#> .
 @prefix dcmitype: <http://purl.org/dc/dcmitype/> .
 @prefix dbp: <http://dbpedia.org/property/> .
-@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
 @prefix madsrdf: <http://www.loc.gov/mads/rdf/v1#> .
 @prefix dnb_intern: <http://dnb.de/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -31,17 +31,17 @@
 @prefix gbv: <http://purl.org/ontology/gbv/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-<http://d-nb.info/gnd/100002617> wdrs:describedby <http://d-nb.info/gnd/100002617/about> .
+<https://d-nb.info/gnd/100002617> wdrs:describedby <https://d-nb.info/gnd/100002617/about> .
 
-<http://d-nb.info/gnd/100002617/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/> ;
+<https://d-nb.info/gnd/100002617/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/> ;
 	dcterms:modified "2017-09-27T17:46:29.000"^^xsd:dateTime .
 
-<http://d-nb.info/gnd/100002617> a gndo:DifferentiatedPerson ;
+<https://d-nb.info/gnd/100002617> a gndo:DifferentiatedPerson ;
 	gndo:gndIdentifier "100002617" ;
 	owl:sameAs <http://viaf.org/viaf/71732342> ;
 	gndo:oldAuthorityNumber "(DE-588)1089743769" ;
-	owl:sameAs <http://d-nb.info/gnd/1089743769> ;
-	dnbt:deprecatedUri "http://d-nb.info/gnd/1089743769" ;
+	owl:sameAs <https://d-nb.info/gnd/1089743769> ;
+	dnbt:deprecatedUri "https://d-nb.info/gnd/1089743769" ;
 	gndo:oldAuthorityNumber "(DE-588a)100002617" ;
 	gndo:variantNameForThePerson "Abū Ḏaqan, Yūsuf" ;
 	gndo:variantNameEntityForThePerson _:node1cuet4i3hx310020 .
@@ -49,69 +49,69 @@
 _:node1cuet4i3hx310020 gndo:forename "Yūsuf" ;
 	gndo:surname "Abū Ḏaqan" .
 
-<http://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Barbatus, Josephus" ;
+<https://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Barbatus, Josephus" ;
 	gndo:variantNameEntityForThePerson _:node1cuet4i3hx310021 .
 
 _:node1cuet4i3hx310021 gndo:forename "Josephus" ;
 	gndo:surname "Barbatus" .
 
-<http://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Abudacnus, Joseph" ;
+<https://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Abudacnus, Joseph" ;
 	gndo:variantNameEntityForThePerson _:node1cuet4i3hx310022 .
 
 _:node1cuet4i3hx310022 gndo:forename "Joseph" ;
 	gndo:surname "Abudacnus" .
 
-<http://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Barbatus, Joseph" ;
+<https://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Barbatus, Joseph" ;
 	gndo:variantNameEntityForThePerson _:node1cuet4i3hx310023 .
 
 _:node1cuet4i3hx310023 gndo:forename "Joseph" ;
 	gndo:surname "Barbatus" .
 
-<http://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Josephus, Barbatus" ;
+<https://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Josephus, Barbatus" ;
 	gndo:variantNameEntityForThePerson _:node1cuet4i3hx310024 .
 
 _:node1cuet4i3hx310024 gndo:personalName "Josephus" ;
 	gndo:nameAddition "Barbatus" .
 
-<http://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Josephus, Abudacnus" ;
+<https://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Josephus, Abudacnus" ;
 	gndo:variantNameEntityForThePerson _:node1cuet4i3hx310025 .
 
 _:node1cuet4i3hx310025 gndo:personalName "Josephus" ;
 	gndo:nameAddition "Abudacnus" .
 
-<http://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Abou-dh-Dhakn" ;
+<https://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Abou-dh-Dhakn" ;
 	gndo:variantNameEntityForThePerson _:node1cuet4i3hx310026 .
 
 _:node1cuet4i3hx310026 gndo:personalName "Abou-dh-Dhakn" .
 
-<http://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Yūsuf Abū Ḏaqan" ;
+<https://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Yūsuf Abū Ḏaqan" ;
 	gndo:variantNameEntityForThePerson _:node1cuet4i3hx310027 .
 
 _:node1cuet4i3hx310027 gndo:personalName "Yūsuf Abū Ḏaqan" .
 
-<http://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Yūsuf Abū Ḏaḳan" ;
+<https://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Yūsuf Abū Ḏaḳan" ;
 	gndo:variantNameEntityForThePerson _:node1cuet4i3hx310028 .
 
 _:node1cuet4i3hx310028 gndo:personalName "Yūsuf Abū Ḏaḳan" .
 
-<http://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Yusuf ibn Abu Dhaqn" ;
+<https://d-nb.info/gnd/100002617> gndo:variantNameForThePerson "Yusuf ibn Abu Dhaqn" ;
 	gndo:variantNameEntityForThePerson _:node1cuet4i3hx310029 .
 
 _:node1cuet4i3hx310029 gndo:personalName "Yusuf ibn Abu Dhaqn" .
 
-<http://d-nb.info/gnd/100002617> gndo:preferredNameForThePerson "Abudacnus, Josephus" ;
+<https://d-nb.info/gnd/100002617> gndo:preferredNameForThePerson "Abudacnus, Josephus" ;
 	gndo:preferredNameEntityForThePerson _:node1cuet4i3hx310030 .
 
 _:node1cuet4i3hx310030 gndo:forename "Josephus" ;
 	gndo:surname "Abudacnus" .
 
-<http://d-nb.info/gnd/100002617> gndo:affiliation <http://d-nb.info/gnd/80092-2> ;
-	gndo:professionOrOccupation <http://d-nb.info/gnd/4025098-2> , <http://d-nb.info/gnd/4199236-2> ;
-	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XC-EG> , <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB> , <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-BE> ;
+<https://d-nb.info/gnd/100002617> gndo:affiliation <https://d-nb.info/gnd/80092-2> ;
+	gndo:professionOrOccupation <https://d-nb.info/gnd/4025098-2> , <https://d-nb.info/gnd/4199236-2> ;
+	gndo:geographicAreaCode <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XC-EG> , <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB> , <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-BE> ;
 	gndo:publication "Speculum Hebraicum .... - 1615" , "Historia Jacobitarum. - 1675" , "The history of the Cophites. - 1693" , "The true history of the Jacobites, of a Egypt. - 1692" , "Historia Jacobitarum. - 1733" , "Historia Jacobitarum, seu Coptorum in Aegypto, Lybia, Nubia, ... - 1675" , "Historia Iacobitarum seu coptorum in Aegypto, Lybia, Nubia, ... - 1733" ;
 	gndo:biographicalOrHistoricalInformation "Ägyptischer Jesuit, Historiker und Philologe, unterrichtete Arabisch in Oxford und Löwen"@de ;
-	gndo:placeOfBirth <http://d-nb.info/gnd/4029236-8> ;
-	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#male> ;
+	gndo:placeOfBirth <https://d-nb.info/gnd/4029236-8> ;
+	gndo:gender <https://d-nb.info/standards/vocab/gnd/gender#male> ;
 	gndo:dateOfBirth "1570"^^xsd:gYear ;
 	gndo:dateOfDeath "[16XX]" .
 

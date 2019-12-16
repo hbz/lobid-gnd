@@ -1,6 +1,7 @@
 package apps;
 
 import static apps.Convert.config;
+import static models.ModelTest.jsonLdFor;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -8,7 +9,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -180,7 +179,7 @@ public class ConvertTest {
 		assertTrue(terms.elements().hasNext());
 		JsonNode first = terms.elements().next();
 		assertIsObjectWithIdAndLabel(first);
-		assertEquals("http://d-nb.info/gnd/4074854-6", first.get("id").textValue());
+		assertTrue(first.get("id").textValue().startsWith("https://d-nb.info/gnd/"));
 		JsonNode label = first.get("label");
 		assertTrue(label.isTextual());
 		assertTrue(!label.toString().isEmpty());
@@ -191,7 +190,7 @@ public class ConvertTest {
 		String jsonLd = jsonLdFor("118624822");
 		JsonNode area = Json.parse(jsonLd).get("geographicAreaCode").elements().next();
 		assertIsObjectWithIdAndLabel(area);
-		assertEquals("http://d-nb.info/standards/vocab/gnd/geographic-area-code#XD-US", area.get("id").textValue());
+		assertEquals("https://d-nb.info/standards/vocab/gnd/geographic-area-code#XD-US", area.get("id").textValue());
 		assertEquals("USA", area.get("label").textValue());
 	}
 
@@ -209,7 +208,7 @@ public class ConvertTest {
 		String jsonLd = jsonLdFor("1081942517");
 		JsonNode author = Json.parse(jsonLd).get("firstAuthor").elements().next();
 		assertIsObjectWithIdAndLabel(author);
-		assertEquals("http://d-nb.info/gnd/118624822", author.get("id").textValue());
+		assertEquals("https://d-nb.info/gnd/118624822", author.get("id").textValue());
 		assertEquals("Twain, Mark", author.get("label").textValue());
 	}
 
@@ -307,24 +306,24 @@ public class ConvertTest {
 	@Test
 	public void testTriplesToFramedJsonLd() throws FileNotFoundException {
 		Model model = ModelFactory.createDefaultModel();
-		RDFDataMgr.read(model,
-				in("<http://d-nb.info/gnd/118820591> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://d-nb.info/standards/elementset/gnd#AuthorityResource> ."
-						+ "<http://d-nb.info/gnd/118820591> <http://d-nb.info/standards/elementset/gnd#placeOfDeath> <http://d-nb.info/gnd/4005728-8> ."
-						+ "<http://d-nb.info/gnd/118820591> <http://d-nb.info/standards/elementset/gnd#placeOfBirth> <http://d-nb.info/gnd/4005728-8> ."
-						+ "<http://d-nb.info/gnd/4005728-8> <http://www.w3.org/2000/01/rdf-schema#label> \"Berlin\" ."),
+		RDFDataMgr.read(model, in(
+				"<https://d-nb.info/gnd/118820591> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://d-nb.info/standards/elementset/gnd#AuthorityResource> ."
+						+ "<https://d-nb.info/gnd/118820591> <https://d-nb.info/standards/elementset/gnd#placeOfDeath> <https://d-nb.info/gnd/4005728-8> ."
+						+ "<https://d-nb.info/gnd/118820591> <https://d-nb.info/standards/elementset/gnd#placeOfBirth> <https://d-nb.info/gnd/4005728-8> ."
+						+ "<https://d-nb.info/gnd/4005728-8> <http://www.w3.org/2000/01/rdf-schema#label> \"Berlin\" ."),
 				Lang.NTRIPLES);
 		StringWriter out = new StringWriter();
 		RDFDataMgr.write(out, model, Lang.JSONLD);
 		try {
 			ImmutableMap<String, String> frame = ImmutableMap.of("@type",
-					"http://d-nb.info/standards/elementset/gnd#AuthorityResource", //
+					"https://d-nb.info/standards/elementset/gnd#AuthorityResource", //
 					"@embed", "@always");
 			JsonLdOptions options = new JsonLdOptions();
 			Object jsonLd = JsonUtils.fromString(out.toString());
 			jsonLd = JsonLdProcessor.frame(jsonLd, new HashMap<>(frame), options);
 			JsonNode jsonNode = Json.toJson(jsonLd);
-			JsonNode birth = jsonNode.findValue("http://d-nb.info/standards/elementset/gnd#placeOfBirth");
-			JsonNode death = jsonNode.findValue("http://d-nb.info/standards/elementset/gnd#placeOfDeath");
+			JsonNode birth = jsonNode.findValue("https://d-nb.info/standards/elementset/gnd#placeOfBirth");
+			JsonNode death = jsonNode.findValue("https://d-nb.info/standards/elementset/gnd#placeOfDeath");
 			assertEquals(birth.size(), death.size());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -339,12 +338,5 @@ public class ConvertTest {
 
 	private InputStream in(String s) {
 		return new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
-	}
-
-	private String jsonLdFor(String id) throws FileNotFoundException {
-		Model sourceModel = ModelFactory.createDefaultModel();
-		sourceModel.read(new FileReader("test/ttl/" + id + ".ttl"), null, "TTL");
-		String jsonLd = Convert.toJsonLd(id, sourceModel, true, new HashSet<>());
-		return jsonLd;
 	}
 }

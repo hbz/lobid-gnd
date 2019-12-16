@@ -16,11 +16,12 @@ import static play.test.Helpers.running;
 
 import org.junit.Test;
 
+import modules.IndexTest;
 import play.Application;
 import play.libs.Json;
 import play.mvc.Result;
 
-public class SuggestionsTest {
+public class SuggestionsTest extends IndexTest {
 
 	@Test
 	public void suggestionsWithoutCallback() {

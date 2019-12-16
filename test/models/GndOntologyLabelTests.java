@@ -23,12 +23,12 @@ public class GndOntologyLabelTests {
 				{ "broaderTermPartitive", "Oberbegriff partitiv" }, //
 				{ "preferredName", "Bevorzugter Name" }, //
 				{ "gndIdentifier", "GND-Nummer" }, //
-				{ "ZZ", "Sonstiges Ausland, Unbekanntes Land" }, //
-				{ "http://d-nb.info/standards/vocab/gnd/gnd-sc#ZZ", "Sonstiges Ausland, Unbekanntes Land" }, //
+				{ "ZZ", "Land unbekannt" }, //
+				{ "https://d-nb.info/standards/vocab/gnd/gnd-sc#ZZ", "Land unbekannt" }, //
 				{ "36", "Basteln, Handarbeiten, Heimwerken" }, //
-				{ "http://d-nb.info/standards/vocab/gnd/geographic-area-code#36", "Basteln, Handarbeiten, Heimwerken" }, //
+				{ "https://d-nb.info/standards/vocab/gnd/geographic-area-code#36", "Basteln, Handarbeiten, Heimwerken" }, //
 				{ "notKnown", "Unbekannt" }, //
-				{ "http://d-nb.info/standards/vocab/gnd/gender#notKnown", "Unbekannt" }, //
+				{ "https://d-nb.info/standards/vocab/gnd/gender#notKnown", "Unbekannt" }, //
 				{ "hasChild", "Kind" }, //
 				{ "hasSpouse", "Ehepartner" }, //
 				{ "hasAncestor", "Vorfahr" }, //

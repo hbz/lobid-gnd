@@ -1,5 +1,5 @@
 @prefix schema: <http://schema.org/> .
-@prefix gndo: <http://d-nb.info/standards/elementset/gnd#> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
 @prefix lib: <http://purl.org/library/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -14,10 +14,10 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
-@prefix dnba: <http://d-nb.info/standards/elementset/agrelon#> .
+@prefix dnba: <https://d-nb.info/standards/elementset/agrelon#> .
 @prefix dcmitype: <http://purl.org/dc/dcmitype/> .
 @prefix dbp: <http://dbpedia.org/property/> .
-@prefix dnbt: <http://d-nb.info/standards/elementset/dnb#> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
 @prefix dnb_intern: <http://dnb.de/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix v: <http://www.w3.org/2006/vcard/ns#> .
@@ -26,13 +26,13 @@
 @prefix gbv: <http://purl.org/ontology/gbv/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-<http://d-nb.info/gnd/118634313> a gndo:DifferentiatedPerson ;
+<https://d-nb.info/gnd/118634313> a gndo:DifferentiatedPerson ;
 	gndo:gndIdentifier "118634313" ;
 	foaf:page <https://de.wikipedia.org/wiki/Ludwig_Wittgenstein> ;
 	owl:sameAs <http://dbpedia.org/resource/Ludwig_Wittgenstein> , <http://viaf.org/viaf/24609378> ;
 	gndo:oldAuthorityNumber "(DE-588)185932576" ;
-	owl:sameAs <http://d-nb.info/gnd/185932576> ;
-	dnbt:deprecatedUri "http://d-nb.info/gnd/185932576" ;
+	owl:sameAs <https://d-nb.info/gnd/185932576> ;
+	dnbt:deprecatedUri "https://d-nb.info/gnd/185932576" ;
 	gndo:oldAuthorityNumber "(DE-588a)185932576" , "(DE-588a)118634313" , "(DE-588a)131169572" , "(DE-588c)4066651-7" ;
 	gndo:variantNameForThePerson "Wittgenstein, Ludwig Josef Johann" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3838 .
@@ -40,140 +40,140 @@
 _:node1cd1s1rgex3838 gndo:forename "Ludwig Josef Johann" ;
 	gndo:surname "Wittgenstein" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wittgenstein, Ludvig" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wittgenstein, Ludvig" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3839 .
 
 _:node1cd1s1rgex3839 gndo:forename "Ludvig" ;
 	gndo:surname "Wittgenstein" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wittgenstein, Ludovicus" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wittgenstein, Ludovicus" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3840 .
 
 _:node1cd1s1rgex3840 gndo:forename "Ludovicus" ;
 	gndo:surname "Wittgenstein" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wittgenstein, L." ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wittgenstein, L." ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3841 .
 
 _:node1cd1s1rgex3841 gndo:forename "L." ;
 	gndo:surname "Wittgenstein" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wittgenstein, ..." ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wittgenstein, ..." ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3842 .
 
 _:node1cd1s1rgex3842 gndo:forename "..." ;
 	gndo:surname "Wittgenstein" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wîtgenšṭain, Lûdwig" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wîtgenšṭain, Lûdwig" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3843 .
 
 _:node1cd1s1rgex3843 gndo:forename "Lûdwig" ;
 	gndo:surname "Wîtgenšṭain" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitgenštajn, Ljudvig" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitgenštajn, Ljudvig" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3844 .
 
 _:node1cd1s1rgex3844 gndo:forename "Ljudvig" ;
 	gndo:surname "Vitgenštajn" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitgenštajn, Ludvig" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitgenštajn, Ludvig" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3845 .
 
 _:node1cd1s1rgex3845 gndo:forename "Ludvig" ;
 	gndo:surname "Vitgenštajn" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitgenšteinas, Liudvigas" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitgenšteinas, Liudvigas" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3846 .
 
 _:node1cd1s1rgex3846 gndo:forename "Liudvigas" ;
 	gndo:surname "Vitgenšteinas" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitgenštejn, Ljudvig" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitgenštejn, Ljudvig" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3847 .
 
 _:node1cd1s1rgex3847 gndo:forename "Ljudvig" ;
 	gndo:surname "Vitgenštejn" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Uitogenshutain, Rūtovihi" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Uitogenshutain, Rūtovihi" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3848 .
 
 _:node1cd1s1rgex3848 gndo:forename "Rūtovihi" ;
 	gndo:surname "Uitogenshutain" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Uitogenshutain, ..." ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Uitogenshutain, ..." ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3849 .
 
 _:node1cd1s1rgex3849 gndo:forename "..." ;
 	gndo:surname "Uitogenshutain" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Witgenšṭeyn, Lûdwîg" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Witgenšṭeyn, Lûdwîg" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3850 .
 
 _:node1cd1s1rgex3850 gndo:forename "Lûdwîg" ;
 	gndo:surname "Witgenšṭeyn" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitogenshutain, Rūtovihi" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitogenshutain, Rūtovihi" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3851 .
 
 _:node1cd1s1rgex3851 gndo:forename "Rūtovihi" ;
 	gndo:surname "Vitogenshutain" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wītginšitāyn, Lūdwīg" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wītginšitāyn, Lūdwīg" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3852 .
 
 _:node1cd1s1rgex3852 gndo:forename "Lūdwīg" ;
 	gndo:surname "Wītginšitāyn" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitgenšteins, Ludvigs" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Vitgenšteins, Ludvigs" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3853 .
 
 _:node1cd1s1rgex3853 gndo:forename "Ludvigs" ;
 	gndo:surname "Vitgenšteins" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wittgenstein, Ludwig J." ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Wittgenstein, Ludwig J." ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3854 .
 
 _:node1cd1s1rgex3854 gndo:forename "Ludwig J." ;
 	gndo:surname "Wittgenstein" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Bittnkenstaïn, Luntbich" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "Bittnkenstaïn, Luntbich" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3855 .
 
 _:node1cd1s1rgex3855 gndo:forename "Luntbich" ;
 	gndo:surname "Bittnkenstaïn" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "ויטגנשטיין, לודויג" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "ויטגנשטיין, לודויג" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3856 .
 
 _:node1cd1s1rgex3856 gndo:forename "לודויג" ;
 	gndo:surname "ויטגנשטיין" .
 
-<http://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "ヴィトゲンシュタイン, ルートヴィッヒ" ;
+<https://d-nb.info/gnd/118634313> gndo:variantNameForThePerson "ヴィトゲンシュタイン, ルートヴィッヒ" ;
 	gndo:variantNameEntityForThePerson _:node1cd1s1rgex3857 .
 
 _:node1cd1s1rgex3857 gndo:forename "ルートヴィッヒ" ;
 	gndo:surname "ヴィトゲンシュタイン" .
 
-<http://d-nb.info/gnd/118634313> gndo:preferredNameForThePerson "Wittgenstein, Ludwig" ;
+<https://d-nb.info/gnd/118634313> gndo:preferredNameForThePerson "Wittgenstein, Ludwig" ;
 	gndo:preferredNameEntityForThePerson _:node1cd1s1rgex3858 .
 
 _:node1cd1s1rgex3858 gndo:forename "Ludwig" ;
 	gndo:surname "Wittgenstein" .
 
-<http://d-nb.info/gnd/118634313> gndo:familialRelationship <http://d-nb.info/gnd/124724744> ;
-	dnba:hasSibling <http://d-nb.info/gnd/124724744> ;
-	gndo:familialRelationship <http://d-nb.info/gnd/117422959> ;
-	dnba:hasSibling <http://d-nb.info/gnd/117422959> ;
-	gndo:acquaintanceshipOrFriendship <http://d-nb.info/gnd/129904481> ;
-	gndo:professionalRelationship <http://d-nb.info/gnd/120712016> ;
-	gndo:professionOrOccupation <http://d-nb.info/gnd/4045790-4> , <http://d-nb.info/gnd/4044300-0> , <http://d-nb.info/gnd/4002844-6> ;
-	gndo:gndSubjectCategory <http://d-nb.info/standards/vocab/gnd/gnd-sc#4.7p> , <http://d-nb.info/standards/vocab/gnd/gnd-sc#31.3p> ;
-	gndo:geographicAreaCode <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-AT> , <http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB> ;
+<https://d-nb.info/gnd/118634313> gndo:familialRelationship <https://d-nb.info/gnd/124724744> ;
+	dnba:hasSibling <https://d-nb.info/gnd/124724744> ;
+	gndo:familialRelationship <https://d-nb.info/gnd/117422959> ;
+	dnba:hasSibling <https://d-nb.info/gnd/117422959> ;
+	gndo:acquaintanceshipOrFriendship <https://d-nb.info/gnd/129904481> ;
+	gndo:professionalRelationship <https://d-nb.info/gnd/120712016> ;
+	gndo:professionOrOccupation <https://d-nb.info/gnd/4045790-4> , <https://d-nb.info/gnd/4044300-0> , <https://d-nb.info/gnd/4002844-6> ;
+	gndo:gndSubjectCategory <https://d-nb.info/standards/vocab/gnd/gnd-sc#4.7p> , <https://d-nb.info/standards/vocab/gnd/gnd-sc#31.3p> ;
+	gndo:geographicAreaCode <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-AT> , <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-GB> ;
 	gndo:publication "Wittgenstein, Ludwig: To mple kai to kaphe biblio. - 1984" , "Wittgenstein, Ludwig: Tractatus logico-philosophicus. - 1922" ;
 	gndo:biographicalOrHistoricalInformation "Österr. Philosoph, lebte ab 1929 (mit Unterbrechungen) in England; Pädagoge"@de , "Abschlussdiplom als Ingenieur 1908; Österr. Philosoph"@de , "Philosoph, Architekt"@de ;
-	gndo:placeOfBirth <http://d-nb.info/gnd/4066009-6> ;
-	gndo:placeOfDeath <http://d-nb.info/gnd/4009351-7> ;
-	gndo:gender <http://d-nb.info/standards/vocab/gnd/gender#male> ;
+	gndo:placeOfBirth <https://d-nb.info/gnd/4066009-6> ;
+	gndo:placeOfDeath <https://d-nb.info/gnd/4009351-7> ;
+	gndo:gender <https://d-nb.info/standards/vocab/gnd/gender#male> ;
 	gndo:dateOfBirth "1889-04-26"^^<http://www.w3.org/2001/XMLSchema#date> ;
 	gndo:dateOfDeath "1951-04-29"^^<http://www.w3.org/2001/XMLSchema#date> .
 

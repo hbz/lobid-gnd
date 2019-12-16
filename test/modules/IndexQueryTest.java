@@ -105,7 +105,7 @@ public class IndexQueryTest extends IndexTest {
 
 	@Test
 	public void testGndOntologyIndexLabel() throws FileNotFoundException {
-		assertThat(GndOntology.label("http://d-nb.info/gnd/118820591"), equalTo("Weizenbaum, Joseph"));
+		assertThat(GndOntology.label("https://d-nb.info/gnd/118820591"), equalTo("Weizenbaum, Joseph"));
 	}
 
 	@Test

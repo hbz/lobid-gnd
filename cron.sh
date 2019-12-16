@@ -7,7 +7,7 @@ set -uo pipefail # See http://redsymbol.net/articles/unofficial-bash-strict-mode
 
 IFS=$'\n\t'
 RECIPIENT=lobid-admin
-sbt "runMain apps.ConvertUpdates $(tail -n1 GND-lastSuccessfulUpdate.txt)"
+sbt -mem 4000 "runMain apps.ConvertUpdates $(tail -n1 GND-lastSuccessfulUpdate.txt)"
 
 # copy and index to stage, and check:
 scp GND-updates.jsonl weywot2:git/lobid-gnd/

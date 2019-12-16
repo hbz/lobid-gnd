@@ -101,20 +101,19 @@ public class GndOntology {
 	/**
 	 * Get labels for IDs from:<br/>
 	 * <br/>
-	 * http://d-nb.info/standards/elementset/gnd <br/>
-	 * http://d-nb.info/standards/vocab/gnd/geographic-area-code.html <br/>
-	 * http://d-nb.info/standards/vocab/gnd/gnd-sc.html <br/>
+	 * https://d-nb.info/standards/elementset/gnd <br/>
+	 * https://d-nb.info/standards/vocab/gnd/geographic-area-code.html <br/>
+	 * https://d-nb.info/standards/vocab/gnd/gnd-sc.html <br/>
 	 * https://d-nb.info/standards/vocab/gnd/gender.html <br/>
 	 * 
-	 * @param id
-	 *            The full URI or substring after # for an element in one vocab
-	 *            (e.g. CollectiveManuscript)
+	 * @param id The full URI or substring after # for an element in one vocab (e.g.
+	 *           CollectiveManuscript)
 	 * @return The German label for sortId (e.g. Sammelhandschrift) if a label was
 	 *         found, or the passed id
 	 */
 	public static String label(String id) {
 		try {
-			return id.startsWith(AuthorityResource.DNB_PREFIX) ? indexLabel(id) : ontologyLabel(id);
+			return id.startsWith(AuthorityResource.GND_PREFIX) ? indexLabel(id) : ontologyLabel(id);
 		} catch (Exception e) {
 			Logger.error("Could not get label for {}: {}", id, e.getMessage());
 			return id;
@@ -124,7 +123,7 @@ public class GndOntology {
 	/**
 	 * Get properties used in the domain of the given type from:<br/>
 	 * <br/>
-	 * http://d-nb.info/standards/elementset/gnd <br/>
+	 * https://d-nb.info/standards/elementset/gnd <br/>
 	 * Additional types supported: AuthorityResource, Person
 	 * 
 	 * @param type
@@ -156,7 +155,7 @@ public class GndOntology {
 	}
 
 	private static String indexLabel(String id) {
-		id = id.substring(AuthorityResource.DNB_PREFIX.length());
+		id = id.substring(AuthorityResource.GND_PREFIX.length());
 		GetResponse response = CLIENT
 				.prepareGet(HomeController.config("index.boot.name"), HomeController.config("index.type"), id).get();
 		if (!response.isExists()) {
@@ -193,6 +192,7 @@ public class GndOntology {
 	private static void loadProperties(String f) throws SAXException, IOException {
 		Match match = $(new File(f)).find(or( //
 				selector("Property"), //
+				selector("SymmetricProperty"), //
 				selector("ObjectProperty"), //
 				selector("AnnotationProperty"), //
 				selector("DatatypeProperty")));
@@ -231,7 +231,7 @@ public class GndOntology {
 				$(property).find(selector("range")).forEach(domain -> {
 					String type = domain.getAttribute("rdf:resource");
 					String shortType;
-					if (type != null && type.startsWith("http://d-nb.info/standards/elementset/gnd#")
+					if (type != null && type.startsWith(AuthorityResource.ELEMENTSET + "gnd#")
 							&& !(shortType = type.split("#")[1]).equals("Literal")) {
 						types.put(shortPropertyId, shortType);
 					}

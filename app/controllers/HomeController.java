@@ -179,7 +179,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	public Result authority(String id, String format) {
 		SearchHits hits = index
-				.query(String.format("deprecatedUri:\"%s%s\"", AuthorityResource.DNB_PREFIX, id), "", "", 0, 1)
+				.query(String.format("deprecatedUri:\"%s%s\"", AuthorityResource.GND_PREFIX, id), "", "", 0, 1)
 				.getHits();
 		if (hits.getTotalHits() > 0 && !hits.getAt(0).getId().equals(id)) {
 			return movedPermanently(controllers.routes.HomeController.authority(hits.getAt(0).getId(), format));
@@ -228,7 +228,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		String q = String.format("firstAuthor:\"%s\" OR firstComposer:\"%s\"", id, id);
 		SearchResponse response = index.query(q, "", "", 0, 1000);
 		Stream<String> ids = Arrays.asList(response.getHits().getHits()).stream()
-				.map(hit -> AuthorityResource.DNB_PREFIX + hit.getId());
+				.map(hit -> AuthorityResource.GND_PREFIX + hit.getId());
 		return ids.collect(Collectors.toList());
 	}
 
@@ -294,7 +294,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	public Result gnd(String id) {
 		response().setHeader("Access-Control-Allow-Origin", "* ");
 		Model sourceModel = ModelFactory.createDefaultModel();
-		String sourceUrl = "http://d-nb.info/gnd/" + id + "/about/lds";
+		String sourceUrl = AuthorityResource.GND_PREFIX + id + "/about/lds";
 		try {
 			sourceModel.read(sourceUrl);
 		} catch (HttpException e) {

@@ -386,13 +386,13 @@ public class Reconcile extends Controller {
 		}
 		String id = node.get("id").asText();
 		String label = node.has("label") ? node.get("label").asText() : id;
-		if (id.startsWith(AuthorityResource.DNB_PREFIX) && !id.endsWith("/about")) {
+		if (id.startsWith(AuthorityResource.GND_PREFIX) && !id.endsWith("/about")) {
 			/*
 			 * See https://github.com/OpenRefine/OpenRefine/ wiki/
 			 * Data-Extension-API#data-extension- protocol: "a reconciled value
 			 * (from the same reconciliation service)"
 			 */
-			result.add(ImmutableMap.of("id", id.substring(AuthorityResource.DNB_PREFIX.length()), "name", label));
+			result.add(ImmutableMap.of("id", id.substring(AuthorityResource.GND_PREFIX.length()), "name", label));
 		} else {
 			result.add(ImmutableMap.of("str", content != null && content.equals("id") ? id : label));
 		}
