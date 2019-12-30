@@ -1,0 +1,35 @@
+@* Copyright 2019 Fabian Steeg, hbz. Licensed under the EPL 2.0 *@
+
+@()
+
+@main("", "lobid-gnd - Reconcile") {
+  <div class='pull-right'>
+    <img src='@controllers.routes.Assets.versioned("images/gnd.jpg")' height='85px'/>
+    <img src='@controllers.routes.Assets.versioned("images/refine.png")' height='100px'/>
+  </div>
+
+  <h1>GND reconciliation for OpenRefine</h1>
+
+  <p class="lead">Align your data with the Integrated Authority File GND</p>
+
+  <p>
+    Use this URL in OpenRefine: <code>@controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code> 
+  </p>
+
+  <h2>Data and Tools</h2>
+
+  <p><a href='https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html'>Integrated Authority File GND</a></p>
+  <p><a href='http://openrefine.org/'>OpenRefine</a>, <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation">Reconciliation</a></p>
+
+  <h2>Tutorials</h2>
+
+  <p><a href='http://blog.lobid.org/2018/08/27/openrefine.html'>GND reconciliation for OpenRefine</a></p>
+  <p><a href='http://blog.lobid.org/2019/08/19/openrefine.html'>Using the suggest APIs for searching types, properties, and entities</a></p>
+  <p><a href='http://blog.lobid.org/2019/09/30/openrefine-examples.html'>Using additional properties to improve matches</a></p>
+
+  <h2>API and Specs</h2>
+
+  <p><a href="@routes.HomeController.api()#openrefine">GND reconciliation for OpenRefine: API documentation</a></p>
+  <p><a href="https://www.w3.org/community/reconciliation/">W3C entity reconciliation community group</a></p>
+  <p><a href="https://reconciliation-api.github.io/testbench/">Reconciliation service test bench</a></p>
+}
