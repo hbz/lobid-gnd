@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 
+import controllers.Accept.Format;
 import models.AuthorityResource;
 import models.GndOntology;
 import modules.IndexComponent;
@@ -76,11 +77,15 @@ public class Reconcile extends Controller {
 	 *         data (if queries and extend are empty), wrapped in `callback`
 	 */
 	public Result main(String callback, String queries, String extend) {
-		ObjectNode result = queries.isEmpty() && extend.isEmpty() ? metadata()
-				: (!queries.isEmpty() ? queries(queries) : extend(extend));
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		return callback.isEmpty() ? ok(result)
-				: ok(String.format("/**/%s(%s);", callback, result.toString())).as("application/json");
+		if (Accept.formatFor(null, request().acceptedTypes()) == Accept.Format.HTML) {
+			return ok(views.html.reconcile.render());
+		} else {
+			ObjectNode result = queries.isEmpty() && extend.isEmpty() ? metadata()
+					: (!queries.isEmpty() ? queries(queries) : extend(extend));
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			return callback.isEmpty() ? ok(result)
+					: ok(String.format("/**/%s(%s);", callback, result.toString())).as("application/json");
+		}
 	}
 
 	private ObjectNode metadata() {

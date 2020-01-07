@@ -60,7 +60,7 @@
                           </li>
                           <li><a href="http://blog.lobid.org/2018/07/04/lobid-gnd-suche.html" target="_blank">Suche und Navigation</a></li>
                           <li><a href="http://blog.lobid.org/2018/07/06/lobid-gnd-queries.html" target="_blank">Formulierung komplexer Suchanfragen</a></li>
-                          <li><a href="http://blog.lobid.org/2018/08/27/openrefine.html" target="_blank">Integration in OpenRefine</a></li>
+                          <li><a href="@routes.Reconcile.main()" target="_blank">Integration in OpenRefine</a></li>
                           <li class="divider"></li>
                           <li class="dropdown-header">Kontakt</li>
                           <li><a href="mailto:semweb@@hbz-nrw.de?subject=Feedback%20zu%20lobid-gnd,%20aktuelle%20URL%20@controllers.HomeController.currentUri()">Feedback zur aktuellen Seite</a></li>
@@ -70,7 +70,7 @@
                   </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->
             </div>
-            @if(!title.contains("API")){
+            @if(!title.contains("API") && !title.contains("Reconcile")){
             @helper.form(action = controllers.routes.HomeController.search(q), 'id -> "resources-form") {
                 <div class="input-group" id="search-simple">
                   <input @if(q.isEmpty){autofocus} type="text" name="q" id="gnd-query" value="@q" class="form-control" autocomplete="off" 
