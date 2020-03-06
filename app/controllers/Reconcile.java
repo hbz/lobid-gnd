@@ -32,7 +32,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 
-import controllers.Accept.Format;
 import models.AuthorityResource;
 import models.GndOntology;
 import modules.IndexComponent;
@@ -77,7 +76,8 @@ public class Reconcile extends Controller {
 	 *         data (if queries and extend are empty), wrapped in `callback`
 	 */
 	public Result main(String callback, String queries, String extend) {
-		if (Accept.formatFor(null, request().acceptedTypes()) == Accept.Format.HTML) {
+		if (Accept.formatFor(null, request().acceptedTypes()) == Accept.Format.HTML
+				&& queries.isEmpty() && extend.isEmpty()) {
 			return ok(views.html.reconcile.render());
 		} else {
 			ObjectNode result = queries.isEmpty() && extend.isEmpty() ? metadata()
