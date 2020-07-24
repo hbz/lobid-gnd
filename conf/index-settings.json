@@ -92,6 +92,13 @@
 					"type": "keyword",
 					"index": true
 				},
+				"describedBy": {
+					"properties" : {
+						"dateModified": {
+							"type": "date"
+						}
+					}
+				},
 				"type" : {
 					"type": "keyword",
 					"index": true
