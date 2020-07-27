@@ -30,13 +30,13 @@ Set up a location for the EntityFacts input data:
 
 @mkdir entityfacts ; cd entityfacts@
 
-Get the EntityFacts data from the DNB – for the @20191013@ release here, find current at "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/:
+Get the EntityFacts data from the DNB – for the @20200713@ release here, find current at "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/:
 
-@wget https://data.dnb.de/opendata/authorities_entityfacts_20191013.jsonld.gz@
+@wget https://data.dnb.de/opendata/authorities_entityfacts_20200713.jsonld.gz@
 
 Unpack the data:
 
-@gunzip < authorities_entityfacts_20191013.jsonld.gz > authorities_entityfacts_20191013.jsonld@
+@gunzip < authorities_entityfacts_20200713.jsonld.gz > authorities_entityfacts_20200713.jsonld@
 
 Go back to the root directory:
 
@@ -44,11 +44,11 @@ Go back to the root directory:
 
 Set up the data location in 'conf/application.conf' (data.entityfacts):
 
-@data { ... entityfacts: "entityfacts/authorities_entityfacts_20191013.jsonld" ...@
+@data { ... entityfacts: "entityfacts/authorities_entityfacts_20200713.jsonld" ...@
 
 Set up the name for the index to create in 'conf/application.conf' (index.entityfacts.index):
 
-@index { ... entityfacts { index: "entityfacts_20191013" ...@
+@index { ... entityfacts { index: "entityfacts_20200713" ...@
 
 Index the data:
 
@@ -64,15 +64,15 @@ Set up a location for the input data:
 
 Set 'data.rdfxml' in 'conf/application.conf' to the 'input_data' location.
 
-Get the GND RDF/XML source data – for the @20191013@ release here, find current at "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/:
+Get the GND RDF/XML source data from "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/:
 
-@wget https://data.dnb.de/opendata/authorities-{geografikum,koerperschaft,kongress,name,person,sachbegriff,werk}_lds_20191013.rdf.gz@
+@wget https://data.dnb.de/opendata/authorities-{geografikum,koerperschaft,kongress,person,sachbegriff,werk}_lds.rdf.gz@
 
-This should give you 7 local files ending with '.rdf.gz'. Go back to the project root directory:
+This should give you 6 local files ending with '.rdf.gz'. Go back to the project root directory:
 
 @cd ..@
 
-h4. Convert RDF to JSON
+h4. Convert RDF/XML to JSON
 
 Set up a location for the index data:
 
@@ -92,7 +92,7 @@ To be able to log out from the server while the conversion is running, we actual
 
 @setsid nohup sbt "runMain apps.ConvertBaseline" &@
 
-This should create 7 '*.jsonl' files in 'index_data'.
+This should create 6 '*.jsonl' files in 'index_data'.
 
 h4. Index the JSON data
 
@@ -110,11 +110,11 @@ Updates are pulled via "the DNB OAI-PMH interface":http://www.dnb.de/DE/Service/
 
 Pass one argument: get updates since a given date:
 
-@sbt "runMain apps.ConvertUpdates 2019-10-13"@
+@sbt "runMain apps.ConvertUpdates 2020-06-22"@
 
 The date of the most recent update is stored in 'GND-lastSuccessfulUpdate.txt' (can be changed in the config).
 
-The original downloaded data and the converted data are stored in separate files. To convert the data again without downloading it, use the steps described above under 'Convert RDF to JSON' with the update RDF data.
+The original downloaded data and the converted data are stored in separate files. To convert the data again without downloading it, use the steps described above under 'Convert RDF/XML to JSON' with the update RDF data.
 
 h4. Index the updates
 
