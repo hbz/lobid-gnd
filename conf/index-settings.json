@@ -95,7 +95,8 @@
 				"describedBy": {
 					"properties" : {
 						"dateModified": {
-							"type": "date"
+							"type": "date",
+							"include_in_all": false
 						}
 					}
 				},
