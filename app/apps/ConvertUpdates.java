@@ -27,21 +27,50 @@ import org.joox.Match;
 import org.xml.sax.SAXException;
 
 import ORG.oclc.oai.harvester2.app.RawWrite;
+import helper.Email;
 
 public class ConvertUpdates {
 
-	public static void main(String[] args) throws IOException {
+	static private final short MAX_TRIES = 2;
+	static private final int WAIT_PER_RETRY = 14400000; // ms => 4h
+	static private final String FAIL_MESSAGE = "Tried to get the update several times, but the data remains to be empty."
+			+ "This may or may not be a problem on the side of the data provider.";
+
+	public static void main(String[] args) throws IOException, InterruptedException {
 		if (args.length == 1) {
-			Pair<String, String> startAndEnd = getUpdates(args[0]);
-			backup(new File(config("data.updates.rdf")), startAndEnd.getLeft(), startAndEnd.getRight());
-			ConvertBaseline.main(new String[] { config("data.updates.rdf"), config("data.updates.data"),
-					config("index.delete.updates") });
-			backup(new File(config("data.updates.data")), startAndEnd.getLeft(), startAndEnd.getRight());
+			Pair<String, String> startAndEnd = getUpdatesAndConvert(args[0]);
+			File dataUpdate = new File(config("data.updates.data"));
+			short tried = 0;
+			while (dataUpdate.length() == 0 ) {
+				tried++;
+				System.err.println("Tried " + tried
+						+ " times to get the data, but it's empty.");
+				if (MAX_TRIES <= tried)
+					break;
+				System.err.println("Going to retry in " + WAIT_PER_RETRY / 1000 / 60 + " min");
+				Thread.sleep(WAIT_PER_RETRY);
+				startAndEnd = getUpdatesAndConvert(args[0]);
+			}
+			if (dataUpdate.length() == 0) {
+				System.err.println("Tried " + tried
+						+ " times to get the data, but it remains empty. This may or may not be a problem on the side of the data provider. Going to send a mail...");
+				Email.sendEmail(config("mail.sender"), config("mail.recipient"), "GND updates fails :(", FAIL_MESSAGE);
+			} else
+				System.err.println("Success getting the update, tried " + tried + " times");
+			backup(dataUpdate, startAndEnd.getLeft(), startAndEnd.getRight());
 		} else {
-			System.err.println("Pass one argument: get updates since a given date in ISO format, e.g. 2019-06-13");
+			System.err.println("Argument missing to get updates since a given date in ISO format, e.g. 2019-06-13");
 		}
 	}
 
+	private static Pair<String, String> getUpdatesAndConvert(final String startOfUpdates) throws IOException {
+		Pair<String, String> startAndEnd = getUpdates(startOfUpdates);
+		backup(new File(config("data.updates.rdf")), startAndEnd.getLeft(), startAndEnd.getRight());
+		ConvertBaseline.main(new String[] { config("data.updates.rdf"), config("data.updates.data"),
+				config("index.delete.updates") });
+		return startAndEnd;
+	}
+	
 	private static Pair<String, String> getUpdates(String startOfUpdates) {
 		int intervalSize = Convert.CONFIG.getInt("data.updates.interval");
 		String start = startOfUpdates;

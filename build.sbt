@@ -16,6 +16,8 @@ libraryDependencies += ws
 
 libraryDependencies += "com.github.jsonld-java" % "jsonld-java" % "0.12.0"
 
+libraryDependencies += "javax.mail" % "mail" % "1.4.1"
+
 libraryDependencies += "org.apache.jena" % "apache-jena-libs" % "3.7.0"
 
 libraryDependencies += "org.culturegraph" % "metafacture-core" % "4.0.0"
