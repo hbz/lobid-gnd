@@ -13,11 +13,22 @@
 						"tokenizer": "edge_ngram_tokenizer",
 						"filter": ["lowercase", "german_normalization"]
 					},
+					"autocomplete_asciifolding": {
+						"tokenizer": "edge_ngram_tokenizer",
+						"filter": ["lowercase", "german_normalization","asciifolding"]
+					},
 					"id": {
 						"tokenizer": "keyword",
 						"filter": "lowercase"
+					},
+					"asciifolding": {
+						"tokenizer": "standard",
+						"filter": [
+							"lowercase",
+							"asciifolding"
+						]
 					}
-				}, 
+				},
 				"tokenizer": {
 					"edge_ngram_tokenizer": {
 						"type": "edge_ngram",
@@ -118,15 +129,16 @@
 					}
 				}, 
 				"variantName": {
-					"type": "text",
-					"fields": {
-						"ngrams": {
-							"type": "text",
-							"analyzer": "autocomplete",
-							"search_analyzer": "default"
-						},
-						"keyword": {
-							"type": "keyword"
+						"type": "text",
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"analyzer": "autocomplete_asciifolding",
+								"search_analyzer": "default"
+							},
+							"keyword": {
+								"type": "keyword"
+							}
 						}
 					}
 				}
