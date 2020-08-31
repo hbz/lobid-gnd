@@ -127,7 +127,7 @@
 							"type": "keyword"
 						}
 					}
-				}, 
+				},
 				"variantName": {
 						"type": "text",
 						"fields": {
@@ -140,7 +140,6 @@
 								"type": "keyword"
 							}
 						}
-					}
 				}
 			}
 		}
