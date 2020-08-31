@@ -15,7 +15,7 @@
 	    </div>
 	    @if(entity!=null){<div class="col-md-3">
 		<figure>
-			<a href='@routes.HomeController.authority(entity.getId)'><img id="index-image" src='@entity.getImage.image'/></a>
+			<a href='@routes.HomeController.authority(entity.getId)'><img id="index-image" src='https://lobid.org/imagesproxy?url=@entity.getImage.image'/></a>
 			<figcaption><a href='@routes.HomeController.authority(entity.getId)'>@entity.preferredName</a><br/><small>(@Html(entity.imageAttribution))</small></figcaption>
 		</figure>
 		</div>}
