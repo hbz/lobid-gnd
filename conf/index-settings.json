@@ -129,15 +129,20 @@
 					}
 				},
 				"variantName": {
-						"type": "text",
-						"fields": {
-							"ngrams": {
+					"type": "text",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "default"
+						},
+						"keyword": {
+							"type": "keyword"
+						},
+						"ascii": {
 								"type": "text",
-								"analyzer": "autocomplete_asciifolding",
-								"search_analyzer": "default"
-							},
-							"keyword": {
-								"type": "keyword"
+								"analyzer": "asciifolding",
+								"index": "true"
 							}
 						}
 				}
