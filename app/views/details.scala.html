@@ -129,7 +129,7 @@
  <script src='@controllers.routes.Assets.versioned("javascripts/leaflet.js")'></script>
  <div id="authority-map" class="authority-map"></div>
  <script async type='text/javascript'>
-   var layer = L.tileLayer('http://tileserver.lobid.org/osm-intl/{z}/{x}/{y}.png', {
+   var layer = L.tileLayer('https://lobid.org/osm-intl/{z}/{x}/{y}.png', {
      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
    });
    var center = new L.LatLng(@resource.location.getLat, @resource.location.getLon)
