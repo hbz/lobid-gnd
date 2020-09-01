@@ -53,7 +53,7 @@ $('input.search-gnd').autocomplete({
 
   <p>Standardmäßig liefert dieser Dienst strukturierte API-Antworten (als JSON):</p>
   <p><code>curl http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
-  <p>Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json), JSON lines (application/x-jsonlines) oder HTML (text/html):</p>
+  <p>Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json) und HTML (text/html):</p>
   <p><code>curl --header "Accept: application/json" http://lobid.org@routes.HomeController.search("london")</code></p>
   <p>Der Query-Parameter "format" (Werte: html,json,jsonl) kann verwendet werden, um den Accept-Header aufzuheben, z.B. zur Anzeige von JSON im Browser:</p>
   <p><a href='@routes.HomeController.authority("4074335-4", format="json")'>@routes.HomeController.authority("4074335-4", format="json")</a></p>
