@@ -132,7 +132,15 @@ public class IndexQueryTest extends IndexTest {
 	}
 
 	@Test
-	public void testAsciiFolding() {
+	public void testAsciiFoldingPreferredName() {
+		Assert.assertEquals(1, index.query("Chór").getHits().getTotalHits());
+		Assert.assertEquals(1, index.query("preferredName:Chór").getHits().getTotalHits());
+		Assert.assertEquals(0, index.query("preferredName:Chor").getHits().getTotalHits());
+		Assert.assertEquals(1, index.query("preferredName.ascii:Chor").getHits().getTotalHits());
+	}
+
+	@Test
+	public void testAsciiFoldingVariantName() {
 		Assert.assertEquals(2, index.query("Panǆić").getHits().getTotalHits());
 		Assert.assertEquals(2, index.query("variantName:Panǆić").getHits().getTotalHits());
 		Assert.assertEquals(0, index.query("variantName:Pandzic").getHits().getTotalHits());
