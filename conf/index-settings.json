@@ -16,6 +16,10 @@
 					"id": {
 						"tokenizer": "keyword",
 						"filter": "lowercase"
+					},
+					"ascii": {
+						"tokenizer": "standard",
+						"filter": ["lowercase", "asciifolding"]
 					}
 				}, 
 				"tokenizer": {
@@ -114,6 +118,10 @@
 						},
 						"keyword": {
 							"type": "keyword"
+						},
+						"ascii": {
+							"type": "text",
+							"analyzer": "ascii"
 						}
 					}
 				}, 
@@ -127,6 +135,10 @@
 						},
 						"keyword": {
 							"type": "keyword"
+						},
+						"ascii": {
+							"type": "text",
+							"analyzer": "ascii"
 						}
 					}
 				}

@@ -131,6 +131,22 @@ public class IndexQueryTest extends IndexTest {
 		Assert.assertNotEquals("Aachen", first("preferredName.keyword:desc").preferredName);
 	}
 
+	@Test
+	public void testAsciiFoldingPreferredName() {
+		Assert.assertEquals(1, index.query("Chór").getHits().getTotalHits());
+		Assert.assertEquals(1, index.query("preferredName:Chór").getHits().getTotalHits());
+		Assert.assertEquals(0, index.query("preferredName:Chor").getHits().getTotalHits());
+		Assert.assertEquals(1, index.query("preferredName.ascii:Chor").getHits().getTotalHits());
+	}
+
+	@Test
+	public void testAsciiFoldingVariantName() {
+		Assert.assertEquals(2, index.query("Panǆić").getHits().getTotalHits());
+		Assert.assertEquals(2, index.query("variantName:Panǆić").getHits().getTotalHits());
+		Assert.assertEquals(0, index.query("variantName:Pandzic").getHits().getTotalHits());
+		Assert.assertEquals(2, index.query("variantName.ascii:Pandzic").getHits().getTotalHits());
+	}
+
 	private AuthorityResource first(String sort) {
 		return new AuthorityResource(
 				Json.parse(index.query("*", "", sort, 0, 10).getHits().getHits()[0].getSourceAsString()));

@@ -156,9 +156,12 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 								.search("preferredName:Twain", "type:Person", "", 0, 10, format).toString())
 				.put("Paginierung",
 						controllers.routes.HomeController.search("london", "", "", 50, 100, format).toString())
-				.put("Sortierung", controllers.routes.HomeController
-						.search("scholl", "", "preferredName.keyword:asc", 0, 10, format).toString())
-				.build();	
+				.put("Sortierung",
+						controllers.routes.HomeController
+								.search("scholl", "", "preferredName.keyword:asc", 0, 10, format).toString())
+				.put("ASCII", controllers.routes.HomeController
+						.search("preferredName.ascii:Chor OR variantName.ascii:Chor", "", "", 0, 10, format).toString())
+				.build();
 		ImmutableMap<String, String> getSamples = ImmutableMap.of(//
 				"London", controllers.routes.HomeController.authorityDotFormat("4074335-4", "json").toString(), //
 				"hbz", controllers.routes.HomeController.authorityDotFormat("2047974-8", "json").toString(), //
