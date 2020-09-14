@@ -150,10 +150,10 @@
 
 @dataSource() = { @defining(resource.sameAs.size>3 || !resource.depiction.isEmpty) { entityFacts =>
 <p><div class="text-center small">
-  Datenquelle@if(entityFacts){n}: DNB <a href='https://www.dnb.de/DE/Professionell/Metadatendienste/Datenbezug/LDS/lds_node.html'>Linked-Data-Service</a> 
+  Datenquelle@if(entityFacts){n}: DNB <a href='https://www.dnb.de/lds'>Linked-Data-Service</a>
   (<a title='RDF/XML aus GND anzeigen' href='https://d-nb.info/gnd/@resource.getId()/about/lds.rdf'>RDF/XML</a>, 
   <a title='Turtle aus GND anzeigen' href='https://d-nb.info/gnd/@resource.getId()/about/lds.ttl'>Turtle</a>)
-  @if(entityFacts){und <a href='https://www.dnb.de/DE/Professionell/Metadatendienste/Datenbezug/Entity-Facts/entityFacts_node.html'>EntityFacts</a> (<a title="JSON-LD in EntityFacts anzeigen" href='@(controllers.HomeController.config("entityfacts.live")+resource.getId)'>JSON-LD</a>)}
+  @if(entityFacts){und <a href='https://www.dnb.de/entityfacts'>EntityFacts</a> (<a title="JSON-LD in EntityFacts anzeigen" href='@(controllers.HomeController.config("entityfacts.live")+resource.getId)'>JSON-LD</a>)}
   | <a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>
 </div></p>
 }}
