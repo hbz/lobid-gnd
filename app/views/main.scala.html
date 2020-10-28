@@ -6,7 +6,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="de">
     <head>
         <title>@title</title>
         <link rel="stylesheet" media="all" href="@controllers.routes.Assets.versioned("stylesheets/bootstrap.min.css")">
@@ -35,7 +35,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/">
-                     <span><img id="butterfly" src='@controllers.routes.Assets.versioned("images/lobid.png")'/></span></a>
+                     <span><img id="butterfly" src='@controllers.routes.Assets.versioned("images/lobid.png")' alt="lobid"/></span></a>
                   </div>
                   <div class="navbar-collapse collapse" id="resources-nav">
                     <ul class="nav navbar-nav">
@@ -74,8 +74,8 @@
             @helper.form(action = controllers.routes.HomeController.search(q), 'id -> "resources-form") {
                 <div class="input-group" id="search-simple">
                   <input @if(q.isEmpty){autofocus} type="text" name="q" id="gnd-query" value="@q" class="form-control" autocomplete="off" 
-                      placeholder='Suchoptionen: AND, OR, AND NOT, ""-Phrasensuche, *-Trunkierung'/>
-                  <span class="input-group-btn"><button class="btn btn-default" type="submit">
+                      placeholder='Suchoptionen: AND, OR, AND NOT, ""-Phrasensuche, *-Trunkierung' title="Suchanfrage"/>
+                  <span class="input-group-btn"><button class="btn btn-default" type="submit" title="Suchen">
                     <span class="glyphicon glyphicon-search"></span></button></span>
                 </div>
                 <script>
