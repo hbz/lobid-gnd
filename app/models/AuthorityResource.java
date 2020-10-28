@@ -387,9 +387,10 @@ public class AuthorityResource {
 		LinkWithImage link = links.get(i);
 		boolean hasImage = !link.image.isEmpty();
 		boolean hasLabel = !link.label.isEmpty();
+		String label = hasLabel ? link.label : link.url;
 		String result = String.format(
-				"<a href='%s'>" + (hasImage ? "<img src='https://lobid.org/imagesproxy?url=%s' style='height:1em'/>&nbsp;" : "%s") + "%s</a>", //
-				link.url, link.image, hasLabel ? link.label : link.url);
+				"<a href='%s'>" + (hasImage ? "<img src='https://lobid.org/imagesproxy?url=%s' style='height:1em' alt='%s'/>&nbsp;" : "%s") + "%s</a>", //
+				link.url, link.image, label, label);
 		return withDefaultHidden(field, links.size(), i, result);
 	}
 

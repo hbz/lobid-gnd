@@ -27,7 +27,7 @@
  }
 
 @pageLink(num: Int)={
-<li @if(size==num){class="active"}>
+<li role="tab" @if(size==num){class="active" aria-selected="true"} else {aria-selected="false" tabindex="-1" aria-controls="@num"}>
   <a href="@routes.HomeController.search(q,f,"",from,num,"html")">@num</a>
 </li>
 }
