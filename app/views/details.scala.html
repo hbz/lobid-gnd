@@ -5,7 +5,7 @@
 @import play.api.libs.json._
 
 @image() = {
-    <img src='https://lobid.org/imagesproxy?url=@resource.getImage.image' style="max-height:500px;" class="center-block"/>
+    <img src='https://lobid.org/imagesproxy?url=@resource.getImage.image' style="max-height:500px;" class="center-block" alt="@resource.preferredName"/>
     <div class='text-center small'><br/>@Html(resource.getImage.label)</div>
 }
 
@@ -186,7 +186,7 @@
                 }
                 <div class='pull-right'>
                     <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
-                    <img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")'/></a>
+                    <img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")' alt='JSON'/></a>
                 </div>
                 <br/>@Html(resource.subTitle)
             </small>
