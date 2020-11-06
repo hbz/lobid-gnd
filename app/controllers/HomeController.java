@@ -481,7 +481,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return prettyJsonString(object);
 	}
 
-	private static String prettyJsonString(JsonNode jsonNode) {
+	static String prettyJsonString(JsonNode jsonNode) {
 		try {
 			return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
 		} catch (JsonProcessingException x) {

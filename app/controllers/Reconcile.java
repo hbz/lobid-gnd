@@ -3,6 +3,7 @@
 package controllers;
 
 import static controllers.HomeController.config;
+import static controllers.HomeController.prettyJsonString;
 import static controllers.HomeController.withCallback;
 
 import java.util.ArrayList;
@@ -83,8 +84,9 @@ public class Reconcile extends Controller {
 			ObjectNode result = queries.isEmpty() && extend.isEmpty() ? metadata()
 					: (!queries.isEmpty() ? queries(queries) : extend(extend));
 			response().setHeader("Access-Control-Allow-Origin", "*");
-			return callback.isEmpty() ? ok(result)
-					: ok(String.format("/**/%s(%s);", callback, result.toString())).as("application/json");
+			final String resultString = prettyJsonString(result);
+			return (callback.isEmpty() ? ok(resultString)
+					: ok(String.format("/**/%s(%s);", callback, resultString))).as("application/json; charset=utf-8");
 		}
 	}
 
@@ -157,8 +159,9 @@ public class Reconcile extends Controller {
 				.put("type", type)//
 				.set("properties", Json.toJson(properties));
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		return callback.isEmpty() ? ok(response)
-				: ok(String.format("/**/%s(%s);", callback, response.toString())).as("application/json");
+		final String responseString = prettyJsonString(response);
+		return (callback.isEmpty() ? ok(responseString)
+				: ok(String.format("/**/%s(%s);", callback, responseString))).as("application/json; charset=utf-8");
 	}
 
 	private enum Service {
@@ -204,25 +207,25 @@ public class Reconcile extends Controller {
 											"id", t, //
 											"name", GndOntology.label(t)))))))
 					.collect(Collectors.toList());
-			return withCallback(suggestApiResponse(prefix, results).toString());
+			return withCallback(prettyJsonString(suggestApiResponse(prefix, results)));
 		case TYPE:
 			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.TYPE);
 			SearchResponse aggregationQuery = index.query("*", "", "", start, limit);
 			Stream<JsonNode> labelledTypes = labelledIds(
 					StreamSupport.stream(Json.parse(HomeController.returnAsJson("*", aggregationQuery))
 							.get("aggregation").get("type").spliterator(), false).map(t -> t.get("key").asText()));
-			return withCallback(suggestApiResponse(prefix, matchingEntries(prefix, labelledTypes)).toString());
+			return withCallback(prettyJsonString(suggestApiResponse(prefix, matchingEntries(prefix, labelledTypes))));
 		case PROPERTY:
 			Logger.debug("Suggest service: {} prefix: {} type: {} -> {}", service, prefix, type, Service.PROPERTY);
 			Stream<String> propertyIds = GndOntology.properties(type.contains("/") ? "" : type).stream();
 			Stream<JsonNode> labelledProperties = labelledIds(propertyIds);
-			return withCallback(suggestApiResponse(prefix, matchingEntries(prefix, labelledProperties)).toString());
+			return withCallback(prettyJsonString(suggestApiResponse(prefix, matchingEntries(prefix, labelledProperties))));
 		}
-		return withCallback(suggestApiResponse(prefix,
+		return withCallback(prettyJsonString(suggestApiResponse(prefix,
 				Arrays.asList(ImmutableMap.of(//
 						"id", "4042122-3", //
 						"name", "Nichts", //
-						"description", "Varianter Name: Nichtsein"))).toString());
+						"description", "Varianter Name: Nichtsein")))));
 	}
 
 	private JsonNode suggestApiResponse(String prefix, List<?> results) {
@@ -263,9 +266,9 @@ public class Reconcile extends Controller {
 		switch (Service.valueOf(service.toUpperCase())) {
 		case ENTITY:
 			Logger.debug("Flyout {}:{} -> {}", service, id, Service.ENTITY);
-			return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
+			return HomeController.withCallback(prettyJsonString(Json.toJson(ImmutableMap.of(//
 					"id", id, //
-					"html", previewHtml(id))).toString());
+					"html", previewHtml(id)))));
 		case TYPE:
 			Logger.debug("Flyout {}:{} -> {}", service, id, Service.TYPE);
 			break;
@@ -273,9 +276,9 @@ public class Reconcile extends Controller {
 			Logger.debug("Flyout {}:{} -> {}", service, id, Service.PROPERTY);
 			break;
 		}
-		return HomeController.withCallback(Json.toJson(ImmutableMap.of(//
+		return HomeController.withCallback(prettyJsonString(Json.toJson(ImmutableMap.of(//
 				"id", id, //
-				"html", labelAndIdHtml(id))).toString());
+				"html", labelAndIdHtml(id)))));
 	}
 
 	private String previewHtml(String id) {
