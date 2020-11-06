@@ -31,6 +31,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 
+import models.AuthorityResource;
 import modules.IndexTest;
 import play.Application;
 import play.Logger;
@@ -59,6 +60,7 @@ public class ReconcileTest extends IndexTest {
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			assertNotNull(Json.parse(contentAsString(result)));
 			assertThat(contentAsString(result), containsString("https:"));
+			assertThat(contentAsString(result), containsString(AuthorityResource.GND_PREFIX));
 			assertThat(contentAsString(result), not(containsString("http:")));
 			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
 		});
