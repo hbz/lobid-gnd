@@ -1,0 +1,26 @@
+name: Build
+
+on:
+  push
+env:
+  ES_VERSION: '5.6.3'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Install and start Elasticsearch
+      env:
+        ES_DOWNLOAD_URL: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${{ env.ES_VERSION }}.tar.gz
+      run: |
+        wget ${{ env.ES_DOWNLOAD_URL }}
+        tar -xzf elasticsearch-${{ env.ES_VERSION }}.tar.gz
+        ./elasticsearch-${{ env.ES_VERSION }}/bin/elasticsearch &
+    - name: Run tests
+      run: |
+        sbt "test"
