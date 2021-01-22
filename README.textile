@@ -30,29 +30,23 @@ Set up a location for the EntityFacts input data:
 
 @mkdir entityfacts ; cd entityfacts@
 
-Get the EntityFacts data from the DNB – for the @20200713@ release here, find current at "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/:
+Get the latest EntityFacts data from the DNB (see "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/):
 
-@wget https://data.dnb.de/opendata/authorities_entityfacts_20200713.jsonld.gz@
+@wget https://data.dnb.de/opendata/authorities_entityfacts.jsonld.gz@
 
 Unpack the data:
 
-@gunzip < authorities_entityfacts_20200713.jsonld.gz > authorities_entityfacts_20200713.jsonld@
+@gunzip < authorities_entityfacts.jsonld.gz > authorities_entityfacts.jsonld@
 
 Go back to the root directory:
 
 @cd ..@
 
-Set up the data location in 'conf/application.conf' (data.entityfacts):
+Index the data, passing the index name:
 
-@data { ... entityfacts: "entityfacts/authorities_entityfacts_20200713.jsonld" ...@
+@sbt -Dindex.entityfacts.index=entityfacts_20210120 "runMain apps.Index entityfacts"@
 
-Set up the name for the index to create in 'conf/application.conf' (index.entityfacts.index):
-
-@index { ... entityfacts { index: "entityfacts_20200713" ...@
-
-Index the data:
-
-@sbt "runMain apps.Index entityfacts"@
+For configuration details and defaults, see 'conf/application.conf'.
 
 h3. GND Baseline
 
@@ -88,7 +82,7 @@ Convert the data to JSON-LD lines, the index data format:
 
 @sbt "runMain apps.ConvertBaseline"@
 
-To be able to log out from the server while the conversion is running, we actually use:
+To be able to log out from the server while the conversion is running, we actually use (see full usage details in baseline.sh):
 
 @setsid nohup sbt "runMain apps.ConvertBaseline" &@
 
