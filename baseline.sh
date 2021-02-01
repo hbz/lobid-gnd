@@ -16,7 +16,7 @@ cd ../..
 sbt \
   -Dindex.entityfacts.index=entityfacts_$TODAY \
   "runMain apps.Index entityfacts" \
-  > IndexEntityfacts_$TODAY.log 2>&1 &
+  > IndexEntityfacts_$TODAY.log 2>&1
 
 # clean up entityfacts baseline file
 mv data/entityfacts/authorities_entityfacts.jsonld.gz data/entityfacts/authorities_entityfacts_$TODAY.jsonld.gz
@@ -34,7 +34,7 @@ sbt \
   -Ddata.jsonlines=data/index/gnd_lds_$TODAY \
   -Dindex.delete.baseline=GND-deprecated-baseline_$TODAY.txt \
   "runMain apps.ConvertBaseline" \
-  > ConvertBaseline_$TODAY.log 2>&1 &
+  > ConvertBaseline_$TODAY.log 2>&1
 
 # clean up gnd_lds baseline files
 mkdir data/gnd_lds/gnd_lds_$TODAY
@@ -46,7 +46,7 @@ sbt \
   -Ddata.jsonlines=data/index/gnd_lds_$TODAY \
   -Dindex.delete.baseline=GND-deprecated-baseline_$TODAY.txt \
   "runMain apps.Index baseline" \
-  > IndexBaseline_$TODAY.log 2>&1 &
+  > IndexBaseline_$TODAY.log 2>&1
 
 # index updates since last baseline (currently manual process)
 # export LAST_BASE=20201013 # get date from https://data.dnb.de/opendata/?
