@@ -5,7 +5,6 @@ package apps;
 import static models.AuthorityResource.ELEMENTSET;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -53,7 +52,6 @@ import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
 import com.google.common.collect.ImmutableMap;
 import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 
 import controllers.HomeController;
@@ -64,13 +62,13 @@ import play.libs.Json;
 
 public class Convert {
 
-	static final Config CONFIG = ConfigFactory.parseFile(new File("conf/application.conf"));
+	static final Config CONFIG = HomeController.CONFIG;
 
 	static final TransportClient CLIENT = new PreBuiltTransportClient(
 			Settings.builder().put("cluster.name", HomeController.config("index.boot.cluster")).build());
 
 	static {
-		ConfigFactory.parseFile(new File("conf/application.conf")).getStringList("index.boot.hosts").forEach((host) -> {
+		CONFIG.getStringList("index.boot.hosts").forEach((host) -> {
 			try {
 				CLIENT.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), 9300));
 			} catch (UnknownHostException e) {
