@@ -10,9 +10,9 @@ RECIPIENT=lobid-admin
 sbt -mem 4000 "runMain apps.ConvertUpdates $(tail -n1 GND-lastSuccessfulUpdate.txt)"
 
 # copy and index to stage, and check:
-scp GND-updates.jsonl weywot2:git/lobid-gnd/
-scp GND-deprecated-updates.txt weywot2:git/lobid-gnd/
-ssh sol@weywot2 'cd /home/sol/git/lobid-gnd ; sbt "runMain apps.Index updates" ; bash ./checkCompactedProperties.sh gnd'
+scp GND-updates.jsonl quaoar2:git/lobid-gnd/
+scp GND-deprecated-updates.txt quaoar2:git/lobid-gnd/
+ssh sol@quaoar2 'cd /home/sol/git/lobid-gnd ; sbt "runMain apps.Index updates" ; bash ./checkCompactedProperties.sh gnd'
 
 # if check ok, index to productive instance:
 if [  $? -eq 0 ]; then
