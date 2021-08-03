@@ -1266,6 +1266,11 @@
       "canonicalUri": {
          "@id":"https://d-nb.info/standards/elementset/dnb#canonicalUri",
          "@container":"@set"
+      },
+      "totalItems":"http://www.w3.org/ns/hydra/core#totalItems",
+      "member":{
+         "@type":"@id",
+         "@id":"http://www.w3.org/ns/hydra/core#member"
       }
    }
 }
