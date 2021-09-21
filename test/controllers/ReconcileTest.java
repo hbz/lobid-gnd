@@ -61,6 +61,8 @@ public class ReconcileTest extends IndexTest {
 			assertNotNull(Json.parse(contentAsString(result)));
 			assertThat(contentAsString(result), containsString("https:"));
 			assertThat(contentAsString(result), containsString(AuthorityResource.GND_PREFIX));
+			assertThat(contentAsString(result), containsString(AuthorityResource.ID));
+			assertThat(contentAsString(result), containsString("broader"));
 			assertThat(contentAsString(result), not(containsString("http:")));
 			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
 		});
@@ -74,6 +76,18 @@ public class ReconcileTest extends IndexTest {
 			assertNotNull(result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
+		});
+	}
+
+	@Test
+	public void reconcileSuggestTypeRequest() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			Result result = route(application, fakeRequest(GET, "/gnd/reconcile/suggest/type?prefix=werk"));
+			assertNotNull(result);
+			assertThat(result.contentType().get(), is(equalTo("application/json")));
+			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
+			assertThat(contentAsString(result), containsString("broader"));
 		});
 	}
 

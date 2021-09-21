@@ -60,7 +60,11 @@ public class Reconcile extends Controller {
 	private static final JsonNode TYPES = Json
 			.toJson(HomeController.CONFIG.getStringList("topLevelTypes").stream().map(t -> {
 				String type = t.equals("Person") ? "DifferentiatedPerson" : t;
-				return ImmutableMap.of("id", type, "name", GndOntology.label(type));
+				ImmutableMap.Builder<Object, Object> map = ImmutableMap.builder()//
+						.put("id", type)//
+						.put("name", GndOntology.label(type));
+				return type.equals(AuthorityResource.ID) ? map.build()
+						: map.put("broader", AuthorityResource.ID).build();
 			}));
 
 	/**
@@ -239,9 +243,13 @@ public class Reconcile extends Controller {
 	}
 
 	private Stream<JsonNode> labelledIds(Stream<String> ids) {
-		Stream<JsonNode> labelledIds = ids.map(id -> Json.toJson(ImmutableMap.of(//
-				"id", id, //
-				"name", GndOntology.label(id))));
+		Stream<JsonNode> labelledIds = ids.map(id -> {
+			ImmutableMap.Builder<Object, Object> map = ImmutableMap.builder()//
+					.put("id", id)//
+					.put("name", GndOntology.label(id));
+			String broader = HomeController.configNested("types", id);
+			return Json.toJson(broader == null ? map.build() : map.put("broader", broader).build());
+		});
 		return labelledIds;
 	}
 

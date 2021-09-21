@@ -29,6 +29,7 @@ import play.libs.Json;
 
 public class AuthorityResource {
 
+	public static final String ID = "AuthorityResource";
 	private static final int SHORTEN = 5;
 	public static final String DNB_PREFIX = "https://d-nb.info/";
 	public static final String GND_PREFIX = DNB_PREFIX + "gnd/";
@@ -75,7 +76,7 @@ public class AuthorityResource {
 	}
 
 	public List<String> getType() {
-		return type.stream().filter(t -> !t.equals("AuthorityResource")).collect(Collectors.toList());
+		return type.stream().filter(t -> !t.equals(ID)).collect(Collectors.toList());
 	}
 
 	public void setType(List<String> type) {
