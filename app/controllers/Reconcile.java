@@ -191,6 +191,7 @@ public class Reconcile extends Controller {
 	 */
 	public Result suggest(String callback, String service, String prefix, String type, String typeStrict, int limit,
 			int start) {
+		response().setHeader("Access-Control-Allow-Origin", "*");
 		switch (Service.valueOf(service.toUpperCase())) {
 		case ENTITY:
 			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
