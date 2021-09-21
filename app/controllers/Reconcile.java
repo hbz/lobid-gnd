@@ -97,7 +97,7 @@ public class Reconcile extends Controller {
 	private ObjectNode metadata() {
 		final String host = HomeController.config("host");
 		ObjectNode result = Json.newObject();
-		result.putArray("versions").add("0.2");
+		result.putArray("versions").add("0.1").add("0.2");
 		result.put("name", "GND reconciliation for OpenRefine");
 		result.put("identifierSpace", AuthorityResource.GND_PREFIX);
 		result.put("schemaSpace", "https://d-nb.info/standards/elementset/gnd#AuthorityResource");
