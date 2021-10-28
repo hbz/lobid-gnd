@@ -50,7 +50,7 @@ sbt \
   > IndexBaseline_$TODAY.log 2>&1
 
 # index updates since last baseline (currently manual process)
-# export LAST_BASE=20201013 # automate: get date from https://data.dnb.de/opendata/
+# export LAST_BASE=20201013 # automate: get date from description on https://data.dnb.de/opendata/ (e.g. "Stand: 13.06.2021")
 # mkdir data/index/gnd_since_$LAST_BASE
 # cp data/backup/GND-updates_2021*.jsonl data/index/gnd_since_$LAST_BASE # etc.; alt: OAI-PMH
 # setsid nohup sbt \
@@ -61,7 +61,7 @@ sbt \
 #  > IndexBaseline_since_$LAST_BASE.log 2>&1 &
 
 # a more automatable alternative might be to use OAI-PMH updates
-# export LAST_BASE=2020-10-13 # get date from https://data.dnb.de/opendata/?
+# export LAST_BASE=2020-10-13 # get date from description on https://data.dnb.de/opendata/ (e.g. "Stand: 13.06.2021")
 # sbt "runMain apps.ConvertUpdates $LAST_BASE"
 # sbt "runMain apps.Index updates"
 
