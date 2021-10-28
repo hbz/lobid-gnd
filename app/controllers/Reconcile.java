@@ -305,8 +305,9 @@ public class Reconcile extends Controller {
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		Result result = body.containsKey("extend") ? ok(extend(body.get("extend")[0])) : ok(queries(body.get("queries")[0]));
 		// Apache-compatible POST logging, see https://github.com/hbz/lobid-gnd/issues/207#issuecomment-526571646
-		Logger.info("{} {} - [{}] \"{} {}\" {}", request().remoteAddress(), request().host(),
-				TIME_FORMATTER.format(Instant.now()), request().method(), request().path(), result.status());
+		Logger.info("{} {} - [{}] \"{} {}\" {}", request().header("X-Forwarded-For").orElse(request().remoteAddress()),
+				request().host(), TIME_FORMATTER.format(Instant.now()), request().method(), request().path(),
+				result.status());
 		return result;
 	}
 
