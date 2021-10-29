@@ -6,6 +6,9 @@ import static controllers.HomeController.config;
 import static controllers.HomeController.prettyJsonString;
 import static controllers.HomeController.withCallback;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -54,6 +57,7 @@ import play.mvc.Result;
  */
 public class Reconcile extends Controller {
 
+
 	@Inject
 	IndexComponent index;
 
@@ -62,6 +66,9 @@ public class Reconcile extends Controller {
 				String type = t.equals("Person") ? "DifferentiatedPerson" : t;
 				return ImmutableMap.of("id", type, "name", GndOntology.label(type));
 			}));
+
+	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z")
+			.withZone(ZoneId.systemDefault());
 
 	/**
 	 * @param callback
@@ -296,7 +303,12 @@ public class Reconcile extends Controller {
 	public Result reconcile() {
 		Map<String, String[]> body = request().body().asFormUrlEncoded();
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		return body.containsKey("extend") ? ok(extend(body.get("extend")[0])) : ok(queries(body.get("queries")[0]));
+		Result result = body.containsKey("extend") ? ok(extend(body.get("extend")[0])) : ok(queries(body.get("queries")[0]));
+		// Apache-compatible POST logging, see https://github.com/hbz/lobid-gnd/issues/207#issuecomment-526571646
+		Logger.info("{} {} - [{}] \"{} {}\" {}", request().header("X-Forwarded-For").orElse(request().remoteAddress()),
+				request().host(), TIME_FORMATTER.format(Instant.now()), request().method(), request().path(),
+				result.status());
+		return result;
 	}
 
 	private ObjectNode queries(String src) {
