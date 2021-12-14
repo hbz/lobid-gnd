@@ -64,7 +64,11 @@ public class Reconcile extends Controller {
 						.put("id", type)//
 						.put("name", GndOntology.label(type));
 				return type.equals(AuthorityResource.ID) ? map.build()
-						: map.put("broader", Arrays.asList(AuthorityResource.ID)).build();
+						: map.put("broader",
+								Arrays.asList(ImmutableMap.of(//
+										"id", AuthorityResource.ID, //
+										"name", GndOntology.label(AuthorityResource.ID))))
+								.build();
 			}));
 
 	/**
@@ -247,8 +251,13 @@ public class Reconcile extends Controller {
 			ImmutableMap.Builder<Object, Object> map = ImmutableMap.builder()//
 					.put("id", id)//
 					.put("name", GndOntology.label(id));
-			String broader = HomeController.configNested("types", id);
-			return Json.toJson(broader == null ? map.build() : map.put("broader", Arrays.asList(broader)).build());
+			String broaderId = HomeController.configNested("types", id);
+			return Json.toJson(broaderId == null ? map.build()
+					: map.put("broader",
+							Arrays.asList(ImmutableMap.of(//
+									"id", broaderId, //
+									"name", GndOntology.label(broaderId))))
+							.build());
 		});
 		return labelledIds;
 	}
