@@ -32,11 +32,11 @@ libraryDependencies += "xalan" % "xalan" % "2.7.2"
 
 libraryDependencies += "org.jooq" % "joox-java-6" % "1.6.0"
 
-libraryDependencies += "org.apache.logging.log4j" % "log4j-core" % "2.15.0"
+libraryDependencies += "org.apache.logging.log4j" % "log4j-core" % "2.16.0"
 
-libraryDependencies += "org.apache.logging.log4j" % "log4j-1.2-api" % "2.15.0"
+libraryDependencies += "org.apache.logging.log4j" % "log4j-1.2-api" % "2.16.0"
 
-libraryDependencies += "org.apache.logging.log4j" % "log4j-api" % "2.15.0"
+libraryDependencies += "org.apache.logging.log4j" % "log4j-api" % "2.16.0"
 
 libraryDependencies += "org.hamcrest" % "hamcrest-library" % "1.3" % Test
 
