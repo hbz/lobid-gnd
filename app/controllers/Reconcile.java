@@ -64,7 +64,15 @@ public class Reconcile extends Controller {
 	private static final JsonNode TYPES = Json
 			.toJson(HomeController.CONFIG.getStringList("topLevelTypes").stream().map(t -> {
 				String type = t.equals("Person") ? "DifferentiatedPerson" : t;
-				return ImmutableMap.of("id", type, "name", GndOntology.label(type));
+				ImmutableMap.Builder<Object, Object> map = ImmutableMap.builder()//
+						.put("id", type)//
+						.put("name", GndOntology.label(type));
+				return type.equals(AuthorityResource.ID) ? map.build()
+						: map.put("broader",
+								Arrays.asList(ImmutableMap.of(//
+										"id", AuthorityResource.ID, //
+										"name", GndOntology.label(AuthorityResource.ID))))
+								.build();
 			}));
 
 	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z")
@@ -100,6 +108,7 @@ public class Reconcile extends Controller {
 	private ObjectNode metadata() {
 		final String host = HomeController.config("host");
 		ObjectNode result = Json.newObject();
+		result.putArray("versions").add("0.1").add("0.2");
 		result.put("name", "GND reconciliation for OpenRefine");
 		result.put("identifierSpace", AuthorityResource.GND_PREFIX);
 		result.put("schemaSpace", "https://d-nb.info/standards/elementset/gnd#AuthorityResource");
@@ -198,6 +207,7 @@ public class Reconcile extends Controller {
 	 */
 	public Result suggest(String callback, String service, String prefix, String type, String typeStrict, int limit,
 			int start) {
+		response().setHeader("Access-Control-Allow-Origin", "*");
 		switch (Service.valueOf(service.toUpperCase())) {
 		case ENTITY:
 			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
@@ -244,9 +254,18 @@ public class Reconcile extends Controller {
 	}
 
 	private Stream<JsonNode> labelledIds(Stream<String> ids) {
-		Stream<JsonNode> labelledIds = ids.map(id -> Json.toJson(ImmutableMap.of(//
-				"id", id, //
-				"name", GndOntology.label(id))));
+		Stream<JsonNode> labelledIds = ids.map(id -> {
+			ImmutableMap.Builder<Object, Object> map = ImmutableMap.builder()//
+					.put("id", id)//
+					.put("name", GndOntology.label(id));
+			String broaderId = HomeController.configNested("types", id);
+			return Json.toJson(broaderId == null ? map.build()
+					: map.put("broader",
+							Arrays.asList(ImmutableMap.of(//
+									"id", broaderId, //
+									"name", GndOntology.label(broaderId))))
+							.build());
+		});
 		return labelledIds;
 	}
 
