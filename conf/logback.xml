@@ -10,10 +10,10 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>./logs/application.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- Weekly rollover with compression -->
-			<fileNamePattern>application-log-%d{yyyy-ww}.gz</fileNamePattern>
-			<!-- keep 8 weeks worth of history -->
-			<maxHistory>8</maxHistory>
+			<!-- Monthly rollover with compression -->
+			<fileNamePattern>application-log-%d{yyyy-MM}.gz</fileNamePattern>
+			<!-- keep 48 months worth of history -->
+			<maxHistory>48</maxHistory>
 		</rollingPolicy>
 		<encoder>
 			<pattern>%date{yyyy-MM-dd HH:mm:ss ZZZZ} [%level] from %logger in
