@@ -1,4 +1,4 @@
-/* Copyright 2017-2018 Fabian Steeg, hbz. Licensed under the EPL 2.0 */
+/* Copyright 2017-2022 Fabian Steeg, hbz. Licensed under the EPL 2.0 */
 
 package controllers;
 
@@ -56,7 +56,6 @@ import play.mvc.Result;
  *
  */
 public class Reconcile extends Controller {
-
 
 	@Inject
 	IndexComponent index;
@@ -212,7 +211,7 @@ public class Reconcile extends Controller {
 		case ENTITY:
 			Logger.debug("Suggest {}:{} -> {}", service, prefix, Service.ENTITY);
 			List<?> results = StreamSupport
-					.stream(index.query(clean(prefix), type, "", start, limit).getHits().spliterator(), false)
+					.stream(index.query(preprocess(prefix), type, "", start, limit).getHits().spliterator(), false)
 					.map(hit -> new AuthorityResource(Json.parse(hit.getSourceAsString())))
 					.map(entity -> Json.toJson(ImmutableMap.of(//
 							"id", entity.getId(), //
@@ -337,7 +336,7 @@ public class Reconcile extends Controller {
 		while (inputQueries.hasNext()) {
 			Entry<String, JsonNode> inputQuery = inputQueries.next();
 			Logger.debug("q: " + inputQuery);
-			SearchResponse searchResponse = executeQuery(inputQuery, clean(mainQuery(inputQuery)),
+			SearchResponse searchResponse = executeQuery(inputQuery, preprocess(mainQuery(inputQuery)),
 					propQuery(inputQuery));
 			List<ObjectNode> results = mapToResults(mainQuery(inputQuery), searchResponse.getHits());
 			ObjectNode resultsForInputQuery = Json.newObject();
@@ -504,7 +503,8 @@ public class Reconcile extends Controller {
 			Logger.debug("Properties: {}", props);
 			for (JsonNode p : props) {
 				String field = p.get("pid").asText();
-				String value = p.get("v").asText().trim().replace(" ", " OR ");
+				String value = p.get("v").asText().trim();
+				value = containsRangeOrGroup(value) ? value : value.replace(" ", " OR ");
 				if (!value.isEmpty()) {
 					// if pid is a valid field, add field search, else just value:
 					String segment = value;
@@ -512,11 +512,11 @@ public class Reconcile extends Controller {
 						if (field.endsWith("AsLiteral") || Arrays.asList("type", "dateOfBirth", "dateOfDeath",
 								"oldAuthorityNumber", "biographicalOrHistoricalInformation", "gndIdentifier",
 								"preferredName", "variantName").contains(field)) {
-							segment = String.format("%s:%s", field, clean(value));
+							segment = String.format("%s:%s", field, preprocess(value));
 						} else if (value.startsWith("http")) {
 							segment = String.format("%s.\\*:\"%s\"", field, value);
 						} else {
-							segment = String.format("%s.\\*:%s", field, clean(value));
+							segment = String.format("%s.\\*:%s", field, preprocess(value));
 						}
 					}
 					segments.add("(" + segment + ")");
@@ -528,16 +528,25 @@ public class Reconcile extends Controller {
 		return queryString;
 	}
 
-	private String clean(String queryString) {
-		return queryString.startsWith("http") || queryString.matches(
+	static String preprocess(String s) {
+		return s.startsWith("http") || isGndId(s) ? "\"" + s + "\"" : containsRangeOrGroup(s) ? s : clean(s);
+	}
+
+	private static boolean isGndId(String string) {
+		return string.matches(
 				// https://www.wikidata.org/wiki/Property:P227#P1793
-				"1[012]?\\d{7}[0-9X]|[47]\\d{6}-\\d|[1-9]\\d{0,7}-[0-9X]|3\\d{7}[0-9X]") //
-						? "\"" + queryString + "\""
-						: queryString.replaceAll("[:+\\-=<>(){}\\[\\]^]", " ");
+				"1[012]?\\d{7}[0-9X]|[47]\\d{6}-\\d|[1-9]\\d{0,7}-[0-9X]|3\\d{7}[0-9X]");
+	}
+
+	private static boolean containsRangeOrGroup(String string) {
+		return string.matches(".*?[({\\[].+? (AND|OR|TO) .+?[)}\\]].*?");
+	}
+
+	private static String clean(String string) {
+		return string.replaceAll("[:+\\-=<>(){}\\[\\]^]", " ");
 	}
 
 	private String mainQuery(Entry<String, JsonNode> entry) {
 		return entry.getValue().get("query").asText();
 	}
-
 }

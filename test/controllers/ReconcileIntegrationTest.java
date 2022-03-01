@@ -1,4 +1,4 @@
-/* Copyright 2014-2018, hbz. Licensed under the Eclipse Public License 1.0 */
+/* Copyright 2014-2022 Fabian Steeg, hbz. Licensed under the Eclipse Public License 1.0 */
 
 package controllers;
 
@@ -40,7 +40,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 
 @SuppressWarnings("javadoc")
-public class ReconcileTest extends IndexTest {
+public class ReconcileIntegrationTest extends IndexTest {
 
 	@Test
 	public void reconcileMetadataRequestNoCallback() {
@@ -200,6 +200,22 @@ public class ReconcileTest extends IndexTest {
 			String content = contentAsString(result);
 			Logger.debug(Json.prettyPrint(Json.parse(content)));
 			assertThat(content, containsString("16269284-5"));
+		});
+	}
+
+	@Test
+	// curl --data 'queries={"q99":{"query":"*","properties":[{"pid":"dateOfBirth","v":"1889-04-26"}]}}' localhost:9000/gnd/reconcile 
+	public void reconcileRequestWithProperties() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			Result result = route(application,
+					fakeRequest(POST, "/gnd/reconcile")//
+							.bodyForm(ImmutableMap.of("queries",
+									"{\"q99\":{\"query\":\"*\",\"properties\":[{\"pid\":\"dateOfBirth\",\"v\":\"[1885* TO 1890*]\"}]}}")));
+			assertThat(result.status(), is(equalTo(Http.Status.OK)));
+			JsonNode firstHit = Json.parse(contentAsString(result)).iterator().next().get("result").iterator().next();
+			Logger.debug(Json.prettyPrint(firstHit));
+			assertThat(firstHit.toString(), containsString("118634313"));
 		});
 	}
 
