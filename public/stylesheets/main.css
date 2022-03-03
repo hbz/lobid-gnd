@@ -243,3 +243,13 @@ figcaption {
 	float:right;
 	height: 1.4em
 }
+
+.tooltip.right .tooltip-arrow {
+  border-right-color: #fff;
+}
+
+.tooltip-inner {
+  color: #000;
+  background: #fff;
+  border: solid 1px #cccccc;
+}
