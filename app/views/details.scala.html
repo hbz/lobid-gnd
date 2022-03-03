@@ -160,7 +160,51 @@
 }}
 
 @fields() = {
+<script type="text/javascript">
+    function result(string, link, res) {
+        if(res) {
+            link.trigger('copied', ['Kopiert: ' + string]);
+        }
+        return res;
+    }
+    function copyToClipboard(string, link) {
+        link.bind('copied', function(event, message) {
+            $(this)
+                .attr('title', message).tooltip('fixTitle').tooltip('show')
+                .attr('title', 'URI in die Zwischenablage kopieren').tooltip('fixTitle');
+        });
+        if (window.clipboardData && window.clipboardData.setData) {
+            return result(string, link, clipboardData.setData("Text", string));
+        } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+            var temp = document.createElement("textarea");
+            temp.textContent = string;
+            temp.style.position = "fixed";
+            document.body.appendChild(temp);
+            temp.select();
+            try {
+                return result(string, link, document.execCommand("copy"));
+            } catch (ex) {
+                console.warn("Copy to clipboard failed.", ex);
+                window.prompt("Kopieren: Strg+C, Enter", string);
+            } finally {
+                document.body.removeChild(temp);
+            }
+        }
+    }
+    $(function() { $('[data-toggle="tooltip"]').tooltip(); });
+</script>
 <table class='table table-striped table-condensed'>
+  <tr>
+    <td>URI</td> @defining(AuthorityResource.GND_PREFIX + resource.getId()) { uri =>
+    <td class='field-value'>@uri
+        <span class='copy-link'>
+            <a data-toggle="tooltip" data-placement="right" title="URI in die Zwischenablage kopieren" href="#" onclick="copyToClipboard('@(uri)', $(this)); return false;">
+                <span class="octicon octicon-clippy"></span>
+            </a>
+        </span>
+    }
+    </td>
+  </tr>
   @for(f <- resource.generalFields) {
     <tr><td>@models.GndOntology.label(f.getLeft).replace(" (Literal)", "")</td><td class='field-value'>@Html(f.getRight) @moreToggle(f.getLeft, f.getRight)</td></tr>
   }
