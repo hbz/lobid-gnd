@@ -90,7 +90,8 @@ class ElasticsearchServer implements IndexComponent {
 
 	private QueryBuilder mainQuery(String q) {
 		return queryStringQuery(q).field("_all").field("preferredName.ngrams").field("variantName.ngrams")
-				.field("preferredName", 2f).field("variantName", 1f).field("gndIdentifier", 2f);
+				.field("preferredName", 2f).field("preferredName.ascii", 2f).field("variantName", 1f)
+				.field("variantName.ascii", 1f).field("gndIdentifier", 2f);
 	}
 
 	private SearchResponse runQuery(String filter, QueryBuilder optional, String sort, int from, int size,
