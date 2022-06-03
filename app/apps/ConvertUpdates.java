@@ -55,8 +55,10 @@ public class ConvertUpdates {
 				System.err.println("Tried " + tried
 						+ " times to get the data, but it remains empty. This may or may not be a problem on the side of the data provider. Going to send a mail...");
 				Email.sendEmail(config("mail.sender"), config("mail.recipient"), "GND updates fails :(", FAIL_MESSAGE);
-			} else
+			} else {
 				System.err.println("Success getting the update, tried " + tried + " times");
+				writeLastSuccessfulUpdate(startAndEnd.getRight());
+			}
 			backup(dataUpdate, startAndEnd.getLeft(), startAndEnd.getRight());
 		} else {
 			System.err.println("Argument missing to get updates since a given date in ISO format, e.g. 2019-06-13");
@@ -99,7 +101,6 @@ public class ConvertUpdates {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		writeLastSuccessfulUpdate(end);
 		return Pair.of(startOfUpdates, end);
 	}
 
