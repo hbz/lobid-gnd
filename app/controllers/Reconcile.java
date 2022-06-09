@@ -504,7 +504,6 @@ public class Reconcile extends Controller {
 			for (JsonNode p : props) {
 				String field = p.get("pid").asText();
 				String value = p.get("v").asText().trim();
-				value = containsRangeOrGroup(value) ? value : value.replace(" ", " OR ");
 				if (!value.isEmpty()) {
 					// if pid is a valid field, add field search, else just value:
 					String segment = value;
@@ -528,18 +527,14 @@ public class Reconcile extends Controller {
 		return queryString;
 	}
 
-	static String preprocess(String s) {
-		return s.startsWith("http") || isGndId(s) ? "\"" + s + "\"" : containsRangeOrGroup(s) ? s : clean(s);
+	String preprocess(String s) {
+		return s.startsWith("http") || isGndId(s) ? "\"" + s + "\"" : index.validate(s) ? s : clean(s);
 	}
 
 	private static boolean isGndId(String string) {
 		return string.matches(
 				// https://www.wikidata.org/wiki/Property:P227#P1793
 				"1[012]?\\d{7}[0-9X]|[47]\\d{6}-\\d|[1-9]\\d{0,7}-[0-9X]|3\\d{7}[0-9X]");
-	}
-
-	private static boolean containsRangeOrGroup(String string) {
-		return string.matches(".*?[({\\[].+? (AND|OR|TO) .+?[)}\\]].*?");
 	}
 
 	private static String clean(String string) {

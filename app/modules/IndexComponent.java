@@ -11,6 +11,9 @@ import java.net.UnknownHostException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryAction;
+import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequestBuilder;
+import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
@@ -42,6 +45,8 @@ public interface IndexComponent {
 	SearchResponse query(QueryBuilder q, String filter, QueryBuilder optional, String sort, int from, int size);
 
 	QueryStringQueryBuilder queryStringQuery(String q);
+
+	boolean validate(String s);
 
 	public default SearchResponse query(String q) {
 		return query(q, "", "", 0, 10);
@@ -126,5 +131,12 @@ class ElasticsearchServer implements IndexComponent {
 		// Clean up single forward slash, but keep regular /expressions/
 		q = q.indexOf('/') == q.lastIndexOf('/') ? q.replace("/", " ") : q;
 		return QueryBuilders.queryStringQuery(q).defaultOperator(Operator.AND);
+	}
+
+	@Override
+	public boolean validate(String q) {
+		final ValidateQueryResponse validationResponse = new ValidateQueryRequestBuilder(client,
+				ValidateQueryAction.INSTANCE).setQuery(queryStringQuery(q)).setExplain(true).get();
+		return validationResponse.isValid();
 	}
 }
