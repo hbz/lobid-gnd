@@ -537,8 +537,10 @@ public class Reconcile extends Controller {
 				"1[012]?\\d{7}[0-9X]|[47]\\d{6}-\\d|[1-9]\\d{0,7}-[0-9X]|3\\d{7}[0-9X]");
 	}
 
-	private static String clean(String string) {
-		return string.replaceAll("[:+\\-=<>(){}\\[\\]^]", " ");
+	private static String clean(String in) {
+		String out = in.replaceAll("[:+\\-=<>(){}\\[\\]^]", " ");
+		Logger.info("Cleaned invalid query string '{}' to: '{}'", in, out);
+		return out;
 	}
 
 	private String mainQuery(Entry<String, JsonNode> entry) {
