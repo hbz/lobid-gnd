@@ -211,7 +211,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 			Result result = route(application,
 					fakeRequest(POST, "/gnd/reconcile")//
 							.bodyForm(ImmutableMap.of("queries",
-									"{\"q99\":{\"query\":\"*\",\"properties\":[{\"pid\":\"dateOfBirth\",\"v\":\"[1885* TO 1890*]\"}]}}")));
+									"{\"q99\":{\"query\":\"*\",\"properties\":[{\"pid\":\"dateOfBirth\",\"v\":\"[1889* TO 1890*]\"}]}}")));
 			assertThat(result.status(), is(equalTo(Http.Status.OK)));
 			JsonNode firstHit = Json.parse(contentAsString(result)).iterator().next().get("result").iterator().next();
 			Logger.debug(Json.prettyPrint(firstHit));
