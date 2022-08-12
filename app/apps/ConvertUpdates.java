@@ -17,13 +17,23 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Iterator;
 
+import javax.xml.namespace.QName;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 import javax.xml.transform.TransformerException;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.joox.JOOX;
-import org.joox.Match;
 import org.xml.sax.SAXException;
 
 import ORG.oclc.oai.harvester2.app.RawWrite;
@@ -110,12 +120,51 @@ public class ConvertUpdates {
 	}
 
 	public static void process(final String baseUrl, String from, String until, File result)
-			throws NoSuchFieldException, IOException, ParserConfigurationException, SAXException, TransformerException {
+			throws NoSuchFieldException, IOException, ParserConfigurationException, SAXException, TransformerException,
+			XMLStreamException {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		System.out.printf("Calling OAI-PMH at %s from %s until %s\n", baseUrl, from, until);
 		RawWrite.run(baseUrl, from, until, "RDFxml", "authorities", stream);
-		Match m = JOOX.$(new InputStreamReader(new ByteArrayInputStream(stream.toByteArray()), StandardCharsets.UTF_8));
-		m.find("Description").write(new FileWriter(result, true));
+		writeRdfDescriptions(result, stream);
+	}
+
+	static void writeRdfDescriptions(File result, ByteArrayOutputStream stream)
+			throws FactoryConfigurationError, XMLStreamException, IOException {
+		try (FileWriter fileWriter = new FileWriter(result, true)) {
+			String rdfTag = "RDF";
+			String entityTag = "Description";
+			XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+			XMLEventFactory eventFactory = XMLEventFactory.newInstance();
+			XMLEventWriter eventWriter = null;
+			InputStreamReader inputStreamReader = new InputStreamReader(new ByteArrayInputStream(stream.toByteArray()),
+					StandardCharsets.UTF_8);
+			XMLEventReader eventReader = XMLInputFactory.newInstance().createXMLEventReader(inputStreamReader);
+			Iterator<?> namespaces = null;
+			while (eventReader.hasNext()) {
+				XMLEvent nextEvent = eventReader.nextEvent();
+				if (nextEvent.isStartElement()) {
+					StartElement startElement = nextEvent.asStartElement();
+					if (startElement.getName().getLocalPart().equals(rdfTag)) {
+						namespaces = startElement.getNamespaces();
+						eventWriter = outputFactory.createXMLEventWriter(fileWriter);
+						continue;
+					} else if (startElement.getName().getLocalPart().equals(entityTag)) {
+						QName descriptionName = new QName(startElement.getName().getNamespaceURI(),
+								startElement.getName().getLocalPart(), startElement.getName().getPrefix());
+						StartElement descriptionWithNamespaces = eventFactory.createStartElement(descriptionName,
+								startElement.getAttributes(), namespaces);
+						nextEvent = descriptionWithNamespaces;
+					}
+				} else if (nextEvent.isEndElement()
+						&& ((EndElement) nextEvent).getName().getLocalPart().equals(rdfTag)) {
+					eventWriter.close();
+					eventWriter = null;
+				}
+				if (eventWriter != null) {
+					eventWriter.add(nextEvent);
+				}
+			}
+		}
 	}
 
 	private static void writeLastSuccessfulUpdate(String until) {

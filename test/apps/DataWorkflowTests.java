@@ -7,7 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import modules.IndexQueryTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ ConvertTest.class, IndexAppTest.class, IndexQueryTest.class })
+@SuiteClasses({ ConvertTest.class, ConvertUpdatesTest.class, IndexAppTest.class, IndexQueryTest.class })
 public class DataWorkflowTests {
 
 }
