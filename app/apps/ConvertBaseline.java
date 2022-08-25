@@ -8,11 +8,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.culturegraph.mf.elasticsearch.JsonToElasticsearchBulk;
+import org.culturegraph.mf.flowcontrol.ObjectExceptionCatcher;
 import org.culturegraph.mf.io.FileOpener;
 import org.culturegraph.mf.io.ObjectWriter;
 import org.culturegraph.mf.xml.XmlDecoder;
@@ -42,6 +44,7 @@ public class ConvertBaseline {
 				File out = outFile.isDirectory() ? new File(outFile, new File(file).getName() + ".jsonl") : outFile;
 				final ObjectWriter<String> writer = new ObjectWriter<>(out.getAbsolutePath());
 				opener//
+						.setReceiver(new ObjectExceptionCatcher<Reader>())//
 						.setReceiver(new XmlDecoder())//
 						.setReceiver(splitter)//
 						.setReceiver(encodeJson)//
