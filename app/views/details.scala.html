@@ -220,22 +220,21 @@
 
 @main("", resource.preferredName) {
     <div class="page-header">
-        <h1>@resource.title
-            <small>
-                @for(t <- resource.getType){
-                    <sup>
-                      <small>
-                        <span class='label label-primary'><a href='@routes.HomeController.search(q="type:"+t)'>@models.GndOntology.label(t)</a></span>
-                      </small>
-                    </sup> 
-                }
-                <div class='pull-right'>
-                    <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
-                    <img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")' alt='JSON'/></a>
-                </div>
-                <br/>@Html(resource.subTitle)
-            </small>
-        </h1>
+        <small>
+            @for(t <- resource.getType){
+                <sup>
+                  <small>
+                    <span class='label label-primary'><a href='@routes.HomeController.search(q="type:"+t)'>@models.GndOntology.label(t)</a></span>
+                  </small>
+                </sup> 
+            }
+            <div class='pull-right'>
+                <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
+                <img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")' alt='JSON'/></a>
+            </div>
+            <br/>@Html(resource.subTitle)
+         </small>
+        <h1>@resource.title</h1>
     </div>
     @if(resource.gndRelationEdges != "[]"){
     <ul class="nav nav-tabs" role="tablist">
