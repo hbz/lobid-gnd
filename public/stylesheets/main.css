@@ -253,3 +253,11 @@ figcaption {
   background: #fff;
   border: solid 1px #cccccc;
 }
+
+.invisible-link {
+  color: #333333;
+}
+
+.invisible-link:hover {
+  text-decoration: none;
+}
