@@ -167,11 +167,11 @@
         }
         return res;
     }
-    function copyToClipboard(string, link) {
+    function copyToClipboard(string, link, msg) {
         link.bind('copied', function(event, message) {
             $(this)
                 .attr('title', message).tooltip('fixTitle').tooltip('show')
-                .attr('title', 'URI in die Zwischenablage kopieren').tooltip('fixTitle');
+                .attr('title', msg).tooltip('fixTitle');
         });
         if (window.clipboardData && window.clipboardData.setData) {
             return result(string, link, clipboardData.setData("Text", string));
@@ -195,13 +195,11 @@
 </script>
 <table class='table table-striped table-condensed'>
   <tr>
-    <td>URI</td> @defining(AuthorityResource.GND_PREFIX + resource.getId()) { uri =>
+    <td>URI</td> @defining((AuthorityResource.GND_PREFIX + resource.getId(), "URI in die Zwischenablage kopieren")) { case (uri, title) =>
     <td class='field-value'>@uri
-        <span class='copy-link'>
-            <a data-toggle="tooltip" data-placement="right" title="URI in die Zwischenablage kopieren" href="#" onclick="copyToClipboard('@(uri)', $(this)); return false;">
+            <a data-toggle="tooltip" data-placement="right" title="@title" href="#" onclick="copyToClipboard('@(uri)', $(this), '@title'); return false;">
                 <span class="octicon octicon-clippy"></span>
             </a>
-        </span>
     }
     </td>
   </tr>
@@ -220,20 +218,25 @@
 
 @main("", resource.preferredName) {
     <div class="page-header">
-        <h1>@resource.title
+        <h1>
+            @defining("Namen in die Zwischenablage kopieren") { title =>
+            <a class="invisible-link" data-toggle="tooltip" data-placement="right" title="@title" href="#" onclick="copyToClipboard('@(resource.title)', $(this), '@title'); return false;">
+                @resource.title
+            </a>
+            }
             <small>
-                @for(t <- resource.getType){
-                    <sup>
-                      <small>
-                        <span class='label label-primary'><a href='@routes.HomeController.search(q="type:"+t)'>@models.GndOntology.label(t)</a></span>
-                      </small>
-                    </sup> 
-                }
-                <div class='pull-right'>
-                    <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
-                    <img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")' alt='JSON'/></a>
-                </div>
-                <br/>@Html(resource.subTitle)
+            @for(t <- resource.getType){
+                <sup>
+                  <small>
+                    <span class='label label-primary'><a href='@routes.HomeController.search(q="type:"+t)'>@models.GndOntology.label(t)</a></span>
+                  </small>
+                </sup> 
+            }
+            <div class='pull-right'>
+                <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
+                <img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")' alt='JSON'/></a>
+            </div>
+            <br/>@Html(resource.subTitle)
             </small>
         </h1>
     </div>
