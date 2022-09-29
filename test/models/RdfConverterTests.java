@@ -2,7 +2,9 @@
 
 package models;
 
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
 
 import java.io.FileNotFoundException;
@@ -47,6 +49,12 @@ public class RdfConverterTests {
 		assertThat(jsonLd, notNullValue());
 		String rdf = RdfConverter.toRdf(jsonLd, format);
 		assertThat(rdf, notNullValue());
+	}
+
+	@Test
+	public void testCompactedProperties() throws FileNotFoundException {
+		String jsonLd = jsonLdFor("300126603");
+		assertThat(jsonLd, not(containsString("https://d-nb.info/standards/elementset/gnd#")));
 	}
 
 	private String jsonLdFor(String id) throws FileNotFoundException {
