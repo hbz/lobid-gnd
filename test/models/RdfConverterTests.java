@@ -53,8 +53,9 @@ public class RdfConverterTests {
 
 	@Test
 	public void testCompactedProperties() throws FileNotFoundException {
-		String jsonLd = jsonLdFor("300126603");
+		String jsonLd = jsonLdFor("300941315");
 		assertThat(jsonLd, not(containsString("https://d-nb.info/standards/elementset/gnd#")));
+		assertThat(jsonLd, not(containsString("http://www.w3.org/1999/02/22-rdf-syntax-ns#")));
 	}
 
 	private String jsonLdFor(String id) throws FileNotFoundException {

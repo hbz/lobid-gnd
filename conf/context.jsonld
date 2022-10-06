@@ -1277,6 +1277,7 @@
       "titleWithOtherTitleInformation":"https://d-nb.info/standards/elementset/gnd#titleWithOtherTitleInformation",
       "totalNumberOfEnsembles":"https://d-nb.info/standards/elementset/gnd#totalNumberOfEnsembles",
       "totalNumberOfPerformers":"https://d-nb.info/standards/elementset/gnd#totalNumberOfPerformers",
+      "numberOfEnsemblesOfTheSameType":"https://d-nb.info/standards/elementset/gnd#numberOfEnsemblesOfTheSameType",
       "numberOfPerformersOfTheSameMedium":"https://d-nb.info/standards/elementset/gnd#numberOfPerformersOfTheSameMedium",
       "value":"http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
       "equivalence":"https://d-nb.info/standards/elementset/gnd#equivalence",
@@ -1287,6 +1288,6 @@
       "broaderMapping":"https://d-nb.info/standards/elementset/gnd#broaderMapping",
       "narrowerMapping":"https://d-nb.info/standards/elementset/gnd#narrowerMapping",
       "relatedMapping":"https://d-nb.info/standards/elementset/gnd#relatedMapping",
-      "mediumOfPerformanceAsLiteral":"https://d-nb.info/standards/elementset/gnd#mediumOfPerformanceAsLiterail"
+      "mediumOfPerformanceAsLiteral":"https://d-nb.info/standards/elementset/gnd#mediumOfPerformanceAsLiteral"
    }
 }

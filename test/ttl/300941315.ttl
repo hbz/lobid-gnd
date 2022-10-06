@@ -32,26 +32,30 @@
 @prefix gbv: <http://purl.org/ontology/gbv/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-<https://d-nb.info/gnd/300126603> a gndo:MusicalWork;
-  wdrs:describedby <https://d-nb.info/gnd/300126603/about> .
+<https://d-nb.info/gnd/300941315> a gndo:MusicalWork;
+  wdrs:describedby <https://d-nb.info/gnd/300941315/about> .
 
-<https://d-nb.info/gnd/300126603/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/>;
-  dcterms:modified "2021-09-08T17:34:10.000"^^xsd:dateTime;
-  gndo:descriptionLevel <https://d-nb.info/standards/vocab/gnd/description-level#3> .
+<https://d-nb.info/gnd/300941315/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/>;
+  dcterms:modified "2022-09-29T11:19:59.000"^^xsd:dateTime;
+  gndo:descriptionLevel <https://d-nb.info/standards/vocab/gnd/description-level#1> .
 
-<https://d-nb.info/gnd/300126603> gndo:gndIdentifier "300126603";
-  owl:sameAs <http://viaf.org/viaf/177812097>, <http://id.loc.gov/rwo/agents/n82058782>;
-  gndo:oldAuthorityNumber "(DE-101c)300126603";
-  gndo:variantNameForTheWork "Fantasie über den Choral »Ein’ feste Burg«", "Ein feste Burg ist unser Gott",
-    "Choralphantasie \"Ein' feste Burg ist unser Gott\"", "Phantasie über den Choral: \"Ein' feste Burg ist unser Gott\"",
-    "Fantasie über den Choral \"Ein feste Burg ist unser Gott\"", "Chorale fantasia on \"Ein feste Burg ist unser Gott\"",
-    "Ein' feste Burg ist unser Gott", "Fantasien, Org, op. 27", "Fantasien, Org op. 27";
-  gndo:preferredNameForTheWork "Phantasie über den Choral \"Ein’ feste Burg\"";
-  gndo:firstComposer <https://d-nb.info/gnd/118598988>;
-  gndo:formOfWorkAndExpression <https://d-nb.info/gnd/4391285-0>;
-  gndo:mediumOfPerformance <https://d-nb.info/gnd/4043844-2>;
-  gndo:mediumOfPerformanceAsLiteral "Orgel";
-  gndo:totalNumberOfPerformers "1";
-  gndo:opusNumericDesignationOfMusicalWork "op. 27";
-  gndo:dateOfProduction "1898" .
+<https://d-nb.info/gnd/300941315> gndo:gndIdentifier "300941315";
+  owl:sameAs <http://viaf.org/viaf/218105127>;
+  gndo:oldAuthorityNumber "(DE-101c)300941315";
+  gndo:variantNameForTheWork "Duos, Fl 1 2, op. 102";
+  gndo:preferredNameForTheWork "Duos, Querflöte (2), op. 102";
+  gndo:firstComposer <https://d-nb.info/gnd/118567837>;
+  gndo:formOfWorkAndExpression <https://d-nb.info/gnd/4138632-2>;
+  gndo:mediumOfPerformance <https://d-nb.info/gnd/4176713-5>;
+  gndo:mediumOfPerformanceAsLiteral "Querflöte";
+  gndo:mediumOfPerformance _:node1gdv4njjax10827772 .
+
+_:node1gdv4njjax10827772 rdf:value <https://d-nb.info/gnd/4176713-5>;
+  gndo:numberOfPerformersOfTheSameMedium "2" .
+
+<https://d-nb.info/gnd/300941315> gndo:totalNumberOfPerformers "2";
+  gndo:opusNumericDesignationOfMusicalWork "op. 102";
+  gndo:gndSubjectCategory <https://d-nb.info/standards/vocab/gnd/gnd-sc#14.4p>;
+  gndo:biographicalOrHistoricalInformation "Umfasst 3 Duos in D-, E- und A-Dur"@de;
+  gndo:dateOfProduction "ca. 1829" .
 
