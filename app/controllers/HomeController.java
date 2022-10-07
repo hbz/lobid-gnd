@@ -208,8 +208,9 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				return ok(views.html.details.render(entity));
 			}
 			default: {
-				return rdfResultFor(Json.parse(jsonLd), responseFormat.queryParamString).orElseGet(() -> {
-					return result(jsonLd, Accept.Format.JSON_LD.types[0]);
+				JsonNode jsonLdObject = Json.parse(jsonLd);
+				return rdfResultFor(jsonLdObject, responseFormat.queryParamString).orElseGet(() -> {
+					return result(prettyJsonString(jsonLdObject), Accept.Format.JSON_LD.types[0]);
 				});
 			}
 			}
