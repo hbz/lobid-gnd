@@ -996,6 +996,10 @@
          "@type":"@id",
          "@container":"@set"
       },
+      "abbreviatedName": {
+         "@id":"https://d-nb.info/standards/elementset/gnd#abbreviatedName",
+         "@container":"@set"
+      },
       "abbreviatedNameForTheConferenceOrEvent": {
          "@id":"https://d-nb.info/standards/elementset/gnd#abbreviatedNameForTheConferenceOrEvent",
          "@container":"@set"
