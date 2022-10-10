@@ -365,7 +365,11 @@ public class AuthorityResource {
 		String dnbIcon = "https://portal.dnb.de/favicon.ico";
 		String dnbLabel = "Deutsche Nationalbibliothek (DNB)";
 		String dnbSubstring = "d-nb.info/gnd";
-		List<LinkWithImage> result = sameAs == null ? Collections.emptyList() : sameAs.stream().map(map -> {
+		JsonNode deprecatedUriNode = json.get("deprecatedUri");
+		List<LinkWithImage> result = sameAs == null ? Collections.emptyList()
+				: (deprecatedUriNode == null || deprecatedUriNode.size() == 0 ? sameAs.stream()
+						: nonDeprecated(deprecatedUriNode))
+						.map(map -> {
 			String url = map.get("id").toString();
 			Object icon = null;
 			Object label = null;
@@ -382,6 +386,11 @@ public class AuthorityResource {
 			result.add(new LinkWithImage(id, dnbIcon, dnbLabel));
 		}
 		return result;
+	}
+
+	private Stream<Map<String, Object>> nonDeprecated(JsonNode deprecatedUriNode) {
+		return sameAs.stream()
+				.filter(sameAsObject -> !sameAsObject.get("id").equals(deprecatedUriNode.get(0).textValue()));
 	}
 
 	private String html(String field, ArrayList<LinkWithImage> links, int i) {
