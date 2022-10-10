@@ -121,7 +121,11 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result index() {
-		QueryStringQueryBuilder query = index.queryStringQuery("depiction:*");
+		String queryString = "depiction:*";
+		for (String dont : CONFIG.getStringList("dontShowOnMainPage")) {
+			queryString += " AND NOT gndIdentifier:" + dont;
+		}
+		QueryStringQueryBuilder query = index.queryStringQuery(queryString);
 		FunctionScoreQueryBuilder functionScoreQuery = QueryBuilders.functionScoreQuery(query,
 				ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()));
 		SearchRequestBuilder requestBuilder = index.client().prepareSearch(config("index.prod.name"))
