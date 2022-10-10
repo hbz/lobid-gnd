@@ -468,4 +468,8 @@ public class AuthorityResource {
 		String text = node.elements().next().asText();
 		return text.matches("\\d{4}-\\d{2}-\\d{2}") ? text.split("-")[0] : text;
 	}
+
+	public String dateModified() {
+		return json.findValue("dateModified").asText().split("T")[0];
+	}
 }
