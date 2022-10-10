@@ -485,6 +485,9 @@ public class Reconcile extends Controller {
 				.field("preferredName", 4f)//
 				.field("variantName", 2f)//
 				.field("temporaryName")//
+				.field("temporaryNameOfTheConferenceOrEvent")//
+				.field("temporaryNameOfTheCorporateBody")//
+				.field("temporaryNameOfThePlaceOrGeographicName")//
 				.field("abbreviatedName")//
 				.field("abbreviatedNameForTheConferenceOrEvent")//
 				.field("abbreviatedNameForThePlaceOrGeographicName")//
