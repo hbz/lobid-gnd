@@ -36,7 +36,8 @@ public class GndOntologyLabelTests {
 				{ "professionalRelationship", "Berufliche Beziehung" }, //
 				{ "broadMatch", "Oberbegriff" }, //
 				{ "exactMatch", "Entspricht" }, //
-				{ "relatedMatch", "Verwandter Begriff" } });
+				{ "relatedMatch", "Verwandter Begriff" }, //
+				{ "SubjectHeadingSensoStricto", "Schlagwort sensu stricto" } });
 	}
 
 	private String id;

@@ -121,7 +121,11 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result index() {
-		QueryStringQueryBuilder query = index.queryStringQuery("depiction:*");
+		String queryString = "depiction:*";
+		for (String dont : CONFIG.getStringList("dontShowOnMainPage")) {
+			queryString += " AND NOT gndIdentifier:" + dont;
+		}
+		QueryStringQueryBuilder query = index.queryStringQuery(queryString);
 		FunctionScoreQueryBuilder functionScoreQuery = QueryBuilders.functionScoreQuery(query,
 				ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()));
 		SearchRequestBuilder requestBuilder = index.client().prepareSearch(config("index.prod.name"))
@@ -208,8 +212,9 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				return ok(views.html.details.render(entity));
 			}
 			default: {
-				return rdfResultFor(Json.parse(jsonLd), responseFormat.queryParamString).orElseGet(() -> {
-					return result(jsonLd, Accept.Format.JSON_LD.types[0]);
+				JsonNode jsonLdObject = Json.parse(jsonLd);
+				return rdfResultFor(jsonLdObject, responseFormat.queryParamString).orElseGet(() -> {
+					return result(prettyJsonString(jsonLdObject), Accept.Format.JSON_LD.types[0]);
 				});
 			}
 			}
