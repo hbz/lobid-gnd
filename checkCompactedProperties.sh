@@ -2,6 +2,7 @@
 # See #171.
 # Shall be started after indexing of an update or a fulldump.
 # Checks if there are uncompacted field. If so, mail an alert.
+# After uncompacted fields are fixed, build new index to update data and mapping.
 # First parameter is the name of the index that will be checked. Without
 # parameter, the _newest_ gnd-prefixed index is determined and checked - this
 # can be used after indexing a fulldump.

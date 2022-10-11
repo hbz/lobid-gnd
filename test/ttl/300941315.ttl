@@ -1,0 +1,61 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix editeur: <https://ns.editeur.org/thema/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix mesh: <http://id.nlm.nih.gov/mesh/vocab#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix agrelon: <https://d-nb.info/standards/elementset/agrelon#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
+@prefix madsrdf: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix cidoc: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix wdrs: <http://www.w3.org/2007/05/powder-s#> .
+@prefix ebu: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<https://d-nb.info/gnd/300941315> a gndo:MusicalWork;
+  wdrs:describedby <https://d-nb.info/gnd/300941315/about> .
+
+<https://d-nb.info/gnd/300941315/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/>;
+  dcterms:modified "2022-09-29T11:19:59.000"^^xsd:dateTime;
+  gndo:descriptionLevel <https://d-nb.info/standards/vocab/gnd/description-level#1> .
+
+<https://d-nb.info/gnd/300941315> gndo:gndIdentifier "300941315";
+  owl:sameAs <http://viaf.org/viaf/218105127>;
+  gndo:oldAuthorityNumber "(DE-101c)300941315";
+  gndo:variantNameForTheWork "Duos, Fl 1 2, op. 102";
+  gndo:preferredNameForTheWork "Duos, Querflöte (2), op. 102";
+  gndo:firstComposer <https://d-nb.info/gnd/118567837>;
+  gndo:formOfWorkAndExpression <https://d-nb.info/gnd/4138632-2>;
+  gndo:mediumOfPerformance <https://d-nb.info/gnd/4176713-5>;
+  gndo:mediumOfPerformanceAsLiteral "Querflöte";
+  gndo:mediumOfPerformance _:node1gdv4njjax10827772 .
+
+_:node1gdv4njjax10827772 rdf:value <https://d-nb.info/gnd/4176713-5>;
+  gndo:numberOfPerformersOfTheSameMedium "2" .
+
+<https://d-nb.info/gnd/300941315> gndo:totalNumberOfPerformers "2";
+  gndo:opusNumericDesignationOfMusicalWork "op. 102";
+  gndo:gndSubjectCategory <https://d-nb.info/standards/vocab/gnd/gnd-sc#14.4p>;
+  gndo:biographicalOrHistoricalInformation "Umfasst 3 Duos in D-, E- und A-Dur"@de;
+  gndo:dateOfProduction "ca. 1829" .
+
