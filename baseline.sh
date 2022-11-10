@@ -24,6 +24,20 @@ mv data/entityfacts/authorities_entityfacts.jsonld.gz data/entityfacts/authoriti
 # get gnd_lds baseline files
 cd data/gnd_lds
 wget https://data.dnb.de/opendata/authorities-{geografikum,koerperschaft,kongress,person,sachbegriff,werk}_lds.rdf.gz
+
+# validate the xml before we start the long-running conversion
+for file in *.rdf.gz
+do
+    zcat $file | xmllint --noout -
+    if [ $? -eq 0 ]
+    then
+        echo "Validated XML: $file"
+    else
+        echo "XML validation FAILED: $file"
+        exit 1
+    fi
+done
+
 cd ../..
 mkdir data/index/gnd_lds_$TODAY
 
