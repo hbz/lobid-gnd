@@ -23,7 +23,7 @@ mv data/entityfacts/authorities_entityfacts.jsonld.gz data/entityfacts/authoriti
 
 # get gnd_lds baseline files
 cd data/gnd_lds
-wget https://data.dnb.de/opendata/authorities-{geografikum,koerperschaft,kongress,person,sachbegriff,werk}_lds.rdf.gz
+wget https://data.dnb.de/opendata/authorities-gnd-{geografikum,koerperschaft,kongress,person,sachbegriff,werk}_lds.rdf.gz
 
 # validate the xml before we start the long-running conversion
 for file in *.rdf.gz
