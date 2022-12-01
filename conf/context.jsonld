@@ -1267,6 +1267,10 @@
          "@id":"http://www.w3.org/2004/02/skos/core#relatedMatch",
          "@container":"@set"
       },
+      "closeMatch": {
+         "@id":"http://www.w3.org/2004/02/skos/core#closeMatch",
+         "@container":"@set"
+      },
       "canonicalUri": {
          "@id":"https://d-nb.info/standards/elementset/dnb#canonicalUri",
          "@container":"@set"

@@ -58,6 +58,11 @@ public class RdfConverterTests {
 		assertThat(jsonLd, not(containsString("http://www.w3.org/1999/02/22-rdf-syntax-ns#")));
 	}
 
+	@Test
+	public void testCompactedPropertiesCloseMatch() throws FileNotFoundException {
+		assertThat(jsonLdFor("4191581-1"), not(containsString("http://www.w3.org/2004/02/skos/core#closeMatch")));
+	}
+
 	private String jsonLdFor(String id) throws FileNotFoundException {
 		Model sourceModel = ModelFactory.createDefaultModel();
 		sourceModel.read(new FileReader("test/ttl/" + id + ".ttl"), null, "TTL");

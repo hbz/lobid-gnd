@@ -1,0 +1,51 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix editeur: <https://ns.editeur.org/thema/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix mesh: <http://id.nlm.nih.gov/mesh/vocab#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix agrelon: <https://d-nb.info/standards/elementset/agrelon#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
+@prefix madsrdf: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix cidoc: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix wdrs: <http://www.w3.org/2007/05/powder-s#> .
+@prefix ebu: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<https://d-nb.info/gnd/4191581-1> a gndo:SubjectHeadingSensoStricto;
+  wdrs:describedby <https://d-nb.info/gnd/4191581-1/about> .
+
+<https://d-nb.info/gnd/4191581-1/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/>;
+  dcterms:modified "2022-11-25T16:05:11.000"^^xsd:dateTime;
+  gndo:descriptionLevel <https://d-nb.info/standards/vocab/gnd/description-level#1> .
+
+<https://d-nb.info/gnd/4191581-1> skos:closeMatch <http://zbw.eu/stw/descriptor/13433-4>;
+  skos:relatedMatch <http://zbw.eu/stw/descriptor/19585-0>;
+  gndo:gndIdentifier "4191581-1";
+  owl:sameAs <http://www.wikidata.org/entity/Q56299357>;
+  gndo:oldAuthorityNumber "(DE-588c)4191581-1";
+  gndo:variantNameForTheSubjectHeading "Agrarstatistik";
+  gndo:preferredNameForTheSubjectHeading "Landwirtschaftsstatistik";
+  gndo:broaderTermGeneral <https://d-nb.info/gnd/4056995-0>;
+  gndo:gndSubjectCategory <https://d-nb.info/standards/vocab/gnd/gnd-sc#32.1a> .
+
