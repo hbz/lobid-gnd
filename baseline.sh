@@ -8,8 +8,8 @@ export TODAY=$(date +'%Y%m%d')
 
 # get entityfacts baseline file
 cd data/entityfacts/
-wget https://data.dnb.de/opendata/authorities_entityfacts.jsonld.gz
-gunzip < authorities_entityfacts.jsonld.gz > authorities_entityfacts.jsonld
+wget https://data.dnb.de/opendata/authorities-gnd_entityfacts.jsonld.gz
+gunzip < authorities-gnd_entityfacts.jsonld.gz > authorities-gnd_entityfacts.jsonld
 cd ../..
 
 # index entityfacts JSON
@@ -19,7 +19,7 @@ sbt \
   > IndexEntityfacts_$TODAY.log 2>&1
 
 # clean up entityfacts baseline file
-mv data/entityfacts/authorities_entityfacts.jsonld.gz data/entityfacts/authorities_entityfacts_$TODAY.jsonld.gz
+mv data/entityfacts/authorities-gnd_entityfacts.jsonld.gz data/entityfacts/authorities-gnd_entityfacts_$TODAY.jsonld.gz
 
 # get gnd_lds baseline files
 cd data/gnd_lds
