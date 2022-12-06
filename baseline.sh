@@ -56,6 +56,7 @@ sbt \
 # mkdir data/index/gnd_since_$LAST_BASE
 # cp data/backup/GND-updates_2021*.jsonl data/index/gnd_since_$LAST_BASE # etc.; alt: OAI-PMH
 # setsid nohup sbt \
+#  -Dindex.entityfacts.index=entityfacts_$TODAY \
 #  -Dindex.prod.name=gnd_$TODAY \
 #  -Ddata.jsonlines=data/index/gnd_since_$LAST_BASE \
 #  -Dindex.delete.baseline=GND-deprecated-updates.txt \
@@ -63,8 +64,8 @@ sbt \
 #  > IndexBaseline_since_$LAST_BASE.log 2>&1 &
 
 # a more automatable alternative might be to use OAI-PMH updates
-# export LAST_BASE=2020-10-13 # get date from description on https://data.dnb.de/opendata/ (e.g. "Stand: 13.06.2021")
-# sbt "runMain apps.ConvertUpdates $LAST_BASE"
-# sbt "runMain apps.Index updates"
+# export LAST_BASE=2022-10-13 # get date from description on https://data.dnb.de/opendata/ (e.g. "Stand: 13.10.2022")
+# setsid nohup sbt -mem 4000 -Dindex.prod.name=gnd_$TODAY "runMain apps.ConvertUpdates $LAST_BASE" > ConvertUpdates_since_$LAST_BASE.log 2>&1 &
+# setsid nohup sbt -mem 4000 -Dindex.prod.name=gnd_$TODAY "runMain apps.Index updates" > IndexUpdates_since_$LAST_BASE.log 2>&1 &
 
-## finally, switch 'gnd' alias to 'gnd_$TODAY'
+## finally, switch 'gnd' alias to 'gnd_$TODAY' and 'entityfacts' alias to 'entityfacts_$TODAY'

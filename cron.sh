@@ -15,12 +15,7 @@ scp GND-deprecated-updates.txt quaoar2:git/lobid-gnd/
 ssh sol@quaoar2 'cd /home/sol/git/lobid-gnd ; sbt "runMain apps.Index updates" ; bash ./checkCompactedProperties.sh gnd'
 
 # if check ok, index to productive instance:
-if [  $? -eq 0 ]; then
+if [ $? -eq 0 ]; then
 	sbt "runMain apps.Index updates"
-	else MESSAGE="check fail :("
-mail -s "Alert GND: test bad " "$RECIPIENT@hbz-nrw.de" << EOF
-Because of these uncompacted fields the data is not indexed into the productive service:
-
-$MESSAGE
-EOF
+	bash ./checkCompactedProperties.sh gnd
 fi
