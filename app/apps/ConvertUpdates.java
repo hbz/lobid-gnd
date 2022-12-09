@@ -143,27 +143,33 @@ public class ConvertUpdates {
 			XMLEventReader eventReader = XMLInputFactory.newInstance().createXMLEventReader(inputStreamReader);
 			Iterator<?> namespaces = null;
 			while (eventReader.hasNext()) {
-				XMLEvent nextEvent = eventReader.nextEvent();
-				if (nextEvent.isStartElement()) {
-					StartElement startElement = nextEvent.asStartElement();
-					if (startElement.getName().getLocalPart().equals(rdfTag)) {
-						namespaces = startElement.getNamespaces();
-						eventWriter = outputFactory.createXMLEventWriter(fileWriter);
-						continue;
-					} else if (startElement.getName().getLocalPart().equals(entityTag)) {
-						QName descriptionName = new QName(startElement.getName().getNamespaceURI(),
-								startElement.getName().getLocalPart(), startElement.getName().getPrefix());
-						StartElement descriptionWithNamespaces = eventFactory.createStartElement(descriptionName,
-								startElement.getAttributes(), namespaces);
-						nextEvent = descriptionWithNamespaces;
+				try {
+					XMLEvent nextEvent = eventReader.nextEvent();
+					if (nextEvent.isStartElement()) {
+						StartElement startElement = nextEvent.asStartElement();
+						if (startElement.getName().getLocalPart().equals(rdfTag)) {
+							namespaces = startElement.getNamespaces();
+							eventWriter = outputFactory.createXMLEventWriter(fileWriter);
+							continue;
+						} else if (startElement.getName().getLocalPart().equals(entityTag)) {
+							QName descriptionName = new QName(startElement.getName().getNamespaceURI(),
+									startElement.getName().getLocalPart(), startElement.getName().getPrefix());
+							StartElement descriptionWithNamespaces = eventFactory.createStartElement(descriptionName,
+									startElement.getAttributes(), namespaces);
+							nextEvent = descriptionWithNamespaces;
+						}
+					} else if (nextEvent.isEndElement()
+							&& ((EndElement) nextEvent).getName().getLocalPart().equals(rdfTag)) {
+						eventWriter.close();
+						eventWriter = null;
 					}
-				} else if (nextEvent.isEndElement()
-						&& ((EndElement) nextEvent).getName().getLocalPart().equals(rdfTag)) {
-					eventWriter.close();
-					eventWriter = null;
-				}
-				if (eventWriter != null) {
-					eventWriter.add(nextEvent);
+					if (eventWriter != null) {
+						eventWriter.add(nextEvent);
+					}
+				} catch (XMLStreamException e) {
+					System.err.printf("XMLStreamException, skipping XMLEvent. \n");
+					e.printStackTrace();
+					eventReader.next();
 				}
 			}
 		}
