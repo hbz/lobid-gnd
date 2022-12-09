@@ -90,7 +90,8 @@ public class ConvertUpdates {
 		String start = startOfUpdates;
 		String givenEndOrToday = endOfUpdates != null ? endOfUpdates
 				: LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
-		String end = addDays(start, givenEndOrToday, intervalSize);
+		String end = addDays(start, givenEndOrToday,
+				intervalSize - 1 /* 'until' is inclusive */);
 		int intervals = calculateIntervals(startOfUpdates, givenEndOrToday,
 				intervalSize);
 		File file = new File(config("data.updates.rdf"));
@@ -109,7 +110,8 @@ public class ConvertUpdates {
 			if (i == intervals - 2)
 				end = givenEndOrToday;
 			else
-				end = addDays(end, givenEndOrToday, intervalSize);
+				end = addDays(end, givenEndOrToday,
+						intervalSize - 1 /* 'until' is inclusive */);
 		}
 		try (FileWriter writer = new FileWriter(file, true)) {
 			writer.write("</RDF>");
