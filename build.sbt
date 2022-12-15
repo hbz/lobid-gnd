@@ -28,7 +28,7 @@ libraryDependencies += "org.metafacture" % "metafacture-io" % "5.4.0"
 
 libraryDependencies += "org.metafacture" % "metafacture-xml" % "5.4.0"
 
-libraryDependencies += "org.metafacture" % "metafacture-elasticsearch" % "5.4.0"
+libraryDependencies += "org.metafacture" % "metafacture-elasticsearch" % "5.4.0" exclude("com.fasterxml.jackson.core", "jackson-databind")
 
 libraryDependencies += "org.elasticsearch" % "elasticsearch" % "5.6.3"
 
