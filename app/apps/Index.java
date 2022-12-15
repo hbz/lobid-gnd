@@ -32,7 +32,6 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.settings.Settings.Builder;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.junit.Assert;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -89,10 +88,11 @@ public class Index {
 		if (indexExists(client, index)) {
 			List<String> hosts = CONFIG.getStringList("index.prod.hosts");
 			if (hosts.stream().anyMatch(s -> !s.equals("localhost"))) {
-				Assert.fail(String.format("Running against remote hosts: '%s', skipping deletion and indexing. "
-						+ "Delete index '%s' manually or configure a new index.", hosts, index));
+				System.err.printf("Running against remote hosts: '%s', skipping deletion and indexing. "
+						+ "Delete index '%s' manually or configure a new index.\n", hosts, index);
+			} else {
+				client.admin().indices().delete(new DeleteIndexRequest(index)).actionGet();
 			}
-			client.admin().indices().delete(new DeleteIndexRequest(index)).actionGet();
 		}
 	}
 

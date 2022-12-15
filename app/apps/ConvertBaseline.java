@@ -13,12 +13,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.culturegraph.mf.elasticsearch.JsonToElasticsearchBulk;
-import org.culturegraph.mf.flowcontrol.ObjectExceptionCatcher;
-import org.culturegraph.mf.io.FileOpener;
-import org.culturegraph.mf.io.ObjectWriter;
-import org.culturegraph.mf.xml.XmlDecoder;
-import org.culturegraph.mf.xml.XmlElementSplitter;
+import org.metafacture.elasticsearch.JsonToElasticsearchBulk;
+import org.metafacture.flowcontrol.ObjectExceptionCatcher;
+import org.metafacture.io.FileOpener;
+import org.metafacture.io.ObjectWriter;
+import org.metafacture.xml.XmlDecoder;
+import org.metafacture.xml.XmlElementSplitter;
 
 import apps.Convert.ToAuthorityJson;
 
