@@ -43,8 +43,10 @@ public class ConvertBaseline {
 				FileOpener opener = new FileOpener();
 				File out = outFile.isDirectory() ? new File(outFile, new File(file).getName() + ".jsonl") : outFile;
 				final ObjectWriter<String> writer = new ObjectWriter<>(out.getAbsolutePath());
+				final ObjectExceptionCatcher<Reader> exceptionCatcher = new ObjectExceptionCatcher<Reader>();
+				exceptionCatcher.setLogStackTrace(true);
 				opener//
-						.setReceiver(new ObjectExceptionCatcher<Reader>())//
+						.setReceiver(exceptionCatcher)//
 						.setReceiver(new XmlDecoder())//
 						.setReceiver(splitter)//
 						.setReceiver(encodeJson)//
