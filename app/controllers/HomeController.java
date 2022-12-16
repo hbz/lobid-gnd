@@ -191,15 +191,16 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		if (hits.getTotalHits() > 0 && !hits.getAt(0).getId().equals(id)) {
 			return movedPermanently(controllers.routes.HomeController.authority(hits.getAt(0).getId(), format));
 		}
-		String jsonLd = getAuthorityResource(id);
-		if (jsonLd == null) {
-			return notFound("Not found: " + id);
-		}
 		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		if (responseFormat == null || responseFormat == Accept.Format.JSON_LINES
 				|| format != null && format.contains(":")) {
 			return unsupportedMediaType(views.html.error.render(id, String.format(
 					"Unsupported for single resource: format=%s, accept=%s", format, request().acceptedTypes())));
+		}
+		String jsonLd = getAuthorityResource(id);
+		if (jsonLd == null) {
+			return responseFormat == Format.HTML ? notFound(views.html.details.render(null))
+					: notFound("Not found: " + id);
 		}
 		try {
 			switch (responseFormat) {
