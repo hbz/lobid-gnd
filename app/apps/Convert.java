@@ -36,13 +36,14 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
-import org.culturegraph.mf.framework.ObjectReceiver;
-import org.culturegraph.mf.framework.helpers.DefaultStreamPipe;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.metafacture.framework.MetafactureException;
+import org.metafacture.framework.ObjectReceiver;
+import org.metafacture.framework.helpers.DefaultStreamPipe;
 import org.xml.sax.InputSource;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -96,8 +97,7 @@ public class Convert {
 						"/*[local-name() = 'RDF']/*[local-name() = 'Description']/*[local-name() = 'gndIdentifier']",
 						new InputSource(new BufferedReader(new StringReader(value))));
 			} catch (XPathExpressionException e) {
-				Logger.warn("XPath evaluation failed for {}: {}", name, e.getMessage());
-				return;
+				throw new MetafactureException(String.format("XPath evaluation failed for '%s'", name), e);
 			}
 			Model model = sourceModel(value);
 			String jsonLd = Convert.toJsonLd(id, model, false, deprecated);

@@ -20,15 +20,21 @@ libraryDependencies += "javax.mail" % "mail" % "1.4.1"
 
 libraryDependencies += "org.apache.jena" % "apache-jena-libs" % "3.7.0"
 
-libraryDependencies += "org.culturegraph" % "metafacture-core" % "4.0.0"
+libraryDependencies += "org.metafacture" % "metafacture-framework" % "5.4.0"
+
+libraryDependencies += "org.metafacture" % "metafacture-flowcontrol" % "5.4.0"
+
+libraryDependencies += "org.metafacture" % "metafacture-io" % "5.4.0"
+
+libraryDependencies += "org.metafacture" % "metafacture-xml" % "5.4.0"
+
+libraryDependencies += "org.metafacture" % "metafacture-elasticsearch" % "5.4.0" exclude("com.fasterxml.jackson.core", "jackson-databind")
 
 libraryDependencies += "org.elasticsearch" % "elasticsearch" % "5.6.3"
 
 libraryDependencies += "org.elasticsearch.client" % "transport" % "5.6.3"
 
-libraryDependencies += "org.dspace" % "oclc-harvester2" % "0.1.12"
-
-libraryDependencies += "xalan" % "xalan" % "2.7.2"
+libraryDependencies += "org.dspace" % "oclc-harvester2" % "1.0.0"
 
 libraryDependencies += "org.jooq" % "joox-java-6" % "1.6.0"
 

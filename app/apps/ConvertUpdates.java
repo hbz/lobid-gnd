@@ -32,11 +32,12 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPathException;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.oclc.oai.harvester2.app.RawWrite;
 import org.xml.sax.SAXException;
 
-import ORG.oclc.oai.harvester2.app.RawWrite;
 import helper.Email;
 
 public class ConvertUpdates {
@@ -123,7 +124,7 @@ public class ConvertUpdates {
 
 	public static void process(final String baseUrl, String from, String until, File result)
 			throws NoSuchFieldException, IOException, ParserConfigurationException, SAXException, TransformerException,
-			XMLStreamException {
+			XMLStreamException, XPathException {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		System.out.printf("Calling OAI-PMH at %s from %s until %s\n", baseUrl, from, until);
 		RawWrite.run(baseUrl, from, until, "RDFxml", "authorities", stream);
