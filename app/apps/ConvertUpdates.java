@@ -111,7 +111,7 @@ public class ConvertUpdates {
 			if (i == intervals - 2)
 				end = givenEndOrToday;
 			else
-				end = addDays(end, givenEndOrToday,
+				end = addDays(start, givenEndOrToday,
 						intervalSize - 1 /* 'until' is inclusive */);
 		}
 		try (FileWriter writer = new FileWriter(file, true)) {
