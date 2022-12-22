@@ -52,7 +52,7 @@ public class ConvertUpdates {
 			String endOfUpdates = args.length == 2 ? args[1] : null;
 			Pair<String, String> startAndEnd = getUpdatesAndConvert(args[0], endOfUpdates);
 			File dataUpdate = new File(config("data.updates.data"));
-			short tried = 0;
+			short tried = 1;
 			while (dataUpdate.length() == 0 ) {
 				tried++;
 				System.err.println("Tried " + tried
