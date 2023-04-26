@@ -27,7 +27,6 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.SearchHits;
 
@@ -481,7 +480,7 @@ public class Reconcile extends Controller {
 		int limit = limitNode == null ? -1 : limitNode.asInt();
 		JsonNode typeNode = entry.getValue().get("type");
 		String filter = typeNode == null ? "" : "type:" + typeNode.asText();
-		QueryStringQueryBuilder mainQuery = QueryBuilders.queryStringQuery(queryString)//
+		QueryStringQueryBuilder mainQuery = index.queryStringQuery(queryString)//
 				.field("preferredName", 4f)//
 				.field("variantName", 2f)//
 				.field("temporaryName")//
@@ -496,7 +495,7 @@ public class Reconcile extends Controller {
 				.field("gndIdentifier")//
 				.field("sameAs.id")//
 				.field("id");//
-		QueryStringQueryBuilder propQuery = QueryBuilders.queryStringQuery(propString).boost(5f);
+		QueryStringQueryBuilder propQuery = index.queryStringQuery(propString).boost(5f);
 		return index.query(mainQuery, filter, propQuery, "", 0, limit);
 	}
 

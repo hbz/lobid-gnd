@@ -167,7 +167,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 
 	@Test
 	// curl -g 'localhost:9000/gnd/reconcile?queries={"q99":{"query":"*"}}'
-	public void reconcileRequestGet() {
+	public void reconcileRequestGetWithReservedChars() {
 		Application application = fakeApplication();
 		running(application, () -> {
 			Result result = null;
@@ -175,7 +175,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 				result = route(application,
 						fakeRequest(GET,
 								"/gnd/reconcile?queries=" + URLEncoder.encode(
-										"{\"q99\":{\"query\":\"Conference +=<>(){}[]^ (1997 : Kyoto : Japan)\"}}",
+										"{\"q99\":{\"query\":\"Conference +=<>(){}[]^ (1997 : Kyoto / Japan)\"}}",
 										StandardCharsets.UTF_8.name())));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -190,12 +190,12 @@ public class ReconcileIntegrationTest extends IndexTest {
 
 	@Test
 	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/gnd/reconcile
-	public void reconcileRequestReservedChars() {
+	public void reconcileRequestPostWithReservedChars() {
 		Application application = fakeApplication();
 		running(application, () -> {
 			Result result = route(application, fakeRequest(POST, "/gnd/reconcile")//
 					.bodyForm(ImmutableMap.of("queries",
-							"{\"q99\":{\"query\":\"Conference +=<>(){}[]^ (1997 : Kyoto : Japan)\"}}")));
+							"{\"q99\":{\"query\":\"Conference +=<>(){}[]^ (1997 : Kyoto / Japan)\"}}")));
 			assertThat(result.status(), is(equalTo(Http.Status.OK)));
 			String content = contentAsString(result);
 			Logger.debug(Json.prettyPrint(Json.parse(content)));
