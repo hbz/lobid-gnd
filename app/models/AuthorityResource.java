@@ -193,7 +193,8 @@ public class AuthorityResource {
 
 	private void addGndEntityNodes(List<Map<String, Object>> result) {
 		result.add(ImmutableMap.of("id", getId(), "label", wrapped(preferredName), "shape", "box"));
-		gndNodes().stream().flatMap(pair -> pair.getRight().stream()).distinct().forEach(node -> {
+		gndNodes().stream().flatMap(pair -> pair.getRight().stream()).distinct()
+				.filter(node -> node.get("id") != null && node.get("label") != null).forEach(node -> {
 			String id = node.get("id").asText().substring(GND_PREFIX.length());
 			String label = wrapped(node.get("label").asText());
 			String title = "Details zu " + label + " öffnen";
@@ -206,7 +207,7 @@ public class AuthorityResource {
 			String rel = pair.getLeft();
 			String label = wrapped(GndOntology.label(rel));
 			result.add(ImmutableMap.of("from", getId(), "to", rel));
-			pair.getRight().forEach(node -> {
+			pair.getRight().stream().filter(node -> node.get("id") != null).forEach(node -> {
 				String to = node.get("id").asText().substring(GND_PREFIX.length());
 				String title = String.format("Einträge mit %s '%s' suchen", label, GndOntology.label(GND_PREFIX + to));
 				String id = rel + "_" + to;
