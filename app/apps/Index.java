@@ -156,9 +156,6 @@ public class Index {
 	}
 
 	public static void indexData(final Client client, final String path, final String index) throws IOException {
-		// Set number_of_replicas to 0 for faster indexing. See:
-		// https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
-		updateSettings(client, index, Settings.builder().put("index.number_of_replicas", 0));
 		File file = new File(path);
 		FileFilter fileFilter = new SuffixFileFilter("jsonl");
 		for (File f : file.isDirectory() ? file.listFiles(fileFilter) : new File[] { file }) {
@@ -167,7 +164,6 @@ public class Index {
 				bulkIndex(br, client, index);
 			}
 		}
-		updateSettings(client, index, Settings.builder().put("index.number_of_replicas", 1));
 		client.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
