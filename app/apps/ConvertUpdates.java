@@ -1,4 +1,4 @@
-/* Copyright 2017-2018 Fabian Steeg, hbz. Licensed under the EPL 2.0 */
+/* Copyright 2017-2023 Fabian Steeg, hbz. Licensed under the EPL 2.0 */
 
 package apps;
 
@@ -46,10 +46,14 @@ public class ConvertUpdates {
 	static private final int WAIT_PER_RETRY = 14400000; // ms => 4h
 	static private final String FAIL_MESSAGE = "Tried to get the update several times, but the data remains to be empty."
 			+ "This may or may not be a problem on the side of the data provider.";
+	static private boolean rawDates = false;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		if (args.length == 1 || args.length == 2) {
-			String endOfUpdates = args.length == 2 ? args[1] : null;
+		if (args.length >= 1) {
+			String endOfUpdates = args.length >= 2 ? args[1] : null;
+			if (args.length == 3) {
+				rawDates = args[2].equals("--raw-dates");
+			}
 			Pair<String, String> startAndEnd = getUpdatesAndConvert(args[0], endOfUpdates);
 			File dataUpdate = new File(config("data.updates.data"));
 			short tried = 1;
@@ -91,9 +95,10 @@ public class ConvertUpdates {
 		String start = startOfUpdates;
 		String givenEndOrToday = endOfUpdates != null ? endOfUpdates
 				: LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
-		String end = addDays(start, givenEndOrToday,
+		String end = endOfUpdates != null ? endOfUpdates : addDays(start, givenEndOrToday,
 				intervalSize - 1 /* 'until' is inclusive */);
-		int intervals = calculateIntervals(startOfUpdates, givenEndOrToday,
+		int intervals = rawDates ? 1
+				: calculateIntervals(startOfUpdates, givenEndOrToday,
 				intervalSize);
 		File file = new File(config("data.updates.rdf"));
 		try (FileWriter writer = new FileWriter(file, false)) {
@@ -107,11 +112,12 @@ public class ConvertUpdates {
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
-			start = addDays(start, givenEndOrToday, intervalSize);
+			start = rawDates ? start : addDays(start, givenEndOrToday, intervalSize);
 			if (i == intervals - 2)
 				end = givenEndOrToday;
 			else
-				end = addDays(start, givenEndOrToday,
+				end = rawDates ? end
+						: addDays(start, givenEndOrToday,
 						intervalSize - 1 /* 'until' is inclusive */);
 		}
 		try (FileWriter writer = new FileWriter(file, true)) {
