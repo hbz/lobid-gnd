@@ -29,6 +29,10 @@ $('input.search-gnd').autocomplete({
 }
 
 @main("", "lobid-gnd - API") {
+  <div id="usage-policy" class="alert alert-info" role="alert">
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    Technische und sonstige Hinweise zur lobid-Nutzung finden sich in den <a class="alert-link" href="https://lobid.org/usage-policy/">Richtlinien zur API-Nutzung</a>.
+  </div>
   <h1>lobid-gnd API</h1>
 
   <h2>Suche: <code>@Html(controllers.routes.HomeController.search("text").toString)</code></h2>
