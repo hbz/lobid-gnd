@@ -6,7 +6,7 @@
 $('input.search-gnd').autocomplete({
   source : function(request, response) {
     $.ajax({
-      //  use full URL in your code, i.e. http://lobid.org/gnd/search
+      //  use full URL in your code, i.e. https://lobid.org/gnd/search
       url : "@routes.HomeController.search()",
       dataType : "jsonp",
       data : {
@@ -52,9 +52,9 @@ $('input.search-gnd').autocomplete({
   <h2 id='content_types'>Inhaltstypen <small><a href='#content_types'><span class='glyphicon glyphicon-link'></span></a></small></h2>
 
   <p>Standardmäßig liefert dieser Dienst strukturierte API-Antworten (als JSON):</p>
-  <p><code>curl http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>curl https://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
   <p>Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json) und HTML (text/html):</p>
-  <p><code>curl --header "Accept: application/json" http://lobid.org@routes.HomeController.search("london")</code></p>
+  <p><code>curl --header "Accept: application/json" https://lobid.org@routes.HomeController.search("london")</code></p>
   <p>Der Query-Parameter "format" (Werte: html,json,jsonl) kann verwendet werden, um den Accept-Header aufzuheben, z.B. zur Anzeige von JSON im Browser:</p>
   <p><a href='@routes.HomeController.authority("4074335-4", format="json")'>@routes.HomeController.authority("4074335-4", format="json")</a></p>
   <p>Der Wert des Format-Parameters kann für Einzeltreffer auch in URLs als Dateiendung verwendet werden:</p>
@@ -64,9 +64,9 @@ $('input.search-gnd').autocomplete({
   <h2 id='bulk_downloads'>Bulk-Downloads <small><a href='#bulk_downloads'><span class='glyphicon glyphicon-link'></span></a></small></h2>
 
   <p>Bulk-Downloads können im Format JSON lines (Accept: application/x-jsonlines oder format=jsonl) bezogen werden:</p>
-  <p><code>curl --header "Accept: application/x-jsonlines" "http://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Country").toString)" > countries.jsonl</code></p>
+  <p><code>curl --header "Accept: application/x-jsonlines" "https://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Country").toString)" > countries.jsonl</code></p>
   <p>Für größere Anfragen kann die Antwort als gzip komprimiert werden:</p>
-  <p><code>curl --header "Accept-Encoding: gzip" "http://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Company", format="jsonl").toString)" > companies.gz</code></p>
+  <p><code>curl --header "Accept-Encoding: gzip" "https://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Company", format="jsonl").toString)" > companies.gz</code></p>
   <p>Siehe auch diesen Abschnitt zu <a href="http://blog.lobid.org/2018/07/02/lobid-update.html#bulk-downloads">Bulk-Downloads in unserem Blog</a>.</p>
 
   <h2 id="auto-complete">Autovervollständigung <small><a href='#auto-complete'><span class='glyphicon glyphicon-link'></span></a></small></h2>
@@ -89,11 +89,11 @@ $('input.search-gnd').autocomplete({
   <p>JSON-API-Anfragen liefern <a href="http://json-ld.org/">JSON-LD</a>. Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="http://json-ld.org/playground/">JSON-LD Playground</a> einfügen.</p>
   <dt>JSON-LD Context</dt> <dd><a href='@routes.HomeController.context'>@java.net.URLDecoder.decode(routes.HomeController.context.toString)</a></dd>
   <dt>RDF-Konvertierung</dt><dd>Mit einem JSON-LD-Prozessor können sie API-Antworten in andere RDF-Serialisierungen umwandeln, z.B. in N-Quads mit <a href="https://github.com/digitalbazaar/jsonld-cli">jsonld-cli</a>:</dd>
-  <p><code>jsonld format --nquads http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>jsonld format --nquads https://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
   <p>Einzeltreffer können per <code>Accept</code> Header auch direkt als RDF/XML, Turtle oder N-Triples angefordert werden:</p>
-  <p><code>curl --header "Accept: application/rdf+xml" http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
-  <p><code>curl --header "Accept: text/turtle" http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
-  <p><code>curl --header "Accept: application/n-triples" http://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>curl --header "Accept: application/rdf+xml" https://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>curl --header "Accept: text/turtle" https://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
+  <p><code>curl --header "Accept: application/n-triples" https://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
   <p>Dabei werden wie <a href='#content_types'>im Abschnitt zu Inhaltstypen beschrieben</a> neben dem Format-Parameter auch URLs mit Formatendungen unterstützt:
   <p><a href='@routes.HomeController.authorityDotFormat("4074335-4", format="rdf")'>@routes.HomeController.authorityDotFormat("4074335-4", format="rdf")</a></p>
   <p><a href='@routes.HomeController.authorityDotFormat("4074335-4", format="ttl")'>@routes.HomeController.authorityDotFormat("4074335-4", format="ttl")</a></p>
