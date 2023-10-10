@@ -13,8 +13,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Iterator;
@@ -40,32 +39,39 @@ import org.xml.sax.SAXException;
 
 import helper.Email;
 
+/**
+ * Configurable to-the-minute. Start time is read from file which was saved last time of successfully updating.
+ * Default end time is now, like eg. 2023-11-06T15:59Z .
+ */
 public class ConvertUpdates {
 
 	static private final short MAX_TRIES = 2;
 	static private final int WAIT_PER_RETRY = 14400000; // ms => 4h
+	static private final int DAY_IN_MINUTES = 1440;
 	static private final String FAIL_MESSAGE = "Tried to get the update several times, but the data remains to be empty."
 			+ "This may or may not be a problem on the side of the data provider.";
 	static private boolean rawDates = false;
+	/* OAI-PMH expects this format */
+	static final DateTimeFormatter dateTimeFormatter =
+			DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		if (args.length >= 1) {
-			String endOfUpdates = args.length >= 2 ? args[1] : null;
+			ZonedDateTime endOfUpdates = args.length >= 2 ? ZonedDateTime.parse(args[1]) : null;
 			if (args.length == 3) {
 				rawDates = args[2].equals("--raw-dates");
 			}
-			Pair<String, String> startAndEnd = getUpdatesAndConvert(args[0], endOfUpdates);
+			Pair<ZonedDateTime, ZonedDateTime> startAndEnd = getUpdatesAndConvert(ZonedDateTime.parse(args[0]), endOfUpdates);
 			File dataUpdate = new File(config("data.updates.data"));
 			short tried = 1;
 			while (dataUpdate.length() == 0 ) {
 				tried++;
-				System.err.println("Tried " + tried
-						+ " times to get the data, but it's empty.");
+				System.err.println("Tried " + tried + " times to get the data, but it's empty.");
 				if (MAX_TRIES <= tried)
 					break;
 				System.err.println("Going to retry in " + WAIT_PER_RETRY / 1000 / 60 + " min");
 				Thread.sleep(WAIT_PER_RETRY);
-				startAndEnd = getUpdatesAndConvert(args[0], endOfUpdates);
+				startAndEnd = getUpdatesAndConvert(startAndEnd.getLeft(), endOfUpdates);
 			}
 			if (dataUpdate.length() == 0) {
 				System.err.println("Tried " + tried
@@ -82,43 +88,44 @@ public class ConvertUpdates {
 		}
 	}
 
-	private static Pair<String, String> getUpdatesAndConvert(final String startOfUpdates, final String endOfUpdates) throws IOException {
-		Pair<String, String> startAndEnd = getUpdates(startOfUpdates, endOfUpdates);
+	private static Pair<ZonedDateTime, ZonedDateTime> getUpdatesAndConvert(final ZonedDateTime startOfUpdates, final ZonedDateTime endOfUpdates) throws IOException {
+		Pair<ZonedDateTime, ZonedDateTime> startAndEnd = getUpdates(startOfUpdates, endOfUpdates);
 		backup(new File(config("data.updates.rdf")), startAndEnd.getLeft(), startAndEnd.getRight());
 		ConvertBaseline.main(new String[] { config("data.updates.rdf"), config("data.updates.data"),
 				config("index.delete.updates") });
 		return startAndEnd;
 	}
 	
-	private static Pair<String, String> getUpdates(String startOfUpdates, String endOfUpdates) {
-		int intervalSize = Convert.CONFIG.getInt("data.updates.interval");
-		String start = startOfUpdates;
-		String givenEndOrToday = endOfUpdates != null ? endOfUpdates
-				: LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
-		String end = endOfUpdates != null ? endOfUpdates : addDays(start, givenEndOrToday,
-				intervalSize - 1 /* 'until' is inclusive */);
-		int intervals = rawDates ? 1
-				: calculateIntervals(startOfUpdates, givenEndOrToday,
-				intervalSize);
+	private static Pair<ZonedDateTime, ZonedDateTime> getUpdates(final ZonedDateTime startOfUpdates, final ZonedDateTime endOfUpdates) {
+		final int intervalInDaysSize = Convert.CONFIG.getInt("data.updates.interval");
+		ZonedDateTime start = startOfUpdates;
+		final ZonedDateTime givenEndOrNow = endOfUpdates != null ? endOfUpdates
+				 : ZonedDateTime.now();
+		ZonedDateTime end = ZonedDateTime.from(givenEndOrNow);
+		int intervalInDays = rawDates ? 1
+				: calculateIntervals(startOfUpdates, givenEndOrNow, intervalInDaysSize);
 		File file = new File(config("data.updates.rdf"));
 		try (FileWriter writer = new FileWriter(file, false)) {
 			writer.write("<RDF>");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		for (int i = 0; i < intervals; i++) {
+		String dataUpdateUrl = config("data.updates.url");
+		System.out.printf("Trying to get data using %s from %s until %s using a %s days interval , i.e. doing %s lookup(s)\n",
+				dataUpdateUrl, start.format(dateTimeFormatter), givenEndOrNow.format(dateTimeFormatter), intervalInDaysSize, intervalInDays);
+		for (int i = 0; i < intervalInDays; i++) {
+			if (i == intervalInDays - 1)
+				end = ZonedDateTime.from(givenEndOrNow);
+			else
+				end = rawDates ? end
+						: ZonedDateTime.from(addMinutes(start, givenEndOrNow,
+						(intervalInDaysSize) * DAY_IN_MINUTES /* 'until' is inclusive */));
 			try {
-				process(config("data.updates.url"), start, end, file);
+				process(dataUpdateUrl, start, end, file);
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
-			start = rawDates ? start : addDays(start, givenEndOrToday, intervalSize);
-			if (i == intervals - 2)
-				end = givenEndOrToday;
-			else
-				end = rawDates ? end
-						: addDays(start, givenEndOrToday,
-						intervalSize - 1 /* 'until' is inclusive */);
+			start = ZonedDateTime.from(end);
 		}
 		try (FileWriter writer = new FileWriter(file, true)) {
 			writer.write("</RDF>");
@@ -128,12 +135,15 @@ public class ConvertUpdates {
 		return Pair.of(startOfUpdates, end);
 	}
 
-	public static void process(final String baseUrl, String from, String until, File result)
+	public static void process(final String baseUrl, ZonedDateTime from, ZonedDateTime until, File result)
 			throws NoSuchFieldException, IOException, ParserConfigurationException, SAXException, TransformerException,
 			XMLStreamException, XPathException {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		System.out.printf("Calling OAI-PMH at %s from %s until %s\n", baseUrl, from, until);
-		RawWrite.run(baseUrl, from, until, "RDFxml", "authorities", stream);
+		String fromFormatted = from.format(dateTimeFormatter);
+		String untilFormatted = until.format(dateTimeFormatter);
+
+		System.out.printf("Calling OAI-PMH at %s from %s until %s\n", baseUrl, fromFormatted, untilFormatted);
+		RawWrite.run(baseUrl, fromFormatted, untilFormatted, "RDFxml", "authorities", stream);
 		writeRdfDescriptions(result, stream);
 	}
 
@@ -182,33 +192,33 @@ public class ConvertUpdates {
 		}
 	}
 
-	private static void writeLastSuccessfulUpdate(String until) {
+	private static void writeLastSuccessfulUpdate(ZonedDateTime until) {
 		File file = new File(config("data.updates.last"));
 		file.delete();
 		try (FileWriter writer = new FileWriter(file)) {
-			writer.append(until);
+			writer.append(until.format(dateTimeFormatter));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static void backup(File source, String start, String end) throws IOException {
+	private static void backup(File source, ZonedDateTime start, ZonedDateTime end) throws IOException {
 		String name = source.getName();
 		File target = new File(new File(config("data.backup")), String.format("%s_%s_%s%s",
-				name.substring(0, name.lastIndexOf('.')), start, end, name.substring(name.lastIndexOf('.'))));
+				name.substring(0, name.lastIndexOf('.')), start.format(dateTimeFormatter),
+				end.format(dateTimeFormatter), name.substring(name.lastIndexOf('.'))));
 		Files.copy(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
 
-	private static String addDays(String start, String end, int intervalSize) {
-		LocalDate endDate = LocalDate.parse(start).plusDays(intervalSize);
-		return LocalDate.parse(end).isBefore(endDate) ? end : endDate.format(DateTimeFormatter.ISO_DATE);
+	private static ZonedDateTime addMinutes(ZonedDateTime start, ZonedDateTime end, int intervalSize) {
+		ZonedDateTime endDate = start.plusMinutes(intervalSize); //TODO
+		return end.
+				isBefore(endDate) ? end : endDate;
 	}
 
-	private static int calculateIntervals(String startOfUpdates, String endOfUpdates, int intervalSize) {
-		final LocalDate startDate = LocalDate.parse(startOfUpdates);
-		final LocalDate endDate = LocalDate.parse(endOfUpdates);
-		long timeSpan = startDate.until(endDate, ChronoUnit.DAYS);
-		return ((int) timeSpan / intervalSize) + 1;
+	private static int calculateIntervals(ZonedDateTime startOfUpdates, ZonedDateTime endOfUpdates, int intervalSize) {
+		long timeSpan = startOfUpdates.until(endOfUpdates, ChronoUnit.MINUTES);
+		return ((int) timeSpan / intervalSize / DAY_IN_MINUTES ) + 1;
 	}
 
 }
