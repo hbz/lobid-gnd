@@ -1215,6 +1215,10 @@
          "@id":"https://d-nb.info/standards/elementset/gnd#udkCode",
          "@container":"@set"
       },
+      "usingInstructions": {
+         "@id":"https://d-nb.info/standards/elementset/gnd#usingInstructions",
+         "@container":"@set"
+      },
       "variantName": {
          "@id":"https://d-nb.info/standards/elementset/gnd#variantName",
          "@container":"@set"
