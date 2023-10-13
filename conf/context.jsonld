@@ -774,7 +774,7 @@
       "professionOrOccupation":{
          "@id":"https://d-nb.info/standards/elementset/gnd#professionOrOccupation",
          "@type":"@id",
-         "@container":"@set"
+         "@container":"@list"
       },
       "professionalRelationship":{
          "@id":"https://d-nb.info/standards/elementset/gnd#professionalRelationship",
