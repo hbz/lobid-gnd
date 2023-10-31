@@ -1,11 +1,11 @@
 @* Copyright 2015-2018 Fabian Steeg, hbz. Licensed under the EPL 2.0 *@
 
-@(resource: models.AuthorityResource)
+@(resource: models.AuthorityResource, allHits: Long)
 
 @import play.api.libs.json._
 
 @image() = {
-    <img src='https://lobid.org/imagesproxy?url=@resource.getImage.image' style="max-height:500px;" class="center-block" alt="@resource.preferredName"/>
+    <img src='https://lobid.org/imagesproxy?url=@resource.getImage.image' width="250px" class="center-block" alt="@resource.preferredName"/>
     <div class='text-center small'><br/>@Html(resource.getImage.label)</div>
 }
 
@@ -221,7 +221,7 @@
     <div id="search-results" class="alert alert-info text-center">Ein Titel mit der ID @request.uri.toString.split("/").last konnte nicht gefunden werden.</div>
   }
 } else {
-@main("", resource.preferredName) {
+@main("", resource.preferredName, allHits) {
     <div class="page-header">
         <h1>
             @defining("Namen in die Zwischenablage kopieren") { title =>
@@ -230,13 +230,13 @@
             </a>
             }
             <small>
-            @for(t <- resource.getType){
+            @*@for(t <- resource.getType){
                 <sup>
                   <small>
                     <span class='label label-primary'><a href='@routes.HomeController.search(q="type:"+t)'>@models.GndOntology.label(t)</a></span>
                   </small>
                 </sup> 
-            }
+            }*@
             <div class='pull-right'>
                 <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
                 <img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")' alt='JSON'/></a>
@@ -245,23 +245,25 @@
             </small>
         </h1>
     </div>
+    @*
     @if(resource.gndRelationEdges != "[]"){
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active"><a href="#fields" role="tab" data-toggle="tab">Felder</a></li>
       @if(resource.gndRelationEdges != "[]"){<li role="presentation"><a href="#rels" role="tab" data-toggle="tab">Beziehungen</a></li>}
     </ul>
     }
+    *@
     <div class="row">
         <div class="tab-content">
             <div role="tabpanel" id="fields" class="tab-pane active col-md-@leftWidth intro">
                 @fields
-                @dataSource
+                @*@dataSource*@
             </div>
             <div  role="tabpanel" id="rels" class="tab-pane col-md-@leftWidth intro">
                 @if(resource.gndRelationEdges != "[]") {
                     @graph()
                 }
-                @dataSource
+                @*@dataSource*@
             </div>
         </div>
         <div class="col-md-@(12-leftWidth) intro">

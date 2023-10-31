@@ -55,6 +55,7 @@ public class GndOntology {
 			put("sameAs", "Siehe auch");
 			put("type", "Entitätstyp");
 			put("creatorOf", "Werke");
+			put("rppdId", "RPPD-ID");
 			// no current German SKOS translation, see
 			// https://www.w3.org/2004/02/skos/translations
 			put("broadMatch", "Oberbegriff");

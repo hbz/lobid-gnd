@@ -137,7 +137,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			entity = entityWithImage(hit.getSourceAsString());
 		}
 		JsonNode dataset = Json.parse(readFile(config("dataset.file")));
-		return ok(views.html.index.render(entity, dataset));
+		return ok(views.html.index.render(entity, dataset, allHits()));
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		}
 		String jsonLd = getAuthorityResource(id);
 		if (jsonLd == null) {
-			return responseFormat == Format.HTML ? notFound(views.html.details.render(null))
+			return responseFormat == Format.HTML ? notFound(views.html.details.render(null, allHits()))
 					: notFound("Not found: " + id);
 		}
 		try {
@@ -210,7 +210,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			case HTML: {
 				AuthorityResource entity = entityWithImage(jsonLd);
 				entity.creatorOf = creatorOf(id);
-				return ok(views.html.details.render(entity));
+				return ok(views.html.details.render(entity, allHits()));
 			}
 			default: {
 				JsonNode jsonLdObject = Json.parse(jsonLd);
@@ -351,6 +351,10 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			Logger.error("Error: {}", message);
 			return internalServerError(views.html.error.render(q, "Error: " + message));
 		}
+	}
+
+	private long allHits() {
+		return index.query("*").getHits().getTotalHits();
 	}
 
 	private Result jsonLines(String q, String filter, SearchResponse response) {

@@ -32,6 +32,7 @@ public class AuthorityResource {
 	public static final String ID = "AuthorityResource";
 	private static final int SHORTEN = 5;
 	public static final String DNB_PREFIX = "https://d-nb.info/";
+	public static final String RPPD_PREFIX = "https://rppd.lobid.org/";
 	public static final String GND_PREFIX = DNB_PREFIX + "gnd/";
 	public static final String ELEMENTSET = DNB_PREFIX + "standards/elementset/";
 	private static final List<String> SKIP = Arrays.asList(//
@@ -68,7 +69,7 @@ public class AuthorityResource {
 	}
 
 	public String getId() {
-		return id.substring(GND_PREFIX.length());
+		return id.substring(id.startsWith(GND_PREFIX) ? GND_PREFIX.length() : RPPD_PREFIX.length());
 	}
 
 	public void setId(String id) {

@@ -111,7 +111,7 @@
 	@defining((Json.parse(result) \ "aggregation" \ key).asOpt[Seq[JsValue]].getOrElse(Seq())) { buckets =>
 		@if(!buckets.isEmpty) {
 			@defining(key.replace(".id", "")) { simpleKey =>
-				<h5>@models.GndOntology.label(simpleKey) @if(buckets.size>5){
+				<h5>@models.GndOntology.label(simpleKey) @if(buckets.size>15){
 					<a id="@simpleKey-more-link" href="javascript:void(0)" title="Mehr Werte anzeigen"
 							onclick="$('.@simpleKey-more-item').show(); $('#@simpleKey-more-link').hide(); $('#@simpleKey-less-link').show();">
 						<span class="octicon octicon-diff-added" aria-hidden="true"></span>
@@ -125,7 +125,7 @@
 							(bucket, bIndex) <- buckets.zipWithIndex;
 							term = (bucket \ "key").as[String];
 							count = (bucket \ "doc_count").as[Int]) {
-						<span @if(bIndex>4){style="display:none" class="@simpleKey-more-item"}>
+						<span @if(bIndex>14){style="display:none" class="@simpleKey-more-item"}>
 							@facetLink(key, "\"" + term + "\"", models.GndOntology.label(term), count) <br/>
 						</span>
 				}
@@ -167,7 +167,7 @@
 	}
 }
 
-@main(q, "lobid-gnd - search") {
+@main(q, "RPPD - Ergebnisliste", allHits) {
   <!-- <code><pre>@result</pre></code>  -->
   @defining((Json.parse(result) \ "member").asOpt[Seq[JsValue]].getOrElse(Seq()).zipWithIndex) { hits =>
      <div class="row" id="search-results">
@@ -196,7 +196,7 @@
                  </div>
                  <table class="table table-striped table-condensed">
                  <tr><th /><th style='min-width:25%'/><th /><th /><th style='min-width:10%'/></tr>
-                 @for((doc,i) <- hits; id = (doc\"gndIdentifier").as[String]) {
+                 @for((doc,i) <- hits; gndId = (doc\"gndIdentifier").as[String]; id = if (gndId.contains("Keine")) (doc\"rppdId").as[String] else gndId) {
                     @result_short(id,doc,i-1)
                  }
                  </table>
