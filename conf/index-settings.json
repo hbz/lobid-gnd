@@ -141,6 +141,13 @@
 							"analyzer": "ascii"
 						}
 					}
+				},
+				"professionOrOccupation": {
+					"properties" : {
+						"label": {
+							"type": "keyword"
+						}
+					}
 				}
 			}
 		}

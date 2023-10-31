@@ -110,8 +110,8 @@
 @facet(key: String) = {
 	@defining((Json.parse(result) \ "aggregation" \ key).asOpt[Seq[JsValue]].getOrElse(Seq())) { buckets =>
 		@if(!buckets.isEmpty) {
-			@defining(key.replace(".id", "")) { simpleKey =>
-				<h5>@models.GndOntology.label(simpleKey) @if(buckets.size>15){
+			@defining(key.replace(".id", "").replace(".label", "")) { simpleKey =>
+				<h5>@models.GndOntology.label(simpleKey) @if(buckets.size>10){
 					<a id="@simpleKey-more-link" href="javascript:void(0)" title="Mehr Werte anzeigen"
 							onclick="$('.@simpleKey-more-item').show(); $('#@simpleKey-more-link').hide(); $('#@simpleKey-less-link').show();">
 						<span class="octicon octicon-diff-added" aria-hidden="true"></span>
@@ -125,7 +125,7 @@
 							(bucket, bIndex) <- buckets.zipWithIndex;
 							term = (bucket \ "key").as[String];
 							count = (bucket \ "doc_count").as[Int]) {
-						<span @if(bIndex>14){style="display:none" class="@simpleKey-more-item"}>
+						<span @if(bIndex>9){style="display:none" class="@simpleKey-more-item"}>
 							@facetLink(key, "\"" + term + "\"", models.GndOntology.label(term), count) <br/>
 						</span>
 				}
@@ -224,10 +224,11 @@
 				@defining(("type", (Json.parse(result) \ "aggregation" \ "type").asOpt[Seq[JsValue]].getOrElse(Seq()))) { case (jsKey, buckets) => 
 					@if(!buckets.isEmpty) {
 						<h4>Ergebnisse eingrenzen:</h4>
-						@typeFacet(buckets)
+						@*@typeFacet(buckets)*@
 						@facet("gndSubjectCategory.id")
 						@facet("geographicAreaCode.id")
-						@facet("professionOrOccupation.id")
+						@facet("professionOrOccupation.label")
+						@*@facet("professionOrOccupation.id")*@
 						@*@facet("dateOfBirth")*@
 					}
 				}
