@@ -1,6 +1,6 @@
 @* Copyright 2015-2018 Fabian Steeg, hbz. Licensed under the EPL 2.0 *@
 
-@(q: String, f: String, from: Int, size: Int, result: String, allHits: Long)
+@(q: String, f: String, from: Int, size: Int, result: String, searchHits: Long, allHits: Long)
 
 @import play.api.libs.json._
 @import controllers.HomeController.CONFIG
@@ -191,7 +191,7 @@
                  <div class="row">
                     <!-- <div class="col-md-1"></div>  -->
                     <div class="col-md-12">
-                     @formatCount(allHits) Treffer, zeige @formatCount(from+1) bis @formatCount(Math.min(from+hits.size,from+size)):
+                     @formatCount(searchHits) Treffer, zeige @formatCount(from+1) bis @formatCount(Math.min(from+hits.size,from+size)):
                     </div>
                  </div>
                  </div>

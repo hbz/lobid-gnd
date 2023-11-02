@@ -393,7 +393,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	private Result htmlSearch(String q, String type, int from, int size, String format, SearchResponse response) {
 		return ok(views.html.search.render(q, type, from, size, returnAsJson(q, response),
-				response == null ? 0 : response.getHits().getTotalHits()));
+                response == null ? 0 : response.getHits().getTotalHits(), allHits()));
 	}
 
 	static Result withCallback(final String json) {
