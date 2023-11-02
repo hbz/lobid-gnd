@@ -1217,7 +1217,8 @@
       },
       "usingInstructions": {
          "@id":"https://d-nb.info/standards/elementset/gnd#usingInstructions",
-         "@container":"@set"
+         "@language":"de",
+         "@container": "@set"
       },
       "variantName": {
          "@id":"https://d-nb.info/standards/elementset/gnd#variantName",
