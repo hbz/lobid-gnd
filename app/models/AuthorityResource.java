@@ -72,6 +72,10 @@ public class AuthorityResource {
 		return id.substring(id.startsWith(GND_PREFIX) ? GND_PREFIX.length() : RPPD_PREFIX.length());
 	}
 
+	public String getFullId() {
+		return id;
+	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -124,7 +128,7 @@ public class AuthorityResource {
 
 	public List<Pair<String, String>> generalFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
-		addValues("type", typeLinks(), fields);
+		// addValues("type", typeLinks(), fields);
 		addValues("creatorOf", creatorOf, fields);
 		addRest(fields);
 		List<String> order = HomeController.CONFIG.getStringList("field.order");
@@ -341,7 +345,7 @@ public class AuthorityResource {
 		String literalField = field + "AsLiteral";
 		for (Object literal : get(literalField)) {
 			String search = controllers.routes.HomeController
-					.search(literalField + ":\"" + literal + "\"", "", "", 0, 10, "html").toString();
+					.search("", literalField + ":\"" + literal + "\"", "", 0, 10, "html").toString();
 			result = result + "&nbsp;" + "|" + "&nbsp;" + literal + "&nbsp;"
 					+ String.format(
 							"<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>"
@@ -384,7 +388,7 @@ public class AuthorityResource {
 			}
 			return new LinkWithImage(url, icon == null ? "" : icon.toString(), label == null ? "" : label.toString());
 		}).collect(Collectors.toList());
-		if (!result.stream().anyMatch(linkWithImage -> linkWithImage.url.contains(dnbSubstring))) {
+		if (id.startsWith(GND_PREFIX) && !result.stream().anyMatch(linkWithImage -> linkWithImage.url.contains(dnbSubstring))) {
 			result.add(new LinkWithImage(id, dnbIcon, dnbLabel));
 		}
 		return result;
@@ -418,7 +422,7 @@ public class AuthorityResource {
 					? controllers.routes.HomeController.authority(value.replace(GND_PREFIX, ""), null).toString()
 					: value;
 			String search = controllers.routes.HomeController
-					.search(field + ".id:\"" + value + "\"", "", "", 0, 10, "html").toString();
+					.search("", field.equals("professionOrOccupation") ? field + ".label:\"" + label + "\"" : field + ".id:\"" + value + "\"", "", 0, 10, "html").toString();
 			String entityLink = String.format(
 					"<a id='%s-%s' title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>%s</a>", //
 					field, i, label, link, label);
@@ -429,7 +433,7 @@ public class AuthorityResource {
 			result = entityLink + "&nbsp;" + searchLink;
 		} else if (field.endsWith("AsLiteral")) {
 			String search = controllers.routes.HomeController
-					.search(field + ":\"" + value + "\"", "", "", 0, 10, "html").toString();
+					.search("", field + ":\"" + value + "\"", "", 0, 10, "html").toString();
 			result = result + "&nbsp;"
 					+ String.format(
 							"<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>"

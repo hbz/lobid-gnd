@@ -195,7 +195,7 @@
 </script>
 <table class='table table-striped table-condensed'>
   <tr>
-    <td>URI</td> @defining((AuthorityResource.GND_PREFIX + resource.getId(), "URI in die Zwischenablage kopieren")) { case (uri, title) =>
+    <td>URI</td> @defining((resource.getFullId(), "URI in die Zwischenablage kopieren")) { case (uri, title) =>
     <td class='field-value'>@uri
             <a data-toggle="tooltip" data-placement="right" title="@title" href="#" onclick="copyToClipboard('@(uri)', $(this), '@title'); return false;">
                 <span class="octicon octicon-clippy"></span>

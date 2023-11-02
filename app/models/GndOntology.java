@@ -150,6 +150,7 @@ public class GndOntology {
 	}
 
 	private static String ontologyLabel(String id) {
+		labels.put("gndSubjectCategory", "GND-Sachgruppe | Personen zu...");
 		String key = id.contains("#") ? id.split("#")[1] : id;
 		String result = labels.get(key);
         return result == null ? id : result.replaceAll("Personen (zu|der) ", "");
