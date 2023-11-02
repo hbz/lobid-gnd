@@ -148,6 +148,13 @@
 							"type": "keyword"
 						}
 					}
+				},
+				"placeOfActivity": {
+					"properties" : {
+						"label": {
+							"type": "keyword"
+						}
+					}
 				}
 			}
 		}

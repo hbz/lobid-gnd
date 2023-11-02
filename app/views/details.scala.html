@@ -241,9 +241,9 @@
                 <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
                 <img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")' alt='JSON'/></a>
             </div>
-            <br/>@Html(resource.subTitle)
             </small>
         </h1>
+        <h4><small>@Html(resource.subTitle)</small></h4>
     </div>
     @*
     @if(resource.gndRelationEdges != "[]"){
