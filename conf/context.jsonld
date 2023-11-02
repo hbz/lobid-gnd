@@ -1185,7 +1185,7 @@
       },
       "professionOrOccupationAsLiteral": {
          "@id":"https://d-nb.info/standards/elementset/gnd#professionOrOccupationAsLiteral",
-         "@container":"@set"
+         "@container":"@list"
       },
       "publication": {
          "@id":"https://d-nb.info/standards/elementset/gnd#publication",
