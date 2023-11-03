@@ -25,6 +25,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
@@ -280,9 +282,18 @@ public class Convert {
 			@SuppressWarnings("unchecked") /* first.isObject() */
 			Map<String, Object> res = Json.fromJson(first, TreeMap.class);
 			res.put("@context", contextUrl);
+			if (in.has("professionOrOccupation")) {
+				res.put("professionOrOccupation", stream(in.get("professionOrOccupation"))
+						.flatMap(node -> stream(node).filter(JsonNode::isObject)).collect(Collectors.toList()));
+			}
 			result = Json.toJson(res);
 		}
 		return Json.stringify(withEntityFacts(id, result));
+	}
+
+	private static Stream<JsonNode> stream(JsonNode jsonNode) {
+		Iterable<JsonNode> iterable = () -> jsonNode.elements();
+		return StreamSupport.stream(iterable.spliterator(), false);
 	}
 
 	private static JsonNode withEntityFacts(String id, JsonNode node) {

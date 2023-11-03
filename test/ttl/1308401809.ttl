@@ -1,0 +1,71 @@
+@prefix schema: <http://schema.org/> .
+@prefix gndo: <https://d-nb.info/standards/elementset/gnd#> .
+@prefix lib: <http://purl.org/library/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix editeur: <https://ns.editeur.org/thema/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix naf: <https://id.loc.gov/authorities/names/> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix thesoz: <http://lod.gesis.org/thesoz/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix isbd: <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mesh: <http://id.nlm.nih.gov/mesh/vocab#> .
+@prefix ram: <https://data.bnf.fr/ark:/12148/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix marcRole: <http://id.loc.gov/vocabulary/relators/> .
+@prefix agrelon: <https://d-nb.info/standards/elementset/agrelon#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix nsogg: <https://purl.org/bncf/tid/> .
+@prefix dnbt: <https://d-nb.info/standards/elementset/dnb#> .
+@prefix dbp: <http://dbpedia.org/property/> .
+@prefix embne: <https://datos.bne.es/resource/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dnb_intern: <http://dnb.de/> .
+@prefix madsrdf: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix cidoc: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix v: <http://www.w3.org/2006/vcard/ns#> .
+@prefix ebu: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix wdrs: <http://www.w3.org/2007/05/powder-s#> .
+@prefix gbv: <http://purl.org/ontology/gbv/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix agrovoc: <https://aims.fao.org/aos/agrovoc/> .
+@prefix lcsh: <https://id.loc.gov/authorities/subjects/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<https://d-nb.info/gnd/1308401809> a gndo:DifferentiatedPerson;
+  wdrs:describedby <https://d-nb.info/gnd/1308401809/about> .
+
+<https://d-nb.info/gnd/1308401809/about> dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/>;
+  dcterms:modified "2023-11-02T17:51:37.000"^^xsd:dateTime;
+  gndo:descriptionLevel <https://d-nb.info/standards/vocab/gnd/description-level#3> .
+
+<https://d-nb.info/gnd/1308401809> gndo:gndIdentifier "1308401809";
+  gndo:preferredNameForThePerson "Hunkeler, Yvonne";
+  gndo:preferredNameEntityForThePerson _:node1hdlfd95jx83393540 .
+
+_:node1hdlfd95jx83393540 gndo:forename "Yvonne";
+  gndo:surname "Hunkeler" .
+
+<https://d-nb.info/gnd/1308401809> gndo:affiliation <https://d-nb.info/gnd/2005727-1>;
+  gndo:gender <https://d-nb.info/standards/vocab/gnd/gender#female>;
+  gndo:geographicAreaCode <https://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-CH>;
+  gndo:homepage <https://www.yvonnehunkeler.ch/portr%C3%A4t/>;
+  gndo:biographicalOrHistoricalInformation "Selbständige Unternehmensberaterin ; VR-Präsidentin der Basler Verkehrs-Betriebe (2018-2023) ; CVP-Politikerin"@de;
+  gndo:placeOfBirth <https://d-nb.info/gnd/4036733-2>;
+  gndo:professionOrOccupation _:node1hdlfd95jx83393541 .
+
+_:node1hdlfd95jx83393541 a rdf:Seq;
+  rdf:_1 <https://d-nb.info/gnd/4343524-5>;
+  rdf:_2 <https://d-nb.info/gnd/4233114-6>;
+  rdf:_3 <https://d-nb.info/gnd/4175019-6>;
+  rdf:_4 <https://d-nb.info/gnd/4343523-3> .
+
+<https://d-nb.info/gnd/1308401809> gndo:dateOfBirth "1967"^^xsd:gYear .
+

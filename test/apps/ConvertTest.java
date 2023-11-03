@@ -295,6 +295,29 @@ public class ConvertTest {
 		assertEquals("sameAs entries should be unique", ids.size(), sameAsAll.size());
 	}
 
+	@Test
+	public void testProfessionOrOccupationStructure() throws IOException {
+		String id = "1308401809";
+		String jsonLd = jsonLdFor(id);
+		assertNotNull("JSON-LD should exist", jsonLd);
+		JsonNode node = Json.parse(jsonLd);
+		JsonNode professionOrOccupationAll = node.get("professionOrOccupation");
+		Iterable<JsonNode> iterable = () -> professionOrOccupationAll.elements();
+		Stream<JsonNode> stream = StreamSupport.stream(iterable.spliterator(), false);
+		Set<String> ids = stream.map(n -> n.get("id").textValue()).collect(Collectors.toSet());
+		assertEquals("professionOrOccupation entries should be unique", ids.size(), professionOrOccupationAll.size());
+	}
+
+	@Test
+	public void testUsingInstructionsStructure() throws IOException {
+		String id = "4477598-2";
+		String jsonLd = jsonLdFor(id);
+		assertNotNull("JSON-LD should exist", jsonLd);
+		JsonNode node = Json.parse(jsonLd);
+		JsonNode usingInstructions = node.get("usingInstructions");
+		assertTrue(usingInstructions.isArray());
+	}
+
 	private void indexEntityFacts(String id) throws IOException {
 		String json = Files.lines(Paths.get("test/entityfacts/" + id + ".json")).collect(Collectors.joining());
 		TransportClient client = Convert.CLIENT;
