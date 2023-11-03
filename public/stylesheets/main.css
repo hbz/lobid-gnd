@@ -332,6 +332,24 @@ h1 small .label {
     margin-top: -0.5em;
 }
 
+figure {
+  display: table;
+  float: right;
+  margin-top: 10px;
+}
+
+figcaption {
+  display: table-caption;
+  caption-side: bottom;
+  text-align: right;
+}
+
+#index-image {
+  max-width: 100%;
+  max-height: 300px;
+  float: right;
+}
+
 .json-ld-icon {
 	height: 1.4em
 }
