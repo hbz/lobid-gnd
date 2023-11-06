@@ -11,7 +11,7 @@
   xmlns:foaf="http://xmlns.com/foaf/0.1/"
   xml:base="https://d-nb.info/standards/elementset/gnd#"
   xmlns:adms="http://www.w3.org/ns/adms#">
-
+  
 	<owl:Ontology rdf:about="https://d-nb.info/standards/elementset/gnd#">
 		<rdf:type rdf:resource="http://purl.org/vocommons/voaf#Vocabulary"/>
 		<dc:title xml:lang="en">GND Ontology</dc:title>
@@ -20,13 +20,27 @@
 		<!-- For Linked Open Vocabularies -->
 		<vann:preferredNamespaceUri>https://d-nb.info/standards/elementset/gnd#</vann:preferredNamespaceUri>
 		<vann:preferredNamespacePrefix>gndo</vann:preferredNamespacePrefix>
-
+		
 		<!-- Versioning information -->
 		<dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2012-06-30</dct:issued>
-		<dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-09-20T12:13:00+02:00</dct:modified>
-		<dct:available rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2022-06-27</dct:available>
-		<owl:versionInfo>1.16</owl:versionInfo>
+		<dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-06-15T14:57:00+02:00</dct:modified>
+		<dct:available rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2023-06-26</dct:available>
+		<owl:versionInfo>1.18</owl:versionInfo>
 		<adms:versionNotes xml:lang="en">
+Changes from 2023-06-06 to 2023-06-26
+
+Add new datatype property
+  - #usingInstructions 
+
+*Changes from 2022-10-10 to 2023-06-06
+ Corrected improper naming of the property #compoundEquivalence
+
+
+Changes from 2022-06-27 to 2022-10-10
+
+Add new object properties
+  - #descriptionLevel
+
 Changes from 2022-02-08 to 2022-06-27
 
 Add new object properties
@@ -209,8 +223,8 @@ Add new annotation property
 			gndo:PseudonymNameOfTheperson (new class)
 
 </adms:versionNotes>
-		<owl:priorVersion rdf:resource="https://d-nb.info/standards/elementset/gnd_20191015" />
-		<owl:versionIRI rdf:resource="https://d-nb.info/standards/elementset/gnd_20220627" />
+		<owl:priorVersion rdf:resource="https://d-nb.info/standards/elementset/gnd_20230606" />
+		<owl:versionIRI rdf:resource="https://d-nb.info/standards/elementset/gnd_20230626" />
 
 		<!-- Rights information -->
 		<dct:rights>Copyright 2012-2022 Deutsche Nationalbibliothek</dct:rights>
@@ -220,7 +234,7 @@ Add new annotation property
 		<dct:contributor rdf:resource="#dnbStaff" />
 		<dct:contributor rdf:resource="#listMembers" />
 		<dct:publisher rdf:resource="http://ld.zdb-services.de/resource/organisations/DE-101" />
-
+		
 
 	</owl:Ontology>
 
@@ -229,16 +243,16 @@ Add new annotation property
 		<rdfs:label>Alexander Haffner</rdfs:label>
 		<owl:sameAs rdf:resource="https://d-nb.info/gnd/1037982762"/>
 	</foaf:Person>
-
+	
 	<foaf:Organization rdf:about="#dnbStaff">
 		<rdfs:label xml:lang="en">Staff members of the Deutsche Nationalbibliothek</rdfs:label>
 	</foaf:Organization>
-
+	
 	<foaf:Organization rdf:about="#listMembers">
 		<rdfs:label xml:lang="en">Members of the GND ontology mailing list</rdfs:label>
 		<foaf:mbox>gnd-ontology@lists.dnb.de</foaf:mbox>
 	</foaf:Organization>
-
+	
 	<!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -299,7 +313,7 @@ Add new annotation property
     <marc21equivalent>451 $a $g $z $4=abku</marc21equivalent>
     <rdfs:subPropertyOf rdf:resource="https://d-nb.info/standards/elementset/gnd#variantNameForThePlaceOrGeographicName"/>
   </owl:AnnotationProperty>
-
+  
   <!-- https://d-nb.info/standards/elementset/gnd#abbreviatedNameForTheWork -->
 
   <owl:AnnotationProperty rdf:about="https://d-nb.info/standards/elementset/gnd#abbreviatedNameForTheWork">
@@ -314,7 +328,7 @@ Add new annotation property
   </owl:AnnotationProperty>
 
   <!-- https://d-nb.info/standards/elementset/gnd#marc21equivalent -->
-
+  
   <owl:AnnotationProperty rdf:about="https://d-nb.info/standards/elementset/gnd#marc21equivalent">
 	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
 	<rdfs:isDefinedBy rdf:resource="https://d-nb.info/standards/elementset/gnd#"/>
@@ -611,7 +625,7 @@ Add new annotation property
 
 
 
-  <!--
+  <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Datatypes
@@ -621,7 +635,7 @@ Add new annotation property
 
 
 
-  <!--
+  <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Object Properties
@@ -629,7 +643,7 @@ Add new annotation property
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-
+ 
   <!-- https://d-nb.info/standards/elementset/gnd#accordingWork -->
 
   <owl:ObjectProperty rdf:about="https://d-nb.info/standards/elementset/gnd#accordingWork">
@@ -1600,17 +1614,6 @@ Add new annotation property
   </owl:ObjectProperty>
 
 
-  <!-- https://d-nb.info/standards/elementset/gnd#compoundEquivalence-->
-
-  <owl:ObjectProperty rdf:about="https://d-nb.info/standards/elementset/gnd#compoundEquivalence">
-    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-    <rdfs:isDefinedBy rdf:resource="https://d-nb.info/standards/elementset/gnd#"/>
-    <rdfs:label xml:lang="de">UND-Aequivalenz</rdfs:label>
-    <rdfs:label xml:lang="en">intersecting compound equivalence</rdfs:label>
-    <rdfs:comment xml:lang="en">The intersection of two or more terms represents the GND concept.</rdfs:comment>
-    <marc21equivalent>$4 = EQ+</marc21equivalent>
-  </owl:ObjectProperty>
-
 
   <!-- https://d-nb.info/standards/elementset/gnd#conferrer -->
 
@@ -1936,6 +1939,20 @@ Add new annotation property
 
 
 
+  <!-- https://d-nb.info/standards/elementset/gnd#descriptionLevel -->
+
+<owl:ObjectProperty rdf:about="https://d-nb.info/standards/elementset/gnd#descriptionLevel">
+<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+<rdfs:isDefinedBy rdf:resource="https://d-nb.info/standards/elementset/gnd#"/>
+  <rdfs:label xml:lang="en">GND Description Level</rdfs:label>
+  <rdfs:label xml:lang="de">GND-Katalogisierungslevel</rdfs:label>
+<rdfs:comment xml:lang="en">Expressing the level of completness of the description on the scale of GND Description Level values. More information on this scale at https://wiki.dnb.de/download/attachments/50759357/005.pdf (in german)</rdfs:comment>
+<rdfs:comment xml:lang="de">Drückt den Grad der Vollständigkeit der Beschreibung mittels Werten des GND-Katalogisierungslevel aus. Mehr Informationen dazu unter https://wiki.dnb.de/download/attachments/50759357/005.pdf</rdfs:comment>
+<marc21equivalent>042 $a</marc21equivalent>
+<rdfs:range rdf:resource="https://d-nb.info/standards/vocab/gnd/description-level#DescriptionLevelValue"/>
+</owl:ObjectProperty>
+
+
   <!-- https://d-nb.info/standards/elementset/gnd#designer -->
 
   <owl:ObjectProperty rdf:about="https://d-nb.info/standards/elementset/gnd#designer">
@@ -2140,7 +2157,9 @@ Add new annotation property
     <rdfs:subPropertyOf rdf:resource="http://rdaregistry.info/Elements/u/P60410"/>
   </owl:ObjectProperty>
 
-  <!-- https://d-nb.info/standards/elementset/gnd#equivalence-->
+
+
+   <!-- https://d-nb.info/standards/elementset/gnd#equivalence -->
 
   <owl:ObjectProperty rdf:about="https://d-nb.info/standards/elementset/gnd#equivalence">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
@@ -2150,6 +2169,8 @@ Add new annotation property
     <rdfs:comment xml:lang="en">Concepts of mapped vocabularies are most closely matching.</rdfs:comment>
     <marc21equivalent>$4 = EQ</marc21equivalent>
   </owl:ObjectProperty>
+
+
 
   <!-- https://d-nb.info/standards/elementset/gnd#etcher -->
 
@@ -2790,6 +2811,18 @@ Add new annotation property
     <rdfs:domain rdf:resource="https://d-nb.info/standards/elementset/gnd#Work"/>
     <rdfs:range rdf:resource="https://d-nb.info/standards/elementset/gnd#DifferentiatedPerson"/>
     <marc21equivalent>500 $0 $4=istm</marc21equivalent>
+  </owl:ObjectProperty>
+
+
+  <!-- https://d-nb.info/standards/elementset/gnd#intersectingCompoundEquivalence -->
+
+  <owl:ObjectProperty rdf:about="https://d-nb.info/standards/elementset/gnd#intersectingCompoundEquivalence">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:isDefinedBy rdf:resource="https://d-nb.info/standards/elementset/gnd#"/>
+    <rdfs:label xml:lang="de">UND-Aequivalenz</rdfs:label>
+    <rdfs:label xml:lang="en">intersecting compound equivalence</rdfs:label>
+    <rdfs:comment xml:lang="en">The intersection of two or more terms represents the GND concept.</rdfs:comment>
+    <marc21equivalent>$4 = EQ+</marc21equivalent>
   </owl:ObjectProperty>
 
 
@@ -5885,7 +5918,29 @@ Add new annotation property
     <rdfs:subPropertyOf rdf:resource="https://d-nb.info/standards/elementset/gnd#associatedDate"/>
   </owl:DatatypeProperty>
 
+   <!-- https://d-nb.info/standards/elementset/gnd#usingInstructions -->
 
+<owl:DatatypeProperty rdf:about="https://d-nb.info/standards/elementset/gnd#usingInstructions">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:isDefinedBy rdf:resource="https://d-nb.info/standards/elementset/gnd#"/>
+    <rdfs:label xml:lang="en">Using Instructions</rdfs:label>
+    <rdfs:label xml:lang="de">Benutzungshinweise</rdfs:label> 
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <marc21equivalent>680 $a</marc21equivalent>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdfs:Class rdf:about="https://d-nb.info/standards/elementset/gnd#ConferenceOrEvent"/>
+          <rdfs:Class rdf:about="https://d-nb.info/standards/elementset/gnd#CorporateBody"/>
+          <rdfs:Class rdf:about="https://d-nb.info/standards/elementset/gnd#DifferentiatedPerson"/>
+          <rdfs:Class rdf:about="https://d-nb.info/standards/elementset/gnd#Family"/>
+          <rdfs:Class rdf:about="https://d-nb.info/standards/elementset/gnd#PlaceOrGeographicName"/>
+          <rdfs:Class rdf:about="https://d-nb.info/standards/elementset/gnd#SubjectHeading"/>
+          <rdfs:Class rdf:about="https://d-nb.info/standards/elementset/gnd#Work"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+ </owl:DatatypeProperty>
 
   <!-- https://d-nb.info/standards/elementset/gnd#westernmostLongitude -->
 
@@ -6740,7 +6795,7 @@ Add new annotation property
 
 
 
-  <!--
+  <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // General axioms
