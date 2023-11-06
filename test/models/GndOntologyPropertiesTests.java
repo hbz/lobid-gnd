@@ -28,7 +28,7 @@ public class GndOntologyPropertiesTests {
 						"relatedPerson", "relatedPlaceOrGeographicName", "relatedTerm", "relatedWork",
 						"affiliationAsLiteral", "biographicalOrHistoricalInformation", "definition",
 						"oldAuthorityNumber", "periodOfActivity", "professionOrOccupationAsLiteral", "publication",
-						"acquaintanceshipOrFriendship", "affiliation", "relatedSubjectHeading") } });
+						"acquaintanceshipOrFriendship", "affiliation", "relatedSubjectHeading", "usingInstructions") } });
 	}
 
 	private List<String> properties;
