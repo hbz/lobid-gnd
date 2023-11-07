@@ -40,7 +40,7 @@ public class AuthorityResource {
 			"@context", "id", "type", "depiction", "sameAs", "preferredName", "hasGeometry", "definition",
 			"biographicalOrHistoricalInformation", //
 			// don't display:
-			"variantNameEntityForThePerson", "deprecatedUri", "oldAuthorityNumber", "wikipedia");
+			"variantNameEntityForThePerson", "deprecatedUri", "oldAuthorityNumber", "wikipedia", "gender", "rppdId");
 
 	private String id;
 	private List<String> type;
