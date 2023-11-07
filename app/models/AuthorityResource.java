@@ -257,6 +257,10 @@ public class AuthorityResource {
 		return new LinkWithImage("", "", "");
 	}
 
+	public String dateModified() {
+		return json.findValue("dateModified").asText();
+	}
+
 	private List<Double> scanGeoCoordinates(String geoString) {
 		List<Double> lonLat = new ArrayList<Double>();
 		try (@SuppressWarnings("resource") // it's the same scanner!
