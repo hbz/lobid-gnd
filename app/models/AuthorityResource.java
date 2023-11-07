@@ -425,16 +425,24 @@ public class AuthorityResource {
 			String link = value.startsWith(GND_PREFIX)
 					? controllers.routes.HomeController.authority(value.replace(GND_PREFIX, ""), null).toString()
 					: value;
+			List<String> facets = Arrays.asList(HomeController.AGGREGATIONS);
+			boolean labelBasedFacet = facets.contains(field + ".label");
+			boolean qBasedSearch = facets.stream().noneMatch(s -> s.startsWith(field));
 			String search = controllers.routes.HomeController
-					.search("", field.equals("professionOrOccupation") ? field + ".label:\"" + label + "\"" : field + ".id:\"" + value + "\"", "", 0, 10, "html").toString();
-			String entityLink = String.format(
-					"<a id='%s-%s' title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>%s</a>", //
-					field, i, label, link, label);
+					.search(qBasedSearch ? field + ".id:\"" + value + "\"" : "",
+							labelBasedFacet ? field + ".label:\"" + label + "\""
+							: field + ".id:\"" + value + "\"", "", 0, 10, "html")
+					.toString();
 			String searchLink = String.format(
-					"<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>"
-							+ "<i class='octicon octicon-search' aria-hidden='true'></i></a>",
-					GndOntology.label(field), label, search);
-			result = entityLink + "&nbsp;" + searchLink;
+					"<a id='%s-%s' title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>", //
+					field, i, GndOntology.label(field), label, search, label);
+			String entityLink = String.format(
+					"<a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
+							+ "<i class='octicon octicon-link text-muted' aria-hidden='true'></i></a>",
+					label, link);
+			boolean linkableEntity = field.equals("relatedPerson")
+					|| (field.startsWith("place") && value.contains("spatial"));
+			result = searchLink + "&nbsp;" + (linkableEntity ? entityLink : "");
 		} else if (field.endsWith("AsLiteral")) {
 			String search = controllers.routes.HomeController
 					.search("", field + ":\"" + value + "\"", "", 0, 10, "html").toString();
