@@ -121,10 +121,9 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result index() {
-		String queryString = "depiction:*";
-		for (String dont : CONFIG.getStringList("dontShowOnMainPage")) {
-			queryString += " AND NOT gndIdentifier:" + dont;
-		}
+		String queryString = String.format("depiction:* AND NOT gndIdentifier:(%s)",
+				CONFIG.getStringList("dontShowOnMainPage").stream()
+						.collect(Collectors.joining(" OR ")));
 		QueryStringQueryBuilder query = index.queryStringQuery(queryString);
 		FunctionScoreQueryBuilder functionScoreQuery = QueryBuilders.functionScoreQuery(query,
 				ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()));
