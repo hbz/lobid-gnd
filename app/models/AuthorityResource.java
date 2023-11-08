@@ -10,11 +10,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.TreeSet;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.common.geo.GeoPoint;
@@ -96,19 +99,28 @@ public class AuthorityResource {
 	public String title() {
 		return preferredName;
 	}
-
-	public String subTitle() {
-		String lifeDates = fieldValues("dateOfBirth-dateOfDeath", json).map(JsonNode::asText)
+	
+	public String lifeDates() {
+		return fieldValues("dateOfBirth-dateOfDeath", json).map(JsonNode::asText)
 				.collect(Collectors.joining());
-		String details = find("definition", "biographicalOrHistoricalInformation");
-		return Stream.of(lifeDates, details).filter(s -> !s.isEmpty()).collect(Collectors.joining(" | "));
+	}
+
+	public String biogramme() {
+		return find("definition", "biographicalOrHistoricalInformation");
 	}
 
 	private String find(String... fields) {
 		for (String field : fields) {
 			JsonNode node = json.get(field);
 			if (node != null && node.elements().hasNext()) {
-				return node.elements().next().asText();
+				Stream<JsonNode> stream = StreamSupport.stream(
+						Spliterators.spliteratorUnknownSize(node.elements(), Spliterator.ORDERED),
+						false);
+				List<String> collect = stream.map(JsonNode::asText).collect(Collectors.toList());
+				return "<p class='lead'><small><small>" + collect.get(0) + "</small></small></p>"
+						+ collect.subList(1, collect.size()).stream()
+								.map(s -> "<p>" + s.replace(" - ", "</p><p>") + "</p>")
+								.collect(Collectors.joining());
 			}
 		}
 		return "";

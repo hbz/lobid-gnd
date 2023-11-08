@@ -215,7 +215,7 @@ public class Reconcile extends Controller {
 					.map(entity -> Json.toJson(ImmutableMap.of(//
 							"id", entity.getId(), //
 							"name", entity.title(), //
-							"description", entity.subTitle(), //
+							"description", entity.lifeDates(), //
 							"notable",
 							entity.getType().stream()
 									.map(t -> Json.toJson(ImmutableMap.of(//

@@ -350,6 +350,11 @@ figcaption {
   float: right;
 }
 
+#details-image {
+  max-width: 100%;
+  max-height: 275px;
+}
+
 .json-ld-icon {
 	height: 1.4em
 }
