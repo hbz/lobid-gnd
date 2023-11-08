@@ -79,8 +79,6 @@
           @field(types, "Work", doc, "dateOfProduction")
 
           @field(types, "Person", doc, "professionOrOccupation")
-          @for(v <- (doc \ "dateOfBirth").asOpt[Seq[String]]){@Html(cleanDate(v.head)) &ndash; }
-          @for(v <- (doc \ "dateOfDeath").asOpt[Seq[String]]){@Html(cleanDate(v.head))}
           </td>
         }
         <td class='text-right'>
@@ -91,9 +89,12 @@
               @(types.filter(!Seq("AuthorityResource").contains(_)).map(models.GndOntology.label(_)).mkString(", "))
             }
           }*@
-          @Html((doc \ "rppdId").as[String])
+          @field(Seq(), "*", doc, "placeOfBirth")
         </td>
-        <td class='text-right text-muted'>&nbsp;@((doc \ "gndIdentifier").asOpt[String].getOrElse("").replaceAll("Keine GND-Ansetzung für.+", ""))</td>
+        <td class='text-right'>
+          &nbsp;@for(v <- (doc \ "dateOfBirth").asOpt[Seq[String]]){@Html(cleanDate(v.head))&nbsp;&ndash;&nbsp;}@for(v <- (doc \ "dateOfDeath").asOpt[Seq[String]]){@Html(cleanDate(v.head))}
+          @*&nbsp;@((doc \ "gndIdentifier").asOpt[String].getOrElse("").replaceAll("Keine GND-Ansetzung für.+", ""))*@
+        </td>
     </tr>
 }
 
@@ -196,7 +197,7 @@
                  </div>
                  </div>
                  <table class="table table-striped table-condensed">
-                 <tr><th /><th style='min-width:25%'/><th /><th /><th style='min-width:10%'/></tr>
+                 <tr><th /><th /><th /><th /><th /></tr>
                  @for((doc,i) <- hits; gndId = (doc\"gndIdentifier").as[String]; id = if (gndId.contains("Keine")) (doc\"rppdId").as[String] else gndId) {
                     @result_short(id,doc,i-1)
                  }
