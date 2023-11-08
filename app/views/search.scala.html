@@ -173,7 +173,7 @@
   <!-- <code><pre>@result</pre></code>  -->
   @defining((Json.parse(result) \ "member").asOpt[Seq[JsValue]].getOrElse(Seq()).zipWithIndex) { hits =>
      <div class="row" id="search-results">
-         <div class="col-md-@if(allHits > 0){8}else{12}">
+         <div class="col-md-@if(searchHits > 0){8}else{12}">
          @if(hits.size>0){
              <div class="row hide-in-print" >
                  <div class="col-md-12">

@@ -94,8 +94,6 @@ ul.facet li {
 	border-style: solid;
 	border-width: 1px;
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-	text-decoration: underline;
-	color: blue;
 	z-index: 100 !important;
 }
 

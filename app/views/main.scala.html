@@ -104,10 +104,6 @@
                     if(item.image) {
                       img = "<img style='height: 50px' src='"+item.image+"'/>&nbsp;";
                     }
-                    var categories = item.category.split(' | ');
-                    for(var category in categories) {
-                      labels += "&nbsp;<small><span class='badge badge-default'>" + categories[category] + "</span></small>";
-                    }
                     return $("<li></li>")
                       .data("item.autocomplete", item )
                       .append("<a>" + img + item.label + labels +"</a>")
@@ -133,7 +129,7 @@
                     event.preventDefault();
                   },
                   select: function(event, ui) {
-                    window.location.href = ui.item.id.replace('https://d-nb.info','');
+                    window.location.href = ui.item.id.replace('https://d-nb.info/gnd/','');
                     event.preventDefault();
                   }
                 });
