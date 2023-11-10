@@ -211,7 +211,7 @@ public class ConvertUpdates {
 	}
 
 	private static ZonedDateTime addMinutes(ZonedDateTime start, ZonedDateTime end, int intervalSize) {
-		ZonedDateTime endDate = start.plusMinutes(intervalSize); //TODO
+		ZonedDateTime endDate = start.plusMinutes(intervalSize);
 		return end.
 				isBefore(endDate) ? end : endDate;
 	}
