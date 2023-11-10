@@ -8,11 +8,14 @@ set -uo pipefail # See http://redsymbol.net/articles/unofficial-bash-strict-mode
 IFS=$'\n\t'
 RECIPIENT=lobid-admin
 sbt -mem 4000 "runMain apps.ConvertUpdates $(tail -n1 GND-lastSuccessfulUpdate.txt)"
-sbt -Dindex.prod.name=gnd-test "runMain apps.Index updates"
-bash ./checkCompactedProperties.sh gnd-test
 
-# if check ok, index to productive instance:
-if [ $? -eq 0 ]; then
-	sbt -Dindex.prod.name=gnd "runMain apps.Index updates"
-	bash ./checkCompactedProperties.sh gnd
+if [ -s GND-updates.jsonl ]; then
+  sbt -Dindex.prod.name=gnd-test "runMain apps.Index updates"
+  bash ./checkCompactedProperties.sh gnd-test
+
+  # if check ok, index to productive instance:
+  if [ $? -eq 0 ]; then
+    sbt -Dindex.prod.name=gnd "runMain apps.Index updates"
+    bash ./checkCompactedProperties.sh gnd
+  fi
 fi
