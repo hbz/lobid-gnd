@@ -41,7 +41,8 @@ import helper.Email;
 
 /**
  * Configurable to-the-minute. Start time is read from file which was saved last time of successfully updating.
- * Default end time is now, like eg. 2023-11-06T15:59Z .
+ * OAI-PMH allows UTC queries. The format doesn't allow e.g. milliseconds - see {@link #dateTimeFormatter}.
+ * Default end time is now, in the format like eg. 2023-11-06T15:59Z .
  */
 public class ConvertUpdates {
 
@@ -52,8 +53,7 @@ public class ConvertUpdates {
 			+ "This may or may not be a problem on the side of the data provider.";
 	static private boolean rawDates = false;
 	/* OAI-PMH expects this format */
-	static final DateTimeFormatter dateTimeFormatter =
-			DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+	static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		if (args.length >= 1) {
