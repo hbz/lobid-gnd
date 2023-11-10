@@ -139,7 +139,7 @@ public class ConvertUpdates {
 			throws NoSuchFieldException, IOException, ParserConfigurationException, SAXException, TransformerException,
 			XMLStreamException, XPathException {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		String fromFormatted = from.format(dateTimeFormatter);
+		String fromFormatted = from.minusMinutes(1).format(dateTimeFormatter);
 		String untilFormatted = until.format(dateTimeFormatter);
 
 		System.out.printf("Calling OAI-PMH at %s from %s until %s\n", baseUrl, fromFormatted, untilFormatted);
