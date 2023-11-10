@@ -76,7 +76,8 @@ public class ConvertUpdates {
 			if (dataUpdate.length() == 0) {
 				System.err.println("Tried " + tried
 						+ " times to get the data, but it remains empty. This may or may not be a problem on the side of the data provider. Going to send a mail...");
-				Email.sendEmail(config("mail.sender"), config("mail.recipient"), "GND updates fails :(", FAIL_MESSAGE);
+				// see https://github.com/hbz/lobid-gnd/issues/350
+				// Email.sendEmail(config("mail.sender"), config("mail.recipient"), "GND updates fails :(", FAIL_MESSAGE);
 			} else {
 				System.err.println("Success getting the update, tried " + tried + " times");
 				writeLastSuccessfulUpdate(startAndEnd.getRight());
