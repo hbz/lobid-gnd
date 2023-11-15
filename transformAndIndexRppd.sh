@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail # See http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -uo pipefail # See http://redsymbol.net/articles/unofficial-bash-strict-mode/
 
 cd ../rpb
 rm conf/output/bulk/rppd/*
