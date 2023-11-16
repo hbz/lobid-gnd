@@ -198,6 +198,10 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		}
 		String jsonLd = getAuthorityResource(id);
 		if (jsonLd == null) {
+			SearchHits hitsById = index.query("rppdId:" + id, "", "", 0, 1).getHits();
+			if (hitsById.getTotalHits() > 0) {
+				return movedPermanently(hitsById.getAt(0).getSource().get("gndIdentifier").toString());
+			}
 			return responseFormat == Format.HTML ? notFound(views.html.details.render(null, allHits()))
 					: notFound("Not found: " + id);
 		}
