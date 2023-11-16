@@ -302,7 +302,7 @@ public class AuthorityResource {
 				addArray(key, Lists.newArrayList(node.elements()), fields);
 				break;
 			case OBJECT:
-				if (key.equals("describedBy")) {
+				if (key.equals("describedBy") && node.get("source") != null) {
 					addValues("source", Lists.newArrayList(node.get("source").elements()).stream().map(JsonNode::asText).collect(Collectors.toList()), fields);
 					break;
 				}
