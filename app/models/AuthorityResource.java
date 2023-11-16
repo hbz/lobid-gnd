@@ -443,6 +443,9 @@ public class AuthorityResource {
 			result = String.format("<a href='%s'>%s</a>", value, value);
 		} else if (Arrays.asList("dateOfBirth", "dateOfDeath").contains(field)) {
 			result = germanDate(value);
+		} else if (field.equals("source") && value.startsWith("http")) {
+			result = String.format("<a href='%s'>%s</a> %s", value.split(" ")[0], value.split(" ")[0],
+					value.replace(value.split(" ")[0] + " ", ""));
 		} else if (value.startsWith("http")) {
 			String link = value.startsWith(GND_PREFIX)
 					? controllers.routes.HomeController.authority(value.replace(GND_PREFIX, ""), null).toString()
