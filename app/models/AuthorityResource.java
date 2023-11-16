@@ -2,6 +2,8 @@
 
 package models;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -271,7 +273,7 @@ public class AuthorityResource {
 	}
 
 	public String dateModified() {
-		return json.findValue("dateModified").asText();
+		return germanDate(json.findValue("dateModified").asText());
 	}
 
 	private List<Double> scanGeoCoordinates(String geoString) {
@@ -434,6 +436,8 @@ public class AuthorityResource {
 					controllers.routes.HomeController.authority(value.replace(GND_PREFIX, ""), null), label);
 		} else if (Arrays.asList("wikipedia", "sameAs", "depiction", "homepage").contains(field)) {
 			result = String.format("<a href='%s'>%s</a>", value, value);
+		} else if (Arrays.asList("dateOfBirth", "dateOfDeath").contains(field)) {
+			result = germanDate(value);
 		} else if (value.startsWith("http")) {
 			String link = value.startsWith(GND_PREFIX)
 					? controllers.routes.HomeController.authority(value.replace(GND_PREFIX, ""), null).toString()
@@ -466,6 +470,11 @@ public class AuthorityResource {
 							GndOntology.label(field), value, search);
 		}
 		return withDefaultHidden(field, size, i, result);
+	}
+
+	private String germanDate(String value) {
+		return LocalDate.from(DateTimeFormatter.ISO_LOCAL_DATE.parse(value))
+				.format(DateTimeFormatter.ofPattern("dd.MM.uuuu", Locale.GERMAN));
 	}
 
 	private String withDefaultHidden(String field, int size, int i, String result) {
