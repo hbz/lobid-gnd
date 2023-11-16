@@ -301,6 +301,11 @@ public class AuthorityResource {
 			case ARRAY:
 				addArray(key, Lists.newArrayList(node.elements()), fields);
 				break;
+			case OBJECT:
+				if (key.equals("describedBy")) {
+					addValues("source", Lists.newArrayList(node.get("source").elements()).stream().map(JsonNode::asText).collect(Collectors.toList()), fields);
+					break;
+				}
 			default:
 				Logger.warn("Unexpected JsonNodeType for: {}", node);
 				break;
