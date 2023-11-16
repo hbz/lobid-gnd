@@ -3,33 +3,33 @@
 # ~~~~
 
 # Handle trailing slashes
-GET     /gnd/reconcile/     controllers.Reconcile.main(callback ?= "", queries ?= "", extend ?= "")
-POST    /gnd/reconcile/     controllers.Reconcile.reconcile()
-GET     /*path/             controllers.HomeController.redirectSlash(path: String)
+GET     /reconcile/     controllers.Reconcile.main(callback ?= "", queries ?= "", extend ?= "")
+POST    /reconcile/     controllers.Reconcile.reconcile()
+GET     /*path/         controllers.HomeController.redirectSlash(path: String)
 
 #OpenRefine reconciliation endpoint
-GET     /gnd/reconcile            controllers.Reconcile.main(callback ?= "", queries ?= "", extend ?= "")
-POST    /gnd/reconcile            controllers.Reconcile.reconcile()
-GET     /gnd/reconcile/properties controllers.Reconcile.properties(callback ?= "", type ?= "", limit ?= "")
-GET     /gnd/reconcile/suggest/:service   controllers.Reconcile.suggest(callback ?= "", service, prefix, type ?= "", type_strict ?= "", limit: Int ?= 10, start: Int ?= 0)
-GET     /gnd/reconcile/flyout/:service    controllers.Reconcile.flyout(callback ?= "", service, id)
+GET     /reconcile            controllers.Reconcile.main(callback ?= "", queries ?= "", extend ?= "")
+POST    /reconcile            controllers.Reconcile.reconcile()
+GET     /reconcile/properties controllers.Reconcile.properties(callback ?= "", type ?= "", limit ?= "")
+GET     /reconcile/suggest/:service   controllers.Reconcile.suggest(callback ?= "", service, prefix, type ?= "", type_strict ?= "", limit: Int ?= 10, start: Int ?= 0)
+GET     /reconcile/flyout/:service    controllers.Reconcile.flyout(callback ?= "", service, id)
 
-GET     /gnd                controllers.HomeController.index
+GET     /               controllers.HomeController.index
 
-GET     /gnd/api            controllers.HomeController.api
+GET     /api            controllers.HomeController.api
 
-GET     /gnd/context.jsonld controllers.HomeController.context()
+GET     /context.jsonld controllers.HomeController.context()
 
-GET     /gnd/dataset.jsonld controllers.HomeController.dataset(format="json")
-GET     /gnd/dataset        controllers.HomeController.dataset(format?="")
+GET     /dataset.jsonld controllers.HomeController.dataset(format="json")
+GET     /dataset        controllers.HomeController.dataset(format?="")
 
-GET     /gnd/search         controllers.HomeController.search(q ?= "", filter ?= "", sort ?= "", from: Int ?= 0, size: Int ?= 10, format ?= null)
+GET     /search         controllers.HomeController.search(q ?= "", filter ?= "", sort ?= "", from: Int ?= 0, size: Int ?= 10, format ?= null)
 
-GET     /gnd/:id.:format    controllers.HomeController.authorityDotFormat(id, format)
+GET     /:id.:format    controllers.HomeController.authorityDotFormat(id, format)
 
-GET     /gnd/:id            controllers.HomeController.authority(id, format ?= null)
+GET     /:id            controllers.HomeController.authority(id, format ?= null)
 
-GET     /gnd/:id/dnb        controllers.HomeController.gnd(id)
+GET     /:id/dnb        controllers.HomeController.gnd(id)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /gnd/assets/*file   controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file   controllers.Assets.versioned(path="/public", file: Asset)

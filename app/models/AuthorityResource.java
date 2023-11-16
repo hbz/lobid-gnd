@@ -2,6 +2,8 @@
 
 package models;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,11 +12,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.TreeSet;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.common.geo.GeoPoint;
@@ -32,6 +37,7 @@ public class AuthorityResource {
 	public static final String ID = "AuthorityResource";
 	private static final int SHORTEN = 5;
 	public static final String DNB_PREFIX = "https://d-nb.info/";
+	public static final String RPPD_PREFIX = "https://rppd.lobid.org/";
 	public static final String GND_PREFIX = DNB_PREFIX + "gnd/";
 	public static final String ELEMENTSET = DNB_PREFIX + "standards/elementset/";
 	private static final List<String> SKIP = Arrays.asList(//
@@ -39,7 +45,7 @@ public class AuthorityResource {
 			"@context", "id", "type", "depiction", "sameAs", "preferredName", "hasGeometry", "definition",
 			"biographicalOrHistoricalInformation", //
 			// don't display:
-			"variantNameEntityForThePerson", "deprecatedUri", "oldAuthorityNumber", "wikipedia");
+			"variantNameEntityForThePerson", "deprecatedUri", "oldAuthorityNumber", "wikipedia", "gender", "rppdId");
 
 	private String id;
 	private List<String> type;
@@ -68,7 +74,11 @@ public class AuthorityResource {
 	}
 
 	public String getId() {
-		return id.substring(GND_PREFIX.length());
+		return id.substring(id.startsWith(GND_PREFIX) ? GND_PREFIX.length() : RPPD_PREFIX.length());
+	}
+
+	public String getFullId() {
+		return id;
 	}
 
 	public void setId(String id) {
@@ -91,19 +101,29 @@ public class AuthorityResource {
 	public String title() {
 		return preferredName;
 	}
-
-	public String subTitle() {
-		String lifeDates = fieldValues("dateOfBirth-dateOfDeath", json).map(JsonNode::asText)
+	
+	public String lifeDates() {
+		return fieldValues("dateOfBirth-dateOfDeath", json).map(JsonNode::asText)
 				.collect(Collectors.joining());
-		String details = find("definition", "biographicalOrHistoricalInformation");
-		return Stream.of(lifeDates, details).filter(s -> !s.isEmpty()).collect(Collectors.joining(" | "));
+	}
+
+	public String biogramme() {
+		return find("definition", "biographicalOrHistoricalInformation");
 	}
 
 	private String find(String... fields) {
 		for (String field : fields) {
 			JsonNode node = json.get(field);
 			if (node != null && node.elements().hasNext()) {
-				return node.elements().next().asText();
+				Stream<JsonNode> stream = StreamSupport.stream(
+						Spliterators.spliteratorUnknownSize(node.elements(), Spliterator.ORDERED),
+						false);
+				List<String> collect = stream.map(JsonNode::asText).collect(Collectors.toList());
+				return "<h3>Biogramm</h3><p>" + collect.get(0) + "</p>"
+						+ collect.subList(1, collect.size()).stream()
+								.map(s -> "<h3>Biogramm <small>/ alternativ</small></h3><p>"
+										+ s.replace(" - ", "</p><p>") + "</p>")
+								.collect(Collectors.joining());
 			}
 		}
 		return "";
@@ -123,7 +143,7 @@ public class AuthorityResource {
 
 	public List<Pair<String, String>> generalFields() {
 		List<Pair<String, String>> fields = new ArrayList<>();
-		addValues("type", typeLinks(), fields);
+		// addValues("type", typeLinks(), fields);
 		addValues("creatorOf", creatorOf, fields);
 		addRest(fields);
 		List<String> order = HomeController.CONFIG.getStringList("field.order");
@@ -252,6 +272,10 @@ public class AuthorityResource {
 		return new LinkWithImage("", "", "");
 	}
 
+	public String dateModified() {
+		return germanDate(json.findValue("dateModified").asText());
+	}
+
 	private List<Double> scanGeoCoordinates(String geoString) {
 		List<Double> lonLat = new ArrayList<Double>();
 		try (@SuppressWarnings("resource") // it's the same scanner!
@@ -277,6 +301,11 @@ public class AuthorityResource {
 			case ARRAY:
 				addArray(key, Lists.newArrayList(node.elements()), fields);
 				break;
+			case OBJECT:
+				if (key.equals("describedBy")) {
+					addValues("source", Lists.newArrayList(node.get("source").elements()).stream().map(JsonNode::asText).collect(Collectors.toList()), fields);
+					break;
+				}
 			default:
 				Logger.warn("Unexpected JsonNodeType for: {}", node);
 				break;
@@ -340,7 +369,7 @@ public class AuthorityResource {
 		String literalField = field + "AsLiteral";
 		for (Object literal : get(literalField)) {
 			String search = controllers.routes.HomeController
-					.search(literalField + ":\"" + literal + "\"", "", "", 0, 10, "html").toString();
+					.search("", literalField + ":\"" + literal + "\"", "", 0, 10, "html").toString();
 			result = result + "&nbsp;" + "|" + "&nbsp;" + literal + "&nbsp;"
 					+ String.format(
 							"<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>"
@@ -383,7 +412,7 @@ public class AuthorityResource {
 			}
 			return new LinkWithImage(url, icon == null ? "" : icon.toString(), label == null ? "" : label.toString());
 		}).collect(Collectors.toList());
-		if (!result.stream().anyMatch(linkWithImage -> linkWithImage.url.contains(dnbSubstring))) {
+		if (id.startsWith(GND_PREFIX) && !result.stream().anyMatch(linkWithImage -> linkWithImage.url.contains(dnbSubstring))) {
 			result.add(new LinkWithImage(id, dnbIcon, dnbLabel));
 		}
 		return result;
@@ -412,23 +441,33 @@ public class AuthorityResource {
 					controllers.routes.HomeController.authority(value.replace(GND_PREFIX, ""), null), label);
 		} else if (Arrays.asList("wikipedia", "sameAs", "depiction", "homepage").contains(field)) {
 			result = String.format("<a href='%s'>%s</a>", value, value);
+		} else if (Arrays.asList("dateOfBirth", "dateOfDeath").contains(field)) {
+			result = germanDate(value);
 		} else if (value.startsWith("http")) {
 			String link = value.startsWith(GND_PREFIX)
 					? controllers.routes.HomeController.authority(value.replace(GND_PREFIX, ""), null).toString()
 					: value;
+			List<String> facets = Arrays.asList(HomeController.AGGREGATIONS);
+			boolean labelBasedFacet = facets.contains(field + ".label");
+			boolean qBasedSearch = facets.stream().noneMatch(s -> s.startsWith(field));
 			String search = controllers.routes.HomeController
-					.search(field + ".id:\"" + value + "\"", "", "", 0, 10, "html").toString();
-			String entityLink = String.format(
-					"<a id='%s-%s' title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>%s</a>", //
-					field, i, label, link, label);
+					.search(qBasedSearch ? field + ".id:\"" + value + "\"" : "",
+							labelBasedFacet ? field + ".label:\"" + label + "\""
+							: field + ".id:\"" + value + "\"", "", 0, 10, "html")
+					.toString();
 			String searchLink = String.format(
-					"<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>"
-							+ "<i class='octicon octicon-search' aria-hidden='true'></i></a>",
-					GndOntology.label(field), label, search);
-			result = entityLink + "&nbsp;" + searchLink;
+					"<a id='%s-%s' title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>", //
+					field, i, GndOntology.label(field), label, search, label);
+			String entityLink = String.format(
+					"<a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
+							+ "<i class='octicon octicon-link text-muted' aria-hidden='true'></i></a>",
+					label, link);
+			boolean linkableEntity = field.equals("relatedPerson")
+					|| (field.startsWith("place") && value.contains("spatial"));
+			result = searchLink + "&nbsp;" + (linkableEntity ? entityLink : "");
 		} else if (field.endsWith("AsLiteral")) {
 			String search = controllers.routes.HomeController
-					.search(field + ":\"" + value + "\"", "", "", 0, 10, "html").toString();
+					.search("", field + ":\"" + value + "\"", "", 0, 10, "html").toString();
 			result = result + "&nbsp;"
 					+ String.format(
 							"<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>"
@@ -436,6 +475,11 @@ public class AuthorityResource {
 							GndOntology.label(field), value, search);
 		}
 		return withDefaultHidden(field, size, i, result);
+	}
+
+	private String germanDate(String value) {
+		return LocalDate.from(DateTimeFormatter.ISO_LOCAL_DATE.parse(value))
+				.format(DateTimeFormatter.ofPattern("dd.MM.uuuu", Locale.GERMAN));
 	}
 
 	private String withDefaultHidden(String field, int size, int i, String result) {

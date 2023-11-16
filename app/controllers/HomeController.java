@@ -92,7 +92,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public static final String[] AGGREGATIONS = new String[] { "type", "gndSubjectCategory.id", "geographicAreaCode.id",
-			"professionOrOccupation.id", "dateOfBirth" };
+            "professionOrOccupation.id", "professionOrOccupation.label", "placeOfActivity.label", "dateOfBirth" };
 
 	@Inject
 	Environment env;
@@ -121,10 +121,9 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	public Result index() {
-		String queryString = "depiction:*";
-		for (String dont : CONFIG.getStringList("dontShowOnMainPage")) {
-			queryString += " AND NOT gndIdentifier:" + dont;
-		}
+		String queryString = String.format("depiction:* AND NOT gndIdentifier:(%s)",
+				CONFIG.getStringList("dontShowOnMainPage").stream()
+						.collect(Collectors.joining(" OR ")));
 		QueryStringQueryBuilder query = index.queryStringQuery(queryString);
 		FunctionScoreQueryBuilder functionScoreQuery = QueryBuilders.functionScoreQuery(query,
 				ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()));
@@ -137,7 +136,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			entity = entityWithImage(hit.getSourceAsString());
 		}
 		JsonNode dataset = Json.parse(readFile(config("dataset.file")));
-		return ok(views.html.index.render(entity, dataset));
+		return ok(views.html.index.render(entity, dataset, allHits()));
 	}
 
 	/**
@@ -199,7 +198,11 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		}
 		String jsonLd = getAuthorityResource(id);
 		if (jsonLd == null) {
-			return responseFormat == Format.HTML ? notFound(views.html.details.render(null))
+			SearchHits hitsById = index.query("rppdId:" + id, "", "", 0, 1).getHits();
+			if (hitsById.getTotalHits() > 0) {
+				return movedPermanently(hitsById.getAt(0).getSource().get("gndIdentifier").toString());
+			}
+			return responseFormat == Format.HTML ? notFound(views.html.details.render(null, allHits()))
 					: notFound("Not found: " + id);
 		}
 		try {
@@ -210,7 +213,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			case HTML: {
 				AuthorityResource entity = entityWithImage(jsonLd);
 				entity.creatorOf = creatorOf(id);
-				return ok(views.html.details.render(entity));
+				return ok(views.html.details.render(entity, allHits()));
 			}
 			default: {
 				JsonNode jsonLdObject = Json.parse(jsonLd);
@@ -353,6 +356,10 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		}
 	}
 
+	private long allHits() {
+		return index.query("*").getHits().getTotalHits();
+	}
+
 	private Result jsonLines(String q, String filter, SearchResponse response) {
 		BoolQueryBuilder query = QueryBuilders.boolQuery().must(index.queryStringQuery(q));
 		if (!filter.isEmpty()) {
@@ -389,7 +396,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	private Result htmlSearch(String q, String type, int from, int size, String format, SearchResponse response) {
 		return ok(views.html.search.render(q, type, from, size, returnAsJson(q, response),
-				response == null ? 0 : response.getHits().getTotalHits()));
+                response == null ? 0 : response.getHits().getTotalHits(), allHits()));
 	}
 
 	static Result withCallback(final String json) {

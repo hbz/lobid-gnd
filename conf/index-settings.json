@@ -141,6 +141,20 @@
 							"analyzer": "ascii"
 						}
 					}
+				},
+				"professionOrOccupation": {
+					"properties" : {
+						"label": {
+							"type": "keyword"
+						}
+					}
+				},
+				"placeOfActivity": {
+					"properties" : {
+						"label": {
+							"type": "keyword"
+						}
+					}
 				}
 			}
 		}

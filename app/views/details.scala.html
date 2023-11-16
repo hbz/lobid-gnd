@@ -1,11 +1,11 @@
 @* Copyright 2015-2018 Fabian Steeg, hbz. Licensed under the EPL 2.0 *@
 
-@(resource: models.AuthorityResource)
+@(resource: models.AuthorityResource, allHits: Long)
 
 @import play.api.libs.json._
 
 @image() = {
-    <img src='https://lobid.org/imagesproxy?url=@resource.getImage.image' style="max-height:500px;" class="center-block" alt="@resource.preferredName"/>
+    <img src='https://lobid.org/imagesproxy?url=@resource.getImage.image' id="details-image" class="center-block" alt="Darstellung von @resource.preferredName"/>
     <div class='text-center small'><br/>@Html(resource.getImage.label)</div>
 }
 
@@ -151,11 +151,12 @@
 
 @dataSource() = { @defining(resource.sameAs.size>3 || !resource.depiction.isEmpty) { entityFacts =>
 <p><div class="text-center small">
-  Datenquelle@if(entityFacts){n}: DNB <a href='https://www.dnb.de/lds'>Linked-Data-Service</a>
+  Datum der letzten inhaltlichen Bearbeitung: @resource.dateModified()
+  @*Datenquelle@if(entityFacts){n}: DNB <a href='https://www.dnb.de/lds'>Linked-Data-Service</a>
   (<a title='RDF/XML aus GND anzeigen' href='https://d-nb.info/gnd/@resource.getId()/about/lds.rdf'>RDF/XML</a>, 
   <a title='Turtle aus GND anzeigen' href='https://d-nb.info/gnd/@resource.getId()/about/lds.ttl'>Turtle</a>)
   @if(entityFacts){und <a href='https://www.dnb.de/entityfacts'>EntityFacts</a> (<a title="JSON-LD in EntityFacts anzeigen" href='@(controllers.HomeController.config("entityfacts.live")+resource.getId)'>JSON-LD</a>)}
-  | <a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>
+  | <a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>*@
 </div></p>
 }}
 
@@ -194,15 +195,15 @@
     $(function() { $('[data-toggle="tooltip"]').tooltip(); });
 </script>
 <table class='table table-striped table-condensed'>
-  <tr>
-    <td>URI</td> @defining((AuthorityResource.GND_PREFIX + resource.getId(), "URI in die Zwischenablage kopieren")) { case (uri, title) =>
+  @*<tr>
+    <td>URI</td> @defining((resource.getFullId(), "URI in die Zwischenablage kopieren")) { case (uri, title) =>
     <td class='field-value'>@uri
             <a data-toggle="tooltip" data-placement="right" title="@title" href="#" onclick="copyToClipboard('@(uri)', $(this), '@title'); return false;">
                 <span class="octicon octicon-clippy"></span>
             </a>
     }
     </td>
-  </tr>
+  </tr>*@
   @for(f <- resource.generalFields) {
     <tr><td>@models.GndOntology.label(f.getLeft).replace(" (Literal)", "")</td><td class='field-value'>@Html(f.getRight) @moreToggle(f.getLeft, f.getRight)</td></tr>
   }
@@ -221,7 +222,7 @@
     <div id="search-results" class="alert alert-info text-center">Ein Titel mit der ID @request.uri.toString.split("/").last konnte nicht gefunden werden.</div>
   }
 } else {
-@main("", resource.preferredName) {
+@main("", resource.preferredName, allHits) {
     <div class="page-header">
         <h1>
             @defining("Namen in die Zwischenablage kopieren") { title =>
@@ -230,27 +231,22 @@
             </a>
             }
             <small>
-            @for(t <- resource.getType){
-                <sup>
-                  <small>
-                    <span class='label label-primary'><a href='@routes.HomeController.search(q="type:"+t)'>@models.GndOntology.label(t)</a></span>
-                  </small>
-                </sup> 
-            }
+            / @resource.lifeDates
             <div class='pull-right'>
                 <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
                 <img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")' alt='JSON'/></a>
             </div>
-            <br/>@Html(resource.subTitle)
             </small>
         </h1>
     </div>
+    @*
     @if(resource.gndRelationEdges != "[]"){
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active"><a href="#fields" role="tab" data-toggle="tab">Felder</a></li>
       @if(resource.gndRelationEdges != "[]"){<li role="presentation"><a href="#rels" role="tab" data-toggle="tab">Beziehungen</a></li>}
     </ul>
     }
+    *@
     <div class="row">
         <div class="tab-content">
             <div role="tabpanel" id="fields" class="tab-pane active col-md-@leftWidth intro">
@@ -261,7 +257,7 @@
                 @if(resource.gndRelationEdges != "[]") {
                     @graph()
                 }
-                @dataSource
+                @*@dataSource*@
             </div>
         </div>
         <div class="col-md-@(12-leftWidth) intro">
@@ -271,6 +267,13 @@
             @if(!resource.getImage.image.isEmpty){
                 @image()
             }
+        </div>
+    </div>
+    <div class="row">
+        <div class="tab-content">
+            <div class="col-md-12">
+                @Html(resource.biogramme)
+            </div>
         </div>
     </div>
 }

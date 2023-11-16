@@ -21,16 +21,13 @@
    "id":"https://lobid.org/gnd/dataset#!",
    "type":"Dataset",
    "name":{
-      "de":"lobid-gnd",
-      "en":"lobid-gnd"
+      "de":"RPPD"
    },
    "alternateName": {
-      "de":"LOD-API für die Gemeinsame Normdatei (GND)",
-      "en":"LOD-API for the Integrated Authority File (GND)"
+      "de":"Die Rheinland-Pfälzische Personendatenbank"
    },
    "description":{
-      "de":"<p class='lead'>Die Gemeinsame Normdatei (GND) enthält über 8 Millionen Normdatensätze. Sie wird zur Katalogisierung von Literatur in Bibliotheken, sowie von Archiven, Museen, und Forschungsprojekten genutzt.</p><p>Die GND enthält normierte Einträge für Personen, Körperschaften, Kongresse, Geografika, Sachschlagwörter und Werktitel. Sie wird von der Deutschen Nationalbibliothek (DNB), den deutschsprachigen Bibliotheksverbünden, der Zeitschriftendatenbank (ZDB) und zahlreichen weiteren Institutionen kooperativ geführt. Die Daten sind unter CC0 lizenziert.</p><p>lobid-gnd bietet eine <a href=\"https://lobid.org/gnd/search\">Rechercheoberfläche zum Durchsuchen der GND</a>, eine <a href=\"https://lobid.org/gnd/reconcile\">Integration in OpenRefine</a>, sowie eine generelle <a href=\"https://lobid.org/gnd/api\">Web-API auf Basis von JSON-LD</a> zur Verwendung der Daten in verschiedenen Kontexten. Datenbasis sind die <a href=\"https://www.dnb.de/lds#doc58246bodyText1\">RDF-Version der GND</a> (täglich aktualisiert) und <a href=\"https://www.dnb.de/entityfacts\">EntityFacts</a> (vierteljährlich aktualisiert).</p>",
-      "en":"<p class='lead'>The Integrated Authority File (GND) contains more than 8 Million authority records. It is used for cataloging in libraries as well as in archives, museums and other contexts.</p><p>The GND contains authority records for persons, corporate bodies, congresses, places, subject headings and works. It is maintained cooperatively by the German National Library (DNB), German-speaking library networks, the German Union Catalogue of Serials (ZDB) and many other institutions. The data is licensed under CC0.</p><p>lobid-gnd provides a <a href=\"https://lobid.org/gnd/search\">search interface for exploring GND</a>, an <a href=\"https://lobid.org/gnd/reconcile\">integration in OpenRefine</a>, and a general <a href=\"https://lobid.org/gnd/api\">web API based on JSON-LD</a> to enable use of the data in different contexts. The data is based on the <a href=\"https://www.dnb.de/lds#doc58246bodyText1\">RDF version of the GND</a> (updated daily) and <a href=\"https://www.dnb.de/entityfacts\">EntityFacts</a> (updated quarterly).</p>"
+      "de":"<p class='lead'>Die Rheinland-Pfälzische Personendatenbank (RPPD) ist eine regionale Dokumentation zu Personen aus dem Bundesland und seinen historischen Vorläufern. Verzeichnet werden Biogramme von Persönlichkeiten öffentlichen Interesses, ihre Lebensdaten, Berufe und Wirkungsorte.</p><p>Die RPPD dient so als stetig wachsendes biographisches Lexikon bedeutender Menschen aus Rheinland-Pfalz. Quellen sind Bücher, Aufsätze aus Zeitschriften, Jahrbüchern, Tages- und Wochenzeitungen sowie Einzelbeiträge aus Sammelwerken. Die Datenbank ist im Aufbau begriffen. Die RPPD wird von Mitarbeitern der Stadtbibliotheken Mainz und Trier sowie des Landesbibliothekszentrums an den Standorten Speyer und Koblenz gemeinsam erarbeitet. Das Landesbibliothekszentrums betreut mit dem hbz die für die Bereitstellung der Bibliographie erforderliche Datenverarbeitung.</p>"
    },
    "keywords":[
       "authority data",

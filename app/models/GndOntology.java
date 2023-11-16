@@ -55,6 +55,8 @@ public class GndOntology {
 			put("sameAs", "Siehe auch");
 			put("type", "Entitätstyp");
 			put("creatorOf", "Werke");
+			put("rppdId", "RPPD-ID");
+			put("source", "Quellen");
 			// no current German SKOS translation, see
 			// https://www.w3.org/2004/02/skos/translations
 			put("broadMatch", "Oberbegriff");
@@ -149,9 +151,11 @@ public class GndOntology {
 	}
 
 	private static String ontologyLabel(String id) {
+		labels.put("gndSubjectCategory", "GND-Sachgruppe | Personen zu...");
+		labels.put("publication", "Werke");
 		String key = id.contains("#") ? id.split("#")[1] : id;
 		String result = labels.get(key);
-		return result == null ? id : result;
+        return result == null ? id : result.replaceAll("Personen (zu|der) ", "");
 	}
 
 	private static String indexLabel(String id) {
