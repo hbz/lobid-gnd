@@ -117,9 +117,10 @@ public class AuthorityResource {
 						Spliterators.spliteratorUnknownSize(node.elements(), Spliterator.ORDERED),
 						false);
 				List<String> collect = stream.map(JsonNode::asText).collect(Collectors.toList());
-				return "<p class='lead'><small><small>" + collect.get(0) + "</small></small></p>"
+				return "<h3>Biogramm</h3><p>" + collect.get(0) + "</p>"
 						+ collect.subList(1, collect.size()).stream()
-								.map(s -> "<p>" + s.replace(" - ", "</p><p>") + "</p>")
+								.map(s -> "<h3>Biogramm <small>/ alternativ</small></h3><p>"
+										+ s.replace(" - ", "</p><p>") + "</p>")
 								.collect(Collectors.joining());
 			}
 		}
