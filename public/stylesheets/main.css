@@ -356,3 +356,7 @@ figcaption {
 .json-ld-icon {
 	height: 1.4em
 }
+
+.biogramme {
+  column-width: 30em;
+}

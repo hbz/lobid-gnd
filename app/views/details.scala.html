@@ -272,7 +272,10 @@
     <div class="row">
         <div class="tab-content">
             <div class="col-md-12">
+              <h3>Biogramm</h3>
+              <div @if(resource.biogramme.size > 600){class="biogramme"}>
                 @Html(resource.biogramme)
+              </div>
             </div>
         </div>
     </div>
