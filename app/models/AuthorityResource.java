@@ -122,8 +122,7 @@ public class AuthorityResource {
 						.collect(Collectors.toList());
 				return "<h3>Biogramm</h3><p>" + collect.get(0) + "</p>"
 						+ collect.subList(1, collect.size()).stream()
-								.map(s -> "<h3>Biogramm <small>/ alternativ</small></h3><p>"
-										+ s.replace(" - ", "</p><p>") + "</p>")
+								.map(s -> "<h3>Biogramm <small>/ alternativ</small></h3><p>" + s + "</p>")
 								.collect(Collectors.joining());
 			}
 		}
