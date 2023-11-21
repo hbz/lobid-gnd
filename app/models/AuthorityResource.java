@@ -273,7 +273,8 @@ public class AuthorityResource {
 	}
 
 	public String dateModified() {
-		return germanDate(json.findValue("dateModified").asText());
+		JsonNode dateModified = json.findValue("dateModified");
+		return dateModified != null ? germanDate(dateModified.asText()) : "--";
 	}
 
 	private List<Double> scanGeoCoordinates(String geoString) {
