@@ -118,7 +118,8 @@ public class AuthorityResource {
 				Stream<JsonNode> stream = StreamSupport.stream(
 						Spliterators.spliteratorUnknownSize(node.elements(), Spliterator.ORDERED),
 						false);
-				List<String> collect = stream.map(JsonNode::asText).collect(Collectors.toList());
+				List<String> collect = stream.map(n -> n.asText().replaceAll("[δ∞]", "\"").replace('Æ', '\''))
+						.collect(Collectors.toList());
 				return "<h3>Biogramm</h3><p>" + collect.get(0) + "</p>"
 						+ collect.subList(1, collect.size()).stream()
 								.map(s -> "<h3>Biogramm <small>/ alternativ</small></h3><p>"
