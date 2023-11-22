@@ -25,6 +25,8 @@ GET     /dataset        controllers.HomeController.dataset(format?="")
 
 GET     /search         controllers.HomeController.search(q ?= "", filter ?= "", sort ?= "", from: Int ?= 0, size: Int ?= 10, format ?= null)
 
+GET     /cgi-bin/wwwalleg/:name.pl   controllers.HomeController.authorityPl(name, db ?= "rnam", index: Int ?= 1, zeilen: Int ?= 1, s1)
+
 GET     /:id.:format    controllers.HomeController.authorityDotFormat(id, format)
 
 GET     /:id            controllers.HomeController.authority(id, format ?= null)

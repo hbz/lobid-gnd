@@ -183,6 +183,10 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return authority(id, format);
 	}
 
+	public Result authorityPl(String name, String db, int index, int zeilen, String s1) {
+		return movedPermanently(controllers.routes.HomeController.authority(s1, null));
+	}
+
 	public Result authority(String id, String format) {
 		SearchHits hits = index
 				.query(String.format("deprecatedUri:\"%s%s\"", AuthorityResource.GND_PREFIX, id), "", "", 0, 1)
