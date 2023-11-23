@@ -148,22 +148,34 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	public Result api() {
 		String format = "json";
 		ImmutableMap<String, String> searchSamples = ImmutableMap.<String, String>builder()
-				.put("Alles", controllers.routes.HomeController.search("*", "", "", 0, 10, format).toString())
+				.put("Alles", controllers.routes.HomeController
+						.search("*", "", "", "", "", "", "", "", 0, 10, format).toString())
 				.put("Alle Felder",
-						controllers.routes.HomeController.search("london", "", "", 0, 10, format).toString())
+						controllers.routes.HomeController
+								.search("london", "", "", "", "", "", "", "", 0, 10, format)
+								.toString())
 				.put("Feldsuche",
-						controllers.routes.HomeController.search("preferredName:Twain", "", "", 0, 10, format)
+						controllers.routes.HomeController.search("preferredName:Twain", "", "", "",
+								"", "", "", "", 0, 10, format)
 								.toString())
 				.put("Filter",
 						controllers.routes.HomeController
-								.search("preferredName:Twain", "type:Person", "", 0, 10, format).toString())
+								.search("preferredName:Twain", "", "", "", "", "", "type:Person",
+										"", 0, 10, format)
+								.toString())
 				.put("Paginierung",
-						controllers.routes.HomeController.search("london", "", "", 50, 100, format).toString())
+						controllers.routes.HomeController
+								.search("london", "", "", "", "", "", "", "", 50, 100, format)
+								.toString())
 				.put("Sortierung",
 						controllers.routes.HomeController
-								.search("scholl", "", "preferredName.keyword:asc", 0, 10, format).toString())
+								.search("scholl", "", "", "", "", "", "",
+										"preferredName.keyword:asc", 0, 10, format)
+								.toString())
 				.put("ASCII", controllers.routes.HomeController
-						.search("preferredName.ascii:Chor OR variantName.ascii:Chor", "", "", 0, 10, format).toString())
+						.search("preferredName.ascii:Chor OR variantName.ascii:Chor", "", "", "",
+								"", "", "", "", 0, 10, format)
+						.toString())
 				.build();
 		ImmutableMap<String, String> getSamples = ImmutableMap.of(//
 				"London", controllers.routes.HomeController.authorityDotFormat("4074335-4", "json").toString(), //
@@ -326,14 +338,16 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return ok(views.html.advanced.render(allHits()));
 	}
 
-	public Result search(String q, String filter, String sort, int from, int size, String format) {
+	public Result search(String q, String name, String place, String subject, String publication,
+			String date, String filter, String sort, int from, int size, String format) {
 		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		if (responseFormat == null || Stream.of(RdfFormat.values()).map(RdfFormat::getParam)
 				.anyMatch(f -> f.equals(responseFormat.queryParamString))) {
 			return unsupportedMediaType(views.html.error.render(q,
 					String.format("Unsupported for search: format=%s, accept=%s", format, request().acceptedTypes())));
 		}
-		String queryString = (q == null || q.isEmpty()) ? "*" : q;
+		String queryString = buildQueryString(q, name, place, subject, publication, date);
+		queryString = (queryString == null || queryString.isEmpty()) ? "*" : queryString;
 		try {
 			SearchResponse response = index.query(queryString, filter, sort, from, size);
 			response().setHeader("Access-Control-Allow-Origin", "*");
@@ -346,7 +360,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			}
 			switch (responseFormat) {
 			case HTML: {
-				return htmlSearch(q, filter, from, size, responseFormat.queryParamString, response);
+				return htmlSearch(q, name, place, subject, publication, date, filter, from, size,
+						responseFormat.queryParamString, response);
 			}
 			case JSON_LINES: {
 				response().setHeader("Content-Disposition",
@@ -364,14 +379,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		}
 	}
 
-	public Result searchAdvanced(String name, String place, String subject, String publication, String date,
-			String filter, String sort, int from, int size, String format) {
-		String q = buildQueryString(name, place, subject, publication, date);
-		return search(q, filter, sort, from, size, format);
-	}
-
-	private String buildQueryString(String name, String place, String subject, String publication, String date) {
-		String q = "";
+	private String buildQueryString(String q, String name, String place, String subject,
+			String publication, String date) {
 		q += add(name, "preferredName", "variantName");
 		q += add(place, "placeOfBirth.label", "placeOfActivity.label", "placeOfDeath.label");
 		q += add(subject, "professionOrOccupation.label", "gndSubjectCategory.label");
@@ -426,9 +435,12 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		};
 	}
 
-	private Result htmlSearch(String q, String type, int from, int size, String format, SearchResponse response) {
-		return ok(views.html.search.render(q, type, from, size, returnAsJson(q, response),
-                response == null ? 0 : response.getHits().getTotalHits(), allHits()));
+	private Result htmlSearch(String q, String name, String place, String subject,
+			String publication, String date, String type, int from, int size, String format,
+			SearchResponse response) {
+		return ok(views.html.search.render(q, name, place, subject, publication, date, type, from,
+				size, returnAsJson(q, response),
+				response == null ? 0 : response.getHits().getTotalHits(), allHits()));
 	}
 
 	static Result withCallback(final String json) {

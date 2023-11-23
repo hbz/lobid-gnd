@@ -1,6 +1,6 @@
 @* Copyright 2015-2018 Fabian Steeg, hbz. Licensed under the EPL 2.0 *@
 
-@(q: String, f: String, from: Int, size: Int, result: String, searchHits: Long, allHits: Long)
+@(q: String, name: String = "", place: String = "", subject: String = "", publication: String = "", date: String = "", f: String, from: Int, size: Int, result: String, searchHits: Long, allHits: Long)
 
 @import play.api.libs.json._
 @import controllers.HomeController.CONFIG
@@ -10,17 +10,17 @@
   <nav>
     <ul class="pagination">
       <li class="previous @if(from==0){disabled}">
-        <a href="@if(from==0){#} else {@routes.HomeController.search(q,f,"",from-size,size,"html")}">&larr;</a>
+        <a href="@if(from==0){#} else {@routes.HomeController.search(q,name,place,subject,publication,date,f,"",from-size,size,"html")}">&larr;</a>
       </li>
       @defining((((from+1)/size)+1,(if(searchHits%size==0) searchHits/size else searchHits/size+1).toInt)) { case (currentPage,lastPage) =>
           @defining(Math.min(Math.max(1,currentPage-4)+9,lastPage)) { toPage =>
               @for(i <- Math.max(1,toPage-9) to toPage){
-                  <li @if(currentPage==i){class="active"}><a href="@routes.HomeController.search(q,f,"",(i*size)-size,size,"html")">@i</a></li>
+                  <li @if(currentPage==i){class="active"}><a href="@routes.HomeController.search(q,name,place,subject,publication,date,f,"",(i*size)-size,size,"html")">@i</a></li>
               }
           }
       }
       <li class="next @if(from+size >= searchHits){disabled}">
-        <a href="@if(from+size >= allHits){#} else {@routes.HomeController.search(q,f,"",from+size,size,"html")}">&rarr;</a>
+        <a href="@if(from+size >= allHits){#} else {@routes.HomeController.search(q,name,place,subject,publication,date,f,"",from+size,size,"html")}">&rarr;</a>
       </li>
     </ul>
   </nav>
@@ -28,7 +28,7 @@
 
 @pageLink(num: Int)={
 <li role="tab" @if(size==num){class="active" aria-selected="true"} else {aria-selected="false" tabindex="-1" aria-controls="@num"}>
-  <a href="@routes.HomeController.search(q,f,"",from,num,"html")">@num</a>
+  <a href="@routes.HomeController.search(q,name,place,subject,publication,date,f,"",from,num,"html")">@num</a>
 </li>
 }
 
@@ -171,6 +171,9 @@
 
 @main(q, "RPPD - Ergebnisliste", allHits) {
   <!-- <code><pre>@result</pre></code>  -->
+  @if(Seq(name, place, subject, publication, date).exists(!_.isEmpty)){
+    @search_advanced("Suche aktualisieren", q=q, name=name, place=place, subject=subject, publication=publication, date=date)
+  }
   @defining((Json.parse(result) \ "member").asOpt[Seq[JsValue]].getOrElse(Seq()).zipWithIndex) { hits =>
      <div class="row" id="search-results">
          <div class="col-md-@if(searchHits > 0){8}else{12}">

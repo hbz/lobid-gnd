@@ -23,9 +23,8 @@ GET     /context.jsonld controllers.HomeController.context()
 GET     /dataset.jsonld controllers.HomeController.dataset(format="json")
 GET     /dataset        controllers.HomeController.dataset(format?="")
 
-GET     /search         controllers.HomeController.search(q ?= "", filter ?= "", sort ?= "", from: Int ?= 0, size: Int ?= 10, format ?= null)
+GET     /search         controllers.HomeController.search(q ?= "", name ?= "", place ?= "", subject ?= "", publication ?= "", date ?= "", filter ?= "", sort ?= "", from: Int ?= 0, size: Int ?= 10, format ?= null)
 GET     /advanced       controllers.HomeController.advanced()
-GET     /searchAdvanced controllers.HomeController.searchAdvanced(name ?= "", place ?= "", subject ?= "", publication ?= "", date ?= "", filter ?= "", sort ?= "", from: Int ?= 0, size: Int ?= 10, format ?= null)
 
 GET     /cgi-bin/wwwalleg/:name.pl   controllers.HomeController.authorityPl(name, db ?= "rnam", index: Int ?= 1, zeilen: Int ?= 1, s1)
 

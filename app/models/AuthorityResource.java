@@ -369,7 +369,9 @@ public class AuthorityResource {
 		String literalField = field + "AsLiteral";
 		for (Object literal : get(literalField)) {
 			String search = controllers.routes.HomeController
-					.search("", literalField + ":\"" + literal + "\"", "", 0, 10, "html").toString();
+					.search("", "", "", "", "", "", literalField + ":\"" + literal + "\"", "", 0,
+							10, "html")
+					.toString();
 			result = result + "&nbsp;" + "|" + "&nbsp;" + literal + "&nbsp;"
 					+ String.format(
 							"<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>"
@@ -385,7 +387,9 @@ public class AuthorityResource {
 				.collect(Collectors.toList());
 		List<String> typeLinks = (subTypes.isEmpty() ? getType() : subTypes).stream()
 				.map(t -> String.format("<a href='%s'>%s</a>",
-						controllers.routes.HomeController.search("", "+(type:" + t + ")", "", 0, 10, "").toString(),
+						controllers.routes.HomeController
+								.search("", "", "", "", "", "", "+(type:" + t + ")", "", 0, 10, "")
+								.toString(),
 						models.GndOntology.label(t)))
 				.collect(Collectors.toList());
 		return typeLinks;
@@ -454,7 +458,7 @@ public class AuthorityResource {
 			boolean labelBasedFacet = facets.contains(field + ".label");
 			boolean qBasedSearch = facets.stream().noneMatch(s -> s.startsWith(field));
 			String search = controllers.routes.HomeController
-					.search(qBasedSearch ? field + ".id:\"" + value + "\"" : "",
+					.search(qBasedSearch ? field + ".id:\"" + value + "\"" : "", "", "", "", "", "",
 							labelBasedFacet ? field + ".label:\"" + label + "\""
 							: field + ".id:\"" + value + "\"", "", 0, 10, "html")
 					.toString();
@@ -470,7 +474,8 @@ public class AuthorityResource {
 			result = searchLink + "&nbsp;" + (linkableEntity ? entityLink : "");
 		} else if (field.endsWith("AsLiteral")) {
 			String search = controllers.routes.HomeController
-					.search("", field + ":\"" + value + "\"", "", 0, 10, "html").toString();
+					.search("", "", "", "", "", "", field + ":\"" + value + "\"", "", 0, 10, "html")
+					.toString();
 			result = result + "&nbsp;"
 					+ String.format(
 							"<a title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>"

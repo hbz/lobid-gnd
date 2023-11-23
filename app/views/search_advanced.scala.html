@@ -46,7 +46,7 @@ function addParameters(){
 }
 </script>
 
-@helper.form(action = controllers.routes.HomeController.searchAdvanced(), 
+@helper.form(action = controllers.routes.HomeController.search(), 
     'id -> "nwbib-form", 'role -> "form", 'class -> "form-inline", 'autocomplete -> "off") {
   @defining(TreeMap("name"->name,"place"->place,"publication"->publication,"subject"->subject,"date"->date).filter({case (k,v) => !v.isEmpty})) { fields =>
   @for(((k,v),i)<- (if(fields.isEmpty) TreeMap("q" -> "") else fields).zipWithIndex){
