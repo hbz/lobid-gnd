@@ -1,0 +1,11 @@
+@* Copyright 2014 Fabian Steeg, hbz. Licensed under the GPLv2 *@
+
+@(allHits: Long)
+
+@import helper._
+@import play.api.libs.json.Json
+@import play.api.libs.json.JsValue
+
+@main("", "RPPD - Erweiterte Suche", allHits) {
+    @search_advanced("Suchen", place="_", name="_", subject="_")
+}

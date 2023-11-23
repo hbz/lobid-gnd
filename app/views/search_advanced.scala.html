@@ -1,0 +1,95 @@
+@* Copyright 2014 Fabian Steeg, hbz. Licensed under the GPLv2 *@
+
+@(label:String, q:String = "", place: String = "", name: String = "", subject: String = "", nwbibspatial: String = "", nwbibsubject: String = "", date: String = "", sortParam: String = "", publication: String = "")
+
+@import scala.collection.immutable.TreeMap
+
+<script>
+function addSearchWidget(c){
+    var form = $("#nwbib-form");
+    var last = $(".search-field").last();
+    last.find(".rem").removeClass("disabled");
+    var add = last.clone().attr("id","search-field-" + c);
+    add.find(".rem").attr("onclick", "remSearchWidget("+(c)+")");
+    add.find("#nwbib-query-advanced").val("");
+    last.find("#and-search-field-"+(c-1)).show();
+    add.find("#and-search-field-"+(c-1)).attr("id", "and-search-field-"+c).hide();
+    add.find("#add-search-field-"+(c-1)).attr("id", "add-search-field-"+c)
+    last.find("#add-search-field-"+(c-1)).hide();
+    form.append(add);
+    $("#add-search-field-"+c).attr("onclick", "addSearchWidget("+(c+1)+")");
+    form.append($("#nwbib-form > #search-button"));
+}
+
+function remSearchWidget(c) {
+    $("#search-field-"+c).remove();
+    $("#search-button").show();
+    var rows = $(".search-field");
+    var last = rows.last();
+    last.find(".and").hide();
+    last.find(".add").show();
+    if(rows.size() == 1){
+      last.find(".rem").addClass("disabled");
+    }
+}
+
+function addParameters(){
+    var ps = {};
+    $(".search-field").each(function( index ) {
+         var param = $(this).find("#query-select").val();
+         var value = $(this).find("#nwbib-query-advanced").val();
+         ps[param] = (ps[param] ? ps[param] + " " : "") + value;
+    });
+    for (var key in ps) {
+        $("#nwbib-form").append("<input type='hidden' name='"+key+"' value='"+ps[key]+"'/>");
+    }
+}
+</script>
+
+@helper.form(action = controllers.routes.HomeController.searchAdvanced(), 
+    'id -> "nwbib-form", 'role -> "form", 'class -> "form-inline", 'autocomplete -> "off") {
+  @defining(TreeMap("name"->name,"place"->place,"publication"->publication,"subject"->subject,"date"->date).filter({case (k,v) => !v.isEmpty})) { fields =>
+  @for(((k,v),i)<- (if(fields.isEmpty) TreeMap("q" -> "") else fields).zipWithIndex){
+  <div class="search-field row" id="search-field-@i">
+      <div class="form-group col col-md-3">
+            <select id="query-select" title="Suchtyp" class="form-control">
+              <option value="name" @if(k=="name"){selected="selected"}>Namen</option>
+              <option value="place" @if(k=="place"){selected="selected"}>Orte</option>
+              <option value="subject" @if(k=="subject"){selected="selected"}>Berufe, Fachgebiete</option>
+              <option value="publication" @if(k=="publication"){selected="selected"}>Werke</option>
+              <option value="date" @if(k=="date"){selected="selected"}>Lebensdaten, Jubiläen</option>
+            </select>
+      </div>
+      <div class="form-group col col-md-8">
+        <div class="input-group">
+            <input type="text" id="nwbib-query-advanced" title="Suchtext" class="form-control" placeholder='@if(v.startsWith("_")){@v.drop(1)}else{Suchanfrage}' value="@if(v.startsWith("_")){}else{@v}" onFocus="$('#search-button').show();"/>
+            <span class="input-group-btn">
+                <a href="#" title="Kriterium entfernen" class="btn btn-default rem @if(fields.isEmpty||fields.size==1){disabled}" onclick="remSearchWidget(@i)">
+                <span class="octicon octicon-x"></span>
+            </a>
+            </span>
+        </div>
+      </div>
+      <div class="form-group col col-md-1">
+          <a href="#" id="and-search-field-@i" class="btn btn-default add-and-button and disabled" title="UND">UND</a>
+          <a href="#" id="add-search-field-@i" class="btn btn-default add-and-button add" onclick="addSearchWidget(@(i+1))" title="Kriterium hinzufügen">
+                  <span class="glyphicon glyphicon-plus-sign"></span></a> 
+      </div>
+      <script>
+	  $("#add-search-field-@(i-1)").hide();
+	  </script>
+  </div>
+  }
+  <div class="row" id="search-button">
+      <div class="form-group col-md-2 col-md-offset-5">
+          <button type=submit class="btn btn-link" onclick="addParameters()" aria-label="@label">
+                  <span class="glyphicon glyphicon-search"></span> @label</button>
+      </div>
+  </div>
+  <script>
+  $("#and-search-field-@(if(fields.isEmpty) 0 else fields.size-1)").hide();
+  $("#search-button").hide();
+  </script>
+  @if(!sortParam.isEmpty()){<input type="hidden" name="sort" value="@sortParam"/>}
+  }
+}

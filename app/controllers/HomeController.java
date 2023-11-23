@@ -322,6 +322,10 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return ok(prettyJsonString(Json.parse(jsonLd))).as(config("index.content"));
 	}
 
+	public Result advanced() {
+		return ok(views.html.advanced.render(allHits()));
+	}
+
 	public Result search(String q, String filter, String sort, int from, int size, String format) {
 		Format responseFormat = Accept.formatFor(format, request().acceptedTypes());
 		if (responseFormat == null || Stream.of(RdfFormat.values()).map(RdfFormat::getParam)
@@ -358,6 +362,30 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			Logger.error("Error: {}", message);
 			return internalServerError(views.html.error.render(q, "Error: " + message));
 		}
+	}
+
+	public Result searchAdvanced(String name, String place, String subject, String publication, String date,
+			String filter, String sort, int from, int size, String format) {
+		String q = buildQueryString(name, place, subject, publication, date);
+		return search(q, filter, sort, from, size, format);
+	}
+
+	private String buildQueryString(String name, String place, String subject, String publication, String date) {
+		String q = "";
+		q += add(name, "preferredName", "variantName");
+		q += add(place, "placeOfBirth.label", "placeOfActivity.label", "placeOfDeath.label");
+		q += add(subject, "professionOrOccupation.label", "gndSubjectCategory.label");
+		q += add(publication, "publication");
+		q += add(date + "*", "dateOfBirth", "dateOfDeath");
+		return q;
+	}
+
+	private String add(String value, String... fields) {
+		if (!value.replace("*", "").isEmpty()) {
+			Stream<String> segments = Arrays.asList(fields).stream().map(s -> s + ":" + value);
+			return "+(" + segments.collect(Collectors.joining(" OR ")) + ") ";
+		}
+		return "";
 	}
 
 	private long allHits() {
