@@ -41,11 +41,11 @@
    "datePublished":"2018-07-11",
    "contactPoint":"https://lobid.org/team",
    "accrualPeriodicity":{
-      "id":"http://purl.org/linked-data/sdmx/2009/code#freq-B",
+      "id":"https://publications.europa.eu/resource/authority/frequency/HOURLY",
       "type": "Concept",
       "name":{
-         "en":"Daily - business week",
-         "de":"Täglich (werktags)"
+         "en":"Hourly",
+         "de":"Stündlich"
       }
    },
    "inLanguage":[
