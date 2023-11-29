@@ -414,7 +414,11 @@ public class AuthorityResource {
 				icon = url.contains(dnbSubstring) ? dnbIcon : collectionMap.get("icon");
 				label = collectionMap.get("name");
 			}
-			return new LinkWithImage(url, icon == null ? "" : icon.toString(), label == null ? "" : label.toString());
+			return new LinkWithImage(url,
+					icon == null
+							? "<i class='octicon octicon-link-external text-muted' aria-hidden='true'></i>&nbsp;"
+							: icon.toString(),
+					label == null ? "" : label.toString());
 		}).collect(Collectors.toList());
 		if (id.startsWith(GND_PREFIX) && !result.stream().anyMatch(linkWithImage -> linkWithImage.url.contains(dnbSubstring))) {
 			result.add(new LinkWithImage(id, dnbIcon, dnbLabel));
@@ -433,7 +437,9 @@ public class AuthorityResource {
 		boolean hasLabel = !link.label.isEmpty();
 		String label = hasLabel ? link.label : link.url;
 		String result = String.format(
-				"<a href='%s'>" + (hasImage ? "<img src='https://lobid.org/imagesproxy?url=%s' style='height:1em' alt='%s'/>&nbsp;" : "%s") + "%s</a>", //
+				"<a href='%s'>" + (hasImage && !link.image.startsWith("<")
+						? "<img src='https://lobid.org/imagesproxy?url=%s' style='height:1em' alt='%s'/>&nbsp;"
+						: "%s") + "%s</a>",
 				link.url, link.image, label, label);
 		return withDefaultHidden(field, links.size(), i, result);
 	}
