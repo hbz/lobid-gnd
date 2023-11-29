@@ -145,14 +145,24 @@
 				"professionOrOccupation": {
 					"properties" : {
 						"label": {
-							"type": "keyword"
+							"type": "text",
+							"fields": {
+								"keyword": {
+									"type": "keyword"
+								}
+							}
 						}
 					}
 				},
 				"placeOfActivity": {
 					"properties" : {
 						"label": {
-							"type": "keyword"
+							"type": "text",
+							"fields": {
+								"keyword": {
+									"type": "keyword"
+								}
+							}
 						}
 					}
 				}

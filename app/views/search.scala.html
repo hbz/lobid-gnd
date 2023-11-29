@@ -112,7 +112,7 @@
 @facet(key: String) = {
 	@defining((Json.parse(result) \ "aggregation" \ key).asOpt[Seq[JsValue]].getOrElse(Seq())) { buckets =>
 		@if(!buckets.isEmpty) {
-			@defining(key.replace(".id", "").replace(".label", "")) { simpleKey =>
+			@defining(key.replace(".id", "").replace(".label.keyword", "")) { simpleKey =>
 				<h5>@models.GndOntology.label(simpleKey) @if(buckets.size>7){
 					<a id="@simpleKey-more-link" href="javascript:void(0)" title="Mehr Werte anzeigen"
 							onclick="$('.@simpleKey-more-item').show(); $('#@simpleKey-more-link').hide(); $('#@simpleKey-less-link').show();">
@@ -230,9 +230,9 @@
 					@if(!buckets.isEmpty) {
 						<h4>Ergebnisse eingrenzen:</h4>
 						@*@typeFacet(buckets)*@
-						@facet("professionOrOccupation.label")
+						@facet("professionOrOccupation.label.keyword")
 						@facet("gndSubjectCategory.id")
-						@facet("placeOfActivity.label")
+						@facet("placeOfActivity.label.keyword")
 						@facet("geographicAreaCode.id")
 						@*@facet("professionOrOccupation.id")*@
 						@*@facet("dateOfBirth")*@
