@@ -1,9 +1,12 @@
 @* Copyright 2015-2018 Fabian Steeg, hbz. Licensed under the EPL 2.0 *@
 
-@(entity: AuthorityResource, dataset: com.fasterxml.jackson.databind.JsonNode, allHits: Long)
+@(entity: AuthorityResource, dataset: com.fasterxml.jackson.databind.JsonNode, anniversaries: List[String], allHits: Long)
 
 @import helper._
 @import controllers.HomeController.formatCount
+@import controllers.HomeController.todayQuery
+@import play.api.libs.json._
+@import controllers.HomeController.CONFIG
 
 @main("", "RPPD", allHits) {
     <div class="page-header">
@@ -11,17 +14,32 @@
         <h1>@dataset.get("alternateName").get("de").asText()<br/><small>@formatCount(allHits) Personen aus allen Wissensgebieten <span class="badge">beta</span></small></h1>
     </div>
     <div class="row">
-	    <div class="col-md-@if(entity!=null){9}else{12} intro">
-	       <p>
-	       @Html(dataset.get("description").get("de").asText())
-	       </p>
-	    </div>
-	    @if(entity!=null){<div class="col-md-3">
-		<figure>
-			<a href='@routes.HomeController.authority(entity.getId)'><img width="200px" id="index-image" src='https://lobid.org/imagesproxy?url=@entity.getImage.image' alt="Darstellung von @entity.preferredName"/></a>
-			<figcaption><a href='@routes.HomeController.authority(entity.getId)'>@entity.preferredName</a><br/>@if(entity.imageAttribution!=null){<small>(@Html(entity.imageAttribution))</small>}</figcaption>
-		</figure>
-		</div>}
+        <div class="col-md-3">
+           <p><strong>Aktuelle Jahrestage</strong></p>
+           @for(resource <- anniversaries) {
+               <div>
+               <small>
+                @for(json <- Json.parse(resource).asOpt[JsValue];
+                     label <- (json \ "label").asOpt[String];
+                     details <- (json \ "details").asOpt[String];
+                     url = (json \ "url").asOpt[String]) {
+                     <a href="@url">@label</a>
+                     <p>@details</p>
+                }
+                </small>
+                </div>
+           }
+           <p><a href='@routes.HomeController.search(date=todayQuery)'>Alle heutigen Jahrestage</a></p>
+        </div>
+        <div class="col-md-@if(entity!=null){6}else{9} intro">
+           @Html(dataset.get("description").get("de").asText())
+        </div>
+        @if(entity!=null){<div class="col-md-3">
+        <figure>
+            <a href='@routes.HomeController.authority(entity.getId)'><img width="200px" id="index-image" src='https://lobid.org/imagesproxy?url=@entity.getImage.image' alt="Darstellung von @entity.preferredName"/></a>
+            <figcaption><a href='@routes.HomeController.authority(entity.getId)'>@entity.preferredName</a><br/>@if(entity.imageAttribution!=null){<small>(@Html(entity.imageAttribution))</small>}</figcaption>
+        </figure>
+        </div>}
     </div>
     <script type="application/ld+json">
     {

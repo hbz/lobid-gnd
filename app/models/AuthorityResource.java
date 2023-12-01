@@ -4,6 +4,7 @@ package models;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -491,9 +492,20 @@ public class AuthorityResource {
 		return withDefaultHidden(field, size, i, result);
 	}
 
-	private String germanDate(String value) {
-		return LocalDate.from(DateTimeFormatter.ISO_LOCAL_DATE.parse(value))
-				.format(DateTimeFormatter.ofPattern("dd.MM.uuuu", Locale.GERMAN));
+	public static String germanDate(String value) {
+		try {
+			return LocalDate
+					.from(DateTimeFormatter.ISO_LOCAL_DATE.parse(cleanDate(value)))
+					.format(DateTimeFormatter.ofPattern("dd.MM.uuuu", Locale.GERMAN));
+		} catch (DateTimeParseException e) {
+			e.printStackTrace();
+			return value;
+		}
+
+	}
+
+	public static String cleanDate(String value) {
+		return value.replaceAll(".*(\\d{4}-\\d{2}-\\d{2}).*", "$1");
 	}
 
 	private String withDefaultHidden(String field, int size, int i, String result) {

@@ -13,6 +13,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,6 +42,7 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
@@ -125,19 +131,93 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		String queryString = String.format("depiction:* AND NOT gndIdentifier:(%s)",
 				CONFIG.getStringList("dontShowOnMainPage").stream()
 						.collect(Collectors.joining(" OR ")));
-		QueryStringQueryBuilder query = index.queryStringQuery(queryString);
-		FunctionScoreQueryBuilder functionScoreQuery = QueryBuilders.functionScoreQuery(query,
-				ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()));
-		SearchRequestBuilder requestBuilder = index.client().prepareSearch(config("index.prod.name"))
-				.setQuery(functionScoreQuery).setFrom(0).setSize(1);
-		SearchHits hits = requestBuilder.execute().actionGet().getHits();
+		QueryBuilder query = randomScoreQuery(index.queryStringQuery(queryString));
+		SearchHits hits = prepareSearch().setQuery(query).setFrom(0).setSize(1).execute()
+				.actionGet().getHits();
 		AuthorityResource entity = null;
 		if (hits.getTotalHits() > 0) {
 			SearchHit hit = hits.getAt(0);
 			entity = entityWithImage(hit.getSourceAsString());
 		}
 		JsonNode dataset = Json.parse(readFile(config("dataset.file")));
-		return ok(views.html.index.render(entity, dataset, allHits()));
+		return ok(views.html.index.render(entity, dataset, anniversaries(), allHits()));
+	}
+
+	private List<String> anniversaries() {
+		String today = todayQuery();
+		QueryBuilder query = randomScoreQuery(anniversaryQuery(today));
+		SearchHits hits = prepareSearch().setQuery(query).setFrom(0).setSize(5).execute()
+				.actionGet().getHits();
+		return Arrays.asList(hits.getHits()).stream().map(hit -> hitToAnniversary(today, hit))
+				.collect(Collectors.toList());
+	}
+
+	private FunctionScoreQueryBuilder randomScoreQuery(QueryBuilder query) {
+		return QueryBuilders.functionScoreQuery(query,
+				ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()));
+	}
+
+	private String hitToAnniversary(String today, SearchHit hit) {
+		JsonNode fullJson = Json.parse("[" + hit.getSourceAsString() + "]");
+		JsonNode suggestion = Json
+				.parse(toSuggestions(fullJson,
+						"preferredName,dateOfBirth-dateOfDeath,professionOrOccupation"))
+				.elements().next();
+		JsonNode json = Json.toJson(ImmutableMap.of( //
+				"label", suggestion.get("label").asText(), //
+				"url", suggestion.get("id").asText().replace(AuthorityResource.GND_PREFIX, "/"), //
+				"details", details(today, fullJson)));
+		return Json
+				.stringify(json);
+	}
+
+	private String details(String today, JsonNode json) {
+		String details = "";
+		JsonNode dateOfBirth = json.findValue("dateOfBirth");
+		String date;
+		if (dateOfBirth != null
+				&& is(today, date = dateOfBirth.get(0).asText())) {
+				details = String.format("%s. Geburtstag, geb. am %s", //
+					yearsSince(date), AuthorityResource.germanDate(date));
+		} else if (is(today, date = json.findValue("dateOfDeath").get(0).asText())) {
+			details = String.format("%s. Todestag, gest. am %s", //
+					yearsSince(date), AuthorityResource.germanDate(date));
+		}
+		return details;
+	}
+
+	private boolean is(String today, String date) {
+		return date.endsWith(today.replace("*", "")) && yearsSince(date) != -1;
+	}
+
+	private SearchRequestBuilder prepareSearch() {
+		return index.client().prepareSearch(config("index.prod.name"));
+	}
+
+	private QueryStringQueryBuilder anniversaryQuery(String today) {
+		String queryString = String.format(
+				"(dateOfBirth:(%s) OR dateOfDeath:(%s)) AND NOT gndIdentifier:(%s)", today, today,
+				CONFIG.getStringList("dontShowOnMainPage").stream()
+						.collect(Collectors.joining(" OR ")));
+		QueryStringQueryBuilder query = index.queryStringQuery(queryString);
+		return query;
+	}
+
+	private long yearsSince(String date) {
+		try {
+		return ChronoUnit.YEARS.between(
+				LocalDate.from(DateTimeFormatter.ISO_LOCAL_DATE
+							.parse(AuthorityResource.cleanDate(date))),
+				ZonedDateTime.now());
+		} catch (DateTimeParseException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	public static String todayQuery() {
+		return ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE)
+				.replaceAll("\\d{4}", "*");
 	}
 
 	/**
@@ -408,7 +488,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			query = query.filter(index.queryStringQuery(filter));
 		}
 		TimeValue keepAlive = new TimeValue(60000);
-		SearchRequestBuilder scrollRequest = index.client().prepareSearch(config("index.prod.name"))
+		SearchRequestBuilder scrollRequest = prepareSearch()
 				.addSort(FieldSortBuilder.DOC_FIELD_NAME, SortOrder.ASC).setScroll(keepAlive).setQuery(query)
 				.setSize(100 /* hits per shard for each scroll */);
 		Logger.debug("Scrolling with query: q={}, request={}", q, scrollRequest);
