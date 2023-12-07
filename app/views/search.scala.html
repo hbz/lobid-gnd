@@ -113,7 +113,7 @@
 	@defining((Json.parse(result) \ "aggregation" \ key).asOpt[Seq[JsValue]].getOrElse(Seq())) { buckets =>
 		@if(!buckets.isEmpty) {
 			@defining(key.replace(".id", "").replace(".label.keyword", "")) { simpleKey =>
-				<h5>@models.GndOntology.label(simpleKey) @if(buckets.size>7){
+				<h5>@models.GndOntology.label(simpleKey) @if(buckets.size>5){
 					<a id="@simpleKey-more-link" href="javascript:void(0)" title="Mehr Werte anzeigen"
 							onclick="$('.@simpleKey-more-item').show(); $('#@simpleKey-more-link').hide(); $('#@simpleKey-less-link').show();">
 						<span class="octicon octicon-diff-added" aria-hidden="true"></span>
@@ -127,7 +127,7 @@
 							(bucket, bIndex) <- buckets.zipWithIndex;
 							term = (bucket \ "key").as[String];
 							count = (bucket \ "doc_count").as[Int]) {
-						<span @if(bIndex>6){style="display:none" class="@simpleKey-more-item"}>
+						<span @if(bIndex>4){style="display:none" class="@simpleKey-more-item"}>
 							@facetLink(key, "\"" + term + "\"", models.GndOntology.label(term), count) <br/>
 						</span>
 				}
@@ -232,6 +232,7 @@
 						@*@typeFacet(buckets)*@
 						@facet("professionOrOccupation.label.keyword")
 						@facet("gndSubjectCategory.id")
+						@facet("gender.id")
 						@facet("placeOfActivity.label.keyword")
 						@facet("geographicAreaCode.id")
 						@*@facet("professionOrOccupation.id")*@

@@ -93,7 +93,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	public static final String[] AGGREGATIONS = new String[] { "type", "gndSubjectCategory.id", "geographicAreaCode.id",
 			"professionOrOccupation.id", "professionOrOccupation.label.keyword", "placeOfActivity.label.keyword",
-			"dateOfBirth" };
+			"dateOfBirth", "gender.id" };
 
 	@Inject
 	Environment env;
