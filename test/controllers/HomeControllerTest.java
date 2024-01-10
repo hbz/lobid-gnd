@@ -30,16 +30,16 @@ public class HomeControllerTest extends IndexTest {
 				// index
 				{ routes.HomeController.index().toString(), Status.OK }, //
 				// search
-				{ routes.HomeController.search("*", "", "", 0, 10, "json").toString(), Status.OK },
-				{ routes.HomeController.search("*", "", "", 0, 10, "jsonl").toString(), Status.OK },
-				{ routes.HomeController.search("*", "", "", 0, 10, "json:suggest").toString(), Status.OK },
-				{ routes.HomeController.search("++test", "", "", 0, 10, "html").toString(),
-						Status.INTERNAL_SERVER_ERROR },
-				{ routes.HomeController.search("*", "", "", 0, 10, "jsonfoo").toString(),
+				{ routes.HomeController.search("*", "", "", "", "", "", "", "", 0, 10, "json").toString(), Status.OK },
+				{ routes.HomeController.search("*", "", "", "", "", "", "", "", 0, 10, "jsonl").toString(), Status.OK },
+				{ routes.HomeController.search("*", "", "", "", "", "", "", "", 0, 10, "json:suggest").toString(), Status.OK },
+				{ routes.HomeController.search("++test", "", "", "", "", "", "", "", 0, 10, "html").toString(),
+								Status.INTERNAL_SERVER_ERROR },
+				{ routes.HomeController.search("*", "", "", "", "", "", "", "", 0, 10, "jsonfoo").toString(),
 						Status.UNSUPPORTED_MEDIA_TYPE },
-				{ routes.HomeController.search("*", "", "", 0, 10, "ttl").toString(), Status.UNSUPPORTED_MEDIA_TYPE },
-				{ routes.HomeController.search("*", "", "", 0, 10, "rdf").toString(), Status.UNSUPPORTED_MEDIA_TYPE },
-				{ routes.HomeController.search("*", "", "", 0, 10, "nt").toString(), Status.UNSUPPORTED_MEDIA_TYPE },
+				{ routes.HomeController.search("*", "", "", "", "", "", "", "", 0, 10, "ttl").toString(), Status.UNSUPPORTED_MEDIA_TYPE },
+				{ routes.HomeController.search("*", "", "", "", "", "", "", "", 0, 10, "rdf").toString(), Status.UNSUPPORTED_MEDIA_TYPE },
+				{ routes.HomeController.search("*", "", "", "", "", "", "", "", 0, 10, "nt").toString(), Status.UNSUPPORTED_MEDIA_TYPE },
 				// authority
 				{ routes.HomeController.authority("4791358-7", "json").toString(), Status.OK },
 				{ routes.HomeController.authority("abc", "json").toString(), Status.NOT_FOUND },
