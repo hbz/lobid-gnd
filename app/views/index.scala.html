@@ -4,7 +4,7 @@
 
 @import helper._
 @import controllers.HomeController.formatCount
-@import controllers.HomeController.todayQuery
+@import controllers.HomeController.thisDay
 @import play.api.libs.json._
 @import controllers.HomeController.CONFIG
 
@@ -15,7 +15,7 @@
     </div>
     <div class="row">
         <div class="col-md-3">
-           <p><strong>Aktuelle Jahrestage</strong></p>
+           <p><strong>Jubiläen</strong></p>
            @for(resource <- anniversaries) {
                <div>
                <small>
@@ -29,7 +29,7 @@
                 </small>
                 </div>
            }
-           <p><a href='@routes.HomeController.search(date=todayQuery)'>Alle heutigen Jahrestage</a></p>
+           <p><a href='@routes.HomeController.search(date=thisDay)'>Aktuelle Jahrestage</a></p>
         </div>
         <div class="col-md-@if(entity!=null){6}else{9} intro">
            @Html(dataset.get("description").get("de").asText())

@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -107,7 +108,17 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	@Inject
 	IndexComponent index;
 
+	private Map<String, List<String>> anniversaries = new HashMap<>();
+
 	public static final Config CONFIG = ConfigFactory.load();
+
+	private static final List<Integer> ROUND_BIRTH = Arrays.asList(50, 70, 75, 100, 125, 150, 200,
+			250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1100,
+			1200, 1250, 1300, 1400, 1500, 1600, 1700, 1750, 1800, 1900, 2000);
+
+	private static final List<Integer> ROUND_DEATH = Arrays.asList(10, 25, 50, 75, 100, 125, 150,
+			200, 250, 300, 350, 400, 450, 500, 600, 700, 750, 800, 900, 950, 1000, 1100, 1200, 1250,
+			1300, 1400, 1500, 1600, 1700, 1750, 1800, 1900, 2000, 2100, 2200);
 
 	public static String config(String id) {
 		return CONFIG.getString(id);
@@ -140,16 +151,51 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			entity = entityWithImage(hit.getSourceAsString());
 		}
 		JsonNode dataset = Json.parse(readFile(config("dataset.file")));
-		return ok(views.html.index.render(entity, dataset, anniversaries(), allHits()));
+		return ok(views.html.index.render(entity, dataset, allAnniversaries(), allHits()));
 	}
 
-	private List<String> anniversaries() {
-		String today = todayQuery();
-		QueryBuilder query = randomScoreQuery(anniversaryQuery(today));
-		SearchHits hits = prepareSearch().setQuery(query).setFrom(0).setSize(5).execute()
-				.actionGet().getHits();
-		return Arrays.asList(hits.getHits()).stream().map(hit -> hitToAnniversary(today, hit))
-				.collect(Collectors.toList());
+	private List<String> allAnniversaries() {
+		// starting with any anniversaries on this day, fill up
+		// (to 5 overall) with random anniversaries from this month,
+		// retaining order (today first) and avoiding duplicates:
+		int fullSize = 5;
+		List<String> anniversaries = anniversariesFor(thisDay());
+		if (anniversaries.size() < fullSize) {
+			List<String> thisMonth = anniversariesFor(thisMonth());
+			for (int i = 0; anniversaries.size() < fullSize && i < thisMonth.size(); i++) {
+				if (!anniversaries.contains(thisMonth.get(i))) {
+					anniversaries.add(thisMonth.get(i));
+				}
+			}
+		}
+		return anniversaries;
+	}
+
+	private List<String> anniversariesFor(String datePattern) {
+		// don't query on each reload...
+		List<String> result = anniversaries.computeIfAbsent(datePattern, list -> {
+			QueryBuilder query = randomScoreQuery(anniversaryQuery(datePattern));
+			SearchHits hits = prepareSearch().setQuery(query).setFrom(0).setSize((int) allHits())
+					.execute().actionGet().getHits();
+			return Arrays.asList(hits.getHits()).stream().filter(hit -> hasRound(datePattern, hit))
+					.map(hit -> hitToAnniversary(datePattern, hit)).collect(Collectors.toList());
+		});
+		// ...but provide new selection/subset
+		Collections.shuffle(result);
+		return result.stream().limit(5).collect(Collectors.toList());
+
+	}
+
+	private boolean hasRound(String datePattern, SearchHit hit) {
+		JsonNode json = Json.parse(hit.getSourceAsString());
+		JsonNode birthNode = json.get("dateOfBirth");
+		JsonNode deathNode = json.get("dateOfDeath");
+		return isRound(birthNode, ROUND_BIRTH, datePattern)
+				|| isRound(deathNode, ROUND_DEATH, datePattern);
+	}
+
+	private boolean isRound(JsonNode node, List<Integer> round, String datePattern) {
+		return node != null && is(datePattern, node.get(0).asText(), round);
 	}
 
 	private FunctionScoreQueryBuilder randomScoreQuery(QueryBuilder query) {
@@ -157,7 +203,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()));
 	}
 
-	private String hitToAnniversary(String today, SearchHit hit) {
+	private String hitToAnniversary(String datePattern, SearchHit hit) {
 		JsonNode fullJson = Json.parse("[" + hit.getSourceAsString() + "]");
 		JsonNode suggestion = Json
 				.parse(toSuggestions(fullJson,
@@ -166,28 +212,29 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		JsonNode json = Json.toJson(ImmutableMap.of( //
 				"label", suggestion.get("label").asText(), //
 				"url", suggestion.get("id").asText().replace(AuthorityResource.GND_PREFIX, "/"), //
-				"details", details(today, fullJson)));
+				"details", details(datePattern, fullJson)));
 		return Json
 				.stringify(json);
 	}
 
-	private String details(String today, JsonNode json) {
+	private String details(String datePattern, JsonNode json) {
 		String details = "";
 		JsonNode dateOfBirth = json.findValue("dateOfBirth");
 		String date;
 		if (dateOfBirth != null
-				&& is(today, date = dateOfBirth.get(0).asText())) {
+				&& is(datePattern, date = dateOfBirth.get(0).asText(), ROUND_BIRTH)) {
 				details = String.format("%s. Geburtstag, geb. am %s", //
 					yearsSince(date), AuthorityResource.germanDate(date));
-		} else if (is(today, date = json.findValue("dateOfDeath").get(0).asText())) {
+		} else if (is(datePattern, date = json.findValue("dateOfDeath").get(0).asText(), ROUND_DEATH)) { 
 			details = String.format("%s. Todestag, gest. am %s", //
 					yearsSince(date), AuthorityResource.germanDate(date));
 		}
 		return details;
 	}
 
-	private boolean is(String today, String date) {
-		return date.endsWith(today.replace("*", "")) && yearsSince(date) != -1;
+	private boolean is(String datePattern, String date, List<Integer> round) {
+		return date.contains(datePattern.replace("*", ""))
+				&& round.contains((int) yearsSince(date));
 	}
 
 	private SearchRequestBuilder prepareSearch() {
@@ -196,7 +243,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	private QueryStringQueryBuilder anniversaryQuery(String today) {
 		String queryString = String.format(
-				"(dateOfBirth:(%s) OR dateOfDeath:(%s)) AND NOT gndIdentifier:(%s)", today, today,
+				"(dateOfBirth:(%s) OR dateOfDeath:(%s)) AND NOT gndIdentifier:(%s) AND _exists_:dateOfDeath",
+				today, today,
 				CONFIG.getStringList("dontShowOnMainPage").stream()
 						.collect(Collectors.joining(" OR ")));
 		QueryStringQueryBuilder query = index.queryStringQuery(queryString);
@@ -205,19 +253,22 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	private long yearsSince(String date) {
 		try {
-		return ChronoUnit.YEARS.between(
-				LocalDate.from(DateTimeFormatter.ISO_LOCAL_DATE
-							.parse(AuthorityResource.cleanDate(date))),
-				ZonedDateTime.now());
+			int year = Integer.parseInt(AuthorityResource.cleanDate(date).substring(0, 4));
+			return ChronoUnit.YEARS.between( //
+					LocalDate.of(year, 1, 1), LocalDate.of(ZonedDateTime.now().getYear(), 1, 1));
 		} catch (DateTimeParseException e) {
 			e.printStackTrace();
 			return -1;
 		}
 	}
 
-	public static String todayQuery() {
-		return ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE)
-				.replaceAll("\\d{4}", "*");
+	public static String thisDay() {
+		return ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE).replaceAll("\\d{4}",
+				"*"); // e.g return "*-01-09";
+	}
+
+	private static String thisMonth() {
+		return thisDay().replaceAll("\\d{2}$", "*"); // e.g. return "*-01-*";
 	}
 
 	/**
