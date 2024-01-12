@@ -22,7 +22,7 @@
     }
 }
 
-@graph() = {
+@*@graph() = {
   <script type="text/javascript" src='@controllers.routes.Assets.versioned("javascripts/vis.js")'></script>
   <link href='@controllers.routes.Assets.versioned("stylesheets/vis-network.min.css")' rel="stylesheet" type="text/css" />
   <style type="text/css">
@@ -122,7 +122,7 @@
       $('.nav li a').filter('[href="#'+anchor+'"]').tab('show');
     }
   </script>
-}
+}*@
 
 @map() = {
  <link rel="stylesheet" href='@controllers.routes.Assets.versioned("stylesheets/leaflet.css")' />
@@ -254,9 +254,9 @@
                 @dataSource
             </div>
             <div  role="tabpanel" id="rels" class="tab-pane col-md-@leftWidth intro">
-                @if(resource.gndRelationEdges != "[]") {
+                @*@if(resource.gndRelationEdges != "[]") {
                     @graph()
-                }
+                }*@
                 @*@dataSource*@
             </div>
         </div>
