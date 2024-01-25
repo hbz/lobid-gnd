@@ -22,15 +22,15 @@ h2. Data
 
 The are three data sources involved:
 
-EntityFacts (JSON-LD over HTTP), GND baseline (RDF-XML over HTTP), and GND updates (RDF-XML over OAI-PMH).
+Entity Facts (JSON-LD over HTTP), GND baseline (RDF-XML over HTTP), and GND updates (RDF-XML over OAI-PMH).
 
-h3. EntityFacts
+h3. Entity Facts
 
-Set up a location for the EntityFacts input data:
+Set up a location for the Entity Facts input data:
 
 @mkdir entityfacts ; cd entityfacts@
 
-Get the latest EntityFacts data from the DNB (see "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/):
+Get the latest Entity Facts data from the DNB (see "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/):
 
 @wget https://data.dnb.de/opendata/authorities_entityfacts.jsonld.gz@
 

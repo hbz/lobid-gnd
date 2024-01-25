@@ -301,7 +301,7 @@ public class Convert {
 		try {
 			String index = config("index.entityfacts.index");
 			String type = config("index.entityfacts.type");
-			Logger.debug("EntityFacts request, index {} type {} id {}", index, type, id);
+			Logger.debug("Entity Facts request, index {} type {} id {}", index, type, id);
 			GetResponse response = CLIENT.prepareGet(index, type, id).execute().actionGet();
 			if (response.isExists()) {
 				JsonNode json = Json.parse(response.getSourceAsString());
@@ -311,10 +311,10 @@ public class Convert {
 				result = Json.toJson(map);
 				Logger.debug("Final JSON for {}: {}", id, result);
 			} else {
-				Logger.debug("No EntityFacts response {} for {}", response.getSourceAsString(), id);
+				Logger.debug("No Entity Facts response {} for {}", response.getSourceAsString(), id);
 			}
 		} catch (Exception e) {
-			Logger.error("Could not enrich {} from EntityFacts: {} ({})", id, e.getClass(), e.getMessage());
+			Logger.error("Could not enrich {} from Entity Facts: {} ({})", id, e.getClass(), e.getMessage());
 		}
 		return result;
 	}
@@ -347,7 +347,7 @@ public class Convert {
 							"url", depiction.get("url"), //
 							"thumbnail", depiction.get("thumbnail").get("@id"))));
 		} else {
-			Logger.debug("No EntityFacts depiction for {}", result);
+			Logger.debug("No Entity Facts depiction for {}", result);
 		}
 		map.put("sameAs", sorted((List<Map<String, Object>>) map.get("sameAs")));
 		return map;
