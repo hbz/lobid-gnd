@@ -28,7 +28,7 @@ public class SuggestionsTest extends IndexTest {
 		Application application = fakeApplication();
 		running(application, () -> {
 			Result result = route(application, fakeRequest(GET,
-					"/gnd/search?q=*&filter=type:Person&format=json:preferredName,professionOrOccupation"));
+					"/search?q=*&filter=type:Person&format=json:preferredName,professionOrOccupation"));
 			assertNotNull("We have a result", result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			String content = contentAsString(result);
@@ -50,7 +50,7 @@ public class SuggestionsTest extends IndexTest {
 		Application application = fakeApplication();
 		running(application, () -> {
 			Result result = route(application,
-					fakeRequest(GET, "/gnd/search?q=*&filter=type:Person&format=json:preferredName&callback=test"));
+					fakeRequest(GET, "/search?q=*&filter=type:Person&format=json:preferredName&callback=test"));
 			assertNotNull("We have a result", result);
 			assertThat(result.contentType().get(), is(equalTo("application/javascript")));
 			assertThat(contentAsString(result), allOf(containsString("test("), // callback
@@ -62,7 +62,7 @@ public class SuggestionsTest extends IndexTest {
 	public void suggestionsCorsHeader() {
 		Application application = fakeApplication();
 		running(application, () -> {
-			Result result = route(application, fakeRequest(GET, "/gnd/search?q=*&format=json:preferredName"));
+			Result result = route(application, fakeRequest(GET, "/search?q=*&format=json:preferredName"));
 			assertNotNull("We have a result", result);
 			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
 		});

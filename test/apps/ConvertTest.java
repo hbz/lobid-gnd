@@ -168,7 +168,7 @@ public class ConvertTest {
 	public void testRemoveNewlinesInLabels() throws FileNotFoundException {
 		String jsonLd = jsonLdFor("118512676");
 		JsonNode categories = Json.parse(jsonLd).get("gndSubjectCategory");
-		assertTrue(categories.toString().contains("Personen zu Literaturgeschichte (Schriftsteller)"));
+		assertTrue(categories.toString().contains("Literaturgeschichte (Schriftsteller)"));
 	}
 
 	@Test

@@ -44,12 +44,12 @@ public class ReconcileIntegrationTest extends IndexTest {
 
 	@Test
 	public void reconcileMetadataRequestNoCallback() {
-		metadataRequest("/gnd/reconcile");
+		metadataRequest("/reconcile");
 	}
 
 	@Test
 	public void reconcileMetadataRequestNoCallbackTrailingSlash() {
-		metadataRequest("/gnd/reconcile/");
+		metadataRequest("/reconcile/");
 	}
 
 	private void metadataRequest(String uri) {
@@ -72,7 +72,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 	public void reconcilePropertiesRequest() {
 		Application application = fakeApplication();
 		running(application, () -> {
-			Result result = route(application, fakeRequest(GET, "/gnd/reconcile/properties"));
+			Result result = route(application, fakeRequest(GET, "/reconcile/properties"));
 			assertNotNull(result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
@@ -83,7 +83,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 	public void reconcileSuggestTypeRequest() {
 		Application application = fakeApplication();
 		running(application, () -> {
-			Result result = route(application, fakeRequest(GET, "/gnd/reconcile/suggest/type?prefix=werk"));
+			Result result = route(application, fakeRequest(GET, "/reconcile/suggest/type?prefix=werk"));
 			assertNotNull(result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			assertThat(result.header("Access-Control-Allow-Origin").get(), is(equalTo("*")));
@@ -93,12 +93,12 @@ public class ReconcileIntegrationTest extends IndexTest {
 
 	@Test
 	public void reconcileMetadataRequestWithCallback() {
-		metadataRequestWithCallback("/gnd/reconcile?callback=jsonp");
+		metadataRequestWithCallback("/reconcile?callback=jsonp");
 	}
 
 	@Test
 	public void reconcileMetadataRequestWithCallbackTrailingSlash() {
-		metadataRequestWithCallback("/gnd/reconcile/?callback=jsonp");
+		metadataRequestWithCallback("/reconcile/?callback=jsonp");
 	}
 
 	private void metadataRequestWithCallback(String uri) {
@@ -112,40 +112,40 @@ public class ReconcileIntegrationTest extends IndexTest {
 	}
 
 	@Test
-	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/gnd/reconcile
+	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/reconcile
 	public void reconcileRequest() {
-		reconcileRequest("/gnd/reconcile", "Twain, Mark", /* -> */ "118624822");
+		reconcileRequest("/reconcile", "Twain, Mark", /* -> */ "118624822");
 	}
 
 	@Test
-	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/gnd/reconcile/
+	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/reconcile/
 	public void reconcileRequestTrailingSlash() {
-		reconcileRequest("/gnd/reconcile/", "Twain, Mark", /* -> */ "118624822");
+		reconcileRequest("/reconcile/", "Twain, Mark", /* -> */ "118624822");
 	}
 
 	@Test
 	public void reconcileRequestWithGndId() {
-		reconcileRequest("/gnd/reconcile/", "118624822", /* -> */ "118624822");
+		reconcileRequest("/reconcile/", "118624822", /* -> */ "118624822");
 	}
 
 	@Test
 	public void reconcileRequestWithGndUri() {
-		reconcileRequest("/gnd/reconcile/", "https://d-nb.info/gnd/118624822", /* -> */ "118624822");
+		reconcileRequest("/reconcile/", "https://d-nb.info/gnd/118624822", /* -> */ "118624822");
 	}
 
 	@Test
 	public void reconcileRequestWithGndIdDash() {
-		reconcileRequest("/gnd/reconcile/", "2136169-1", /* -> */ "2136169-1");
+		reconcileRequest("/reconcile/", "2136169-1", /* -> */ "2136169-1");
 	}
 
 	@Test
 	public void reconcileRequestWithGndUriDash() {
-		reconcileRequest("/gnd/reconcile/", "https://d-nb.info/gnd/2136169-1", /* -> */ "2136169-1");
+		reconcileRequest("/reconcile/", "https://d-nb.info/gnd/2136169-1", /* -> */ "2136169-1");
 	}
 
 	@Test
 	public void reconcileRequestWithViafUri() {
-		reconcileRequest("/gnd/reconcile/", "http://viaf.org/viaf/50566653", /* -> */ "118624822");
+		reconcileRequest("/reconcile/", "http://viaf.org/viaf/50566653", /* -> */ "118624822");
 	}
 
 	private void reconcileRequest(String uri, String query, String gndId) {
@@ -166,7 +166,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 	}
 
 	@Test
-	// curl -g 'localhost:9000/gnd/reconcile?queries={"q99":{"query":"*"}}'
+	// curl -g 'localhost:9000/reconcile?queries={"q99":{"query":"*"}}'
 	public void reconcileRequestGetWithReservedChars() {
 		Application application = fakeApplication();
 		running(application, () -> {
@@ -174,7 +174,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 			try {
 				result = route(application,
 						fakeRequest(GET,
-								"/gnd/reconcile?queries=" + URLEncoder.encode(
+								"/reconcile?queries=" + URLEncoder.encode(
 										"{\"q99\":{\"query\":\"Conference +=<>(){}[]^ (1997 : Kyoto / Japan)\"}}",
 										StandardCharsets.UTF_8.name())));
 			} catch (UnsupportedEncodingException e) {
@@ -189,11 +189,11 @@ public class ReconcileIntegrationTest extends IndexTest {
 	}
 
 	@Test
-	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/gnd/reconcile
+	// curl --data 'queries={"q99":{"query":"*"}}' localhost:9000/reconcile
 	public void reconcileRequestPostWithReservedChars() {
 		Application application = fakeApplication();
 		running(application, () -> {
-			Result result = route(application, fakeRequest(POST, "/gnd/reconcile")//
+			Result result = route(application, fakeRequest(POST, "/reconcile")//
 					.bodyForm(ImmutableMap.of("queries",
 							"{\"q99\":{\"query\":\"Conference +=<>(){}[]^ (1997 : Kyoto / Japan)\"}}")));
 			assertThat(result.status(), is(equalTo(Http.Status.OK)));
@@ -204,12 +204,14 @@ public class ReconcileIntegrationTest extends IndexTest {
 	}
 
 	@Test
-	// curl --data 'queries={"q99":{"query":"*","properties":[{"pid":"dateOfBirth","v":"1889-04-26"}]}}' localhost:9000/gnd/reconcile 
+	// curl --data
+	// 'queries={"q99":{"query":"*","properties":[{"pid":"dateOfBirth","v":"1889-04-26"}]}}'
+	// localhost:9000/reconcile
 	public void reconcileRequestWithProperties() {
 		Application application = fakeApplication();
 		running(application, () -> {
 			Result result = route(application,
-					fakeRequest(POST, "/gnd/reconcile")//
+					fakeRequest(POST, "/reconcile")//
 							.bodyForm(ImmutableMap.of("queries",
 									"{\"q99\":{\"query\":\"*\",\"properties\":[{\"pid\":\"dateOfBirth\",\"v\":\"[1889* TO 1890*]\"}]}}")));
 			assertThat(result.status(), is(equalTo(Http.Status.OK)));
@@ -223,7 +225,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 	public void reconcileRequestWithType() {
 		Application application = fakeApplication();
 		running(application, () -> {
-			Result result = route(application, fakeRequest(POST, "/gnd/reconcile").bodyForm(
+			Result result = route(application, fakeRequest(POST, "/reconcile").bodyForm(
 					ImmutableMap.of("queries", "{\"q99\":{\"query\":\"Twain, Mark\", \"type\":\"CorporateBody\"}}")));
 			String content = contentAsString(result);
 			Logger.debug(Json.prettyPrint(Json.parse(content)));
@@ -234,7 +236,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 
 	@Test
 	// curl -g
-	// 'localhost:9000/gnd/reconcile?extend=
+	// 'localhost:9000/reconcile?extend=
 	// {"ids":[],"properties":[{"id":"geographicAreaCode"},{"id":"professionOrOccupation"}]}'
 	// See https://github.com/hbz/lobid-gnd/issues/241
 	public void extendRequestMeta() {
@@ -246,7 +248,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 				"{\"id\":\"geographicAreaCode\"}," + //
 				"{\"id\":\"professionOrOccupation\"}]}";
 				result = route(application, fakeRequest(GET,
-						"/gnd/reconcile?extend=" + URLEncoder.encode(extensionQuery, StandardCharsets.UTF_8.name())));
+						"/reconcile?extend=" + URLEncoder.encode(extensionQuery, StandardCharsets.UTF_8.name())));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
