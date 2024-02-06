@@ -142,7 +142,8 @@ public class Convert {
 		String sameAsSchema = "http://schema.org/sameAs";
 		String preferredName = ELEMENTSET + "gnd#preferredNameFor";
 		String variantName = ELEMENTSET + "gnd#variantNameFor";
-		String type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+		String rdfSyntax = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+		String type = rdfSyntax + "type";
 		String label = "http://www.w3.org/2000/01/rdf-schema#label";
 		String gnd = ELEMENTSET + "gnd#";
 		String collection = ELEMENTSET + "dnb#isDescribedIn";
@@ -150,6 +151,7 @@ public class Convert {
 		String describedBy = "http://www.w3.org/2007/05/powder-s#describedby";
 		Set<Statement> toRemove = new HashSet<>();
 		Set<Statement> toAdd = new HashSet<>();
+		String contextAsString = context.toString();
 		model.listStatements().forEachRemaining(statement -> {
 			String s = statement.getSubject().toString();
 			String p = statement.getPredicate().toString();
@@ -219,6 +221,9 @@ public class Convert {
 					toAdd.add(model.createStatement(statement.getSubject(), statement.getPredicate(),
 							model.createResource(newType)));
 				}
+			} else if (!toRemove.contains(statement) && !p.startsWith(rdfSyntax) && !contextAsString.contains(p)) {
+					Logger.error("Skipping statement, predicate not found in context: {}", statement);
+					toRemove.add(statement);
 			}
 		});
 		toRemove.stream().forEach(e -> model.remove(e));
