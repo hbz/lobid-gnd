@@ -40,8 +40,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.oclc.oai.harvester2.app.RawWrite;
 import org.xml.sax.SAXException;
 
-import helper.Email;
-
 /**
  * Configurable to-the-minute. Start time is read from file which was saved last time of successfully updating.
  * OAI-PMH allows UTC queries. The format doesn't allow e.g. milliseconds - see {@link #dateTimeFormatter}.
@@ -51,10 +49,10 @@ import helper.Email;
  */
 public class ConvertUpdates {
 
-	static private final short MAX_TRIES = 2;
+	static private final short MAX_TRIES = 1;
 	static private final int WAIT_PER_RETRY = 14400000; // ms => 4h
 	static private final int DAY_IN_MINUTES = 1440;
-	static private final String FAIL_MESSAGE = "Tried to get the update several times, but the data remains to be empty."
+	static private final String FAIL_MESSAGE = "Tried to get the update the defined amount of times, but the data remains to be empty."
 			+ "This may or may not be a problem on the side of the data provider.";
 	static private boolean rawDates = false;
 	/* OAI-PMH expects this format */
@@ -70,13 +68,15 @@ public class ConvertUpdates {
 			File dataUpdate = new File(config("data.updates.data"));
 			short tried = 1;
 			while (dataUpdate.length() == 0 ) {
-				tried++;
 				System.err.println("Tried " + tried + " times to get the data, but it's empty.");
-				if (MAX_TRIES <= tried)
+				if (MAX_TRIES >= tried) {
+					System.err.println(FAIL_MESSAGE);
 					break;
+				}
 				System.err.println("Going to retry in " + WAIT_PER_RETRY / 1000 / 60 + " min");
 				Thread.sleep(WAIT_PER_RETRY);
 				startAndEnd = getUpdatesAndConvert(startAndEnd.getLeft(), endOfUpdates);
+				tried++;
 			}
 			if (dataUpdate.length() == 0) {
 				System.err.println("Tried " + tried
