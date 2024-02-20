@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -28,6 +30,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.Namespace;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import javax.xml.transform.TransformerException;
@@ -42,7 +45,9 @@ import helper.Email;
 /**
  * Configurable to-the-minute. Start time is read from file which was saved last time of successfully updating.
  * OAI-PMH allows UTC queries. The format doesn't allow e.g. milliseconds - see {@link #dateTimeFormatter}.
- * Default end time is now, in the format like eg. 2023-11-06T15:59Z .
+ * Default end time is now, in the format like eg. 2023-11-06T15:59Z.
+ * The times are interpreted as CET and as OAI-PMH expects UTC the CET times are converted to UTC to query OAI_PMH.
+ * Files uses the CET timestamps, though.
  */
 public class ConvertUpdates {
 
@@ -112,7 +117,7 @@ public class ConvertUpdates {
 			e.printStackTrace();
 		}
 		String dataUpdateUrl = config("data.updates.url");
-		System.out.printf("Trying to get data using %s from %s until %s using a %s days interval , i.e. doing %s lookup(s)\n",
+		System.out.printf("Trying to get data using %s from %s CET until %s CET using a %s days interval , i.e. doing %s lookup(s)\n",
 				dataUpdateUrl, start.format(dateTimeFormatter), givenEndOrNow.format(dateTimeFormatter), intervalInDaysSize, intervalInDays);
 		for (int i = 0; i < intervalInDays; i++) {
 			if (i == intervalInDays - 1)
@@ -136,16 +141,32 @@ public class ConvertUpdates {
 		return Pair.of(startOfUpdates, end);
 	}
 
-	public static void process(final String baseUrl, ZonedDateTime from, ZonedDateTime until, File result)
+	/**
+	 * As we call from a CET timed server and OAI-PMH expects UTC time the given parameter "from" and parameter "until"
+	 * are changed to UTC time.
+	 *
+	 * @param baseUrl the basis URL of the OAI-PMH server
+	 * @param from a CET time defining the beginning of the timeframe
+	 * @param until a CET time defining the end of the timeframe
+	 * @param result the file to where the data is written
+	 */
+	public static void process(final String baseUrl, final ZonedDateTime from, final ZonedDateTime until, File result)
 			throws NoSuchFieldException, IOException, ParserConfigurationException, SAXException, TransformerException,
 			XMLStreamException, XPathException {
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		String fromFormatted = from.minusMinutes(1).format(dateTimeFormatter);
-		String untilFormatted = until.format(dateTimeFormatter);
 
-		System.out.printf("Calling OAI-PMH at %s from %s until %s\n", baseUrl, fromFormatted, untilFormatted);
-		RawWrite.run(baseUrl, fromFormatted, untilFormatted, "RDFxml", "authorities", stream);
+		String fromUtcFormatted = getUtcFromCet(from).minusMinutes(1).format(dateTimeFormatter);
+		String untilUtcFormatted = getUtcFromCet(until).format(dateTimeFormatter);
+
+		System.out.printf("Calling OAI-PMH at %s from %s UTC until %s UTC\n", baseUrl, fromUtcFormatted, untilUtcFormatted);
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		RawWrite.run(baseUrl, fromUtcFormatted, untilUtcFormatted, "RDFxml", "authorities", stream);
 		writeRdfDescriptions(result, stream);
+	}
+
+	private static ZonedDateTime getUtcFromCet(final ZonedDateTime cetTime) {
+		ZonedDateTime cetTimeZoned = ZonedDateTime.of(cetTime.toLocalDateTime(), ZoneId.of("CET"));
+		ZonedDateTime utcTimeZoned = cetTimeZoned.withZoneSameInstant(ZoneOffset.UTC);
+		return utcTimeZoned;
 	}
 
 	static void writeRdfDescriptions(File result, ByteArrayOutputStream stream)
@@ -173,7 +194,7 @@ public class ConvertUpdates {
 							QName descriptionName = new QName(startElement.getName().getNamespaceURI(),
 									startElement.getName().getLocalPart(), startElement.getName().getPrefix());
 							StartElement descriptionWithNamespaces = eventFactory.createStartElement(descriptionName,
-									startElement.getAttributes(), namespaces);
+									 startElement.getAttributes(), (Iterator<? extends Namespace>) namespaces);
 							nextEvent = descriptionWithNamespaces;
 						}
 					} else if (nextEvent.isEndElement()
