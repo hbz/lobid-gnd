@@ -223,22 +223,20 @@
   }
 } else {
 @main("", resource.preferredName, allHits) {
-    <div class="page-header">
-        <h1>
-            @defining("Namen in die Zwischenablage kopieren") { title =>
-            <a class="invisible-link" data-toggle="tooltip" data-placement="right" title="@title" href="#" onclick="copyToClipboard('@(resource.title)', $(this), '@title'); return false;">
-                @resource.title
-            </a>
-            }
-            <small>
-            / @resource.lifeDates
-            <div class='pull-right'>
-                <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
-                <img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")' alt='JSON'/></a>
-            </div>
-            </small>
-        </h1>
-    </div>
+    <h1 style="margin-top:0px">
+        @defining("Namen in die Zwischenablage kopieren") { title =>
+        <a class="invisible-link" data-toggle="tooltip" data-placement="right" title="@title" href="#" onclick="copyToClipboard('@(resource.title)', $(this), '@title'); return false;">
+            @resource.title
+        </a>
+        }
+        <small>
+        / @resource.lifeDates
+        <div class='pull-right'>
+            <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
+            <img class='json-ld-icon' src='@routes.Assets.versioned("images/json-ld.png")' alt='JSON'/></a>
+        </div>
+        </small>
+    </h1>
     @*
     @if(resource.gndRelationEdges != "[]"){
     <ul class="nav nav-tabs" role="tablist">

@@ -101,6 +101,10 @@
                   </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->
             </div>
+            <div class="page-header">
+                <img class="media-object nrw-logo pull-right" src="@controllers.routes.Assets.versioned("images/wappen.png")" alt="RPB">
+                <h1>Die Rheinland-Pfälzische Personendatenbank<br/><small>@formatCount(allHits) Personen aus allen Wissensgebieten</small></h1>
+            </div>
             @if(!title.contains("API") && !title.contains("Reconcile")){
             @helper.form(action = controllers.routes.HomeController.search(q), 'id -> "search-form") {
                 <div class="input-group" id="search-simple">
@@ -150,18 +154,12 @@
                 </script>
             }
             }
-            <br/>
-            <div class="alert alert-warning">
-               Aufgrund einer technischen Störung musste die Rheinland-Pfälzische Personendatenbank (RPPD) in ihrer bisherigen Form abgeschaltet 
-               werden und auf eine neue Oberfläche umziehen. Bitte beachten Sie, dass es sich hierbei um eine Version handelt, in der 
-               noch nicht alle Funktionen umgesetzt sind. Wir sind bestrebt, dies fortlaufend zu verbessern.
-            </div>
             @content
             <div class="panel panel-default nwbib-footer">
               <div class="panel-body">
-                <img class="media-object pull-left nrw-wappen" src="@controllers.routes.Assets.versioned("images/wappen.png")" alt="NRW-Wappen"> 
-                <img class="media-object pull-right hbz-logo" src="@controllers.routes.Assets.versioned("images/hbz.png")" alt="hbz-Logo">
-                Die RPPD enthält aktuell @formatCount(allHits) Personen | Ein Entwicklungsprojekt von <a href="https://lbz.rlp.de/">lbz</a> &amp; <a href="http://www.hbz-nrw.de/">hbz</a>
+                <a href="https://lbz.rlp.de/"><img class="media-object pull-left nrw-wappen" src="@controllers.routes.Assets.versioned("images/wappen.png")" alt="RLP-Wappen"></a>
+                <a href="http://www.hbz-nrw.de/"><img class="media-object pull-right hbz-logo" src="@controllers.routes.Assets.versioned("images/hbz.png")" alt="hbz-Logo"></a>
+                Die RPPD enthält aktuell @formatCount(allHits) Personen
               </div>
             </div>
         </div>

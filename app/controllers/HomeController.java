@@ -687,6 +687,14 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return df.format(count);
 	}
 
+	public static String formatName(String name) {
+		String[] lastAndFirst = name.split(", ");
+		if (lastAndFirst.length != 2) {
+			return name;
+		}
+		return lastAndFirst[1] + " " + lastAndFirst[0];
+	}
+
 	private String attribution(String url) {
 		try {
 			return requestInfo(httpClient, url).thenApply(info -> {

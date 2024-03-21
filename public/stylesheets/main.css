@@ -12,7 +12,7 @@ dd {
 }
 
 #search-form {
-	padding-bottom: 0em;
+	padding-bottom: 3.5em;
 }
 
 input#owner {
@@ -134,7 +134,7 @@ ul.facet li {
 }
 
 #search-results {
-	padding-top: 2em;
+	padding-top: 0em;
 }
 
 .nwbib-footer {
@@ -359,4 +359,8 @@ figcaption {
 
 .biogramme {
   column-width: 30em;
+}
+
+.page-header {
+  border: none;
 }
