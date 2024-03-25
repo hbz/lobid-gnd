@@ -218,8 +218,8 @@
 }
 
 @if(resource == null){
-  @main("", "lobid-gnd") {
-    <div id="search-results" class="alert alert-info text-center">Ein Titel mit der ID @request.uri.toString.split("/").last konnte nicht gefunden werden.</div>
+  @main("", "RPPD", allHits) {
+    <div class="alert alert-warning text-center">Eine Person mit der ID '@request.uri.toString.split("/").last' konnte nicht gefunden werden.</div>
   }
 } else {
 @main("", resource.preferredName, allHits) {
