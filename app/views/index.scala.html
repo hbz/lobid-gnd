@@ -4,15 +4,12 @@
 
 @import helper._
 @import controllers.HomeController.formatCount
+@import controllers.HomeController.formatName
 @import controllers.HomeController.thisDay
 @import play.api.libs.json._
 @import controllers.HomeController.CONFIG
 
 @main("", "RPPD", allHits) {
-    <div class="page-header">
-        <img class="media-object nrw-logo pull-right" src="@controllers.routes.Assets.versioned("images/wappen.png")" alt="NRW">
-        <h1>@dataset.get("alternateName").get("de").asText()<br/><small>@formatCount(allHits) Personen aus allen Wissensgebieten <span class="badge">beta</span></small></h1>
-    </div>
     <div class="row">
         <div class="col-md-3">
            <p><strong>Jubiläen</strong></p>
@@ -37,7 +34,7 @@
         @if(entity!=null){<div class="col-md-3">
         <figure>
             <a href='@routes.HomeController.authority(entity.getId)'><img width="200px" id="index-image" src='https://lobid.org/imagesproxy?url=@entity.getImage.image' alt="Darstellung von @entity.preferredName"/></a>
-            <figcaption><a href='@routes.HomeController.authority(entity.getId)'>@entity.preferredName</a><br/>@if(entity.imageAttribution!=null){<small>(@Html(entity.imageAttribution))</small>}</figcaption>
+            <figcaption><a href='@routes.HomeController.authority(entity.getId)'>@formatName(entity.preferredName)</a><br/>@if(entity.imageAttribution!=null){<small>(@Html(entity.imageAttribution))</small>}</figcaption>
         </figure>
         </div>}
     </div>

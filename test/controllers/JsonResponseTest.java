@@ -36,7 +36,7 @@ public class JsonResponseTest extends IndexTest {
 
 	@Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][] { { "/gnd/search?format=json" }, { "/gnd/2136169-1" } });
+		return Arrays.asList(new Object[][] { { "/search?format=json" }, { "/2136169-1" } });
 	}
 
 	private String path;
