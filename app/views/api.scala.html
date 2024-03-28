@@ -105,50 +105,5 @@ $('input.search-gnd').autocomplete({
 
   <h2 id="openrefine">OpenRefine <small><a href="#openrefine"><span class="glyphicon glyphicon-link"></span></a></small></h2>
 
-  <p>
-    Dieser Dienst bietet eine Implementierung der OpenRefine 
-    <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation">Reconciliation</a> 
-    <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API">API</a> an:
-  </p>
-  <p><code>@controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code> (<a href='http://blog.lobid.org/2018/08/27/openrefine.html'>diese URL in OpenRefine verwenden</a>).</p>
-  <p>
-    Wir beteiligen uns an der Standardisierung dieser Schnittstellen im Rahmen der <a href="https://www.w3.org/community/reconciliation/">W3C Reconciliation Community Group</a>. 
-    Die im Rahmen dieser Gruppe entwickelte <a href="https://reconciliation-api.github.io/testbench/">reconciliation service test bench</a> gibt einen Überblick über die von lobid-gnd 
-    unterstützten Reconciliation APIs und bietet die Möglichkeit zur direkten Interaktion mit diesen APIs.
-  </p>
-
-  <h3>Allgemeine API <small>(<a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API">spec</a>)</small></h3>
-
-  @desc("Service", routes.Reconcile.reconcile())
-  @desc("JSONP callback", routes.Reconcile.main("jsonp"))
-  <p><b>CORS header</b></p>
-  <code>curl --head @controllers.HomeController.config("host")@routes.Reconcile.reconcile() | grep Access-Control-Allow-Origin</code>
-
-  <h3>View API</h3>
-
-  @desc("Preview entities (<a href=\"https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API#preview-api\">spec</a>)", routes.HomeController.authorityDotFormat("118624822", "preview"))
-  @desc("View entities (<a href=\"https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API#service-metadata\">spec</a>)", routes.HomeController.authority("118624822"))
-
-  <h3>Query API <small>(<a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API#query-request">spec</a>)</small></h3>
-
-  @desc("Query: GET", routes.Reconcile.main(queries="{\"q1\":{\"query\":\"Twain, Mark\"}}"))
-  <p><b>Query: POST</b></p>
-  <p><code>curl --data 'queries={"q1":{"query":"Twain, Mark"}}' @controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code></p>
-
-  <h3>Suggest API <small>(<a href="https://github.com/OpenRefine/OpenRefine/wiki/Suggest-API">spec</a>)</small></h3>
-
-  @desc("Suggest entities ", routes.Reconcile.suggest(service="entity", prefix="hbz"))
-  @desc("Suggest types ", routes.Reconcile.suggest(service="type", prefix="werk"))
-  @desc("Suggest properties ", routes.Reconcile.suggest(service="property", prefix="beruf"))
-  @desc("Flyout entities ", routes.Reconcile.flyout(service="entity", id="2047974-8"))
-  @desc("Flyout types ", routes.Reconcile.flyout(service="type", id="Work"))
-  @desc("Flyout properties ", routes.Reconcile.flyout(service="property", id="professionOrOccupation"))
-
-  <h3>Data extension API</h3>
-
-  @desc("Property proposal (<a href=\"https://github.com/OpenRefine/OpenRefine/wiki/Data-Extension-API#property-proposal-protocol\">spec</a>)", routes.Reconcile.properties("","Work",""))
-  @desc("Extend: GET (<a href=\"https://github.com/OpenRefine/OpenRefine/wiki/Data-Extension-API#data-extension-protocol\">spec</a>)", routes.Reconcile.main(extend="{\"ids\":[\"1081942517\",\"4791358-7\"],\"properties\":[{\"id\":\"preferredName\"},{\"id\":\"firstAuthor\"}]}"))
-  <p><b>Extend: POST</b></p>
-  <p><code>curl --data 'extend={"ids":["1081942517","4791358-7"],"properties":[{"id":"preferredName"},{"id":"firstAuthor"}]}' @controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code></p>
-
+  Siehe <a href='@routes.Reconcile.reconcile()'>GND reconciliation for OpenRefine</a>.
 }
