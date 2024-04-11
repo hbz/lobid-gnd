@@ -201,7 +201,7 @@
                  </div>
                  <table class="table table-striped table-condensed">
                  <tr><th /><th /><th /><th /><th /></tr>
-                 @for((doc,i) <- hits; gndId = (doc\"gndIdentifier").as[String]; id = if (gndId.contains("Keine")) (doc\"rppdId").as[String] else gndId) {
+                 @for((doc,i) <- hits; gndId = (doc\"gndIdentifier").asOpt[String].getOrElse("Keine"); id = if (gndId.contains("Keine")) (doc\"rppdId").as[String] else gndId) {
                     @result_short(id,doc,i-1)
                  }
                  </table>

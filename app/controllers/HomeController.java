@@ -342,7 +342,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		if (responseFormat == null || responseFormat == Accept.Format.JSON_LINES
 				|| format != null && format.contains(":")) {
 			return unsupportedMediaType(views.html.error.render(id, String.format(
-					"Unsupported for single resource: format=%s, accept=%s", format, request().acceptedTypes())));
+					"Unsupported for single resource: format=%s, accept=%s", format,
+					request().acceptedTypes()), allHits()));
 		}
 		String jsonLd = getAuthorityResource(id);
 		if (jsonLd == null) {
@@ -372,7 +373,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			}
 		} catch (Exception e) {
 			Logger.error("Could not create response", e);
-			return internalServerError(views.html.error.render(id, e.getMessage()));
+			return internalServerError(views.html.error.render(id, e.getMessage(), allHits()));
 		}
 	}
 
@@ -476,7 +477,9 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		if (responseFormat == null || Stream.of(RdfFormat.values()).map(RdfFormat::getParam)
 				.anyMatch(f -> f.equals(responseFormat.queryParamString))) {
 			return unsupportedMediaType(views.html.error.render(q,
-					String.format("Unsupported for search: format=%s, accept=%s", format, request().acceptedTypes())));
+					String.format("Unsupported for search: format=%s, accept=%s", format,
+							request().acceptedTypes()),
+					allHits()));
 		}
 		String queryString = buildQueryString(q, name, place, subject, publication, date);
 		queryString = (queryString == null || queryString.isEmpty()) ? "*" : queryString;
@@ -507,7 +510,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		} catch (Throwable t) {
 			String message = t.getMessage() + (t.getCause() != null ? ", cause: " + t.getCause().getMessage() : "");
 			Logger.error("Error: {}", message);
-			return internalServerError(views.html.error.render(q, "Error: " + message));
+			return internalServerError(views.html.error.render(q, "Error: " + message, allHits()));
 		}
 	}
 

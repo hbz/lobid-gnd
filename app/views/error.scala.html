@@ -1,8 +1,8 @@
 @* Copyright 2015-2018 Fabian Steeg, hbz. Licensed under the EPL 2.0 *@
 
-@(q: String, message: String)
+@(q: String, message: String, allHits: Long)
 
-@main(q, "Error") { 
+@main(q, "Error", allHits) { 
 	<div class="panel panel-danger footer">
 		<div class='panel-heading'>Fehler</div>
 		<div class='panel-body'>@message</div>

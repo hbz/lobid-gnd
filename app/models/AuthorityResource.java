@@ -75,7 +75,7 @@ public class AuthorityResource {
 	}
 
 	public String getId() {
-		return id.substring(id.startsWith(GND_PREFIX) ? GND_PREFIX.length() : RPPD_PREFIX.length());
+		return id.replace(GND_PREFIX, "").replace(RPPD_PREFIX, "");
 	}
 
 	public String getFullId() {
