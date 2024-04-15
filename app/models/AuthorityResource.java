@@ -16,6 +16,7 @@ import java.util.Scanner;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -32,9 +33,11 @@ import com.google.common.collect.Lists;
 import controllers.HomeController;
 import play.Logger;
 import play.libs.Json;
+import play.libs.ws.WSClient;
+import play.libs.ws.WSResponse;
 
 public class AuthorityResource {
-
+	
 	public static final String ID = "AuthorityResource";
 	private static final int SHORTEN = 5;
 	public static final String DNB_PREFIX = "https://d-nb.info/";
@@ -58,7 +61,14 @@ public class AuthorityResource {
 	public String imageAttribution;
 	private JsonNode json;
 
+	private final WSClient httpClient;
+
 	public AuthorityResource(JsonNode json) {
+		this(json, null);
+	}
+
+	public AuthorityResource(JsonNode json, WSClient httpClient) {
+		this.httpClient = httpClient;
 		this.json = json;
 		this.id = json.get("id").textValue();
 		this.type = get("type");
@@ -463,6 +473,7 @@ public class AuthorityResource {
 			boolean plainUriField = field.equals("source") || field.equals("publication");
 			String searchField = (field + (plainUriField ? "" : ".id")).replace("source",
 					"describedBy.source");
+			label = plainUriField ? labelFor(value) : label;
 			String search = controllers.routes.HomeController
 					.search(qBasedSearch ? searchField + ":\"" + value + "\"" : "", "", "", "", "", "",
 							labelBasedFacet ? field + ".label:\"" + label + "\""
@@ -489,6 +500,20 @@ public class AuthorityResource {
 							GndOntology.label(field), value, search);
 		}
 		return withDefaultHidden(field, size, i, result);
+	}
+
+	private String labelFor(String uri) {
+		try {
+			JsonNode response = httpClient.url(uri).setFollowRedirects(true)
+					.addQueryParameter("format", "json").get().thenApply(WSResponse::asJson)
+					.toCompletableFuture().get();
+			JsonNode entity = response.has("member") ? response.get("member").elements().next()
+					: response;
+			return entity.get("title").asText();
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		return uri;
 	}
 
 	public static String germanDate(String value) {

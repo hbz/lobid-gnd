@@ -378,7 +378,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	}
 
 	private AuthorityResource entityWithImage(String jsonLd) {
-		AuthorityResource entity = new AuthorityResource(Json.parse(jsonLd));
+		AuthorityResource entity = new AuthorityResource(Json.parse(jsonLd), httpClient);
 		if (entity.getImage().url.contains("File:"))
 			entity.imageAttribution = attribution(
 					entity.getImage().url.substring(entity.getImage().url.indexOf("File:") + 5).split("\\?")[0]);
