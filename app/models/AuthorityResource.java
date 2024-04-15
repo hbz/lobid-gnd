@@ -458,9 +458,6 @@ public class AuthorityResource {
 			result = String.format("<a href='%s'>%s</a> %s", value.split(" ")[0], value.split(" ")[0],
 					value.replace(value.split(" ")[0] + " ", ""));
 		} else if (value.startsWith("http")) {
-			String link = value.startsWith(GND_PREFIX)
-					? controllers.routes.HomeController.authority(value.replace(GND_PREFIX, ""), null).toString()
-					: value;
 			List<String> facets = Arrays.asList(HomeController.AGGREGATIONS);
 			boolean labelBasedFacet = facets.contains(field + ".label");
 			boolean qBasedSearch = facets.stream().noneMatch(s -> s.startsWith(field));
@@ -475,7 +472,7 @@ public class AuthorityResource {
 			String entityLink = String.format(
 					"<a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
 							+ "<i class='octicon octicon-link text-muted' aria-hidden='true'></i></a>",
-					label, link);
+					label, value);
 			boolean linkableEntity = field.equals("relatedPerson")
 					|| (field.startsWith("place") && value.contains("spatial"));
 			result = searchLink + "&nbsp;" + (linkableEntity ? entityLink : "");
