@@ -336,6 +336,7 @@ public class AuthorityResource {
 		add(field, list, result, i -> {
 			String id = list.get(i).get("id").toString();
 			String label = list.get(i).get("label").toString();
+			label = label.matches("\\d.+|http.+") ? GndOntology.label(id) : label;
 			return process(field, id, label, i, list.size());
 		});
 	}
