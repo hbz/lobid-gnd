@@ -455,17 +455,18 @@ public class AuthorityResource {
 			result = String.format("<a href='%s'>%s</a>", value, value);
 		} else if (Arrays.asList("dateOfBirth", "dateOfDeath").contains(field)) {
 			result = germanDate(value);
-		} else if (field.equals("source") && value.startsWith("http")) {
-			result = String.format("<a href='%s'>%s</a> %s", value.split(" ")[0], value.split(" ")[0],
-					value.replace(value.split(" ")[0] + " ", ""));
-		} else if (value.startsWith("http")) {
+		}
+		else if (value.startsWith("http")) {
 			List<String> facets = Arrays.asList(HomeController.AGGREGATIONS);
 			boolean labelBasedFacet = facets.contains(field + ".label");
 			boolean qBasedSearch = facets.stream().noneMatch(s -> s.startsWith(field));
+			boolean plainUriField = field.equals("source") || field.equals("publication");
+			String searchField = (field + (plainUriField ? "" : ".id")).replace("source",
+					"describedBy.source");
 			String search = controllers.routes.HomeController
-					.search(qBasedSearch ? field + ".id:\"" + value + "\"" : "", "", "", "", "", "",
+					.search(qBasedSearch ? searchField + ":\"" + value + "\"" : "", "", "", "", "", "",
 							labelBasedFacet ? field + ".label:\"" + label + "\""
-							: field + ".id:\"" + value + "\"", "", 0, 10, "html")
+							: searchField + ":\"" + value + "\"", "", 0, 10, "html")
 					.toString();
 			String searchLink = String.format(
 					"<a id='%s-%s' title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>", //
@@ -474,7 +475,7 @@ public class AuthorityResource {
 					"<a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
 							+ "<i class='octicon octicon-link text-muted' aria-hidden='true'></i></a>",
 					label, value);
-			boolean linkableEntity = field.equals("relatedPerson")
+			boolean linkableEntity = field.equals("relatedPerson") || plainUriField
 					|| (field.startsWith("place") && value.contains("spatial"));
 			result = searchLink + "&nbsp;" + (linkableEntity ? entityLink : "");
 		} else if (field.endsWith("AsLiteral")) {
