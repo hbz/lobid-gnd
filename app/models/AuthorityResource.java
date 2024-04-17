@@ -16,6 +16,7 @@ import java.util.Scanner;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -32,9 +33,11 @@ import com.google.common.collect.Lists;
 import controllers.HomeController;
 import play.Logger;
 import play.libs.Json;
+import play.libs.ws.WSClient;
+import play.libs.ws.WSResponse;
 
 public class AuthorityResource {
-
+	
 	public static final String ID = "AuthorityResource";
 	private static final int SHORTEN = 5;
 	public static final String DNB_PREFIX = "https://d-nb.info/";
@@ -58,7 +61,14 @@ public class AuthorityResource {
 	public String imageAttribution;
 	private JsonNode json;
 
+	private final WSClient httpClient;
+
 	public AuthorityResource(JsonNode json) {
+		this(json, null);
+	}
+
+	public AuthorityResource(JsonNode json, WSClient httpClient) {
+		this.httpClient = httpClient;
 		this.json = json;
 		this.id = json.get("id").textValue();
 		this.type = get("type");
@@ -336,6 +346,7 @@ public class AuthorityResource {
 		add(field, list, result, i -> {
 			String id = list.get(i).get("id").toString();
 			String label = list.get(i).get("label").toString();
+			label = label.matches("\\d.+|http.+") ? GndOntology.label(id) : label;
 			return process(field, id, label, i, list.size());
 		});
 	}
@@ -454,20 +465,19 @@ public class AuthorityResource {
 			result = String.format("<a href='%s'>%s</a>", value, value);
 		} else if (Arrays.asList("dateOfBirth", "dateOfDeath").contains(field)) {
 			result = germanDate(value);
-		} else if (field.equals("source") && value.startsWith("http")) {
-			result = String.format("<a href='%s'>%s</a> %s", value.split(" ")[0], value.split(" ")[0],
-					value.replace(value.split(" ")[0] + " ", ""));
-		} else if (value.startsWith("http")) {
-			String link = value.startsWith(GND_PREFIX)
-					? controllers.routes.HomeController.authority(value.replace(GND_PREFIX, ""), null).toString()
-					: value;
+		}
+		else if (value.startsWith("http")) {
 			List<String> facets = Arrays.asList(HomeController.AGGREGATIONS);
 			boolean labelBasedFacet = facets.contains(field + ".label");
 			boolean qBasedSearch = facets.stream().noneMatch(s -> s.startsWith(field));
+			boolean plainUriField = field.equals("source") || field.equals("publication");
+			String searchField = (field + (plainUriField ? "" : ".id")).replace("source",
+					"describedBy.source");
+			label = plainUriField ? labelFor(value) : label;
 			String search = controllers.routes.HomeController
-					.search(qBasedSearch ? field + ".id:\"" + value + "\"" : "", "", "", "", "", "",
+					.search(qBasedSearch ? searchField + ":\"" + value + "\"" : "", "", "", "", "", "",
 							labelBasedFacet ? field + ".label:\"" + label + "\""
-							: field + ".id:\"" + value + "\"", "", 0, 10, "html")
+							: searchField + ":\"" + value + "\"", "", 0, 10, "html")
 					.toString();
 			String searchLink = String.format(
 					"<a id='%s-%s' title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>", //
@@ -475,8 +485,8 @@ public class AuthorityResource {
 			String entityLink = String.format(
 					"<a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
 							+ "<i class='octicon octicon-link text-muted' aria-hidden='true'></i></a>",
-					label, link);
-			boolean linkableEntity = field.equals("relatedPerson")
+					label, value);
+			boolean linkableEntity = field.equals("relatedPerson") || plainUriField
 					|| (field.startsWith("place") && value.contains("spatial"));
 			result = searchLink + "&nbsp;" + (linkableEntity ? entityLink : "");
 		} else if (field.endsWith("AsLiteral")) {
@@ -490,6 +500,20 @@ public class AuthorityResource {
 							GndOntology.label(field), value, search);
 		}
 		return withDefaultHidden(field, size, i, result);
+	}
+
+	private String labelFor(String uri) {
+		try {
+			JsonNode response = httpClient.url(uri).setFollowRedirects(true)
+					.addQueryParameter("format", "json").get().thenApply(WSResponse::asJson)
+					.toCompletableFuture().get();
+			JsonNode entity = response.has("member") ? response.get("member").elements().next()
+					: response;
+			return entity.get("title").asText();
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		return uri;
 	}
 
 	public static String germanDate(String value) {
