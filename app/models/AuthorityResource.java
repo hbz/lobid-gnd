@@ -523,7 +523,7 @@ public class AuthorityResource {
 					.from(DateTimeFormatter.ISO_LOCAL_DATE.parse(cleanDate(value)))
 					.format(DateTimeFormatter.ofPattern("dd.MM.uuuu", Locale.GERMAN));
 		} catch (DateTimeParseException e) {
-			e.printStackTrace();
+			Logger.warn("Non-ISO date: {}", value);
 			return value;
 		}
 
@@ -562,6 +562,6 @@ public class AuthorityResource {
 			return "";
 		}
 		String text = node.elements().next().asText();
-		return text.matches("\\d{4}-\\d{2}-\\d{2}") ? text.split("-")[0] : text;
+		return text.replaceAll(".*(\\d{4}).*", "$1");
 	}
 }
