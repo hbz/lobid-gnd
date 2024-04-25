@@ -466,7 +466,7 @@ public class AuthorityResource {
 		} else if (Arrays.asList("dateOfBirth", "dateOfDeath").contains(field)) {
 			result = germanDate(value);
 		}
-		else if (value.startsWith("http")) {
+		else if (value.startsWith("http") && !value.contains(" ")) {
 			List<String> facets = Arrays.asList(HomeController.AGGREGATIONS);
 			boolean labelBasedFacet = facets.contains(field + ".label");
 			boolean qBasedSearch = facets.stream().noneMatch(s -> s.startsWith(field));
@@ -511,6 +511,7 @@ public class AuthorityResource {
 					: response;
 			return entity.get("title").asText();
 		} catch (InterruptedException | ExecutionException e) {
+			Logger.error("Could not get label for {}", uri);
 			e.printStackTrace();
 		}
 		return uri;
