@@ -562,6 +562,7 @@ public class AuthorityResource {
 			return "";
 		}
 		String text = node.elements().next().asText();
-		return text.replaceAll(".*(\\d{4}).*", "$1");
+		return text.matches(".*\\d{4}.*") ? text.replaceAll(".*(\\d{4}).*", "$1")
+				: text.replaceAll(".*(\\d{3}).*", "$1");
 	}
 }
