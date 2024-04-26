@@ -466,7 +466,7 @@ public class AuthorityResource {
 		} else if (Arrays.asList("dateOfBirth", "dateOfDeath").contains(field)) {
 			result = germanDate(value);
 		}
-		else if (value.startsWith("http")) {
+		else if (value.startsWith("http") && !value.contains(" ")) {
 			List<String> facets = Arrays.asList(HomeController.AGGREGATIONS);
 			boolean labelBasedFacet = facets.contains(field + ".label");
 			boolean qBasedSearch = facets.stream().noneMatch(s -> s.startsWith(field));
@@ -511,6 +511,7 @@ public class AuthorityResource {
 					: response;
 			return entity.get("title").asText();
 		} catch (InterruptedException | ExecutionException e) {
+			Logger.error("Could not get label for {}", uri);
 			e.printStackTrace();
 		}
 		return uri;
@@ -522,7 +523,7 @@ public class AuthorityResource {
 					.from(DateTimeFormatter.ISO_LOCAL_DATE.parse(cleanDate(value)))
 					.format(DateTimeFormatter.ofPattern("dd.MM.uuuu", Locale.GERMAN));
 		} catch (DateTimeParseException e) {
-			e.printStackTrace();
+			Logger.warn("Non-ISO date: {}", value);
 			return value;
 		}
 
@@ -561,6 +562,7 @@ public class AuthorityResource {
 			return "";
 		}
 		String text = node.elements().next().asText();
-		return text.matches("\\d{4}-\\d{2}-\\d{2}") ? text.split("-")[0] : text;
+		return text.matches(".*\\d{4}.*") ? text.replaceAll(".*(\\d{4}).*", "$1")
+				: text.replaceAll(".*(\\d{3}).*", "$1");
 	}
 }
