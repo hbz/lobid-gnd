@@ -179,7 +179,7 @@ public class GndOntology {
 			String classId = c.getAttribute("rdf:about");
 			if (classId.contains("#")) {
 				String shortId = classId.split("#")[1];
-				String label = $(c).find(or(//
+				String label = $(c).children(or( //
 						selector("label"), //
 						selector("prefLabel"))).filter(attr("lang", "de")).content();
 				if (label != null) {
