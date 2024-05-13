@@ -25,6 +25,8 @@ public class GndOntologyLabelTests {
 				{ "gndIdentifier", "GND-Nummer" }, //
 				{ "ZZ", "Land unbekannt" }, //
 				{ "https://d-nb.info/standards/vocab/gnd/gnd-sc#ZZ", "Land unbekannt" }, //
+				{ "XA-CH", "Schweiz" }, //
+				{ "https://d-nb.info/standards/vocab/gnd/gnd-sc#XA-CH", "Schweiz" }, //
 				{ "36", "Basteln, Handarbeiten, Heimwerken" }, //
 				{ "https://d-nb.info/standards/vocab/gnd/geographic-area-code#36", "Basteln, Handarbeiten, Heimwerken" }, //
 				{ "notKnown", "Unbekannt" }, //
