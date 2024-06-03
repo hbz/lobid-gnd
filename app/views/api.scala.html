@@ -78,6 +78,7 @@ $('input.search-gnd').autocomplete({
   @desc("Standardformat für Vorschläge verwenden: \"format=json:suggest\"", routes.HomeController.search("Twain", format="json:suggest"))
   @desc("Bestimmtes Feld für Vorschläge verwenden: \"format=json:preferredName\"", routes.HomeController.search("Twain", format="json:preferredName"))
   @desc("Vorschläge aus mehreren Feldern zusammenbauen: \"format=json:preferredName,professionOrOccupation\"", routes.HomeController.search("Twain", format="json:preferredName,professionOrOccupation"))
+  @desc("Feld-Templates zur Anpassung und Gruppierung: \"format=json:preferredName,*_dateOfBirth in_placeOfBirth,†_dateOfDeath in_placeOfDeath\"", routes.HomeController.search("Twain", format="json:preferredName,*_dateOfBirth in_placeOfBirth,†_dateOfDeath in_placeOfDeath"))
   <p>Damit kann z.B. eine Autovervollständigung umgesetzt werden, bei der zur Suche an Stelle des gewählten Labels die entsprechende ID verwendet werden kann:</p>
   <p><form method="GET" class="form-inline" action="@routes.HomeController.search()">
     <input type="text" class="search-gnd" id="label" style="width:350px" placeholder="Suchbegriff für Vorschläge eingeben"/>
