@@ -12,6 +12,8 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.function.IntFunction;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -93,7 +95,7 @@ public class AuthorityResource {
 	}
 
 	public String subTitle() {
-		String lifeDates = fieldValues("dateOfBirth-dateOfDeath", json).map(JsonNode::asText)
+		String lifeDates = fieldValues("dateOfBirth-dateOfDeath", json)
 				.collect(Collectors.joining());
 		String details = find("definition", "biographicalOrHistoricalInformation");
 		return Stream.of(lifeDates, details).filter(s -> !s.isEmpty()).collect(Collectors.joining(" | "));
@@ -449,24 +451,63 @@ public class AuthorityResource {
 		return result;
 	}
 
-	public static Stream<JsonNode> fieldValues(String field, JsonNode document) {
-		if (field.contains("-")) {
-			String[] fields = field.split("-");
-			String v1 = year(document.findValue(fields[0]));
-			String v2 = year(document.findValue(fields[1]));
-			return v1.isEmpty() && v2.isEmpty() ? Stream.empty()
-					: Stream.of(Json.toJson(String.format("%s-%s", v1, v2)));
+	public static Stream<String> fieldValues(String field, JsonNode document) {
+		// standard case: `field` is a plain field name, use that:
+		List<String> result = flatStrings(document.findValues(field));
+		if (result.isEmpty()) {
+			// `label_fieldName` template, e.g. `*_dateOfBirth`
+			if (field.contains("_")) {
+				Matcher matcher = Pattern.compile("([^_]+)_([A-Za-z]+)").matcher(field);
+				while (matcher.find()) {
+					String label = matcher.group(1);
+					String fieldName = matcher.group(2);
+					List<JsonNode> findValues = document.findValues(fieldName);
+					if (!findValues.isEmpty()) {
+						String values = flatStrings(findValues).stream()
+								.collect(Collectors.joining());
+						field = field.replace(matcher.group(), label + " " + values);
+					} else {
+						field = field.replace(matcher.group(), "");
+					}
+				}
+				result = field.trim().isEmpty() ? Arrays.asList() : Arrays.asList(field);
+			}
+			// date ranges, e.g. `dateOfBirth-dateOfDeath`
+			else if (field.contains("-")) {
+				String[] fields = field.split("-");
+				String v1 = year(document.findValue(fields[0]));
+				String v2 = year(document.findValue(fields[1]));
+				result = v1.isEmpty() && v2.isEmpty() ? Lists.newArrayList()
+						: Arrays.asList(String.format("%s-%s", v1, v2));
+			}
 		}
-		return document.findValues(field).stream().flatMap((node) -> {
-			return node.isArray() ? Lists.newArrayList(node.elements()).stream() : Arrays.asList(node).stream();
-		});
+		return result.stream();
+	}
+
+	private static List<String> flatStrings(List<JsonNode> values) {
+		return values.stream().flatMap(node -> toArray(node)).map(node -> toString(node))
+				.collect(Collectors.toList());
+	}
+
+	private static Stream<JsonNode> toArray(JsonNode node) {
+		return node.isArray() ? Lists.newArrayList(node.elements()).stream()
+				: Arrays.asList(node).stream();
+	}
+
+	private static String toString(JsonNode node) {
+		return year((node.isTextual() ? Optional.ofNullable(node)
+				: Optional.ofNullable(node.findValue("label"))).orElseGet(() -> Json.toJson(""))
+						.asText());
 	}
 
 	private static String year(JsonNode node) {
 		if (node == null || !node.isArray() || node.size() == 0) {
 			return "";
 		}
-		String text = node.elements().next().asText();
+		return year(node.elements().next().asText());
+	}
+
+	private static String year(String text) {
 		return text.matches("\\d{4}-\\d{2}-\\d{2}") ? text.split("-")[0] : text;
 	}
 }

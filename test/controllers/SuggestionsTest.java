@@ -69,4 +69,21 @@ public class SuggestionsTest extends IndexTest {
 
 	}
 
+	@Test
+	public void suggestionsTemplate() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			String format = "json:preferredName,*_dateOfBirth+in_placeOfBirth";
+			Result result = route(application,
+					fakeRequest(GET, "/gnd/search?q=*&filter=type:Person&format=" + format));
+			assertNotNull("We have a result", result);
+			assertThat(result.contentType().get(), is(equalTo("application/json")));
+			String content = contentAsString(result);
+			assertNotNull("We can parse the result as JSON", Json.parse(content));
+			assertTrue("We replaced the field names in the template with their values",
+					Json.parse(content).findValues("label").stream()
+							.anyMatch(label -> label.asText()
+									.contains("* 1923 in https://d-nb.info/gnd/4005728-8")));
+		});
+	}
 }
