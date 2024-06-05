@@ -603,7 +603,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 					.collect(Collectors.toList()));
 			return toSuggestionsMap(document, id, labels, categories);
 		});
-		return Json.toJson(suggestions.distinct().collect(Collectors.toList())).toString();
+		return Json.prettyPrint(Json.toJson(suggestions.distinct().collect(Collectors.toList())));
 	}
 
 	@SuppressWarnings("serial")

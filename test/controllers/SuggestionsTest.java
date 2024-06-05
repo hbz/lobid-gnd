@@ -103,4 +103,17 @@ public class SuggestionsTest extends IndexTest {
 									.contains("aka Weizenbaum, Josef; Weizenbaum, J.")));
 		});
 	}
+
+	@Test
+	public void suggestionsArePrettyPrinted() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			Result result = route(application,
+					fakeRequest(GET, "/gnd/search?q=*&format=json:suggest"));
+			assertNotNull(result);
+			assertThat(result.contentType().get(), is(equalTo("application/json")));
+			assertThat(contentAsString(result), containsString("}, {\n"));
+		});
+	}
+
 }
