@@ -92,14 +92,14 @@ public class SuggestionsTest extends IndexTest {
 		running(application, () -> {
 			String format = "json:preferredName,gndSubjectCategory,aka_variantName";
 			Result result = route(application,
-					fakeRequest(GET, "/gnd/search?q=Weizenbaum&filter=type:Person&format=" + format));
+					fakeRequest(GET, "/search?q=Weizenbaum&filter=type:Person&format=" + format));
 			assertNotNull("We have a result", result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			String content = contentAsString(result);
 			assertNotNull("We can parse the result as JSON", Json.parse(content));
 			assertThat("Multi-values use consistent delimiter", content,
 					allOf(
-						containsString("Personen zu Informatik, Datenverarbeitung; Personen zu Mathematik"),
+						containsString("Informatik, Datenverarbeitung; Mathematik"),
 						containsString("aka Weizenbaum, Josef; Weizenbaum, J.")));
 		});
 	}
@@ -109,7 +109,7 @@ public class SuggestionsTest extends IndexTest {
 		Application application = fakeApplication();
 		running(application, () -> {
 			Result result = route(application,
-					fakeRequest(GET, "/gnd/search?q=*&format=json:suggest"));
+					fakeRequest(GET, "/search?q=*&format=json:suggest"));
 			assertNotNull(result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			assertThat(contentAsString(result), containsString("}, {\n"));
