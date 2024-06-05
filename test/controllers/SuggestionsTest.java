@@ -91,17 +91,17 @@ public class SuggestionsTest extends IndexTest {
 	public void suggestionsTemplateMultiValues() {
 		Application application = fakeApplication();
 		running(application, () -> {
-			String format = "json:preferredName,aka_variantName";
+			String format = "json:preferredName,gndSubjectCategory,aka_variantName";
 			Result result = route(application,
-					fakeRequest(GET, "/gnd/search?q=*&filter=type:Person&format=" + format));
+					fakeRequest(GET, "/gnd/search?q=Weizenbaum&filter=type:Person&format=" + format));
 			assertNotNull("We have a result", result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			String content = contentAsString(result);
 			assertNotNull("We can parse the result as JSON", Json.parse(content));
-			assertTrue("We replaced the field name in the template with multiple delimited values",
-					Json.parse(content).findValues("label").stream()
-							.anyMatch(label -> label.asText()
-									.contains("aka Weizenbaum, Josef; Weizenbaum, J.")));
+			assertThat("Multi-values use consistent delimiter", content,
+					allOf(
+						containsString("Personen zu Informatik, Datenverarbeitung; Personen zu Mathematik"),
+						containsString("aka Weizenbaum, Josef; Weizenbaum, J.")));
 		});
 	}
 

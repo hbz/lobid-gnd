@@ -411,7 +411,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			Optional<JsonNode> type = getOptional(document, "type");
 			Stream<String> labels = Arrays.asList(fields.split(",")).stream().map(String::trim)
 					.map(field -> AuthorityResource.fieldValues(field, document)
-							.collect(Collectors.joining(", ")));
+							.collect(Collectors.joining(AuthorityResource.VALUE_DELIMITER)));
 			List<String> categories = filtered(Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements())
 					.stream().map(JsonNode::asText).filter(t -> !t.equals("AuthorityResource"))
 					.collect(Collectors.toList()));

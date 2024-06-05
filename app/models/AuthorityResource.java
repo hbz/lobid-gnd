@@ -36,6 +36,7 @@ public class AuthorityResource {
 	public static final String DNB_PREFIX = "https://d-nb.info/";
 	public static final String GND_PREFIX = DNB_PREFIX + "gnd/";
 	public static final String ELEMENTSET = DNB_PREFIX + "standards/elementset/";
+	public static final String VALUE_DELIMITER = "; ";
 	private static final List<String> SKIP = Arrays.asList(//
 			// handled explicitly:
 			"@context", "id", "type", "depiction", "sameAs", "preferredName", "hasGeometry", "definition",
@@ -464,7 +465,7 @@ public class AuthorityResource {
 					List<JsonNode> findValues = document.findValues(fieldName);
 					if (!findValues.isEmpty()) {
 						String values = flatStrings(findValues).stream()
-								.collect(Collectors.joining("; "));
+								.collect(Collectors.joining(VALUE_DELIMITER));
 						field = field.replace(matcher.group(), label + " " + values);
 					} else {
 						field = field.replace(matcher.group(), "");
