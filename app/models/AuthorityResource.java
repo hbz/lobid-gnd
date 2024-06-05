@@ -464,7 +464,7 @@ public class AuthorityResource {
 					List<JsonNode> findValues = document.findValues(fieldName);
 					if (!findValues.isEmpty()) {
 						String values = flatStrings(findValues).stream()
-								.collect(Collectors.joining());
+								.collect(Collectors.joining("; "));
 						field = field.replace(matcher.group(), label + " " + values);
 					} else {
 						field = field.replace(matcher.group(), "");
