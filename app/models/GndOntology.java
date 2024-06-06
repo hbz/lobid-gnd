@@ -67,6 +67,7 @@ public class GndOntology {
 		try {
 			process("conf/geographic-area-code.rdf");
 			process("conf/gender.rdf");
+			process("conf/description-level.rdf");
 			process("conf/gnd-sc.rdf");
 			process("conf/gnd.rdf");
 			process("conf/agrelon.rdf");
@@ -149,8 +150,10 @@ public class GndOntology {
 	}
 
 	private static String ontologyLabel(String id) {
-		String key = id.contains("#") ? id.split("#")[1] : id;
-		String result = labels.get(key);
+		String result = labels.get(id);
+		if (result == null && id.contains("#")) {
+			result = labels.get(id.split("#")[1]);
+		}
 		return result == null ? id : result;
 	}
 
@@ -183,7 +186,9 @@ public class GndOntology {
 						selector("label"), //
 						selector("prefLabel"))).filter(attr("lang", "de")).content();
 				if (label != null) {
-					labels.put(shortId, label.replaceAll("\\s+", " ").replace("hat ", ""));
+					String value = label.replaceAll("\\s+", " ").replace("hat ", "");
+					labels.put(shortId, value);
+					labels.put(classId, value);
 				}
 			}
 		});

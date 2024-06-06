@@ -39,6 +39,7 @@ public class GndOntologyLabelTests {
 				{ "broadMatch", "Oberbegriff" }, //
 				{ "exactMatch", "Entspricht" }, //
 				{ "relatedMatch", "Verwandter Begriff" }, //
+				{ "https://d-nb.info/standards/vocab/gnd/description-level#3", "Katalogisierungslevel 3" }, //
 				{ "SubjectHeadingSensoStricto", "Schlagwort sensu stricto" } });
 	}
 
