@@ -455,7 +455,7 @@ public class AuthorityResource {
 			String v1 = year(document.findValue(fields[0]));
 			String v2 = year(document.findValue(fields[1]));
 			return v1.isEmpty() && v2.isEmpty() ? Stream.empty()
-					: Stream.of(Json.toJson(String.format("%s-%s", v1, v2)));
+					: Stream.of(Json.toJson(String.format("%s–%s", v1, v2)));
 		}
 		return document.findValues(field).stream().flatMap((node) -> {
 			return node.isArray() ? Lists.newArrayList(node.elements()).stream() : Arrays.asList(node).stream();
