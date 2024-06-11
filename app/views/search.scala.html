@@ -88,8 +88,7 @@
           @field(types, "Work", doc, "dateOfProduction")
 
           @field(types, "Person", doc, "professionOrOccupation")
-          @for(v <- (doc \ "dateOfBirth").asOpt[Seq[String]]){@Html(cleanDate(v.head))&ndash;}
-          @for(v <- (doc \ "dateOfDeath").asOpt[Seq[String]]){@Html(cleanDate(v.head))}
+          @for(v <- (doc \ "dateOfBirth").asOpt[Seq[String]]){@Html(cleanDate(v.head))&ndash;}@for(v <- (doc \ "dateOfDeath").asOpt[Seq[String]]){@Html(cleanDate(v.head))}
           </td>
         }
         <td class='text-center text-muted'>&nbsp;@((doc \ "gndIdentifier").asOpt[String].getOrElse(""))</td>
