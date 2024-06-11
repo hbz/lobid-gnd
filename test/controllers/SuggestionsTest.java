@@ -69,4 +69,51 @@ public class SuggestionsTest extends IndexTest {
 
 	}
 
+	@Test
+	public void suggestionsTemplate() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			String format = "json:preferredName,*_dateOfBirth+in_placeOfBirth";
+			Result result = route(application,
+					fakeRequest(GET, "/search?q=*&filter=type:Person&format=" + format));
+			assertNotNull("We have a result", result);
+			assertThat(result.contentType().get(), is(equalTo("application/json")));
+			String content = contentAsString(result);
+			assertNotNull("We can parse the result as JSON", Json.parse(content));
+			assertTrue("We replaced the field names in the template with their values",
+					Json.parse(content).findValues("label").stream()
+							.anyMatch(label -> label.asText().contains("* 1923 in ")));
+		});
+	}
+
+	@Test
+	public void suggestionsTemplateMultiValues() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			String format = "json:preferredName,gndSubjectCategory,aka_variantName";
+			Result result = route(application,
+					fakeRequest(GET, "/search?q=Weizenbaum&filter=type:Person&format=" + format));
+			assertNotNull("We have a result", result);
+			assertThat(result.contentType().get(), is(equalTo("application/json")));
+			String content = contentAsString(result);
+			assertNotNull("We can parse the result as JSON", Json.parse(content));
+			assertThat("Multi-values use consistent delimiter", content,
+					allOf(
+						containsString("Informatik, Datenverarbeitung; Mathematik"),
+						containsString("aka Weizenbaum, Josef; Weizenbaum, J.")));
+		});
+	}
+
+	@Test
+	public void suggestionsArePrettyPrinted() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			Result result = route(application,
+					fakeRequest(GET, "/search?q=*&format=json:suggest"));
+			assertNotNull(result);
+			assertThat(result.contentType().get(), is(equalTo("application/json")));
+			assertThat(contentAsString(result), containsString("}, {\n"));
+		});
+	}
+
 }

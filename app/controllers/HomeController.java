@@ -509,7 +509,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			}
 		} catch (Throwable t) {
 			String message = t.getMessage() + (t.getCause() != null ? ", cause: " + t.getCause().getMessage() : "");
-			Logger.error("Error: {}", message);
+			Logger.error("Error: " + message, t);
 			return internalServerError(views.html.error.render(q, "Error: " + message, allHits()));
 		}
 	}
@@ -592,19 +592,18 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 				"placeOfBusiness", "firstAuthor", "firstComposer", "dateOfProduction");
 		String fields = labelFields.equals("suggest") ? defaultFields.collect(Collectors.joining(",")) : labelFields;
 		Stream<JsonNode> documents = Lists.newArrayList(json.elements()).stream();
-		Stream<JsonNode> suggestions = documents.map((JsonNode document) -> {
+		Stream<Map<String, Object>> suggestions = documents.map((JsonNode document) -> {
 			Optional<JsonNode> id = getOptional(document, "id");
 			Optional<JsonNode> type = getOptional(document, "type");
 			Stream<String> labels = Arrays.asList(fields.split(",")).stream().map(String::trim)
-					.map(field -> AuthorityResource.fieldValues(field, document).map((JsonNode node) -> //
-			(node.isTextual() ? Optional.ofNullable(node) : Optional.ofNullable(node.findValue("label")))
-					.orElseGet(() -> Json.toJson("")).asText()).collect(Collectors.joining(", ")));
+					.map(field -> AuthorityResource.fieldValues(field, document)
+							.collect(Collectors.joining(AuthorityResource.VALUE_DELIMITER)));
 			List<String> categories = filtered(Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements())
 					.stream().map(JsonNode::asText).filter(t -> !t.equals("AuthorityResource"))
 					.collect(Collectors.toList()));
-			return Json.toJson(toSuggestionsMap(document, id, labels, categories));
+			return toSuggestionsMap(document, id, labels, categories);
 		});
-		return Json.toJson(suggestions.distinct().collect(Collectors.toList())).toString();
+		return Json.prettyPrint(Json.toJson(suggestions.distinct().collect(Collectors.toList())));
 	}
 
 	@SuppressWarnings("serial")
