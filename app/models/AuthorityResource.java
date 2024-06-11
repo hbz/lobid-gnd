@@ -479,7 +479,7 @@ public class AuthorityResource {
 				String v1 = year(document.findValue(fields[0]));
 				String v2 = year(document.findValue(fields[1]));
 				result = v1.isEmpty() && v2.isEmpty() ? Lists.newArrayList()
-						: Arrays.asList(String.format("%s-%s", v1, v2));
+						: Arrays.asList(String.format("%s–%s", v1, v2));
 			}
 		}
 		return result.stream();
