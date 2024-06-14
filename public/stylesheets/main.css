@@ -8,6 +8,17 @@ dd {
 	background-repeat: repeat-x;
 }
 
+#header-gnd {
+	width: 100%;
+	background: #0069b4;
+}
+
+#small-gnd-logo {
+	height: 25px;
+	border: 2px solid white;
+	background: white;
+}
+
 #header #butterfly {
 	height: 25px;
 }
@@ -117,6 +128,16 @@ ul.facet li {
 
 .footer {
 	margin-top: 30px;
+}
+
+.footer-gnd {
+	margin-top: 30px;
+	background: #0069b4;
+	color: white;
+}
+
+.footer-gnd a {
+	color: white;
 }
 
 .pagination {
