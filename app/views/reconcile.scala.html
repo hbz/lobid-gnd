@@ -12,13 +12,13 @@
     <img src='@controllers.routes.Assets.versioned("images/refine.png")' height='100px'/>
   </div>
 
-  <h1>GND reconciliation for OpenRefine</h1>
+  <h1>GND Reconciliation</h1>
 
-  <p class="lead">Align your data with the Integrated Authority File GND</p>
+  <p class="lead">Abgleich eigener Daten mit der Gemeinsamen Normdatei</p>
 
-  <p>
-    Use this URL in OpenRefine: <code>@controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code> 
-  </p>
+  <p>Dieser Dienst ermöglicht den Abgleich eigener Daten mit der Gemeinsamen Normdatei, insbesondere mit OpenRefine, einem nicht nur im Bibliotheksbereich weitverbreiteten Werkzeug. OpenRefine bietet zahlreiche Funktionalitäten zur Bereinigung und Transformation von Daten, sowie zum Abgleich (Reconciliation) mit externen Datenquellen und zur Anreicherung auf Basis der abgeglichenen Daten. Dieser Dienst stellt die GND als eine solche Datenquelle in OpenRefine bereit. Der Dienst kann zugleich auch in anderen Anwendungen verwendet werden, z. B. im Bibliotheksmanagementsystem Alma über Alma Refine (s. <a href="https://reconciliation-api.github.io/census/clients/">weitere Clients</a>).</p>
+
+  <p>Service URL: <code>@controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code></p>
 
   <h2>Data and Tools</h2>
 
