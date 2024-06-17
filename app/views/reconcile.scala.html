@@ -6,24 +6,25 @@
  <dt>@Html(label)</dt> <dd><a href='@link'>@java.net.URLDecoder.decode(link.toString.replaceAll("[&?]format=json$", ""), "UTF-8")</a></dd>
 }
 
-@main("", "lobid-gnd - Reconcile") {
+@gnd("GND Reconciliation") {
   <div class='pull-right'>
-    <img src='@controllers.routes.Assets.versioned("images/gnd.jpg")' height='85px'/>
+    <img src='@controllers.routes.Assets.versioned("images/gnd.png")' height='85px'/>
     <img src='@controllers.routes.Assets.versioned("images/refine.png")' height='100px'/>
   </div>
 
-  <h1>GND reconciliation for OpenRefine</h1>
+  <h1>GND Reconciliation</h1>
 
-  <p class="lead">Align your data with the Integrated Authority File GND</p>
+  <p class="lead">Abgleich eigener Daten mit der Gemeinsamen Normdatei</p>
 
-  <p>
-    Use this URL in OpenRefine: <code>@controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code> 
-  </p>
+  <p>Dieser Dienst ermöglicht den Abgleich eigener Daten mit der Gemeinsamen Normdatei, insbesondere mit OpenRefine, einem nicht nur im Bibliotheksbereich weitverbreiteten Werkzeug. OpenRefine bietet zahlreiche Funktionalitäten zur Bereinigung und Transformation von Daten, sowie zum Abgleich (Reconciliation) mit externen Datenquellen und zur Anreicherung auf Basis der abgeglichenen Daten. Dieser Dienst stellt die GND als eine solche Datenquelle in OpenRefine bereit. Der Dienst kann zugleich auch in anderen Anwendungen verwendet werden, z. B. im Bibliotheksmanagementsystem Alma über Alma Refine (s. <a href="https://reconciliation-api.github.io/census/clients/">weitere Clients</a>).</p>
 
-  <h2>Data and Tools</h2>
+  <p>Service-URL: <code>@controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code></p>
 
-  <p><a href='https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html'>Integrated Authority File GND</a></p>
+  <h2>Daten und Werkzeuge</h2>
+
+  <p><a href='https://www.dnb.de/DE/Professionell/Standardisierung/GND/gnd_node.html'>Gemeinsamen Normdatei GND</a> <span class="label label-info">de</span></p>
   <p><a href='http://openrefine.org/'>OpenRefine</a>, <a href="https://docs.openrefine.org/manual/reconciling/">Reconciliation</a></p>
+  <p><a href='https://reconciliation-api.github.io/census/clients/'>Known clients</a></p>
 
   <h2>Tutorials</h2>
 
@@ -34,49 +35,49 @@
   <h2>Community</h2>
   <p><a href="https://www.w3.org/community/reconciliation/">W3C entity reconciliation community group</a></p>
   <p><a href="https://reconciliation-api.github.io/testbench/">Reconciliation service test bench</a></p>
-  <p><a href="https://metadaten.community">metadaten.community forum</a></p>
+  <p><a href="https://metadaten.community">metadaten.community Forum</a> <span class="label label-info">de</span></p>
 
   <h2>API</h2>
 
   <p>
-    This service provides an implementation of the OpenRefine 
+    Dieser Dienst implementiert die OpenRefine 
     <a href="https://docs.openrefine.org/manual/reconciling/">Reconciliation</a> 
     <a href="https://openrefine.org/docs/technical-reference/reconciliation-api">API</a>.
   </p>
 
-  <h3>General API <small>(<a href="https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410">spec</a>)</small></h3>
+  <h3>Allgemeine API <small>(<a href="https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410">spec</a>)</small></h3>
 
   <p><b>Service</b><br/>
   <code>curl @controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code>
-  <p><b>JSONP callback</b><br/>
+  <p><b>JSONP-callback</b><br/>
   <code>curl @controllers.HomeController.config("host")@routes.Reconcile.main("jsonp")</code>
-  <p><b>CORS header</b><br/>
+  <p><b>CORS-header</b><br/>
   <code>curl --head @controllers.HomeController.config("host")@routes.Reconcile.reconcile() | grep Access-Control-Allow-Origin</code>
   </p>
 
-  <h3>View API</h3>
+  <h3>View-API</h3>
 
-  @desc("Preview entities (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#preview-service\">spec</a>)", routes.HomeController.authorityDotFormat("118624822", "preview"))
-  @desc("View entities (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#dfn-view-template\">spec</a>)", routes.HomeController.authority("118624822"))
+  @desc("Entities: preview (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#preview-service\">spec</a>)", routes.HomeController.authorityDotFormat("118624822", "preview"))
+  @desc("Entities: view (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#dfn-view-template\">spec</a>)", routes.HomeController.authority("118624822"))
 
-  <h3>Query API <small>(<a href="https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#reconciliation-queries">spec</a>)</small></h3>
+  <h3>Query-API <small>(<a href="https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#reconciliation-queries">spec</a>)</small></h3>
 
   @desc("Query: GET", routes.Reconcile.main(queries="{\"q1\":{\"query\":\"Twain, Mark\"}}"))
   <p><b>Query: POST</b><br/>
   <code>curl --data 'queries={"q1":{"query":"Twain, Mark"}}' @controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code></p>
 
-  <h3>Suggest API <small>(<a href="https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#suggest-services">spec</a>)</small></h3>
+  <h3>Suggest-API <small>(<a href="https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#suggest-services">spec</a>)</small></h3>
 
-  @desc("Suggest entities ", routes.Reconcile.suggest(service="entity", prefix="hbz"))
-  @desc("Suggest types ", routes.Reconcile.suggest(service="type", prefix="werk"))
-  @desc("Suggest properties ", routes.Reconcile.suggest(service="property", prefix="beruf"))
-  @desc("Flyout entities ", routes.Reconcile.flyout(service="entity", id="2047974-8"))
-  @desc("Flyout types ", routes.Reconcile.flyout(service="type", id="Work"))
-  @desc("Flyout properties ", routes.Reconcile.flyout(service="property", id="professionOrOccupation"))
+  @desc("Suggest: entity ", routes.Reconcile.suggest(service="entity", prefix="hbz"))
+  @desc("Suggest: type ", routes.Reconcile.suggest(service="type", prefix="werk"))
+  @desc("Suggest: property ", routes.Reconcile.suggest(service="property", prefix="beruf"))
+  @desc("Flyout: entity ", routes.Reconcile.flyout(service="entity", id="2047974-8"))
+  @desc("Flyout: type ", routes.Reconcile.flyout(service="type", id="Work"))
+  @desc("Flyout: property ", routes.Reconcile.flyout(service="property", id="professionOrOccupation"))
 
-  <h3>Data extension API</h3>
+  <h3>Data-extension-API</h3>
 
-  @desc("Property proposal (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#data-extension-property-proposals\">spec</a>)", routes.Reconcile.properties("","Work",""))
+  @desc("Property-proposals (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#data-extension-property-proposals\">spec</a>)", routes.Reconcile.properties("","Work",""))
   @desc("Extend: GET (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#data-extension-service\">spec</a>)", routes.Reconcile.main(extend="{\"ids\":[\"1081942517\",\"4791358-7\"],\"properties\":[{\"id\":\"preferredName\"},{\"id\":\"firstAuthor\"}]}"))
   <p><b>Extend: POST</b><br/>
   <code>curl --data 'extend={"ids":["1081942517","4791358-7"],"properties":[{"id":"preferredName"},{"id":"firstAuthor"}]}' @controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code></p>
