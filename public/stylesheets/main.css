@@ -13,10 +13,14 @@ dd {
 	background: #0069b4;
 }
 
-#small-gnd-logo {
+#small-logo {
 	height: 25px;
-	border: 2px solid white;
+	border: 1px solid white;
 	background: white;
+}
+
+#small-gnd-logo-link {
+	padding: 5px;
 }
 
 #header #butterfly {
