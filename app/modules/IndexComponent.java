@@ -34,6 +34,7 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import controllers.HomeController;
+import net.sf.ehcache.CacheManager;
 import play.Logger;
 import play.inject.ApplicationLifecycle;
 
@@ -74,6 +75,7 @@ class ElasticsearchServer implements IndexComponent {
 		});
 		lifecycle.addStopHook(() -> {
 			client.close();
+			CacheManager.getInstance().shutdown();
 			return null;
 		});
 	}

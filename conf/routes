@@ -28,6 +28,8 @@ GET     /advanced       controllers.HomeController.advanced()
 
 GET     /cgi-bin/wwwalleg/:name.pl   controllers.HomeController.authorityPl(name, db ?= "rnam", index: Int ?= 1, zeilen: Int ?= 1, s1)
 
+GET     /robots.txt     controllers.HomeController.robots()
+
 GET     /:id.:format    controllers.HomeController.authorityDotFormat(id, format)
 
 GET     /:id            controllers.HomeController.authority(id, format ?= null)

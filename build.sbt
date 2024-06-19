@@ -14,6 +14,8 @@ libraryDependencies += guice
 
 libraryDependencies += ws
 
+libraryDependencies += ehcache
+
 libraryDependencies += "com.github.jsonld-java" % "jsonld-java" % "0.12.0"
 
 libraryDependencies += "javax.mail" % "mail" % "1.4.1"
