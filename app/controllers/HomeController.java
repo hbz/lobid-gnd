@@ -77,6 +77,7 @@ import models.RdfConverter.RdfFormat;
 import modules.IndexComponent;
 import play.Environment;
 import play.Logger;
+import play.cache.Cached;
 import play.libs.Json;
 import play.libs.ws.WSBodyReadables;
 import play.libs.ws.WSBodyWritables;
@@ -733,6 +734,16 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	private static String findText(JsonNode info, String field) {
 		JsonNode node = info.findValue(field);
 		return node != null ? node.get("value").asText().replace("\n", " ").trim() : "";
+	}
+
+	@Cached(key = "robots", duration = 24 * 60 * 60) // One day
+	public Result robots() throws IOException {
+		return ok("User-agent: *\nDisallow: /"
+				+ Files.readAllLines(Paths.get("conf/rppd-export.jsonl")).stream()
+						.filter(line -> line.contains("doNotCrawl\":true"))
+						.map(line -> line.replaceAll(".*gndIdentifier\":\"(.+?)\".*", "$1")
+								.replaceAll("Keine GND-Ansetzung für ", ""))
+						.collect(Collectors.joining("\nDisallow: /")));
 	}
 
 }
