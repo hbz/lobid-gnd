@@ -104,7 +104,7 @@ public class Reconcile extends Controller {
 	}
 
 	private ObjectNode metadata() {
-		final String host = HomeController.config("host");
+		final String host = HomeController.configNested("host", "reconcile");
 		ObjectNode result = Json.newObject();
 		result.putArray("versions").add("0.1").add("0.2");
 		result.put("name", "GND reconciliation for OpenRefine");
@@ -151,7 +151,7 @@ public class Reconcile extends Controller {
 
 	private ObjectNode suggestService(String suggest) {
 		return Json.newObject()//
-				.put("service_url", HomeController.config("host") + "/gnd/reconcile")//
+				.put("service_url", HomeController.configNested("host", "reconcile"))//
 				.put("service_path", "/suggest/" + suggest)//
 				.put("flyout_service_path", "/flyout/" + suggest + "?id=${id}");
 	}
