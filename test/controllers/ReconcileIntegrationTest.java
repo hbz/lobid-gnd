@@ -44,11 +44,6 @@ public class ReconcileIntegrationTest extends IndexTest {
 
 	@Test
 	public void reconcileMetadataRequestNoCallback() {
-		metadataRequest("/gnd/reconcile");
-	}
-
-	@Test
-	public void reconcileMetadataRequestNoCallbackTrailingSlash() {
 		metadataRequest("/gnd/reconcile/");
 	}
 
@@ -93,7 +88,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 
 	@Test
 	public void reconcileMetadataRequestWithCallback() {
-		metadataRequestWithCallback("/gnd/reconcile?callback=jsonp");
+		metadataRequestWithCallback("/gnd/reconcile/?callback=jsonp");
 	}
 
 	@Test
@@ -166,7 +161,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 	}
 
 	@Test
-	// curl -g 'localhost:9000/gnd/reconcile?queries={"q99":{"query":"*"}}'
+	// curl -g 'localhost:9000/gnd/reconcile/?queries={"q99":{"query":"*"}}'
 	public void reconcileRequestGetWithReservedChars() {
 		Application application = fakeApplication();
 		running(application, () -> {
@@ -174,7 +169,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 			try {
 				result = route(application,
 						fakeRequest(GET,
-								"/gnd/reconcile?queries=" + URLEncoder.encode(
+								"/gnd/reconcile/?queries=" + URLEncoder.encode(
 										"{\"q99\":{\"query\":\"Conference +=<>(){}[]^ (1997 : Kyoto / Japan)\"}}",
 										StandardCharsets.UTF_8.name())));
 			} catch (UnsupportedEncodingException e) {
@@ -234,7 +229,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 
 	@Test
 	// curl -g
-	// 'localhost:9000/gnd/reconcile?extend=
+	// 'localhost:9000/gnd/reconcile/?extend=
 	// {"ids":[],"properties":[{"id":"geographicAreaCode"},{"id":"professionOrOccupation"}]}'
 	// See https://github.com/hbz/lobid-gnd/issues/241
 	public void extendRequestMeta() {
@@ -246,7 +241,7 @@ public class ReconcileIntegrationTest extends IndexTest {
 				"{\"id\":\"geographicAreaCode\"}," + //
 				"{\"id\":\"professionOrOccupation\"}]}";
 				result = route(application, fakeRequest(GET,
-						"/gnd/reconcile?extend=" + URLEncoder.encode(extensionQuery, StandardCharsets.UTF_8.name())));
+						"/gnd/reconcile/?extend=" + URLEncoder.encode(extensionQuery, StandardCharsets.UTF_8.name())));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}

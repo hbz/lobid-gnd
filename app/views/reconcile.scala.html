@@ -2,8 +2,10 @@
 
 @()
 
-@desc(label: String, link: play.api.mvc.Call) = {
+@desc(label: String, call: play.api.mvc.Call) = {
+ @defining(call.toString.replace("/gnd/reconcile/", "")) { link =>
  <dt>@Html(label)</dt> <dd><a href='@link'>@java.net.URLDecoder.decode(link.toString.replaceAll("[&?]format=json$", ""), "UTF-8")</a></dd>
+ }
 }
 
 @gnd("GND Reconciliation") {
@@ -62,8 +64,7 @@
 
   <h3>Query-API <small>(<a href="https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#reconciliation-queries">spec</a>)</small></h3>
 
-  <p><b>Query: GET</b><br/>
-  <a href='@controllers.HomeController.config("host")/?queries={"q1":{"query":"Twain, Mark"}}'>/?queries={"q1":{"query":"Twain, Mark"}}</a>
+  @desc("Query: GET", routes.Reconcile.main(queries="{\"q1\":{\"query\":\"Twain, Mark\"}}"))
   <p><b>Query: POST</b><br/>
   <code>curl --data 'queries={"q1":{"query":"Twain, Mark"}}' @controllers.HomeController.config("host")</code></p>
 
@@ -79,8 +80,7 @@
   <h3>Data-extension-API</h3>
 
   @desc("Property-proposals (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#data-extension-property-proposals\">spec</a>)", routes.Reconcile.properties("","Work",""))
-  <p><b>Query: GET (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#data-extension-service\">spec</a>)</b><br/>
-  <a href='@controllers.HomeController.config("host")/?extend={"ids":["1081942517","4791358-7"],"properties":[{"id":"preferredName"},{"id":"firstAuthor"}]}'>/?extend={"ids":["1081942517","4791358-7"],"properties":[{"id":"preferredName"},{"id":"firstAuthor"}]}</a>
+  @desc("Extend: GET (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#data-extension-service\">spec</a>)", routes.Reconcile.main(extend="{\"ids\":[\"1081942517\",\"4791358-7\"],\"properties\":[{\"id\":\"preferredName\"},{\"id\":\"firstAuthor\"}]}"))
   <p><b>Extend: POST</b><br/>
   <code>curl --data 'extend={"ids":["1081942517","4791358-7"],"properties":[{"id":"preferredName"},{"id":"firstAuthor"}]}' @controllers.HomeController.config("host")</code></p>
 
