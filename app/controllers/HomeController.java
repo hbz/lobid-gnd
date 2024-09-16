@@ -117,7 +117,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	 * @return A 301 MOVED_PERMANENTLY redirect to the path
 	 */
 	public Result redirectSlash(String path) {
-		return movedPermanently("/" + path);
+		return movedPermanently("/" + path).withHeader("Access-Control-Allow-Origin", "*");
 	}
 
 	public Result index() {

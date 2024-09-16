@@ -3,7 +3,7 @@
 # ~~~~
 
 #OpenRefine reconciliation endpoint
-GET     /gnd/reconcile             controllers.Default.redirect(to = "/gnd/reconcile/")
+GET     /gnd/reconcile             controllers.HomeController.redirectSlash(path = "gnd/reconcile/")
 POST    /gnd/reconcile             controllers.Reconcile.reconcile()
 GET     /gnd/reconcile/            controllers.Reconcile.main(callback ?= "", queries ?= "", extend ?= "")
 POST    /gnd/reconcile/            controllers.Reconcile.reconcile()
