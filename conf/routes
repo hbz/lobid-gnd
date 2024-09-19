@@ -2,17 +2,17 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Handle trailing slashes
-GET     /gnd/reconcile/     controllers.Reconcile.main(callback ?= "", queries ?= "", extend ?= "")
-POST    /gnd/reconcile/     controllers.Reconcile.reconcile()
-GET     /*path/             controllers.HomeController.redirectSlash(path: String)
-
 #OpenRefine reconciliation endpoint
-GET     /gnd/reconcile            controllers.Reconcile.main(callback ?= "", queries ?= "", extend ?= "")
-POST    /gnd/reconcile            controllers.Reconcile.reconcile()
+GET     /gnd/reconcile             controllers.HomeController.redirectSlash(path = "gnd/reconcile/")
+POST    /gnd/reconcile             controllers.Reconcile.reconcile()
+GET     /gnd/reconcile/            controllers.Reconcile.main(callback ?= "", queries ?= "", extend ?= "")
+POST    /gnd/reconcile/            controllers.Reconcile.reconcile()
 GET     /gnd/reconcile/properties controllers.Reconcile.properties(callback ?= "", type ?= "", limit ?= "")
 GET     /gnd/reconcile/suggest/:service   controllers.Reconcile.suggest(callback ?= "", service, prefix, type ?= "", type_strict ?= "", limit: Int ?= 10, start: Int ?= 0)
 GET     /gnd/reconcile/flyout/:service    controllers.Reconcile.flyout(callback ?= "", service, id)
+
+# Handle trailing slashes
+GET     /*path/             controllers.HomeController.redirectSlash(path: String)
 
 GET     /gnd                controllers.HomeController.index
 

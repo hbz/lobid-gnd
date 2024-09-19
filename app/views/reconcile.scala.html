@@ -2,8 +2,10 @@
 
 @()
 
-@desc(label: String, link: play.api.mvc.Call) = {
+@desc(label: String, call: play.api.mvc.Call) = {
+ @defining(call.toString.replace("/gnd/reconcile/", "")) { link =>
  <dt>@Html(label)</dt> <dd><a href='@link'>@java.net.URLDecoder.decode(link.toString.replaceAll("[&?]format=json$", ""), "UTF-8")</a></dd>
+ }
 }
 
 @gnd("GND Reconciliation") {
@@ -18,7 +20,7 @@
 
   <p>Dieser Dienst ermöglicht den Abgleich eigener Daten mit der Gemeinsamen Normdatei, insbesondere mit OpenRefine, einem nicht nur im Bibliotheksbereich weitverbreiteten Werkzeug. OpenRefine bietet zahlreiche Funktionalitäten zur Bereinigung und Transformation von Daten, sowie zum Abgleich (Reconciliation) mit externen Datenquellen und zur Anreicherung auf Basis der abgeglichenen Daten. Dieser Dienst stellt die GND als eine solche Datenquelle in OpenRefine bereit. Der Dienst kann zugleich auch in anderen Anwendungen verwendet werden, z. B. im Bibliotheksmanagementsystem Alma über Alma Refine (s. <a href="https://reconciliation-api.github.io/census/clients/">weitere Clients</a>).</p>
 
-  <p>Service-URL: <code>@controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code></p>
+  <p>Service-URL: <code>@controllers.HomeController.configNested("host", "reconcile")</code></p>
 
   <h2>Daten und Werkzeuge</h2>
 
@@ -48,11 +50,11 @@
   <h3>Allgemeine API <small>(<a href="https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410">spec</a>)</small></h3>
 
   <p><b>Service</b><br/>
-  <code>curl @controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code>
+  <code>curl @controllers.HomeController.configNested("host", "reconcile")</code>
   <p><b>JSONP-callback</b><br/>
-  <code>curl @controllers.HomeController.config("host")@routes.Reconcile.main("jsonp")</code>
+  <code>curl @controllers.HomeController.configNested("host", "reconcile")?callback=jsonp</code>
   <p><b>CORS-header</b><br/>
-  <code>curl --head @controllers.HomeController.config("host")@routes.Reconcile.reconcile() | grep Access-Control-Allow-Origin</code>
+  <code>curl --head @controllers.HomeController.configNested("host", "reconcile") | grep Access-Control-Allow-Origin</code>
   </p>
 
   <h3>View-API</h3>
@@ -64,7 +66,7 @@
 
   @desc("Query: GET", routes.Reconcile.main(queries="{\"q1\":{\"query\":\"Twain, Mark\"}}"))
   <p><b>Query: POST</b><br/>
-  <code>curl --data 'queries={"q1":{"query":"Twain, Mark"}}' @controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code></p>
+  <code>curl --data 'queries={"q1":{"query":"Twain, Mark"}}' @controllers.HomeController.configNested("host", "reconcile")</code></p>
 
   <h3>Suggest-API <small>(<a href="https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#suggest-services">spec</a>)</small></h3>
 
@@ -80,6 +82,6 @@
   @desc("Property-proposals (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#data-extension-property-proposals\">spec</a>)", routes.Reconcile.properties("","Work",""))
   @desc("Extend: GET (<a href=\"https://www.w3.org/community/reports/reconciliation/CG-FINAL-specs-0.2-20230410/#data-extension-service\">spec</a>)", routes.Reconcile.main(extend="{\"ids\":[\"1081942517\",\"4791358-7\"],\"properties\":[{\"id\":\"preferredName\"},{\"id\":\"firstAuthor\"}]}"))
   <p><b>Extend: POST</b><br/>
-  <code>curl --data 'extend={"ids":["1081942517","4791358-7"],"properties":[{"id":"preferredName"},{"id":"firstAuthor"}]}' @controllers.HomeController.config("host")@routes.Reconcile.reconcile()</code></p>
+  <code>curl --data 'extend={"ids":["1081942517","4791358-7"],"properties":[{"id":"preferredName"},{"id":"firstAuthor"}]}' @controllers.HomeController.configNested("host", "reconcile")</code></p>
 
 }

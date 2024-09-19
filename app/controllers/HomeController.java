@@ -117,7 +117,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	 * @return A 301 MOVED_PERMANENTLY redirect to the path
 	 */
 	public Result redirectSlash(String path) {
-		return movedPermanently("/" + path);
+		return movedPermanently("/" + path).withHeader("Access-Control-Allow-Origin", "*");
 	}
 
 	public Result index() {
@@ -467,8 +467,8 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		List<Map<String, Object>> hits = Arrays.asList(queryResponse.getHits().getHits()).stream()
 				.map(hit -> hit.getSource()).collect(Collectors.toList());
 		ObjectNode object = Json.newObject();
-		object.put("@context", config("host") + routes.HomeController.context());
-		object.put("id", config("host") + request().uri());
+		object.put("@context", configNested("host", "main") + routes.HomeController.context());
+		object.put("id", configNested("host", "main") + request().uri());
 		object.put("totalItems", queryResponse.getHits().getTotalHits());
 		object.set("member", Json.toJson(hits));
 
