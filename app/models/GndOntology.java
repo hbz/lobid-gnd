@@ -57,7 +57,9 @@ public class GndOntology {
 			put("creatorOf", "Werke");
 			// no current German SKOS translation, see
 			// https://www.w3.org/2004/02/skos/translations
+			put("closeMatch", "Gleichwertig");
 			put("broadMatch", "Oberbegriff");
+			put("narrowMatch", "Unterbegriff");
 			put("exactMatch", "Entspricht");
 			put("relatedMatch", "Verwandter Begriff");
 		}

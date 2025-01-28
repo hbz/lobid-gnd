@@ -36,7 +36,9 @@ public class GndOntologyLabelTests {
 				{ "hasAncestor", "Vorfahr" }, //
 				{ "hasParent", "Elternteil" }, //
 				{ "professionalRelationship", "Berufliche Beziehung" }, //
+				{ "closeMatch", "Gleichwertig" }, //
 				{ "broadMatch", "Oberbegriff" }, //
+				{ "narrowMatch", "Unterbegriff" },//
 				{ "exactMatch", "Entspricht" }, //
 				{ "relatedMatch", "Verwandter Begriff" }, //
 				{ "https://d-nb.info/standards/vocab/gnd/description-level#3", "Katalogisierungslevel 3" }, //
