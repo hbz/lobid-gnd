@@ -469,18 +469,24 @@ public class AuthorityResource {
 		} else if (Arrays.asList("dateOfBirth", "dateOfDeath").contains(field)) {
 			result = germanDate(value);
 		}
-		else if (value.startsWith("http") && !value.contains(" ")) {
+		else if (value.startsWith("http")) {
+			String url = value;
+			String rest = "";
+			if (value.contains(" ")) {
+				value.substring(0, value.indexOf(' '));
+				rest = value.substring(value.indexOf(' ') + 1, value.length());
+			}
 			List<String> facets = Arrays.asList(HomeController.AGGREGATIONS);
 			boolean labelBasedFacet = facets.contains(field + ".label");
 			boolean qBasedSearch = facets.stream().noneMatch(s -> s.startsWith(field));
 			boolean plainUriField = field.equals("source") || field.equals("publication");
 			String searchField = (field + (plainUriField ? "" : ".id")).replace("source",
 					"describedBy.source");
-			label = plainUriField ? labelFor(value) : label;
+			label = plainUriField ? labelFor(url) : label;
 			String search = controllers.routes.HomeController
-					.search(qBasedSearch ? searchField + ":\"" + value + "\"" : "", "", "", "", "", "",
+					.search(qBasedSearch ? searchField + ":\"" + url + "\"" : "", "", "", "", "", "",
 							labelBasedFacet ? field + ".label:\"" + label + "\""
-							: searchField + ":\"" + value + "\"", "", 0, 10, "html")
+							: searchField + ":\"" + url + "\"", "", 0, 10, "html")
 					.toString();
 			String searchLink = String.format(
 					"<a id='%s-%s' title='Weitere Einträge mit %s \"%s\" suchen' href='%s'>%s</a>", //
@@ -488,10 +494,10 @@ public class AuthorityResource {
 			String entityLink = String.format(
 					"<a title='Linked-Data-Quelle zu \"%s\" anzeigen' href='%s'>"
 							+ "<i class='octicon octicon-link text-muted' aria-hidden='true'></i></a>",
-					label, value);
+					label, url);
 			boolean linkableEntity = field.equals("relatedPerson") || plainUriField
-					|| (field.startsWith("place") && value.contains("spatial"));
-			result = searchLink + "&nbsp;" + (linkableEntity ? entityLink : "");
+					|| (field.startsWith("place") && url.contains("spatial"));
+			result = searchLink + "&nbsp;" + (linkableEntity ? entityLink : "") + " " + rest;
 		} else if (field.endsWith("AsLiteral")) {
 			String search = controllers.routes.HomeController
 					.search("", "", "", "", "", "", field + ":\"" + value + "\"", "", 0, 10, "html")
