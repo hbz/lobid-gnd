@@ -473,7 +473,7 @@ public class AuthorityResource {
 			String url = value;
 			String rest = "";
 			if (value.contains(" ")) {
-				value.substring(0, value.indexOf(' '));
+				url = value.substring(0, value.indexOf(' '));
 				rest = value.substring(value.indexOf(' ') + 1, value.length());
 			}
 			List<String> facets = Arrays.asList(HomeController.AGGREGATIONS);
