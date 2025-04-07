@@ -51,10 +51,10 @@ sbt \
   > IndexBaseline_$TODAY.log 2>&1
 
 # index updates since last baseline (currently manual process)
-# export TODAY=20211126 # date used in the part above, see existing index
-# export LAST_BASE=20201013 # automate: get date from description on https://data.dnb.de/opendata/ (e.g. "Stand: 13.06.2021")
+# export TODAY=20250404 # date used in the part above, see existing index
+# export LAST_BASE=20250313 # get date from description on https://data.dnb.de/opendata/ (e.g. "Stand: 13.03.2025")
 # mkdir data/index/gnd_since_$LAST_BASE
-# cp data/backup/GND-updates_2021*.jsonl data/index/gnd_since_$LAST_BASE # etc.; alt: OAI-PMH
+# cp data/backup/GND-updates_2025-03-13.jsonl data/index/gnd_since_$LAST_BASE # etc.
 # setsid nohup sbt \
 #  -Dindex.entityfacts.index=entityfacts_$TODAY \
 #  -Dindex.prod.name=gnd_$TODAY \
@@ -63,8 +63,9 @@ sbt \
 #  "runMain apps.Index baseline" \
 #  > IndexBaseline_since_$LAST_BASE.log 2>&1 &
 
-# a more automatable alternative might be to use OAI-PMH updates
-# export LAST_BASE=2022-10-13 # get date from description on https://data.dnb.de/opendata/ (e.g. "Stand: 13.10.2022")
+# Alternative: use OAI-PMH updates - run on test system to avoid interfering with hourly updates!
+# export TODAY=20250404 # date used in the part above, see existing index
+# export LAST_BASE=2025-03-13T00:00:00Z # get date from description on https://data.dnb.de/opendata/ (e.g. "Stand: 13.03.2025")
 # setsid nohup sbt -mem 4000 -Dindex.prod.name=gnd_$TODAY "runMain apps.ConvertUpdates $LAST_BASE" > ConvertUpdates_since_$LAST_BASE.log 2>&1 &
 # setsid nohup sbt -mem 4000 -Dindex.prod.name=gnd_$TODAY "runMain apps.Index updates" > IndexUpdates_since_$LAST_BASE.log 2>&1 &
 
