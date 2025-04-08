@@ -8,7 +8,7 @@ export TODAY=$(date +'%Y%m%d')
 
 # get entityfacts baseline file
 cd data/entityfacts/
-wget https://data.dnb.de/opendata/authorities-gnd_entityfacts.jsonld.gz
+wget --quiet https://data.dnb.de/opendata/authorities-gnd_entityfacts.jsonld.gz
 gunzip < authorities-gnd_entityfacts.jsonld.gz > authorities-gnd_entityfacts.jsonld
 cd ../..
 
@@ -20,10 +20,11 @@ sbt \
 
 # clean up entityfacts baseline file
 mv data/entityfacts/authorities-gnd_entityfacts.jsonld.gz data/entityfacts/authorities-gnd_entityfacts_$TODAY.jsonld.gz
+rm data/entityfacts/authorities-gnd_entityfacts.jsonld
 
 # get gnd_lds baseline files
 cd data/gnd_lds
-wget https://data.dnb.de/opendata/authorities-gnd-{geografikum,koerperschaft,kongress,person,sachbegriff,werk}_lds.rdf.gz
+wget --quiet https://data.dnb.de/opendata/authorities-gnd-{geografikum,koerperschaft,kongress,person,sachbegriff,werk}_lds.rdf.gz
 
 cd ../..
 mkdir data/index/gnd_lds_$TODAY
