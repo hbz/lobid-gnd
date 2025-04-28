@@ -651,6 +651,10 @@
          "@type":"@id",
          "@container":"@set"
       },
+      "originalScriptNameOfThePerson": {
+         "@id":"https://d-nb.info/standards/elementset/gnd#originalScriptNameOfThePerson",
+         "@container":"@set"
+      },
       "otherPlace":{
          "@id":"https://d-nb.info/standards/elementset/gnd#otherPlace",
          "@type":"@id",
