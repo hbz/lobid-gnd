@@ -83,7 +83,7 @@
          "@id":"http://dcat-ap.de/def/dcatde/maintainer",
          "@type":"@id"
       },
-      "dct:creator": {
+      "dctCreator": {
          "@id":"http://purl.org/dc/terms/creator",
          "@type":"@id"
       },
