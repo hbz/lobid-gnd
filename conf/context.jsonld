@@ -79,6 +79,14 @@
         "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
       },
       "publisher": "http://purl.org/dc/elements/1.1/publisher",
+      "maintainer": {
+         "@id":"http://dcat-ap.de/def/dcatde/maintainer",
+         "@type":"@id"
+      },
+      "dctCreator": {
+         "@id":"http://purl.org/dc/terms/creator",
+         "@type":"@id"
+      },
       "abbr": "http://dbpedia.org/ontology/abbreviation",
       "name": "http://xmlns.com/foaf/0.1/name",
       "icon": "http://xmlns.com/foaf/0.1/logo",
@@ -351,6 +359,11 @@
          "@type":"@id",
          "@container":"@set"
       },
+      "earlierNameOfThePerson":{
+         "@id":"https://d-nb.info/standards/elementset/gnd#earlierNameOfThePerson",
+         "@type":"@id",
+         "@container":"@set"
+      },
       "editor":{
          "@id":"https://d-nb.info/standards/elementset/gnd#editor",
          "@type":"@id",
@@ -566,6 +579,11 @@
          "@type":"@id",
          "@container":"@set"
       },
+      "laterNameOfThePerson":{
+         "@id":"https://d-nb.info/standards/elementset/gnd#laterNameOfThePerson",
+         "@type":"@id",
+         "@container":"@set"
+      },
       "librettist":{
          "@id":"https://d-nb.info/standards/elementset/gnd#librettist",
          "@type":"@id",
@@ -649,6 +667,10 @@
       "organizerOrHost":{
          "@id":"https://d-nb.info/standards/elementset/gnd#organizerOrHost",
          "@type":"@id",
+         "@container":"@set"
+      },
+      "originalScriptNameOfThePerson": {
+         "@id":"https://d-nb.info/standards/elementset/gnd#originalScriptNameOfThePerson",
          "@container":"@set"
       },
       "otherPlace":{
@@ -786,6 +808,11 @@
          "@type":"@id",
          "@container":"@set"
       },
+      "pseudonymNameOfThePerson":{
+         "@id":"https://d-nb.info/standards/elementset/gnd#pseudonymNameOfThePerson",
+         "@type":"@id",
+         "@container":"@set"
+      },
       "realIdentity":{
          "@id":"https://d-nb.info/standards/elementset/gnd#realIdentity",
          "@type":"@id",
@@ -848,6 +875,11 @@
       },
       "relatedWork":{
          "@id":"https://d-nb.info/standards/elementset/gnd#relatedWork",
+         "@type":"@id",
+         "@container":"@set"
+      },
+      "realNameOfThePerson":{
+         "@id":"https://d-nb.info/standards/elementset/gnd#realNameOfThePerson",
          "@type":"@id",
          "@container":"@set"
       },
