@@ -49,7 +49,6 @@ import org.metafacture.framework.helpers.DefaultStreamPipe;
 import org.xml.sax.InputSource;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
@@ -103,7 +102,9 @@ public class Convert {
 			}
 			Model model = sourceModel(value);
 			String jsonLd = Convert.toJsonLd(id, model, false, deprecated);
-			getReceiver().process(jsonLd);
+			if (jsonLd != null) {
+				getReceiver().process(jsonLd);
+			}
 		}
 
 		private static Model sourceModel(String rdf) {
@@ -128,7 +129,7 @@ public class Convert {
 			jsonLd = JsonLdProcessor.frame(jsonLd, new HashMap<>(frame), options);
 			jsonLd = JsonLdProcessor.compact(jsonLd, context, options);
 			return postprocess(id, contextUrl, jsonLd);
-		} catch (JsonLdError | IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
