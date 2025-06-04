@@ -120,8 +120,9 @@
                   
                   _createClearButton: function() {
                     var self = this;
-                    self.clearElement = $("<span>")
+                    self.clearElement = $("<button>")
                                       .attr( "tabindex", "-1" )
+                                      .attr( "aria-label", "Suchtext löschen" )
                                       .addClass( "ui-autocomplete-clear" )
                                       .html( self.options.clearButtonHtml )
                                       .appendTo( self.element.parent() );
@@ -196,7 +197,9 @@
                     window.location.href = ui.item.id.replace('https://d-nb.info','');
                     event.preventDefault();
                   },
-                  clearButton: true
+                  clearButton: true,
+                  clearButtonHtml: "<i class=\"glyphicon glyphicon-remove-circle\"></i>",
+                  clearButtonPosition: false
                 });
                 </script>
             }

@@ -120,11 +120,28 @@ ul.facet li {
 }
 
 .ui-autocomplete-clear {
+  position: relative;
+  top: -13px;
+  left: -72px;
+  width: 30px;
+  height: 30px;
   display: inline-block;
-  width: 16px;
-  height: 16px;
   text-align: center;
   cursor: pointer;
+  border: none;
+  background-color: transparent;
+  z-index: 3;
+}
+
+.ui-autocomplete-clear:hover,
+.ui-autocomplete-clear:focus {
+  background-color: #e6e6e6;
+}
+
+.ui-autocomplete-clear .glyphicon {
+  position: relative;
+  top: 3px;
+  left: 3px;
 }
 
 .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th,
