@@ -111,6 +111,22 @@ ul.facet li {
 	color: #004678;
 }
 
+.ui-autocomplete-input-has-clear {
+  padding-right: 24px;
+}
+
+.ui-autocomplete-input-has-clear::-ms-clear {
+  display: none;
+}
+
+.ui-autocomplete-clear {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  cursor: pointer;
+}
+
 .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th,
 	.table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td,
 	.table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td {
