@@ -187,6 +187,12 @@ public class AuthorityResource {
 		return Json.toJson(result).toString();
 	}
 
+	public Integer getBirthYear() {
+		String birthYear = fieldValues("dateOfBirth-dateOfDeath", json).collect(Collectors.joining()).substring(0, 4);
+		return Integer.parseInt(birthYear);
+	}
+
+
 	private void addGroupingNodes(List<Map<String, Object>> result) {
 		gndNodes().stream().filter(pair -> pair.getRight().size() > 1).map(Pair::getLeft).distinct().forEach(rel -> {
 			String label = wrapped(GndOntology.label(rel));

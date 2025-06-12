@@ -273,5 +273,37 @@
             }
         </div>
     </div>
+    @if(resource.getType.contains("DifferentiatedPerson") && resource.getBirthYear > 1940){
+    <div class="alert alert-info">
+      <p>Sind Sie @resource.preferredName ?</p>
+      <div id="meta-person">
+        <h3>Klicken Sie hier.</h3>
+        <div>
+          <p>
+            Bei dieser Seite handelt es sich um eine Sicht des Eintrags zu Ihrer Person in der Gemeinsamen Normdatei (GND). 
+            Die GND unterstützt die Katalogisierung in Gedächtnisinstitutionen (Bibliotheken, Archiven und Museen) und 
+            dient der eindeutigen Identifizierung von Urheber:innen, um die veröffentlichten Werke von einer Person zu bündeln. 
+            Ein GND-Eintrag zu einer Person wird etwa angelegt, wenn eine Gedächtnisinstitution zum ersten Mal eine Publikation 
+            (Dissertation o.ä.) einer Person in ihrem Katalog erfasst.
+          </p>
+          <p>
+            Die Informationen in einem Normdatensatz werden ausschließlich aus öffentlich zugänglichen Quellen gespeist, 
+            Fehler oder Unvollständigkeiten sind nicht ausgeschlossen. 
+            Falls Sie Fehler melden möchten oder mit der Veröffentlichung bestimmter Informationen nicht einverstanden sind, 
+            wenden Sie sich an <a href="mailto:gnd-redaktion@@hbz-nrw.de">gnd-redaktion@@hbz-nrw.de</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      $( function() {
+        $( "#meta-person" ).accordion({
+          collapsible: true,
+          active: false,
+          heightStyle: "content"
+        });
+      } );
+    </script>
+    }
 }
 }

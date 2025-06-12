@@ -299,3 +299,14 @@ figcaption {
 	*/
 	background-color: #d9edf7;
 }
+
+#meta-person h3,
+#meta-person div,
+#meta-person div p {
+	background: inherit;
+	border: none;
+}
+
+.ui-state-default .ui-icon {
+	background-image: url(/gnd/assets/images/ui-icons_888888_256x240.png);
+}
