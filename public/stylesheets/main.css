@@ -300,17 +300,17 @@ figcaption {
 	background-color: #d9edf7;
 }
 
-#meta-person {
-	overflow: auto;
+#meta-person .panel-heading:after {
+	font-family: 'Glyphicons Halflings';
+	content:"\e080"; /* glyphicon-chevron-right */
+	float: left;
+	transition: all 0.5s;
 }
 
-#meta-person h3,
-#meta-person div,
-#meta-person div p {
-	background: inherit;
-	border: none;
+#meta-person .panel-heading.collapsed:after {
+	content:"\e114"; /* glyphicon-chevron-down */
 }
 
-.ui-state-default .ui-icon {
-	background-image: url(/gnd/assets/images/ui-icons_888888_256x240.png);
+#meta-person .panel-title {
+	padding-left: 1em;
 }
