@@ -245,34 +245,6 @@
             </small>
         </h1>
     </div>
-    @if(resource.gndRelationEdges != "[]"){
-    <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a href="#fields" role="tab" data-toggle="tab">Felder</a></li>
-      @if(resource.gndRelationEdges != "[]"){<li role="presentation"><a href="#rels" role="tab" data-toggle="tab">Beziehungen</a></li>}
-    </ul>
-    }
-    <div class="row">
-        <div class="tab-content">
-            <div role="tabpanel" id="fields" class="tab-pane active col-md-@leftWidth intro">
-                @fields
-                @dataSource
-            </div>
-            <div  role="tabpanel" id="rels" class="tab-pane col-md-@leftWidth intro">
-                @if(resource.gndRelationEdges != "[]") {
-                    @graph()
-                }
-                @dataSource
-            </div>
-        </div>
-        <div class="col-md-@(12-leftWidth) intro">
-            @if(resource.location != null) {
-                @map()
-            }
-            @if(!resource.getImage.image.isEmpty){
-                @image()
-            }
-        </div>
-    </div>
     @if(resource.getType.contains("DifferentiatedPerson") && resource.getBirthYear > 1940){
     <div class="alert alert-info">
       <p>Sind Sie @resource.preferredName ?</p>
@@ -305,5 +277,33 @@
       } );
     </script>
     }
+    @if(resource.gndRelationEdges != "[]"){
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#fields" role="tab" data-toggle="tab">Felder</a></li>
+      @if(resource.gndRelationEdges != "[]"){<li role="presentation"><a href="#rels" role="tab" data-toggle="tab">Beziehungen</a></li>}
+    </ul>
+    }
+    <div class="row">
+        <div class="tab-content">
+            <div role="tabpanel" id="fields" class="tab-pane active col-md-@leftWidth intro">
+                @fields
+                @dataSource
+            </div>
+            <div  role="tabpanel" id="rels" class="tab-pane col-md-@leftWidth intro">
+                @if(resource.gndRelationEdges != "[]") {
+                    @graph()
+                }
+                @dataSource
+            </div>
+        </div>
+        <div class="col-md-@(12-leftWidth) intro">
+            @if(resource.location != null) {
+                @map()
+            }
+            @if(!resource.getImage.image.isEmpty){
+                @image()
+            }
+        </div>
+    </div>
 }
 }
