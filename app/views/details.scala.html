@@ -246,11 +246,11 @@
         </h1>
     </div>
     @if(resource.getType.contains("DifferentiatedPerson") && resource.getBirthYear > 1940){
-    <div id="meta-person" class="panel panel-default">
+    <div id="meta-person" class="panel panel-info">
       <div class="panel-heading" role="tab" id="headingOne">
         <h4 class="panel-title">
           <a role="button" data-toggle="collapse" href="#infotext" aria-expanded="false" aria-controls="infotext">
-            Sind Sie @resource.preferredName ? Klicken Sie hier.
+            <span class="glyphicon glyphicon-chevron-right"></span> Sind Sie @resource.preferredName ? Klicken Sie hier.
           </a>
         </h4>
       </div>
@@ -272,6 +272,14 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript">
+      $('.panel-collapse').on('show.bs.collapse', function() {
+          $(this).siblings('.panel-heading').find('span').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
+      });
+      $('.panel-collapse').on('hide.bs.collapse', function() {
+          $(this).siblings('.panel-heading').find('span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+      });
+    </script>
     }
     @if(resource.gndRelationEdges != "[]"){
     <ul class="nav nav-tabs" role="tablist">

@@ -300,17 +300,10 @@ figcaption {
 	background-color: #d9edf7;
 }
 
-#meta-person .panel-heading:after {
-	font-family: 'Glyphicons Halflings';
-	content:"\e080"; /* glyphicon-chevron-right */
-	float: left;
-	transition: all 0.5s;
-}
-
-#meta-person .panel-heading.collapsed:after {
-	content:"\e114"; /* glyphicon-chevron-down */
+#meta-person {
+	overflow: auto;
 }
 
 #meta-person .panel-title {
-	padding-left: 1em;
+	padding-left: 22px;
 }
