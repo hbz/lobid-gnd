@@ -300,6 +300,10 @@ figcaption {
 	background-color: #d9edf7;
 }
 
+#meta-person {
+	overflow: auto;
+}
+
 #meta-person h3,
 #meta-person div,
 #meta-person div p {
