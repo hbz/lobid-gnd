@@ -111,6 +111,38 @@ ul.facet li {
 	color: #004678;
 }
 
+.ui-autocomplete-input-has-clear {
+  padding-right: 24px;
+}
+
+.ui-autocomplete-input-has-clear::-ms-clear {
+  display: none;
+}
+
+.ui-autocomplete-clear {
+  position: absolute;
+  top: 1px;
+  right: 40px;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  z-index: 3;
+}
+
+.ui-autocomplete-clear:hover,
+.ui-autocomplete-clear:focus {
+  background-color: #eee;
+}
+
+.ui-autocomplete-clear .glyphicon {
+  position: relative;
+  top: 3px;
+}
+
 .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th,
 	.table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td,
 	.table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td {

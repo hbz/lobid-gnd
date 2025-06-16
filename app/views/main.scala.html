@@ -80,8 +80,8 @@
                     <span class="glyphicon glyphicon-search"></span></button></span>
                 </div>
                 <script>
-                // Add categories to autocomplete widget:
                 $.widget("custom.categoryAutocomplete", $.ui.autocomplete, {
+                  // Add categories to autocomplete widget:
                   _renderItem: function(ul, item) {
                     var labels = "";
                     var img = "";
@@ -96,6 +96,59 @@
                       .data("item.autocomplete", item )
                       .append("<a>" + img + item.label + labels +"</a>")
                       .appendTo(ul);
+                  },
+                  // Add clear button
+                  // using https://github.com/andreivictor/jquery-ui-autocomplete-with-clear-button
+                  // with small accessibility improvements
+                  _create: function() {
+                    // Invoke the parent widget's method.
+                    this._super();
+                    this._createClearButton();
+                  },
+                  
+                  _createClearButton: function() {
+                    var self = this;
+                    self.clearElement = $("<button>")
+                                      .attr("tabindex", "-1")
+                                      .attr("aria-label", "Suchtext löschen")
+                                      .addClass( "ui-autocomplete-clear")
+                                      .html("<i class=\"glyphicon glyphicon-remove-circle\"></i>")
+                                      .appendTo(self.element.parent());
+
+                    self._on(self.clearElement, {
+                      click: function() {
+                        self.element.val('').focus();
+                        self._hideClearButton();
+                        event.preventDefault();
+                      }
+                    });
+                  
+                    self.element.addClass('ui-autocomplete-input-has-clear');
+                  
+                    self._on(self.element, {
+                      input: function() {
+                        if (self.element.val()!=="") {
+                          self._showClearButton();
+                        } else {
+                          self._hideClearButton();
+                        }
+                      }
+                    });
+
+                    // show clearElement if input has some content on initialization
+                    if(self.element.val()!=="") {
+                      self._showClearButton();
+                    } else {
+                      self._hideClearButton();
+                    }
+                  },
+
+                  _showClearButton: function() {
+                    this.clearElement.css({'display': 'inline-block'});
+                  },
+
+                  _hideClearButton: function() {
+                    this.clearElement.css({'display': 'none'});
                   }
                 });
                 $('#gnd-query').categoryAutocomplete({
