@@ -135,12 +135,12 @@ ul.facet li {
 
 .ui-autocomplete-clear:hover,
 .ui-autocomplete-clear:focus {
-  background-color: #e6e6e6;
+  background-color: #eee;
 }
 
 .ui-autocomplete-clear .glyphicon {
   position: relative;
-  top: 4px;
+  top: 3px;
 }
 
 .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th,

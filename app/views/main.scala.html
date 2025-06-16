@@ -101,31 +101,21 @@
                   // using https://github.com/andreivictor/jquery-ui-autocomplete-with-clear-button
                   // with small accessibility improvements
                   _create: function() {
-                    var self = this;
                     // Invoke the parent widget's method.
-                    self._super();
-                    if ( self.options.clearButton ) {
-                      self._createClearButton();
-                    }
+                    this._super();
+                    this._createClearButton();
                   },
                   
                   _createClearButton: function() {
                     var self = this;
                     self.clearElement = $("<button>")
-                                      .attr( "tabindex", "-1" )
-                                      .attr( "aria-label", "Suchtext löschen" )
-                                      .addClass( "ui-autocomplete-clear" )
-                                      .html( self.options.clearButtonHtml )
-                                      .appendTo( self.element.parent() );
-                    
-                    if ( self.options.clearButtonPosition !== false && typeof self.options.clearButtonPosition === 'object' ) {
-                      if ( typeof self.options.clearButtonPosition.of === 'undefined' ) {
-                          self.options.clearButtonPosition.of = self.element;
-                      }
-                      self.clearElement.position( self.options.clearButtonPosition);
-                    }
-                  
-                    self._on( self.clearElement, {
+                                      .attr("tabindex", "-1")
+                                      .attr("aria-label", "Suchtext löschen")
+                                      .addClass( "ui-autocomplete-clear")
+                                      .html("<i class=\"glyphicon glyphicon-remove-circle\"></i>")
+                                      .appendTo(self.element.parent());
+
+                    self._on(self.clearElement, {
                       click: function() {
                         self.element.val('').focus();
                         self._hideClearButton();
@@ -135,9 +125,9 @@
                   
                     self.element.addClass('ui-autocomplete-input-has-clear');
                   
-                    self._on( self.element, {
+                    self._on(self.element, {
                       input: function() {
-                        if ( self.element.val()!=="" ) {
+                        if (self.element.val()!=="") {
                           self._showClearButton();
                         } else {
                           self._hideClearButton();
@@ -145,14 +135,8 @@
                       }
                     });
 
-                    self._on( self.menu.element, {
-                      menuselect: function() {
-                        self._showClearButton();
-                      }
-                    });
-                  
                     // show clearElement if input has some content on initialization
-                    if( self.element.val()!=="" ) {
+                    if(self.element.val()!=="") {
                       self._showClearButton();
                     } else {
                       self._hideClearButton();
@@ -188,10 +172,7 @@
                   select: function(event, ui) {
                     window.location.href = ui.item.id.replace('https://d-nb.info','');
                     event.preventDefault();
-                  },
-                  clearButton: true,
-                  clearButtonHtml: "<i class=\"glyphicon glyphicon-remove-circle\"></i>",
-                  clearButtonPosition: false
+                  }
                 });
                 </script>
             }
