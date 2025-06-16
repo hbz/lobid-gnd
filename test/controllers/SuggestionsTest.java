@@ -117,4 +117,16 @@ public class SuggestionsTest extends IndexTest {
 		});
 	}
 
+	@Test
+	public void suggestionsAreHtmlEncoded() {
+		Application application = fakeApplication();
+		running(application, () -> {
+			Result result = route(application,
+					fakeRequest(GET, "/gnd/search?q=Bleistift&format=json:suggest"));
+			assertNotNull(result);
+			assertThat(result.contentType().get(), is(equalTo("application/json")));
+			assertThat(contentAsString(result), containsString("Bleistift &lt;Motiv&gt;"));
+		});
+	}
+
 }
