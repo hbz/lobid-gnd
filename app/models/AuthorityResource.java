@@ -192,6 +192,11 @@ public class AuthorityResource {
 		return Integer.parseInt(birthYear);
 	}
 
+	public String getFirstAndLastName() {
+		String[] lastAndFirstName = preferredName.split(", ");
+		String firstAndLastName = lastAndFirstName[1] + " " + lastAndFirstName[0];
+		return firstAndLastName;
+	}
 
 	private void addGroupingNodes(List<Map<String, Object>> result) {
 		gndNodes().stream().filter(pair -> pair.getRight().size() > 1).map(Pair::getLeft).distinct().forEach(rel -> {
