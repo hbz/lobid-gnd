@@ -245,7 +245,7 @@
             </small>
         </h1>
     </div>
-    @if(resource.getType.contains("DifferentiatedPerson") && resource.getBirthYear > 1940){
+    @if(resource.getType.contains("DifferentiatedPerson") && resource.getBirthYear > 1940 && resource.getDeathYear == null){
     <div id="meta-person" class="panel panel-info col-md-8">
       <div class="panel-heading" role="tab" id="headingOne">
         <h4 class="panel-title">

@@ -194,6 +194,20 @@ public class AuthorityResource {
 		return Integer.parseInt(parts[0]);
 	}
 
+	public Integer getDeathYear() {
+		String[] parts = fieldValues("dateOfBirth-dateOfDeath", json)
+			.collect(Collectors.joining())
+			.split("-");
+		if (parts.length > 1 && parts[1].length() == 4) {
+			try {
+				return Integer.parseInt(parts[1]);
+			} catch (NumberFormatException e) {
+				return null;
+			}
+		}
+		return null;
+	}
+
 	public String getFirstAndLastName() {
 		String[] lastAndFirstName = preferredName.split(", ");
 		String firstAndLastName = lastAndFirstName[1] + " " + lastAndFirstName[0];
