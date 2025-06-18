@@ -302,4 +302,6 @@ figcaption {
 
 #meta-person {
 	overflow: auto;
+	float: none;
+	padding: 0px;
 }
