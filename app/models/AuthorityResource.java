@@ -188,8 +188,10 @@ public class AuthorityResource {
 	}
 
 	public Integer getBirthYear() {
-		String birthYear = fieldValues("dateOfBirth-dateOfDeath", json).collect(Collectors.joining()).substring(0, 4);
-		return Integer.parseInt(birthYear);
+		String[] parts = fieldValues("dateOfBirth-dateOfDeath", json)
+			.collect(Collectors.joining())
+			.split("-");
+		return Integer.parseInt(parts[0]);
 	}
 
 	public String getFirstAndLastName() {
