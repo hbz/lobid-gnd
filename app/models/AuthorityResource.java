@@ -190,14 +190,14 @@ public class AuthorityResource {
 	public Integer getBirthYear() {
 		String[] parts = fieldValues("dateOfBirth-dateOfDeath", json)
 			.collect(Collectors.joining())
-			.split("-");
+			.split("–");
 		return Integer.parseInt(parts[0]);
 	}
 
 	public Integer getDeathYear() {
 		String[] parts = fieldValues("dateOfBirth-dateOfDeath", json)
 			.collect(Collectors.joining())
-			.split("-");
+			.split("–");
 		if (parts.length > 1 && parts[1].length() == 4) {
 			try {
 				return Integer.parseInt(parts[1]);
