@@ -246,7 +246,7 @@
         </h1>
     </div>
     @if(resource.getType.contains("DifferentiatedPerson") && resource.getBirthYear > 1940 && resource.getDeathYear == null){
-    <div id="meta-person" class="panel panel-info col-md-8">
+    <div id="meta-person" class="panel panel-info">
       <div class="panel-heading" role="tab" id="headingOne">
         <h4 class="panel-title">
           <a role="button" data-toggle="collapse" href="#infotext" aria-expanded="false" aria-controls="infotext">
@@ -256,18 +256,17 @@
       </div>
       <div id="infotext" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
         <div class="panel-body">
-          <p>
-            Bei dieser Seite handelt es sich um eine Sicht des Eintrags zu Ihrer Person in der Gemeinsamen Normdatei (GND). 
-            Die GND unterstützt die Katalogisierung in Gedächtnisinstitutionen (Bibliotheken, Archiven und Museen) und 
-            dient der eindeutigen Identifizierung von Urheber:innen, um die veröffentlichten Werke von einer Person zu bündeln. 
-            Ein GND-Eintrag zu einer Person wird etwa angelegt, wenn eine Gedächtnisinstitution zum ersten Mal eine Publikation 
-            (Dissertation o.ä.) einer Person in ihrem Katalog erfasst.
+          <p class=" col-md-6">
+            <span class="glyphicon glyphicon-info-sign"></span> Diese Seite zeigt ein Datensatz aus der Gemeinsamen Normdatei (GND) an. 
+            Die GND wird von Bibliotheken, Archiven und Museen gepflegt und dient der eindeutigen Identifizierung von Urheber:innen. 
+            Ein GND-Eintrag zu einer Person wird beispielsweise bei der Katalogisierung einer Publikation angelegt, 
+            um die Publikation korrekt und eindeutig der Person zuordnen zu können.
           </p>
-          <p>
-            Die Informationen in einem Normdatensatz werden ausschließlich aus öffentlich zugänglichen Quellen gespeist, 
+          <p class=" col-md-6">
+            Die Informationen in einem Normdatensatz werden ausschließlich aus öffentlich zugänglichen Quellen übernommen, 
             Fehler oder Unvollständigkeiten sind nicht ausgeschlossen. 
             Falls Sie Fehler melden möchten oder mit der Veröffentlichung bestimmter Informationen nicht einverstanden sind, 
-            wenden Sie sich an <a href="mailto:gnd-redaktion@@hbz-nrw.de">gnd-redaktion@@hbz-nrw.de</a>
+            wenden Sie sich an <br/> <a href="mailto:gnd-redaktion@@hbz-nrw.de">gnd-redaktion@@hbz-nrw.de</a>
           </p>
         </div>
       </div>
