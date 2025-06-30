@@ -195,17 +195,10 @@ public class AuthorityResource {
 	}
 
 	public Integer getDeathYear() {
-		String[] parts = fieldValues("dateOfBirth-dateOfDeath", json)
-			.collect(Collectors.joining())
-			.split("–");
-		if (parts.length > 1 && parts[1].length() == 4) {
-			try {
-				return Integer.parseInt(parts[1]);
-			} catch (NumberFormatException e) {
-				return null;
-			}
-		}
-		return null;
+		return fieldValues("dateOfDeath", json).findFirst()
+				.map(AuthorityResource::year)
+				.map(Integer::parseInt)
+				.orElse(null);
 	}
 
 	public String getFirstAndLastName() {
