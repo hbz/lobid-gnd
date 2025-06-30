@@ -188,16 +188,24 @@ public class AuthorityResource {
 	}
 
 	public Integer getBirthYear() {
-		return fieldValues("dateOfBirth", json).findFirst()
-				.map(AuthorityResource::year)
-				.map(Integer::parseInt)
-				.orElse(null);
+		return getYear("dateOfBirth");
 	}
 
 	public Integer getDeathYear() {
-		return fieldValues("dateOfDeath", json).findFirst()
+		return getYear("dateOfDeath");
+	}
+
+	private Integer getYear(String fieldName) {
+		return fieldValues(fieldName, json).findFirst()
 				.map(AuthorityResource::year)
-				.map(Integer::parseInt)
+				.map(year -> {
+					try {
+						return Integer.parseInt(year);
+					} catch (NumberFormatException e) {
+						Logger.warn("Could not parse year from field {}: '{}'", fieldName, year);
+						return null;
+					}
+				})
 				.orElse(null);
 	}
 
