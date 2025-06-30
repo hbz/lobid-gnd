@@ -55,14 +55,22 @@ public class ConvertUpdates {
 	static private final String FAIL_MESSAGE = "Tried to get the update the defined amount of times, but the data remains to be empty."
 			+ "This may or may not be a problem on the side of the data provider.";
 	static private boolean rawDates = false;
+	static private boolean adaptive = false;
 	/* OAI-PMH expects this format */
 	static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		if (args.length >= 1) {
 			ZonedDateTime endOfUpdates = args.length >= 2 ? ZonedDateTime.parse(args[1]) : null;
-			if (args.length == 3) {
-				rawDates = args[2].equals("--raw-dates");
+			if (args.length >= 3) {
+				for (String arg : args) {
+					if (arg.equals("--raw-dates")) {
+						rawDates = true;
+					}
+					if (arg.equals("--adaptive")) {
+						adaptiveMode = true;
+					}
+ 				}
 			}
 			Pair<ZonedDateTime, ZonedDateTime> startAndEnd = getUpdatesAndConvert(ZonedDateTime.parse(args[0]), endOfUpdates);
 			File dataUpdate = new File(config("data.updates.data"));
@@ -127,7 +135,11 @@ public class ConvertUpdates {
 						: ZonedDateTime.from(addMinutes(start, givenEndOrNow,
 						(intervalInDaysSize) * DAY_IN_MINUTES /* 'until' is inclusive */));
 			try {
-				process(dataUpdateUrl, start, end, file);
+				if (adaptive) {
+					adaptiveProcessRecursive(dataUpdateUrl, start, end, file);
+				} else {
+					process(dataUpdateUrl, start, end, file);
+				}
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
@@ -142,6 +154,32 @@ public class ConvertUpdates {
 	}
 
 	/**
+	 * Recursive interval splitting on error. Applies only if --adaptive is passed.
+	 */
+	private static void adaptiveProcessRecursive(String baseUrl, ZonedDateTime from, ZonedDateTime until, File result) {
+		// Stop recursion if interval is smaller than 2 seconds
+		// and therefore further splitting not possible
+		if (ChronoUnit.SECONDS.between(from, until) < 2) {
+			System.err.printf("Persistent error in minimal interval: %s -> %s\n", from, until);
+			return;
+		}
+
+		ZonedDateTime mid = from.plusSeconds(ChronoUnit.SECONDS.between(from, until) / 2);
+
+		try {
+			process(baseUrl, from, mid, result);
+		} catch (Exception e) {
+			adaptiveProcessRecursive(baseUrl, from, mid, result);
+		}
+
+		try {
+			process(baseUrl, mid, until, result);
+		} catch (Exception e) {
+			adaptiveProcessRecursive(baseUrl, mid, until, result);
+		}
+	}
+
+	/**
 	 * As we call from a CET timed server and OAI-PMH expects UTC time the given parameter "from" and parameter "until"
 	 * are changed to UTC time.
 	 *
@@ -152,7 +190,7 @@ public class ConvertUpdates {
 	 */
 	public static void process(final String baseUrl, final ZonedDateTime from, final ZonedDateTime until, File result)
 			throws NoSuchFieldException, IOException, ParserConfigurationException, SAXException, TransformerException,
-			XMLStreamException, XPathException {
+					XMLStreamException, XPathException {
 
 		String fromUtcFormatted = getUtcFromCet(from).minusMinutes(1).format(dateTimeFormatter);
 		String untilUtcFormatted = getUtcFromCet(until).format(dateTimeFormatter);
