@@ -203,7 +203,9 @@ public class AuthorityResource {
 
 	public String getFirstAndLastName() {
 		String[] lastAndFirstName = preferredName.split(", ");
-		String firstAndLastName = lastAndFirstName[1] + " " + lastAndFirstName[0];
+		String firstAndLastName = lastAndFirstName.length == 2
+				? lastAndFirstName[1] + " " + lastAndFirstName[0]
+				: preferredName;
 		return firstAndLastName;
 	}
 
