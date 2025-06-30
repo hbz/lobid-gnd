@@ -188,10 +188,10 @@ public class AuthorityResource {
 	}
 
 	public Integer getBirthYear() {
-		String[] parts = fieldValues("dateOfBirth-dateOfDeath", json)
-			.collect(Collectors.joining())
-			.split("–");
-		return Integer.parseInt(parts[0]);
+		return fieldValues("dateOfBirth", json).findFirst()
+				.map(AuthorityResource::year)
+				.map(Integer::parseInt)
+				.orElse(null);
 	}
 
 	public Integer getDeathYear() {
