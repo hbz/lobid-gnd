@@ -42,7 +42,7 @@ public class HomeControllerTest extends IndexTest {
 				{ routes.HomeController.search("*", "", "", 0, 10, "nt").toString(), Status.UNSUPPORTED_MEDIA_TYPE },
 				// authority
 				{ routes.HomeController.authority("4791358-7", "json").toString(), Status.OK },
-				{ routes.HomeController.authority("118649019", "html").toString(), Status.OK },
+				{ routes.HomeController.authority("1208647903", "html").toString(), Status.OK },
 				{ routes.HomeController.authority("abc", "json").toString(), Status.NOT_FOUND },
 				{ routes.HomeController.authority("1090750048", "json").toString(), Status.MOVED_PERMANENTLY },
 				{ routes.HomeController.authority("4791358-7", "jsonl").toString(), Status.UNSUPPORTED_MEDIA_TYPE },
