@@ -190,7 +190,7 @@ public class ConvertUpdates {
 	 */
 	public static void process(final String baseUrl, final ZonedDateTime from, final ZonedDateTime until, File result)
 			throws NoSuchFieldException, IOException, ParserConfigurationException, SAXException, TransformerException,
-					XMLStreamException, XPathException {
+			XMLStreamException, XPathException {
 
 		String fromUtcFormatted = getUtcFromCet(from).minusMinutes(1).format(dateTimeFormatter);
 		String untilUtcFormatted = getUtcFromCet(until).format(dateTimeFormatter);
