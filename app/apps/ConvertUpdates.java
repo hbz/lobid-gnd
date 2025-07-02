@@ -55,7 +55,7 @@ public class ConvertUpdates {
 	static private final String FAIL_MESSAGE = "Tried to get the update the defined amount of times, but the data remains to be empty."
 			+ "This may or may not be a problem on the side of the data provider.";
 	static private boolean rawDates = false;
-	static private boolean adaptive = false;
+	static private boolean adaptiveMode = false;
 	/* OAI-PMH expects this format */
 	static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
@@ -135,7 +135,7 @@ public class ConvertUpdates {
 						: ZonedDateTime.from(addMinutes(start, givenEndOrNow,
 						(intervalInDaysSize) * DAY_IN_MINUTES /* 'until' is inclusive */));
 			try {
-				if (adaptive) {
+				if (adaptiveMode) {
 					adaptiveProcessRecursive(dataUpdateUrl, start, end, file);
 				} else {
 					process(dataUpdateUrl, start, end, file);
