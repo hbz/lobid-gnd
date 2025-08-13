@@ -11,11 +11,11 @@
 
 @moreToggle(field: String, value: String) = {
     @if(value.contains(field+"-hide-by-default")) {
-        <a id='@field-more' title='Mehr anzeigen' href='javascript:void(0)'
+        <a id='@field-more' title='Mehr anzeigen' href='javascript:void(0)' 
                 onclick='$("#@field-hide-by-default").show(); $("#@field-more").hide(); $("#@field-less").show();'>
             <span class="octicon octicon-diff-added" aria-hidden="true"></span>
         </a>
-        <a id='@field-less' style='display: none;' title='Weniger anzeigen' href='javascript:void(0)'
+        <a id='@field-less' style='display: none;' title='Weniger anzeigen' href='javascript:void(0)' 
                 onclick='$("#@field-hide-by-default").hide(); $("#@field-less").hide(); $("#@field-more").show();'>
             <span class="octicon octicon-diff-removed" aria-hidden="true"></span>
         </a>
@@ -152,7 +152,7 @@
 @dataSource() = { @defining(resource.sameAs.size>3 || !resource.depiction.isEmpty) { entityFacts =>
 <p><div class="text-center small">
   Datenquelle@if(entityFacts){n}: DNB <a href='https://www.dnb.de/lds'>Linked-Data-Service</a>
-  (<a title='RDF/XML aus GND anzeigen' href='https://d-nb.info/gnd/@resource.getId()/about/lds.rdf'>RDF/XML</a>,
+  (<a title='RDF/XML aus GND anzeigen' href='https://d-nb.info/gnd/@resource.getId()/about/lds.rdf'>RDF/XML</a>, 
   <a title='Turtle aus GND anzeigen' href='https://d-nb.info/gnd/@resource.getId()/about/lds.ttl'>Turtle</a>)
   @if(entityFacts){und <a href='https://www.dnb.de/entityfacts'>Entity Facts</a> (<a title="JSON-LD in Entity Facts anzeigen" href='@(controllers.HomeController.config("entityfacts.live")+resource.getId)'>JSON-LD</a>)}
   | <a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>
@@ -257,17 +257,17 @@
       <div id="infotext" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
         <div class="panel-body">
           <p class=" col-md-6">
-            <span class="glyphicon glyphicon-info-sign"></span> Diese Seite zeigt einen Datensatz aus der
-            <a href="https://de.wikipedia.org/wiki/Gemeinsame_Normdatei">Gemeinsamen Normdatei (GND)</a> an.
-            Die GND wird von Bibliotheken, Archiven und Museen gepflegt und dient der eindeutigen Identifizierung von Urheber:innen.
-            Ein GND-Eintrag zu einer Person wird beispielsweise bei der Katalogisierung einer Publikation angelegt,
+            <span class="glyphicon glyphicon-info-sign"></span> Diese Seite zeigt einen Datensatz aus der 
+            <a href="https://de.wikipedia.org/wiki/Gemeinsame_Normdatei">Gemeinsamen Normdatei (GND)</a> an. 
+            Die GND wird von Bibliotheken, Archiven und Museen gepflegt und dient der eindeutigen Identifizierung von Urheber:innen. 
+            Ein GND-Eintrag zu einer Person wird beispielsweise bei der Katalogisierung einer Publikation angelegt, 
             um die Publikation korrekt und eindeutig der Person zuordnen zu können.
           </p>
           <p class=" col-md-6">
-            Die Informationen in einem Normdatensatz werden ausschließlich aus öffentlich zugänglichen Quellen übernommen,
-            Fehler oder Unvollständigkeiten sind nicht ausgeschlossen.
-            Falls Sie Fehler melden möchten oder mit der Veröffentlichung bestimmter Informationen nicht einverstanden sind,
-            wenden Sie sich an <br/> <a href="mailto:gnd-datenschutz@@hbz-nrw.de">gnd-datenschutz@@hbz-nrw.de</a>
+            Die Informationen in einem Normdatensatz werden ausschließlich aus öffentlich zugänglichen Quellen übernommen, 
+            Fehler oder Unvollständigkeiten sind nicht ausgeschlossen. 
+            Falls Sie Fehler melden möchten oder mit der Veröffentlichung bestimmter Informationen nicht einverstanden sind, 
+            wenden Sie sich an <br/> <a href="mailto:gnd-datenschutz@@hbz-nrw.de">gnd-datenschutz@@hbz-nrw.de</a>.
           </p>
         </div>
       </div>
