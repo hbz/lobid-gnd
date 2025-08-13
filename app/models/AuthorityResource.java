@@ -187,6 +187,36 @@ public class AuthorityResource {
 		return Json.toJson(result).toString();
 	}
 
+	public Integer getBirthYear() {
+		return getYear("dateOfBirth");
+	}
+
+	public Integer getDeathYear() {
+		return getYear("dateOfDeath");
+	}
+
+	private Integer getYear(String fieldName) {
+		return fieldValues(fieldName, json).findFirst()
+				.map(AuthorityResource::year)
+				.map(year -> {
+					try {
+						return Integer.parseInt(year);
+					} catch (NumberFormatException e) {
+						Logger.warn("Could not parse year from field {}: '{}'", fieldName, year);
+						return null;
+					}
+				})
+				.orElse(null);
+	}
+
+	public String getFirstAndLastName() {
+		String[] lastAndFirstName = preferredName.split(", ");
+		String firstAndLastName = lastAndFirstName.length == 2
+				? lastAndFirstName[1] + " " + lastAndFirstName[0]
+				: preferredName;
+		return firstAndLastName;
+	}
+
 	private void addGroupingNodes(List<Map<String, Object>> result) {
 		gndNodes().stream().filter(pair -> pair.getRight().size() > 1).map(Pair::getLeft).distinct().forEach(rel -> {
 			String label = wrapped(GndOntology.label(rel));
