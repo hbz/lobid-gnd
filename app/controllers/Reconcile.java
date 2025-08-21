@@ -541,7 +541,7 @@ public class Reconcile extends Controller {
 	}
 
 	private static String clean(String in) {
-		String out = in.replaceAll("[-:+=&|><!(){}\\[\\]\"~*?\\\\/\\^]", " ");
+		String out = in.replaceAll("[-:+=&|><!(){}\\[\\]\"~*?\\/\\^]", " ");
 		Logger.info("Cleaned invalid query string '{}' to: '{}'", in, out);
 		return out;
 	}
