@@ -23,8 +23,10 @@ public class ReconcileUnitTest extends IndexTest {
 
 	@Test
 	public void preprocessReconciliationQuery_removeSpecialCharacters() {
-		assertThat(reconcile.preprocess("Conference +=<>(){}[]^ (1997 : Kyoto : Japan)"),
-				equalToIgnoringWhiteSpace("Conference 1997 Kyoto Japan"));
+		String reserved = "+ - = && || > < ! ( ) { } [ ] ^ \" ~ * ? : \\ /";
+		String input = "Test " + reserved + " String";
+		String expected = "Test String";
+		assertThat(reconcile.preprocess(input), equalToIgnoringWhiteSpace(expected));
 	}
 
 	@Test
