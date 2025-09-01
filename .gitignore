@@ -9,6 +9,7 @@ logs
 .cache*
 bin
 *.jsonl
+!test/data/GND.jsonl
 *log*.gz
 *.tmp
 GND-updates*

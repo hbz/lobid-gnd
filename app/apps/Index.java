@@ -42,15 +42,19 @@ import modules.IndexComponent;
 import play.Application;
 import play.Logger;
 import play.api.inject.BindingKey;
+import play.inject.Injector;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.libs.Json;
 import play.mvc.Http.Status;
 
 public class Index {
 
-	public static IndexComponent index = new GuiceApplicationBuilder().build().injector()
-			.instanceOf(new BindingKey<>(IndexComponent.class));
+	private static Injector injector = new GuiceApplicationBuilder().build().injector();
+	private static Application app = injector.instanceOf(new BindingKey<>(play.Application.class));
+	public static IndexComponent index = injector.instanceOf(new BindingKey<>(IndexComponent.class));
 
+	private static final int BULK_SIZE = app.isTest() ? 5 : 1000;
+	
 	public static void main(String[] args) {
 		List<String> options = Arrays.asList("baseline", "updates", "entityfacts");
 		if (args.length == 1 && options.contains(args[0])) {
@@ -196,15 +200,15 @@ public class Index {
 				JsonNode index = rootNode.get("index");
 				idUriParts = index.findValue("_id").asText().split("/");
 				id = idUriParts[idUriParts.length - 1].replace("#!", "");
-				pendingIndexRequests++;
 			} else {
 				Form nfc = Normalizer.Form.NFC;
 				data = Normalizer.isNormalized(line, nfc) ? line : Normalizer.normalize(line, nfc);
 				bulkRequest.add(
 						client.prepareIndex(indexName, config("index.type"), id).setSource(data, XContentType.JSON));
+				pendingIndexRequests++;
 			}
 			currentLine++;
-			if (pendingIndexRequests == 1000) {
+			if (pendingIndexRequests == BULK_SIZE) {
 				executeBulk(pendingIndexRequests);
 				bulkRequest = client.prepareBulk();
 				pendingIndexRequests = 0;
@@ -269,7 +273,7 @@ public class Index {
 					String id = Json.parse(json).get("@id").textValue().substring(prefixLength);
 					bulkRequest.add(index.client().prepareIndex(indexName, indexType).setId(id).setSource(json,
 							XContentType.JSON));
-					if (bulkRequest.numberOfActions() == 1000) {
+					if (bulkRequest.numberOfActions() == BULK_SIZE) {
 						executeBulk(bulkRequest.numberOfActions());
 						bulkRequest = client.prepareBulk();
 					}
