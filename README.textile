@@ -2,7 +2,7 @@ h1. About
 
 lobid-gnd: access GND+EntityFacts data as JSON-LD over HTTP.
 
-"!https://github.com/hbz/lobid-gnd/workflows/Build/badge.svg?branch=master!":https://github.com/hbz/lobid-gnd/actions?query=workflow%3ABuild
+"!https://github.com/hbz/lobid-gnd/actions/workflows/build.yml/badge.svg?branch=master!":https://github.com/hbz/lobid-gnd/actions?query=workflow%3ABuild
 
 h1. Setup
 
