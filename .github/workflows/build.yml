@@ -22,5 +22,8 @@ jobs:
         tar -xzf elasticsearch-${{ env.ES_VERSION }}.tar.gz
         ./elasticsearch-${{ env.ES_VERSION }}/bin/elasticsearch &
     - name: Run tests
-      run: |
+      uses: sbt/setup-sbt@v1
+      with:
+        sbt-runner-version: 1.11.5
+    - run: |
         sbt "test"
