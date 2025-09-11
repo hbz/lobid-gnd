@@ -331,3 +331,15 @@ figcaption {
 	*/
 	background-color: #d9edf7;
 }
+
+#meta-person {
+	overflow: auto;
+	float: none;
+	padding: 0px;
+}
+
+#infotext .glyphicon-info-sign {
+	font-size: 1.5em;
+	float: left;
+	margin: 5px 10px 0px 0px;
+}

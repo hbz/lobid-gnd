@@ -235,7 +235,7 @@
                   <small>
                     <span class='label label-primary'><a href='@routes.HomeController.search(q="type:"+t)'>@models.GndOntology.label(t)</a></span>
                   </small>
-                </sup> 
+                </sup>
             }
             <div class='pull-right'>
                 <a title="JSON-LD-Indexdaten anzeigen" href='@routes.HomeController.authorityDotFormat(resource.getId, "json")'>
@@ -245,6 +245,42 @@
             </small>
         </h1>
     </div>
+    @if(resource.getType.contains("DifferentiatedPerson") && resource.getBirthYear > 1940 && resource.getDeathYear == null){
+    <div id="meta-person" class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" href="#infotext" aria-expanded="false" aria-controls="infotext">
+            <span class="glyphicon glyphicon-chevron-right"></span> Sind Sie @(resource.getFirstAndLastName)? Klicken Sie hier.
+          </a>
+        </h4>
+      </div>
+      <div id="infotext" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+          <p class=" col-md-6">
+            <span class="glyphicon glyphicon-info-sign"></span> Diese Seite zeigt einen Datensatz aus der 
+            <a href="https://de.wikipedia.org/wiki/Gemeinsame_Normdatei">Gemeinsamen Normdatei (GND)</a> an. 
+            Die GND wird von Bibliotheken, Archiven und Museen gepflegt und dient der eindeutigen Identifizierung von Urheber:innen. 
+            Ein GND-Eintrag zu einer Person wird beispielsweise bei der Katalogisierung einer Publikation angelegt, 
+            um die Publikation korrekt und eindeutig der Person zuordnen zu können.
+          </p>
+          <p class=" col-md-6">
+            Die Informationen in einem Normdatensatz werden ausschließlich aus öffentlich zugänglichen Quellen übernommen, 
+            Fehler oder Unvollständigkeiten sind nicht ausgeschlossen. 
+            Falls Sie Änderungen melden möchten oder mit der Veröffentlichung bestimmter Informationen nicht einverstanden sind, 
+            wenden Sie sich an <a href="mailto:gnd-datenschutz@@hbz-nrw.de">gnd-datenschutz@@hbz-nrw.de</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      $('.panel-collapse').on('show.bs.collapse', function() {
+          $(this).siblings('.panel-heading').find('span').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
+      });
+      $('.panel-collapse').on('hide.bs.collapse', function() {
+          $(this).siblings('.panel-heading').find('span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+      });
+    </script>
+    }
     @if(resource.gndRelationEdges != "[]"){
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active"><a href="#fields" role="tab" data-toggle="tab">Felder</a></li>

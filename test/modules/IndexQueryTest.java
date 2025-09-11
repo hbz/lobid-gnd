@@ -43,7 +43,7 @@ public class IndexQueryTest extends IndexTest {
 
 	@Test
 	public void testDateQuery() {
-		Assert.assertEquals(16, index.query("dateOfBirth:*").getHits().getTotalHits());
+		Assert.assertEquals(17, index.query("dateOfBirth:*").getHits().getTotalHits());
 		Assert.assertEquals(5, index.query("dateOfBirth:[* TO 1750]").getHits().getTotalHits());
 		Assert.assertEquals(9, index.query("dateOfDeath:*").getHits().getTotalHits());
 		Assert.assertEquals(2, index.query("dateOfDeath:[* TO 1750]").getHits().getTotalHits());
