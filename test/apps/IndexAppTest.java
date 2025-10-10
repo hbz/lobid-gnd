@@ -29,7 +29,7 @@ public class IndexAppTest extends IndexTest {
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] { //
 				{ "test/data/GND.jsonl", 5L }, //
-				{ "test/data/index", 52L } });
+				{ "test/data/index", 53L } });
 	}
 
 	private static String testInput;

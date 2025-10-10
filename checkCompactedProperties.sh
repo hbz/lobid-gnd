@@ -9,7 +9,7 @@
 
 set -euo pipefail # See http://redsymbol.net/articles/unofficial-bash-strict-mode/
 IFS=$'\n\t'
-ES="weywot5.hbz-nrw.de:9200"
+ES="indexcluster.lobid.org:9200"
 INDEX=""
 if [ -n "${1-}" ]; then
 	INDEX=$1
