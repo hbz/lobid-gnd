@@ -14,7 +14,7 @@ jobs:
       uses: actions/setup-java@v5
       with:
         distribution: temurin
-        java-version: 1.8
+        java-version: 8
     - name: Install and start Elasticsearch
       env:
         ES_DOWNLOAD_URL: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${{ env.ES_VERSION }}.tar.gz
