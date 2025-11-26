@@ -1,76 +1,78 @@
-h1. About
+#README
+
+## About
 
 lobid-gnd: access GND+EntityFacts data as JSON-LD over HTTP.
 
-"!https://github.com/hbz/lobid-gnd/actions/workflows/build.yml/badge.svg?branch=master!":https://github.com/hbz/lobid-gnd/actions?query=workflow%3ABuild
+[![](https://github.com/hbz/lobid-gnd/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/hbz/lobid-gnd/actions?query=workflow%3ABuild)
 
-h1. Setup
+## Setup
 
-h2. Prerequisites
+### Prerequisites
 
-@sbt 0.13@ or newer &mdash; "download sbt":http://www.scala-sbt.org/download.html
+`sbt 0.13` or newer --- [download sbt](http://www.scala-sbt.org/download.html)
 
-Elasticsearch 5.6.x (configured in @application.conf@)
+Elasticsearch 5.6.x (configured in `application.conf`)
 
-h2. Build
+### Build
 
 Get the code, change into the project directory, and run the tests:
 
-@git clone https://github.com/hbz/lobid-gnd.git ; cd lobid-gnd ; sbt test@
+`git clone https://github.com/hbz/lobid-gnd.git ; cd lobid-gnd ; sbt test`
 
-h2. Data
+### Data
 
 The are three data sources involved:
 
 Entity Facts (JSON-LD over HTTP), GND baseline (RDF-XML over HTTP), and GND updates (RDF-XML over OAI-PMH).
 
-h3. Entity Facts
+#### Entity Facts
 
 Set up a location for the Entity Facts input data:
 
-@mkdir entityfacts ; cd entityfacts@
+`mkdir entityfacts ; cd entityfacts`
 
-Get the latest Entity Facts data from the DNB (see "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/):
+Get the latest Entity Facts data from the DNB (see [https://data.dnb.de/opendata/](https://data.dnb.de/opendata/)):
 
-@wget https://data.dnb.de/opendata/authorities_entityfacts.jsonld.gz@
+`wget https://data.dnb.de/opendata/authorities_entityfacts.jsonld.gz`
 
 Unpack the data:
 
-@gunzip < authorities_entityfacts.jsonld.gz > authorities_entityfacts.jsonld@
+`gunzip < authorities_entityfacts.jsonld.gz > authorities_entityfacts.jsonld`
 
 Go back to the root directory:
 
-@cd ..@
+`cd ..`
 
 Index the data, passing the index name:
 
-@sbt -Dindex.entityfacts.index=entityfacts_20210120 "runMain apps.Index entityfacts"@
+`sbt -Dindex.entityfacts.index=entityfacts_20210120 "runMain apps.Index entityfacts"`
 
 For configuration details and defaults, see 'conf/application.conf'.
 
-h3. GND Baseline
+#### GND Baseline
 
-h4. Get the RDF data
+##### Get the RDF data
 
 Set up a location for the input data:
 
-@mkdir input_data; cd input_data@
+`mkdir input_data; cd input_data`
 
 Set 'data.rdfxml' in 'conf/application.conf' to the 'input_data' location.
 
-Get the GND RDF/XML source data from "https://data.dnb.de/opendata/":https://data.dnb.de/opendata/:
+Get the GND RDF/XML source data from <https://data.dnb.de/opendata/>:
 
-@wget https://data.dnb.de/opendata/authorities-{geografikum,koerperschaft,kongress,person,sachbegriff,werk}_lds.rdf.gz@
+`wget https://data.dnb.de/opendata/authorities-{geografikum,koerperschaft,kongress,person,sachbegriff,werk}_lds.rdf.gz`
 
 This should give you 6 local files ending with '.rdf.gz'. Go back to the project root directory:
 
-@cd ..@
+`cd ..`
 
-h4. Convert RDF/XML to JSON
+##### Convert RDF/XML to JSON
 
 Set up a location for the index data:
 
-@mkdir index_data@
+`mkdir index_data`
 
 Set 'data.jsonlines' in 'conf/application.conf' to the 'index_data' location.
 
@@ -80,56 +82,56 @@ Set 'index.prod' in 'conf/application.conf' to a non-existing index. This index 
 
 Convert the data to JSON-LD lines, the index data format:
 
-@sbt "runMain apps.ConvertBaseline"@
+`sbt "runMain apps.ConvertBaseline"`
 
 To be able to log out from the server while the conversion is running, we actually use (see full usage details in baseline.sh):
 
-@setsid nohup sbt "runMain apps.ConvertBaseline" &@
+`setsid nohup sbt "runMain apps.ConvertBaseline" &`
 
-This should create 6 '*.jsonl' files in 'index_data'.
+This should create 6 '\*.jsonl' files in 'index_data'.
 
-h4. Index the JSON data
+##### Index the JSON data
 
 If the 'index.prod' configured in 'application.conf' does not exists, a new index will be created.
 
 To start the indexing, run:
 
-@sbt "runMain apps.Index baseline"@
+`sbt "runMain apps.Index baseline"`
 
-h3. Updates
+#### Updates
 
-h4. Get and convert the updates
+##### Get and convert the updates
 
-Updates are pulled via "the DNB OAI-PMH interface":http://www.dnb.de/DE/Service/DigitaleDienste/OAI/oai_node.html.
+Updates are pulled via [the DNB OAI-PMH interface](http://www.dnb.de/DE/Service/DigitaleDienste/OAI/oai_node.html).
 
 Pass one or two arguments: get updates since (and optionally until) a given date:
 
-@sbt "runMain apps.ConvertUpdates 2022-06-22 2022-06-23"@
+`sbt "runMain apps.ConvertUpdates 2022-06-22 2022-06-23"`
 
 The date of the most recent update is stored in 'GND-lastSuccessfulUpdate.txt' (can be changed in the config).
 
 The original downloaded data and the converted data are stored in separate files. To convert the data again without downloading it, use the steps described above under 'Convert RDF/XML to JSON' with the update RDF data.
 
-h4. Index the updates
+##### Index the updates
 
 To index the updates run:
 
-@sbt "runMain apps.Index updates"@
+`sbt "runMain apps.Index updates"`
 
 See 'application.conf' for details on the configured file names etc.
 
-h2. Web
+### Web
 
 In 'lobid-gnd', run the web application:
 
-@sbt run@
+`sbt run`
 
-Open "http://localhost:9000/gnd":http://localhost:9000/gnd
+Open <http://localhost:9000/gnd>
 
-h2. Eclipse
+### Eclipse
 
 To set up an Eclipse project, first generate the Eclipse config for your machine:
 
-@sbt "eclipse with-source=true"@
+`sbt "eclipse with-source=true"`
 
-Then import the project in Eclipse: "File" > "Import" > "Existing Projects into Workspace".
+Then import the project in Eclipse: "File" \> "Import" \> "Existing Projects into Workspace".
