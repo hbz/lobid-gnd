@@ -347,15 +347,26 @@ public class Convert {
 		}
 		if (depiction != null) {
 			Logger.debug("Adding depiction {} to {}", depiction, result);
-			map.put("depiction",
-					Arrays.asList(ImmutableMap.of(//
-							"id", depiction.get("@id"), //
-							"url", depiction.get("url"), //
-							"thumbnail", depiction.get("thumbnail").get("@id"))));
+			Map<String, Object> depictionMap = toMapWithPlainId(depiction);
+			depictionMap.put("thumbnail", depiction.get("thumbnail").get("@id").textValue());
+			List<Map<String, Object>> licenses = new ArrayList<>();
+			depiction.get("license").elements().forEachRemaining(license -> {
+				licenses.add(toMapWithPlainId(license));
+			});
+			depictionMap.put("license", licenses);
+			map.put("depiction", Arrays.asList(depictionMap));
 		} else {
 			Logger.debug("No Entity Facts depiction for {}", result);
 		}
 		map.put("sameAs", sorted((List<Map<String, Object>>) map.get("sameAs")));
+		return map;
+	}
+
+	private static Map<String,Object> toMapWithPlainId(JsonNode node) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = Json.fromJson(node, Map.class);
+		map.put("id", map.get("@id"));
+		map.remove("@id");
 		return map;
 	}
 
