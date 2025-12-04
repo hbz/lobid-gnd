@@ -348,10 +348,14 @@ public class Convert {
 		if (depiction != null) {
 			Logger.debug("Adding depiction {} to {}", depiction, result);
 			Map<String, Object> depictionMap = toMapWithPlainId(depiction);
+			toBoolean(depictionMap, "copyrighted");
 			depictionMap.put("thumbnail", depiction.get("thumbnail").get("@id").textValue());
 			List<Map<String, Object>> licenses = new ArrayList<>();
 			depiction.get("license").elements().forEachRemaining(license -> {
-				licenses.add(toMapWithPlainId(license));
+				Map<String, Object> licenseMap = toMapWithPlainId(license);
+				licenseMap.remove("restrictions");
+				toBoolean(licenseMap, "attributionRequired");
+				licenses.add(licenseMap);
 			});
 			depictionMap.put("license", licenses);
 			map.put("depiction", Arrays.asList(depictionMap));
@@ -368,6 +372,11 @@ public class Convert {
 		map.put("id", map.get("@id"));
 		map.remove("@id");
 		return map;
+	}
+
+	private static void toBoolean(Map<String, Object> map, String field) {
+		map.replace(field, "true", true);
+		map.replace(field, "false", false);
 	}
 
 	private static List<Map<String, Object>> unique(List<Map<String, Object>> sameAs) {
