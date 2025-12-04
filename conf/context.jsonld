@@ -75,8 +75,8 @@
       "describedBy": "http://www.w3.org/2007/05/powder-s#describedby",
       "license": {
         "@id": "http://purl.org/dc/terms/license",
-        @type": "@id"
-        },
+        "@type": "@id"
+      },
       "dateModified": {
         "@id": "http://purl.org/dc/terms/modified",
         "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
