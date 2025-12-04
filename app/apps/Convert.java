@@ -22,6 +22,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -53,6 +55,7 @@ import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigObject;
 
@@ -346,21 +349,19 @@ public class Convert {
 			}
 		}
 		if (depiction != null) {
-			Logger.debug("Adding depiction {} to {}", depiction, result);
-			Map<String, Object> depictionMap = toMapWithPlainId(depiction);
-			toBoolean(depictionMap, "copyrighted");
-			depictionMap.put("creatorName", depictionMap.get("creator"));
-			depictionMap.remove("creator");
-			depictionMap.put("thumbnail", depiction.get("thumbnail").get("@id").textValue());
-			List<Map<String, Object>> licenses = new ArrayList<>();
-			depiction.get("license").elements().forEachRemaining(license -> {
-				Map<String, Object> licenseMap = toMapWithPlainId(license);
-				licenseMap.remove("restrictions");
-				toBoolean(licenseMap, "attributionRequired");
-				licenses.add(licenseMap);
-			});
-			depictionMap.put("license", licenses);
-			map.put("depiction", Arrays.asList(depictionMap));
+			map.put("depiction", Arrays.asList(new ImmutableMap.Builder<>()
+					.put("id", depiction.get("@id"))
+					.put("url", depiction.get("url"))
+					.put("thumbnail", depiction.get("thumbnail").get("@id"))
+					.put("publisher", depiction.get("publisher"))
+					.put("creatorName", depiction.get("creator"))
+					.put("creditText", depiction.get("creditText"))
+					.put("copyrighted", depiction.get("copyrighted").textValue().equals("true"))
+					.put("license", stream(depiction, "license").map(license -> ImmutableMap.of(
+							"id", license.get("@id"),
+							"attributionRequired", license.get("attributionRequired").textValue().equals("true"),
+							"name", license.get("name"),
+							"abbr", license.get("abbr")))).build()));
 		} else {
 			Logger.debug("No Entity Facts depiction for {}", result);
 		}
@@ -368,17 +369,9 @@ public class Convert {
 		return map;
 	}
 
-	private static Map<String,Object> toMapWithPlainId(JsonNode node) {
-		@SuppressWarnings("unchecked")
-		Map<String, Object> map = Json.fromJson(node, Map.class);
-		map.put("id", map.get("@id"));
-		map.remove("@id");
-		return map;
-	}
-
-	private static void toBoolean(Map<String, Object> map, String field) {
-		map.replace(field, "true", true);
-		map.replace(field, "false", false);
+	private static Stream<JsonNode> stream(JsonNode depiction, String field) {
+		return StreamSupport.stream(
+				Spliterators.spliteratorUnknownSize(depiction.get(field).elements(), Spliterator.ORDERED), false);
 	}
 
 	private static List<Map<String, Object>> unique(List<Map<String, Object>> sameAs) {
