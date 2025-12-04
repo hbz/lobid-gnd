@@ -90,6 +90,7 @@
          "@id":"http://purl.org/dc/terms/creator",
          "@type":"@id"
       },
+      "creatorName": "http://purl.org/dc/elements/1.1/creator",
       "abbr": "http://dbpedia.org/ontology/abbreviation",
       "name": "http://xmlns.com/foaf/0.1/name",
       "icon": "http://xmlns.com/foaf/0.1/logo",

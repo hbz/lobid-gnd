@@ -275,8 +275,9 @@ public class ConvertTest {
 		assertTrue("publisher should be textual", depiction.get("publisher").isTextual());
 		assertTrue("Depiction should have a copyrighted field", depiction.has("copyrighted"));
 		assertTrue("copyrighted field should be boolean", depiction.get("copyrighted").isBoolean());
-		assertTrue("Depiction should have a creator", depiction.has("creator"));
-		assertTrue("creator should be an array", depiction.get("creator").isArray());
+		assertTrue("Depiction should have a creatorName field", depiction.has("creatorName"));
+		assertTrue("creatorName field should be an array", depiction.get("creatorName").isArray());
+		assertFalse("Depiction should not have a creator", depiction.has("creator"));
 		assertTrue("Depiction should have a creditText", depiction.has("creditText"));
 		assertTrue("creditText should be an array", depiction.get("creditText").isArray());
 	}

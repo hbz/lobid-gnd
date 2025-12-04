@@ -349,6 +349,8 @@ public class Convert {
 			Logger.debug("Adding depiction {} to {}", depiction, result);
 			Map<String, Object> depictionMap = toMapWithPlainId(depiction);
 			toBoolean(depictionMap, "copyrighted");
+			depictionMap.put("creatorName", depictionMap.get("creator"));
+			depictionMap.remove("creator");
 			depictionMap.put("thumbnail", depiction.get("thumbnail").get("@id").textValue());
 			List<Map<String, Object>> licenses = new ArrayList<>();
 			depiction.get("license").elements().forEachRemaining(license -> {
