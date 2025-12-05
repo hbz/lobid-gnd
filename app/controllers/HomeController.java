@@ -5,15 +5,14 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,8 +20,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -73,8 +70,6 @@ import play.Logger;
 import play.libs.Json;
 import play.libs.ws.WSBodyReadables;
 import play.libs.ws.WSBodyWritables;
-import play.libs.ws.WSClient;
-import play.libs.ws.WSResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.twirl.api.HtmlFormat;
@@ -84,13 +79,6 @@ import play.twirl.api.HtmlFormat;
  * application's home page.
  */
 public class HomeController extends Controller implements WSBodyReadables, WSBodyWritables {
-
-	private final WSClient httpClient;
-
-	@Inject
-	public HomeController(WSClient httpClient) {
-		this.httpClient = httpClient;
-	}
 
 	public static final String[] AGGREGATIONS = new String[] { "type", "gndSubjectCategory.id", "geographicAreaCode.id",
 			"professionOrOccupation.id", "dateOfBirth" };
@@ -505,14 +493,16 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 
 	private static String createAttribution(Map<String, Object> depiction) {
 		@SuppressWarnings("unchecked")
-		Map<String, Object> license = ((List<Map<String, Object>>) depiction.get("license")).get(0);
+		Map<String, Object> license = Optional.ofNullable(((List<Map<String, Object>>) depiction.get("license")))
+				.map(list -> list.get(0)).orElse(Collections.emptyMap());
 		String artist = findText(depiction, "creatorName").replaceAll("(Unknown.*){2}", "$1");
 		String licenseText = findText(license, "abbr");
 		String licenseUrl = findText(license, "id");
 		String fileSourceUrl = findText(depiction, "url");
-		return String.format(
-				(artist.isEmpty() ? "%s" : "%s | ") + "<a href='%s'>Wikimedia Commons</a> | <a href='%s'>%s</a>",
-				artist, fileSourceUrl, licenseUrl.isEmpty() ? fileSourceUrl : licenseUrl, licenseText);
+		String linkForLicense = licenseUrl.isEmpty() ? fileSourceUrl : licenseUrl;
+		return (artist.isEmpty() ? "" : String.format("%s | ", artist))
+				+ String.format("<a href='%s'>Wikimedia Commons</a>", fileSourceUrl)
+				+ (licenseText.isEmpty() ? "" : String.format(" | <a href='%s'>%s</a>", linkForLicense, licenseText));
 	}
 
 	private static String findText(Map<String, Object> map, String field) {
