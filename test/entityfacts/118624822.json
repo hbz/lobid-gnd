@@ -1,22 +1,25 @@
 {
   "@context" : "http://hub.culturegraph.org/entityfacts/context/v1/entityfacts.jsonld",
-  "@type" : "person",
   "@id" : "https://d-nb.info/gnd/118624822",
+  "describedBy" : {
+    "valid" : "2025-12-02T09:18:13Z",
+    "license" : "https://creativecommons.org/publicdomain/zero/1.0/",
+    "@id" : "https://hub.culturegraph.org/entityfacts/118624822"
+  },
   "preferredName" : "Mark Twain",
   "surname" : "Twain",
   "forename" : "Mark",
-  "describedBy" : {
-    "valid" : "2018-05-02T16:53:32+0200",
-    "license" : "https://creativecommons.org/publicdomain/zero/1.0/",
-    "@id" : "http://hub.culturegraph.org/entityfacts/118624822"
-  },
-  "variantName" : [ "Marc Twain", "Mark Twayn", "Make Tuwen", "Māku Towein", "Marḳ Tvein", "Mark Tvėn", "Marks Tvēns", "M. Tvens", "Mark Twen", "Marks Twens", "Marka Ṭvena", "Markas Tvenas", "Morkas Tvénas", "Mārk Twayn", "Mārk Tuwayn", "Ma-k`o T`u-wen", "Māku Touein", "Makū Touen", "Marek Twain", "Mark Tuein", "Mark Tven", "M. Tven", "Marḳ Ṭṿain", "Mark Twėn", "Maku Touein", "Mark Twain", "Mark Twėn", "Ma ke Tu wen", "Make-Tuwen", "Mark Tewin", "מארק טווין" ],
+  "@type" : "person",
+  "variantName" : [ "Marc Twain", "Mark Twayn", "Make Tuwen", "Māku Towein", "Marḳ Tvein", "Mark Tvėn", "Marks Tvēns", "M. Tvens", "Mark Twen", "Marks Twens", "Marka Ṭvena", "Markas Tvenas", "Morkas Tvénas", "Mārk Twayn", "Mārk Tuwayn", "Ma-k`o T`u-wen", "Māku Touein", "Makū Touen", "Marek Twain", "Mark Tuein", "M. Tven", "Marḳ Ṭṿain", "Mark Twėn", "Maku Touein", "Mark Twain", "Mark Twėn", "Ma ke Tu wen", "Make-Tuwen", "Mark Tewin", "Mark Tven", "Ma-khu Tho-wun", "Māku Towein", "Mark Twjen", "Марк Твен", "Марк Твен", "מארק טווין", "צרק טוין", "马克 吐温", "马克·吐温", "マーク トウェイン" ],
   "pseudonym" : [ {
     "@id" : "https://d-nb.info/gnd/1106406737",
     "preferredName" : "Quintus Curtius Snodgrass"
   }, {
     "@id" : "https://d-nb.info/gnd/1106407008",
     "preferredName" : "Louis de Conte"
+  }, {
+    "@id" : "https://d-nb.info/gnd/1282802690",
+    "preferredName" : "J. W. Bothwell"
   } ],
   "realIdentity" : [ {
     "@id" : "https://d-nb.info/gnd/1106405730",
@@ -31,6 +34,10 @@
   "placeOfDeath" : [ {
     "@id" : "https://d-nb.info/gnd/1025527097",
     "preferredName" : "Redding, Conn."
+  } ],
+  "associatedCountry" : [ {
+    "@id" : "https://d-nb.info/standards/vocab/gnd/geographic-area-code#XD-US",
+    "preferredName" : "USA"
   } ],
   "professionOrOccupation" : [ {
     "@id" : "https://d-nb.info/gnd/4053309-8",
@@ -52,13 +59,23 @@
     "@id" : "https://d-nb.info/standards/vocab/gnd/gender#male",
     "label" : "Mann"
   },
-  "biographicalOrHistoricalInformation" : "Amerikan. Schriftsteller, auch Übersetzungen und Reisebeschreibungen; zunächst Drucker, Lotse, Soldat, Journalist",
   "depiction" : {
     "@id" : "https://commons.wikimedia.org/wiki/Special:FilePath/MarkTwain.LOC.jpg",
+    "publisher" : "Wikimedia Commons",
+    "copyrighted" : "false",
+    "creator" : [ "Unknown authorUnknown author" ],
+    "creditText" : [ "This image is available from the United States Library of Congress's Prints and Photographs division under the digital ID cph.3a08820.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing." ],
+    "license" : [ {
+      "@id" : "https://creativecommons.org/publicdomain/mark/1.0/",
+      "abbr" : "PD",
+      "name" : "Public Domain",
+      "attributionRequired" : "false",
+      "restrictions" : "null"
+    } ],
+    "url" : "https://commons.wikimedia.org/wiki/File:MarkTwain.LOC.jpg?uselang=en",
     "thumbnail" : {
       "@id" : "https://commons.wikimedia.org/wiki/Special:FilePath/MarkTwain.LOC.jpg?width=270"
-    },
-    "url" : "https://commons.wikimedia.org/wiki/File:MarkTwain.LOC.jpg?uselang=en"
+    }
   },
   "sameAs" : [ {
     "@id" : "https://d-nb.info/gnd/118624822/about",
@@ -66,15 +83,23 @@
       "abbr" : "DNB",
       "name" : "Gemeinsame Normdatei (GND) im Katalog der Deutschen Nationalbibliothek",
       "publisher" : "Deutsche Nationalbibliothek",
-      "icon" : "http://www.dnb.de/SiteGlobals/StyleBundles/Bilder/favicon.png?__blob=normal&v=1"
+      "icon" : "https://www.dnb.de/SiteGlobals/Frontend/DNBWeb/Images/favicon.png?__blob=normal&v=4"
     }
   }, {
-    "@id" : "http://www.filmportal.de/person/5DF2180863F84E09B51D8C5DE7832A91",
+    "@id" : "https://isni.org/isni/0000000368641704",
+    "collection" : {
+      "abbr" : "ISNI",
+      "name" : "International Standard Name Identifier (ISNI)",
+      "publisher" : "International Standard Name Identifier (ISNI)",
+      "icon" : "https://www.isni.org/sites/default/files/isni_new_favicon.ico"
+    }
+  }, {
+    "@id" : "https://www.filmportal.de/5DF2180863F84E09B51D8C5DE7832A91",
     "collection" : {
       "abbr" : "filmportal.de",
       "name" : "Filmportal",
       "publisher" : "Deutsches Filminstitut",
-      "icon" : "http://filmportal.de/misc/favicon.ico"
+      "icon" : "https://www.filmportal.de/themes/custom/filmportal/favicon.ico"
     }
   }, {
     "@id" : "http://catalogue.bnf.fr/ark:/12148/cb11927291n",
@@ -82,46 +107,15 @@
       "abbr" : "BNF",
       "name" : "Bibliothèque nationale de France",
       "publisher" : "Bibliothèque nationale de France",
-      "icon" : "http://www.bnf.fr/bnf_dev/icono/favicon.ico"
+      "icon" : "https://www.bnf.fr/themes/custom/bnfsi/favicon.ico"
     }
   }, {
-    "@id" : "http://id.loc.gov/authorities/n79021164",
+    "@id" : "https://data.judaicalink.org/data/gnd/118624822",
     "collection" : {
-      "abbr" : "LC",
-      "name" : "NACO Authority File",
-      "publisher" : "Library of Congress",
-      "icon" : "http://www.loc.gov/favicon.ico"
-    }
-  }, {
-    "@id" : "http://kalliope-verbund.info/gnd/118624822",
-    "collection" : {
-      "abbr" : "DE-611",
-      "name" : "Kalliope Verbundkatalog",
-      "publisher" : "Staatsbibliothek zu Berlin - Preußischer Kulturbesitz"
-    }
-  }, {
-    "@id" : "http://viaf.org/viaf/50566653",
-    "collection" : {
-      "abbr" : "VIAF",
-      "name" : "Virtual International Authority File (VIAF)",
-      "publisher" : "OCLC",
-      "icon" : "http://viaf.org/viaf/images/viaf.ico"
-    }
-  }, {
-    "@id" : "http://www.isni.org/0000000121324854",
-    "collection" : {
-      "abbr" : "ISNI",
-      "name" : "International Standard Name Identifier (ISNI)",
-      "publisher" : "International Standard Name Identifier (ISNI)",
-      "icon" : "http://www.isni.org/sites/default/files/isni_new_favicon.ico"
-    }
-  }, {
-    "@id" : "http://www.wikidata.org/entity/Q7245",
-    "collection" : {
-      "abbr" : "WIKIDATA",
-      "name" : "Wikidata",
-      "publisher" : "Wikimedia Foundation Inc.",
-      "icon" : "https://www.wikidata.org/static/favicon/wikidata.ico"
+      "abbr" : "JudaicaLink",
+      "name" : "JudaicaLink",
+      "publisher" : "Stuttgart Media University",
+      "icon" : "https://data.judaicalink.org/static/img/favicon.ico"
     }
   }, {
     "@id" : "https://de.wikipedia.org/wiki/Mark_Twain",
@@ -148,12 +142,60 @@
       "icon" : "https://en.wikipedia.org/static/favicon/wikipedia.ico"
     }
   }, {
-    "@id" : "https://www.deutsche-digitale-bibliothek.de/entity/118624822",
+    "@id" : "https://kalliope-verbund.info/gnd/118624822",
+    "collection" : {
+      "abbr" : "DE-611",
+      "name" : "Kalliope Verbundkatalog",
+      "publisher" : "Staatsbibliothek zu Berlin - Preußischer Kulturbesitz",
+      "icon" : "https://kalliope-verbund.info/img/favicon.ico"
+    }
+  }, {
+    "@id" : "https://www.archivportal-d.de/person/gnd/118624822",
+    "collection" : {
+      "abbr" : "ARCHIV-D",
+      "name" : "Archivportal-D",
+      "publisher" : "Deutsche Digitale Bibliothek",
+      "icon" : "https://www.archivportal-d.de/favicon.ico"
+    }
+  }, {
+    "@id" : "https://www.deutsche-digitale-bibliothek.de/person/gnd/118624822",
     "collection" : {
       "abbr" : "DDB",
       "name" : "Deutsche Digitale Bibliothek",
       "publisher" : "Deutsche Digitale Bibliothek",
-      "icon" : "https://www.deutsche-digitale-bibliothek.de/appStatic/images/favicon.ico"
+      "icon" : "https://www.deutsche-digitale-bibliothek.de/favicon.ico"
+    }
+  }, {
+    "@id" : "http://id.loc.gov/rwo/agents/n79021164",
+    "collection" : {
+      "abbr" : "LC",
+      "name" : "NACO Authority File",
+      "publisher" : "Library of Congress",
+      "icon" : "https://www.loc.gov/favicon.ico"
+    }
+  }, {
+    "@id" : "http://viaf.org/viaf/50566653",
+    "collection" : {
+      "abbr" : "VIAF",
+      "name" : "Virtual International Authority File (VIAF)",
+      "publisher" : "OCLC",
+      "icon" : "https://viaf.org/viaf/images/viaf.ico"
+    }
+  }, {
+    "@id" : "http://www.wikidata.org/entity/Q7245",
+    "collection" : {
+      "abbr" : "WIKIDATA",
+      "name" : "Wikidata",
+      "publisher" : "Wikimedia Foundation Inc.",
+      "icon" : "https://www.wikidata.org/static/favicon/wikidata.ico"
+    }
+  }, {
+    "@id" : "https://isni.org/isni/0000000121324854",
+    "collection" : {
+      "abbr" : "ISNI",
+      "name" : "International Standard Name Identifier (ISNI)",
+      "publisher" : "International Standard Name Identifier (ISNI)",
+      "icon" : "https://www.isni.org/sites/default/files/isni_new_favicon.ico"
     }
   } ]
 }

@@ -266,6 +266,42 @@ public class ConvertTest {
 	}
 
 	@Test
+	public void testEntityFactsDepictionAttributionEnrichment() throws IOException {
+		String id = "118624822";
+		indexEntityFacts(id);
+		JsonNode node = Json.parse(jsonLdFor(id));
+		JsonNode depiction = node.get("depiction").elements().next();
+		assertTrue("Depiction should have a publisher", depiction.has("publisher"));
+		assertTrue("publisher should be textual", depiction.get("publisher").isTextual());
+		assertTrue("Depiction should have a copyrighted field", depiction.has("copyrighted"));
+		assertTrue("copyrighted field should be boolean", depiction.get("copyrighted").isBoolean());
+		assertTrue("Depiction should have a creatorName field", depiction.has("creatorName"));
+		assertTrue("creatorName field should be an array", depiction.get("creatorName").isArray());
+		assertFalse("Depiction should not have a creator", depiction.has("creator"));
+		assertTrue("Depiction should have a creditText", depiction.has("creditText"));
+		assertTrue("creditText should be an array", depiction.get("creditText").isArray());
+	}
+
+	@Test
+	public void testEntityFactsDepictionLicenseEnrichment() throws IOException {
+		String id = "118624822";
+		indexEntityFacts(id);
+		JsonNode node = Json.parse(jsonLdFor(id));
+		JsonNode depiction = node.get("depiction").elements().next();
+		assertTrue("Depiction should have a license field", depiction.has("license"));
+		assertTrue("license field should be an array", depiction.get("license").isArray());
+		depiction.get("license").elements().forEachRemaining(license -> {
+			assertTrue("each license should be an object", license.isObject());
+			assertTrue("each license should have an id", license.has("id"));
+			assertTrue("each license should have an abbr", license.has("abbr"));
+			assertTrue("each license should have a name", license.has("name"));
+			assertTrue("each license should have an attributionRequired field", license.has("attributionRequired"));
+			assertTrue("attributionRequired field should be boolean", license.get("attributionRequired").isBoolean());
+			assertFalse("each license should not have a restrictions field", license.has("restrictions"));
+		});
+	}
+
+	@Test
 	public void testEntityFactsSameAsEnrichment() throws IOException {
 		String id = "118624822";
 		indexEntityFacts(id);

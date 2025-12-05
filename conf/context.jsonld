@@ -73,7 +73,10 @@
       "contentType": "http://rdaregistry.info/Elements/u/P60049",
       "collection": "https://d-nb.info/standards/elementset/dnb#isDescribedIn",
       "describedBy": "http://www.w3.org/2007/05/powder-s#describedby",
-      "license": "http://purl.org/dc/terms/license",
+      "license": {
+        "@id": "http://purl.org/dc/terms/license",
+        "@type": "@id"
+      },
       "dateModified": {
         "@id": "http://purl.org/dc/terms/modified",
         "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
@@ -87,6 +90,7 @@
          "@id":"http://purl.org/dc/terms/creator",
          "@type":"@id"
       },
+      "creatorName": "http://purl.org/dc/elements/1.1/creator",
       "abbr": "http://dbpedia.org/ontology/abbreviation",
       "name": "http://xmlns.com/foaf/0.1/name",
       "icon": "http://xmlns.com/foaf/0.1/logo",
@@ -1317,6 +1321,9 @@
          "@type":"@id",
          "@id":"http://www.w3.org/ns/hydra/core#member"
       },
+      "attributionRequired": "https://d-nb.info/standards/elementset/dnb#attributionRequired",
+      "copyrighted": "https://d-nb.info/standards/elementset/dnb#copyrighted",
+      "creditText": "https://schema.org/creditText",
       "descriptionLevel":"https://d-nb.info/standards/elementset/gnd#descriptionLevel",
       "alternativeMediumOfPerformance":"https://d-nb.info/standards/elementset/gnd#alternativeMediumOfPerformance",
       "titleWithOtherTitleInformation":"https://d-nb.info/standards/elementset/gnd#titleWithOtherTitleInformation",

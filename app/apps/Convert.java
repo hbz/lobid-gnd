@@ -22,6 +22,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -346,17 +348,29 @@ public class Convert {
 			}
 		}
 		if (depiction != null) {
-			Logger.debug("Adding depiction {} to {}", depiction, result);
-			map.put("depiction",
-					Arrays.asList(ImmutableMap.of(//
-							"id", depiction.get("@id"), //
-							"url", depiction.get("url"), //
-							"thumbnail", depiction.get("thumbnail").get("@id"))));
+			map.put("depiction", Arrays.asList(new ImmutableMap.Builder<>()
+					.put("id", depiction.get("@id"))
+					.put("url", depiction.get("url"))
+					.put("thumbnail", depiction.get("thumbnail").get("@id"))
+					.put("publisher", depiction.get("publisher"))
+					.put("creatorName", depiction.get("creator"))
+					.put("creditText", depiction.get("creditText"))
+					.put("copyrighted", depiction.get("copyrighted").textValue().equals("true"))
+					.put("license", stream(depiction, "license").map(license -> ImmutableMap.of(
+							"id", license.get("@id"),
+							"attributionRequired", license.get("attributionRequired").textValue().equals("true"),
+							"name", license.get("name"),
+							"abbr", license.get("abbr")))).build()));
 		} else {
 			Logger.debug("No Entity Facts depiction for {}", result);
 		}
 		map.put("sameAs", sorted((List<Map<String, Object>>) map.get("sameAs")));
 		return map;
+	}
+
+	private static Stream<JsonNode> stream(JsonNode depiction, String field) {
+		return StreamSupport.stream(
+				Spliterators.spliteratorUnknownSize(depiction.get(field).elements(), Spliterator.ORDERED), false);
 	}
 
 	private static List<Map<String, Object>> unique(List<Map<String, Object>> sameAs) {

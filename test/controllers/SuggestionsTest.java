@@ -28,7 +28,7 @@ public class SuggestionsTest extends IndexTest {
 		Application application = fakeApplication();
 		running(application, () -> {
 			Result result = route(application, fakeRequest(GET,
-					"/gnd/search?q=*&filter=type:Person&format=json:preferredName,professionOrOccupation"));
+					"/gnd/search?size=20&q=*&filter=type:Person&format=json:preferredName,professionOrOccupation"));
 			assertNotNull("We have a result", result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
 			String content = contentAsString(result);
