@@ -229,8 +229,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	private AuthorityResource entityWithImage(String jsonLd) {
 		AuthorityResource entity = new AuthorityResource(Json.parse(jsonLd));
 		if (entity.getImage().url.contains("File:"))
-			entity.imageAttribution = attribution(
-					entity.getImage().url.substring(entity.getImage().url.indexOf("File:") + 5).split("\\?")[0]);
+			entity.imageAttribution = String.format("Bildquelle: %s", createAttribution(entity.depiction.get(0)));
 		return entity;
 	}
 
@@ -504,42 +503,22 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return df.format(count);
 	}
 
-	private String attribution(String url) {
-		try {
-			return requestInfo(httpClient, url).thenApply(info -> {
-				String attribution = createAttribution(url, info.asJson());
-				return String.format("Bildquelle: %s", attribution);
-			}).toCompletableFuture().get();
-		} catch (UnsupportedEncodingException | InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	private static CompletionStage<WSResponse> requestInfo(WSClient client, String imageName)
-			throws UnsupportedEncodingException {
-		String imageId = "File:" + URLDecoder.decode(imageName, StandardCharsets.UTF_8.name());
-		return client.url("https://commons.wikimedia.org/w/api.php")//
-				.addQueryParameter("action", "query")//
-				.addQueryParameter("format", "json")//
-				.addQueryParameter("prop", "imageinfo")//
-				.addQueryParameter("iiprop", "extmetadata")//
-				.addQueryParameter("titles", imageId).get();
-	}
-
-	private static String createAttribution(String fileName, JsonNode info) {
-		String artist = findText(info, "Artist");
-		String licenseText = findText(info, "LicenseShortName");
-		String licenseUrl = findText(info, "LicenseUrl");
-		String fileSourceUrl = "https://commons.wikimedia.org/wiki/File:" + fileName;
+	private static String createAttribution(Map<String, Object> depiction) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> license = ((List<Map<String, Object>>) depiction.get("license")).get(0);
+		String artist = findText(depiction, "creatorName").replaceAll("(Unknown.*){2}", "$1");
+		String licenseText = findText(license, "abbr");
+		String licenseUrl = findText(license, "id");
+		String fileSourceUrl = findText(depiction, "url");
 		return String.format(
 				(artist.isEmpty() ? "%s" : "%s | ") + "<a href='%s'>Wikimedia Commons</a> | <a href='%s'>%s</a>",
 				artist, fileSourceUrl, licenseUrl.isEmpty() ? fileSourceUrl : licenseUrl, licenseText);
 	}
 
-	private static String findText(JsonNode info, String field) {
-		JsonNode node = info.findValue(field);
-		return node != null ? node.get("value").asText().replace("\n", " ").trim() : "";
+	private static String findText(Map<String, Object> map, String field) {
+		Object value = map.get(field);
+		value = value instanceof List ? ((List<?>) value).get(0) : value;
+		return value != null ? value.toString().replace("\n", " ").trim() : "";
 	}
 
 }
