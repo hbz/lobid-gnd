@@ -5,15 +5,14 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,8 +20,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -73,8 +70,6 @@ import play.Logger;
 import play.libs.Json;
 import play.libs.ws.WSBodyReadables;
 import play.libs.ws.WSBodyWritables;
-import play.libs.ws.WSClient;
-import play.libs.ws.WSResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.twirl.api.HtmlFormat;
@@ -84,13 +79,6 @@ import play.twirl.api.HtmlFormat;
  * application's home page.
  */
 public class HomeController extends Controller implements WSBodyReadables, WSBodyWritables {
-
-	private final WSClient httpClient;
-
-	@Inject
-	public HomeController(WSClient httpClient) {
-		this.httpClient = httpClient;
-	}
 
 	public static final String[] AGGREGATIONS = new String[] { "type", "gndSubjectCategory.id", "geographicAreaCode.id",
 			"professionOrOccupation.id", "dateOfBirth" };
@@ -229,8 +217,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 	private AuthorityResource entityWithImage(String jsonLd) {
 		AuthorityResource entity = new AuthorityResource(Json.parse(jsonLd));
 		if (entity.getImage().url.contains("File:"))
-			entity.imageAttribution = attribution(
-					entity.getImage().url.substring(entity.getImage().url.indexOf("File:") + 5).split("\\?")[0]);
+			entity.imageAttribution = String.format("Bildquelle: %s", createAttribution(entity.depiction.get(0)));
 		return entity;
 	}
 
@@ -504,42 +491,24 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 		return df.format(count);
 	}
 
-	private String attribution(String url) {
-		try {
-			return requestInfo(httpClient, url).thenApply(info -> {
-				String attribution = createAttribution(url, info.asJson());
-				return String.format("Bildquelle: %s", attribution);
-			}).toCompletableFuture().get();
-		} catch (UnsupportedEncodingException | InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-		return null;
+	private static String createAttribution(Map<String, Object> depiction) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> license = Optional.ofNullable(((List<Map<String, Object>>) depiction.get("license")))
+				.map(list -> list.get(0)).orElse(Collections.emptyMap());
+		String artist = findText(depiction, "creatorName").replaceAll("(Unknown.*){2}", "$1");
+		String licenseText = findText(license, "abbr");
+		String licenseUrl = findText(license, "id");
+		String fileSourceUrl = findText(depiction, "url");
+		String linkForLicense = licenseUrl.isEmpty() ? fileSourceUrl : licenseUrl;
+		return (artist.isEmpty() ? "" : String.format("%s | ", artist))
+				+ String.format("<a href='%s'>Wikimedia Commons</a>", fileSourceUrl)
+				+ (licenseText.isEmpty() ? "" : String.format(" | <a href='%s'>%s</a>", linkForLicense, licenseText));
 	}
 
-	private static CompletionStage<WSResponse> requestInfo(WSClient client, String imageName)
-			throws UnsupportedEncodingException {
-		String imageId = "File:" + URLDecoder.decode(imageName, StandardCharsets.UTF_8.name());
-		return client.url("https://commons.wikimedia.org/w/api.php")//
-				.addQueryParameter("action", "query")//
-				.addQueryParameter("format", "json")//
-				.addQueryParameter("prop", "imageinfo")//
-				.addQueryParameter("iiprop", "extmetadata")//
-				.addQueryParameter("titles", imageId).get();
-	}
-
-	private static String createAttribution(String fileName, JsonNode info) {
-		String artist = findText(info, "Artist");
-		String licenseText = findText(info, "LicenseShortName");
-		String licenseUrl = findText(info, "LicenseUrl");
-		String fileSourceUrl = "https://commons.wikimedia.org/wiki/File:" + fileName;
-		return String.format(
-				(artist.isEmpty() ? "%s" : "%s | ") + "<a href='%s'>Wikimedia Commons</a> | <a href='%s'>%s</a>",
-				artist, fileSourceUrl, licenseUrl.isEmpty() ? fileSourceUrl : licenseUrl, licenseText);
-	}
-
-	private static String findText(JsonNode info, String field) {
-		JsonNode node = info.findValue(field);
-		return node != null ? node.get("value").asText().replace("\n", " ").trim() : "";
+	private static String findText(Map<String, Object> map, String field) {
+		Object value = map.get(field);
+		value = value instanceof List ? ((List<?>) value).get(0) : value;
+		return value != null ? value.toString().replace("\n", " ").trim() : "";
 	}
 
 }
