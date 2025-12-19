@@ -94,7 +94,7 @@
                     }
                     return $("<li></li>")
                       .data("item.autocomplete", item )
-                      .append("<a>" + img + item.label + labels +"</a>")
+                      .append("<a>" + img + $("<textarea/>").text(item.label).html() + labels +"</a>")
                       .appendTo(ul);
                   },
                   // Add clear button
