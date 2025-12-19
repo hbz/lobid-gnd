@@ -118,14 +118,14 @@ public class SuggestionsTest extends IndexTest {
 	}
 
 	@Test
-	public void suggestionsAreHtmlEncoded() {
+	public void suggestionsAreNotHtmlEncoded() {
 		Application application = fakeApplication();
 		running(application, () -> {
 			Result result = route(application,
 					fakeRequest(GET, "/gnd/search?q=Bleistift&format=json:suggest"));
 			assertNotNull(result);
 			assertThat(result.contentType().get(), is(equalTo("application/json")));
-			assertThat(contentAsString(result), containsString("Bleistift &lt;Motiv&gt;"));
+			assertThat(contentAsString(result), containsString("Bleistift <Motiv>"));
 		});
 	}
 
