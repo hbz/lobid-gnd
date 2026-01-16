@@ -72,7 +72,6 @@ import play.libs.ws.WSBodyReadables;
 import play.libs.ws.WSBodyWritables;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.twirl.api.HtmlFormat;
 
 /**
  * This controller contains an action to handle HTTP requests to the
@@ -398,7 +397,7 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			Optional<JsonNode> id = getOptional(document, "id");
 			Optional<JsonNode> type = getOptional(document, "type");
 			Stream<String> labels = Arrays.asList(fields.split(",")).stream().map(String::trim)
-					.map(field -> AuthorityResource.fieldValues(field, document).map(v -> HtmlFormat.escape(v).toString())
+					.map(field -> AuthorityResource.fieldValues(field, document)
 							.collect(Collectors.joining(AuthorityResource.VALUE_DELIMITER)));
 			List<String> categories = filtered(Lists.newArrayList(type.orElseGet(() -> Json.toJson("[]")).elements())
 					.stream().map(JsonNode::asText).filter(t -> !t.equals("AuthorityResource"))
