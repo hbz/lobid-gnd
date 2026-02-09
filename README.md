@@ -10,7 +10,7 @@ lobid-gnd: access GND+EntityFacts data as JSON-LD over HTTP.
 
 ### Prerequisites
 
-`sbt 0.13` or newer --- [download sbt](http://www.scala-sbt.org/download.html)
+`sbt 0.13` or newer --- [download sbt](http://www.scala-sbt.org/download/)
 
 Elasticsearch 5.6.x (configured in `application.conf`)
 
@@ -102,7 +102,7 @@ To start the indexing, run:
 
 ##### Get and convert the updates
 
-Updates are pulled via [the DNB OAI-PMH interface](http://www.dnb.de/DE/Service/DigitaleDienste/OAI/oai_node.html).
+Updates are pulled via [the DNB OAI-PMH interface](https://www.dnb.de/DE/Professionell/Metadatendienste/Datenbezug/OAI/oai_node.html).
 
 Pass one or two arguments: get updates since (and optionally until) a given date:
 
