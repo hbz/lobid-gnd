@@ -1,30 +1,32 @@
-# About
+# lobid-gnd
+
+## About
 
 lobid-gnd: access GND+EntityFacts data as JSON-LD over HTTP.
 
 [![](https://github.com/hbz/lobid-gnd/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/hbz/lobid-gnd/actions?query=workflow%3ABuild)
 
-# Setup
+## Setup
 
-## Prerequisites
+### Prerequisites
 
 `sbt 0.13` or newer --- [download sbt](http://www.scala-sbt.org/download.html)
 
 Elasticsearch 5.6.x (configured in `application.conf`)
 
-## Build
+### Build
 
 Get the code, change into the project directory, and run the tests:
 
 `git clone https://github.com/hbz/lobid-gnd.git ; cd lobid-gnd ; sbt test`
 
-## Data
+### Data
 
 The are three data sources involved:
 
 Entity Facts (JSON-LD over HTTP), GND baseline (RDF-XML over HTTP), and GND updates (RDF-XML over OAI-PMH).
 
-### Entity Facts
+#### Entity Facts
 
 Set up a location for the Entity Facts input data:
 
@@ -48,9 +50,9 @@ Index the data, passing the index name:
 
 For configuration details and defaults, see 'conf/application.conf'.
 
-### GND Baseline
+#### GND Baseline
 
-#### Get the RDF data
+##### Get the RDF data
 
 Set up a location for the input data:
 
@@ -66,7 +68,7 @@ This should give you 6 local files ending with '.rdf.gz'. Go back to the project
 
 `cd ..`
 
-#### Convert RDF/XML to JSON
+##### Convert RDF/XML to JSON
 
 Set up a location for the index data:
 
@@ -88,7 +90,7 @@ To be able to log out from the server while the conversion is running, we actual
 
 This should create 6 '\*.jsonl' files in 'index_data'.
 
-#### Index the JSON data
+##### Index the JSON data
 
 If the 'index.prod' configured in 'application.conf' does not exists, a new index will be created.
 
@@ -96,9 +98,9 @@ To start the indexing, run:
 
 `sbt "runMain apps.Index baseline"`
 
-### Updates
+#### Updates
 
-#### Get and convert the updates
+##### Get and convert the updates
 
 Updates are pulled via [the DNB OAI-PMH interface](http://www.dnb.de/DE/Service/DigitaleDienste/OAI/oai_node.html).
 
@@ -110,7 +112,7 @@ The date of the most recent update is stored in 'GND-lastSuccessfulUpdate.txt' (
 
 The original downloaded data and the converted data are stored in separate files. To convert the data again without downloading it, use the steps described above under 'Convert RDF/XML to JSON' with the update RDF data.
 
-#### Index the updates
+##### Index the updates
 
 To index the updates run:
 
@@ -118,7 +120,7 @@ To index the updates run:
 
 See 'application.conf' for details on the configured file names etc.
 
-## Web
+### Web
 
 In 'lobid-gnd', run the web application:
 
@@ -126,7 +128,7 @@ In 'lobid-gnd', run the web application:
 
 Open <http://localhost:9000/gnd>
 
-## Eclipse
+### Eclipse
 
 To set up an Eclipse project, first generate the Eclipse config for your machine:
 
