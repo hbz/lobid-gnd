@@ -34,9 +34,7 @@ case $ACTION in
 		if [ -f target/universal/stage/RUNNING_PID ]; then
 			kill $(cat target/universal/stage/RUNNING_PID)
 		fi
-		sbt clean
-		sbt --java-home $JAVA_HOME stage
-		JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/lobid-gnd -Dhttp.port=$PORT -no-version-check > monit_start.log &
+		JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" sbt --java-home $JAVA_HOME "start $PORT"
 		;;
 	stop)
 		if [ -f target/universal/stage/RUNNING_PID ]; then
