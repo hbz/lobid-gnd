@@ -118,9 +118,9 @@ To start the indexing, run:
 
 Updates are pulled via [the DNB OAI-PMH interface](https://www.dnb.de/DE/Professionell/Metadatendienste/Datenbezug/OAI/oai_node.html).
 
-Pass one or two arguments: get updates since (and optionally until) a given date:
+Pass one or two arguments: get updates since (and optionally until) a given datetime `[YYYY-MM-DD]T[HH:MM:SS]Z` (not just date):
 
-`sbt "runMain apps.ConvertUpdates 2022-06-22 2022-06-23"`
+`sbt "runMain apps.ConvertUpdates 2022-06-22T11:08:23Z 2022-06-23T18:08:23Z"`
 
 The date of the most recent update is stored in `GND-lastSuccessfulUpdate.txt` (can be changed in the config).
 
