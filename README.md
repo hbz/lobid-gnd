@@ -76,7 +76,7 @@ Set 'data.rdfxml' in 'conf/application.conf' to the 'input_data' location.
 
 Get the GND RDF/XML source data from <https://data.dnb.de/opendata/>:
 
-`wget https://data.dnb.de/opendata/authorities-{geografikum,koerperschaft,kongress,person,sachbegriff,werk}_lds.rdf.gz`
+`wget https://data.dnb.de/opendata/authorities-gnd-{geografikum,koerperschaft,kongress,person,sachbegriff,werk}_lds.rdf.gz`
 
 This should give you 6 local files ending with '.rdf.gz'. Go back to the project root directory:
 
