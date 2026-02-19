@@ -13,3 +13,4 @@ bin
 *log*.gz
 *.tmp
 GND-updates*
+/elasticsearch-*
