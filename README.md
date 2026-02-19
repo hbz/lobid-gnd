@@ -34,11 +34,11 @@ Set up a location for the Entity Facts input data:
 
 Get the latest Entity Facts data from the DNB (see [https://data.dnb.de/opendata/](https://data.dnb.de/opendata/)):
 
-`wget https://data.dnb.de/opendata/authorities_entityfacts.jsonld.gz`
+`wget https://data.dnb.de/opendata/authorities-gnd_entityfacts.jsonld.gz`
 
 Unpack the data:
 
-`gunzip < authorities_entityfacts.jsonld.gz > authorities_entityfacts.jsonld`
+`gunzip < authorities-gnd_entityfacts.jsonld.gz > authorities_entityfacts.jsonld`
 
 Go back to the root directory:
 
