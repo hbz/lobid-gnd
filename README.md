@@ -16,9 +16,23 @@ Elasticsearch 5.6.x (configured in `application.conf`)
 
 ### Build
 
-Get the code, change into the project directory, and run the tests:
+Get the code, change into the project directory:
 
-`git clone https://github.com/hbz/lobid-gnd.git ; cd lobid-gnd ; sbt test`
+`git clone https://github.com/hbz/lobid-gnd.git ; cd lobid-gnd`
+
+If needed start elasticsearch:
+
+```bash
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.tar.gz
+tar -xzf elasticsearch-5.6.3.tar.gz
+./elasticsearch-5.6.3/bin/elasticsearch &
+```
+
+(If elastic search is already running and you want to start a new es: `ps -ef | grep elas` and `kill [PID]`.)
+
+Run tests:
+
+`sbt test`
 
 ### Data
 
