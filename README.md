@@ -10,6 +10,8 @@ lobid-gnd: access GND+EntityFacts data as JSON-LD over HTTP.
 
 ### Prerequisites
 
+Java 11
+
 `sbt 0.13` or newer --- [download sbt](http://www.scala-sbt.org/download/)
 
 Elasticsearch 5.6.x (configured in `application.conf`)
