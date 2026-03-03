@@ -13,19 +13,21 @@ TEST_INDEX=gnd-test
 INDEX=gnd
 unset http_proxy
 
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+
 if [ -n "${1-}" ] && [ "$1" = "1day" ]; then
   START_UPDATE=$(date --date='1 day ago'  +%Y-%m-%dT%H:%M:%SZ)
 fi
 
-sbt -mem 4000 "runMain apps.ConvertUpdates ${START_UPDATE}"
+sbt --java-home $JAVA_HOME -mem 4000 "runMain apps.ConvertUpdates ${START_UPDATE}"
 
 if [ -s GND-updates.jsonl ]; then
-  sbt -Dindex.prod.name=$TEST_INDEX "runMain apps.Index updates"
+  sbt --java-home $JAVA_HOME -Dindex.prod.name=$TEST_INDEX "runMain apps.Index updates"
   bash ./checkCompactedProperties.sh $TEST_INDEX
 
   # if check ok, index to productive instance:
   if [ $? -eq 0 ]; then
-    sbt -Dindex.prod.name=$INDEX "runMain apps.Index updates"
+    sbt --java-home $JAVA_HOME -Dindex.prod.name=$INDEX "runMain apps.Index updates"
     bash ./checkCompactedProperties.sh $INDEX
   fi
 fi
