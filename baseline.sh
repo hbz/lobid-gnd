@@ -6,6 +6,8 @@ set -uo pipefail # See http://redsymbol.net/articles/unofficial-bash-strict-mode
 
 export TODAY=$(date +'%Y%m%d')
 
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+
 # get entityfacts baseline file
 cd data/entityfacts/
 wget --quiet https://data.dnb.de/opendata/authorities-gnd_entityfacts.jsonld.gz
@@ -13,7 +15,7 @@ gunzip < authorities-gnd_entityfacts.jsonld.gz > authorities-gnd_entityfacts.jso
 cd ../..
 
 # index entityfacts JSON
-sbt \
+sbt --java-home $JAVA_HOME  \
   -Dindex.entityfacts.index=entityfacts_$TODAY \
   "runMain apps.Index entityfacts" \
   > IndexEntityfacts_$TODAY.log 2>&1
@@ -30,7 +32,7 @@ cd ../..
 mkdir data/index/gnd_lds_$TODAY
 
 # convert RDF_XML to JSON lines
-sbt \
+sbt --java-home $JAVA_HOME \
   -Ddata.rdfmxl=data/gnd_lds \
   -Dindex.entityfacts.index=entityfacts_$TODAY \
   -Dindex.prod.name=gnd_$TODAY \
