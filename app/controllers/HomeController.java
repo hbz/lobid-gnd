@@ -465,8 +465,10 @@ public class HomeController extends Controller implements WSBodyReadables, WSBod
 			Terms terms = (Terms) aggregation;
 			Stream<? extends Bucket> stream = terms.getBuckets().stream()
 					.filter(b -> !b.getKeyAsString().equals("AuthorityResource"));
-			Stream<Map<String, Object>> buckets = stream.map((Bucket b) -> ImmutableMap.of(//
-					"key", b.getKeyAsString(), "doc_count", b.getDocCount()));
+			Stream<Map<String, Object>> buckets = stream.map((Bucket b) -> {
+				String key = b.getKeyAsString();
+				return ImmutableMap.of("key", key, "label", GndOntology.label(key), "doc_count", b.getDocCount());
+			});
 			map.put(a, Json.toJson(buckets.collect(Collectors.toList())));
 		}
 		object.set("aggregation", Json.toJson(map));
