@@ -8,7 +8,7 @@ h1. Setup
 
 h2. Prerequisites
 
-Java 8
+Java 11
 
 @sbt 0.13@ or newer &mdash; "download sbt":http://www.scala-sbt.org/download.html
 
