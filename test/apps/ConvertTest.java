@@ -87,11 +87,6 @@ public class ConvertTest {
 		Index.deleteIndex(HomeController.config("index.boot.name"));
 	}
 
-	@Before
-	public void testConvertBaseline() {
-		ConvertBaseline.main(new String[] { input, index, config("index.delete.tests") });
-	}
-
 	@Test
 	public void testGeneralNames() throws FileNotFoundException {
 		String jsonLd = jsonLdFor("100002617");
