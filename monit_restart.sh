@@ -36,7 +36,7 @@ case $ACTION in
 		fi
 		sbt clean
 		sbt --java-home $JAVA_HOME stage
-		JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/rppd -Dhttp.port=$PORT > monit_start.log &
+		JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/rppd -Dhttp.port=$PORT -no-version-check > monit_start.log &
 		;;
 	stop)
 		if [ -f target/universal/stage/RUNNING_PID ]; then
