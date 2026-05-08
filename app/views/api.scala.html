@@ -40,7 +40,7 @@ $('input.search-gnd').autocomplete({
   <dl>
    @for((key,value) <- searchSamples) {
     <dt>@key</dt>
-    <dd><a href='@value'>@java.net.URLDecoder.decode(value)</a></dd>
+    <dd><a href='@value'>@java.net.URLDecoder.decode(value, "UTF-8")</a></dd>
    }
   </dl>
 
@@ -68,9 +68,9 @@ $('input.search-gnd').autocomplete({
   <h2 id='bulk_downloads'>Bulk-Downloads <small><a href='#bulk_downloads'><span class='glyphicon glyphicon-link'></span></a></small></h2>
 
   <p>Bulk-Downloads können im Format JSON lines (Accept: application/x-jsonlines oder format=jsonl) bezogen werden:</p>
-  <p><code>curl --header "Accept: application/x-jsonlines" "https://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Country").toString)" > countries.jsonl</code></p>
+  <p><code>curl --header "Accept: application/x-jsonlines" "https://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Country").toString, "UTF-8")" > countries.jsonl</code></p>
   <p>Für größere Anfragen kann die Antwort als gzip komprimiert werden:</p>
-  <p><code>curl --header "Accept-Encoding: gzip" "https://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Company", format="jsonl").toString)" > companies.gz</code></p>
+  <p><code>curl --header "Accept-Encoding: gzip" "https://lobid.org@java.net.URLDecoder.decode(routes.HomeController.search("type:Company", format="jsonl").toString, "UTF-8")" > companies.gz</code></p>
   <p>Siehe auch diesen Abschnitt zu <a href="http://blog.lobid.org/2018/07/02/lobid-update.html#bulk-downloads">Bulk-Downloads in unserem Blog</a>.</p>
 
   <h2 id="auto-complete">Autovervollständigung <small><a href='#auto-complete'><span class='glyphicon glyphicon-link'></span></a></small></h2>
@@ -92,7 +92,7 @@ $('input.search-gnd').autocomplete({
   <h2 id='jsonld'>JSON-LD <small><a href='#jsonld'><span class='glyphicon glyphicon-link'></span></a></small></h2>
 
   <p>JSON-API-Anfragen liefern <a href="http://json-ld.org/">JSON-LD</a>. Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="http://json-ld.org/playground/">JSON-LD Playground</a> einfügen.</p>
-  <dt>JSON-LD Context</dt> <dd><a href='@routes.HomeController.context'>@java.net.URLDecoder.decode(routes.HomeController.context.toString)</a></dd>
+  <dt>JSON-LD Context</dt> <dd><a href='@routes.HomeController.context'>@java.net.URLDecoder.decode(routes.HomeController.context.toString, "UTF-8")</a></dd>
   <dt>RDF-Konvertierung</dt><dd>Mit einem JSON-LD-Prozessor können sie API-Antworten in andere RDF-Serialisierungen umwandeln, z.B. in N-Quads mit <a href="https://github.com/digitalbazaar/jsonld-cli">jsonld-cli</a>:</dd>
   <p><code>jsonld format --nquads https://lobid.org@routes.HomeController.authority("4074335-4")</code></p>
   <p>Einzeltreffer können per <code>Accept</code> Header auch direkt als RDF/XML, Turtle oder N-Triples angefordert werden:</p>

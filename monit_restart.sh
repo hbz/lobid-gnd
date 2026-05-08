@@ -25,6 +25,7 @@ HOME="/home/sol"
 
 # it is important to set the proper locale
 . $HOME/.locale
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 JAVA_OPTS=$(echo "$JAVA_OPTS" |sed 's#,#\ #g')
 
 cd $HOME/git/$REPO
@@ -33,7 +34,9 @@ case $ACTION in
 		if [ -f target/universal/stage/RUNNING_PID ]; then
 			kill $(cat target/universal/stage/RUNNING_PID)
 		fi
-		JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" $HOME/activator-dist-1.3.5/activator "start $PORT"
+		sbt clean
+		sbt --java-home $JAVA_HOME stage
+		JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/rppd -Dhttp.port=$PORT > monit_start.log &
 		;;
 	stop)
 		if [ -f target/universal/stage/RUNNING_PID ]; then

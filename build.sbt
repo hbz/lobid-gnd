@@ -5,12 +5,12 @@ version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
-javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
+javacOptions ++= Seq("-source", "11", "-target", "11")
 
 EclipseKeys.projectFlavor := EclipseProjectFlavor.Java
 EclipseKeys.createSrc := EclipseCreateSrc.ValueSet(EclipseCreateSrc.ManagedClasses, EclipseCreateSrc.ManagedResources)
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.12"
 
 libraryDependencies += guice
 
@@ -24,15 +24,15 @@ libraryDependencies += "javax.mail" % "mail" % "1.4.1"
 
 libraryDependencies += "org.apache.jena" % "apache-jena-libs" % "3.7.0"
 
-libraryDependencies += "org.metafacture" % "metafacture-framework" % "5.4.0"
+libraryDependencies += "org.metafacture" % "metafacture-framework" % "7.0.0"
 
-libraryDependencies += "org.metafacture" % "metafacture-flowcontrol" % "5.4.0"
+libraryDependencies += "org.metafacture" % "metafacture-flowcontrol" % "7.0.0"
 
-libraryDependencies += "org.metafacture" % "metafacture-io" % "5.4.0"
+libraryDependencies += "org.metafacture" % "metafacture-io" % "7.0.0"
 
-libraryDependencies += "org.metafacture" % "metafacture-xml" % "5.4.0"
+libraryDependencies += "org.metafacture" % "metafacture-xml" % "7.0.0"
 
-libraryDependencies += "org.metafacture" % "metafacture-elasticsearch" % "5.4.0" exclude("com.fasterxml.jackson.core", "jackson-databind")
+libraryDependencies += "org.metafacture" % "metafacture-elasticsearch" % "7.0.0" exclude("com.fasterxml.jackson.core", "jackson-databind")
 
 libraryDependencies += "org.elasticsearch" % "elasticsearch" % "5.6.3"
 
