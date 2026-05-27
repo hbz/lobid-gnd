@@ -1,6 +1,6 @@
 #!/bin/bash
 set -uo pipefail # See http://redsymbol.net/articles/unofficial-bash-strict-mode/
-# Call on server sol@quaoar1:~/git/lobid-gnd$ setsid nohup bash baseline.sh > baseline.log 2>&1 &
+# Call on server sol@quaoar11:~/git/lobid-gnd$ setsid nohup bash baseline.sh > baseline.log 2>&1 &
 
 # details and defaults are configured in conf/application.conf
 
@@ -10,8 +10,8 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 
 # get entityfacts baseline file
 cd data/entityfacts/
-wget --quiet https://data.dnb.de/opendata/authorities-gnd_entityfacts.jsonld.gz
-gunzip < authorities-gnd_entityfacts.jsonld.gz > authorities-gnd_entityfacts.jsonld
+wget --quiet https://data.dnb.de/opendata/authorities-gnd_entityfacts.ndjson.gz
+gunzip < authorities-gnd_entityfacts.ndjson.gz > authorities-gnd_entityfacts.ndjson
 cd ../..
 
 # index entityfacts JSON
@@ -21,8 +21,8 @@ sbt --java-home $JAVA_HOME  \
   > IndexEntityfacts_$TODAY.log 2>&1
 
 # clean up entityfacts baseline file
-mv data/entityfacts/authorities-gnd_entityfacts.jsonld.gz data/entityfacts/authorities-gnd_entityfacts_$TODAY.jsonld.gz
-rm data/entityfacts/authorities-gnd_entityfacts.jsonld
+mv data/entityfacts/authorities-gnd_entityfacts.ndjson.gz data/entityfacts/authorities-gnd_entityfacts_$TODAY.ndjson.gz
+rm data/entityfacts/authorities-gnd_entityfacts.ndjson
 
 # get gnd_lds baseline files
 cd data/gnd_lds

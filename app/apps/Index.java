@@ -267,8 +267,7 @@ public class Index {
 			createEmptyIndex(client, indexName, null);
 			updateSettings(client, indexName, Settings.builder().put("index.number_of_replicas", 0));
 			bulkRequest = client.prepareBulk();
-			stream.forEach(line -> {
-				String json = line.substring(1);
+			stream.forEach(json -> {
 				if (!json.isEmpty()) {
 					String id = Json.parse(json).get("@id").textValue().substring(prefixLength);
 					bulkRequest.add(index.client().prepareIndex(indexName, indexType).setId(id).setSource(json,
