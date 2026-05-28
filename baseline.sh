@@ -46,7 +46,7 @@ mkdir data/backup/gnd_lds/gnd_lds_$TODAY
 mv data/gnd_lds/authorities-*_lds.rdf.gz data/backup/gnd_lds/gnd_lds_$TODAY
 
 # index JSON lines
-sbt \
+sbt --java-home $JAVA_HOME \
   -Dindex.prod.name=gnd_$TODAY \
   -Ddata.jsonlines=data/index/gnd_lds_$TODAY \
   -Dindex.delete.baseline=GND-deprecated-baseline_$TODAY.txt \
