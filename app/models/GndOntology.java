@@ -85,7 +85,8 @@ public class GndOntology {
 
 	static {
 		try {
-			loadProperties("conf/gnd.rdf");
+			loadProperties("conf/gnd.rdf", "AuthorityResource");
+			loadProperties("conf/agrelon.rdf", "DifferentiatedPerson");
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
@@ -196,7 +197,7 @@ public class GndOntology {
 		});
 	}
 
-	private static void loadProperties(String f) throws SAXException, IOException {
+	private static void loadProperties(String f, String defaultType) throws SAXException, IOException {
 		Match match = $(new File(f)).find(or( //
 				selector("Property"), //
 				selector("SymmetricProperty"), //
@@ -220,6 +221,9 @@ public class GndOntology {
 						put(type.split("#")[1], shortPropertyId);
 					}
 				});
+				if (domains.isEmpty()) {
+					put(defaultType, shortPropertyId);
+				}
 			}
 		});
 		addNonOntologyTypes();
