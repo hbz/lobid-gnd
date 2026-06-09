@@ -46,6 +46,8 @@ libraryDependencies += "org.apache.logging.log4j" % "log4j-api" % "2.16.0"
 
 libraryDependencies += "org.hamcrest" % "hamcrest-library" % "1.3" % Test
 
+excludeDependencies += "xml-apis" % "xml-apis"
+
 javacOptions ++= Seq("-source", "11", "-target", "11")
 
 resolvers += Resolver.mavenLocal

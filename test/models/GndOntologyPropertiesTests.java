@@ -66,4 +66,14 @@ public class GndOntologyPropertiesTests {
 		assertFalse(GndOntology.properties("PlaceOrGeographicName").contains("StartingOrFinalPointOfADistance"));
 	}
 
+	@Test
+	public void testAgrelon() throws FileNotFoundException {
+		List<?> props = Arrays.asList("hasSpouse", "hasAuntUncle", "hasSibling", "hasFriend", "hasChild", "hasParent");
+		assertTrue(GndOntology.properties("").containsAll(props));
+		assertTrue(GndOntology.properties("AuthorityResource").containsAll(props));
+		assertTrue(GndOntology.properties("DifferentiatedPerson").containsAll(props));
+		assertTrue(GndOntology.properties("Person").containsAll(props));
+		assertFalse(GndOntology.properties("PlaceOrGeographicName").containsAll(props));
+	}
+
 }
