@@ -12,4 +12,8 @@ bin
 *log*.gz
 *.tmp
 GND-updates*
+<<<<<<< HEAD
 /elasticsearch-*
+=======
+/elasticsearch-*
+>>>>>>> origin/main

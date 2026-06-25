@@ -185,23 +185,28 @@ public class Index {
 
 		// First line: index with id, second line: source
 		while ((line = br.readLine()) != null) {
-			JsonNode rootNode = mapper.readValue(line, JsonNode.class);
-			if (currentLine % 2 != 0) {
-				JsonNode index = rootNode.get("index");
-				idUriParts = index.findValue("_id").asText().split("/");
-				id = idUriParts[idUriParts.length - 1].replace("#!", "");
-			} else {
-				Form nfc = Normalizer.Form.NFC;
-				data = Normalizer.isNormalized(line, nfc) ? line : Normalizer.normalize(line, nfc);
-				bulkRequest.add(
-						client.prepareIndex(indexName, config("index.type"), id).setSource(data, XContentType.JSON));
-				pendingIndexRequests++;
-			}
-			currentLine++;
-			if (pendingIndexRequests == BULK_SIZE) {
-				executeBulk(pendingIndexRequests);
-				bulkRequest = client.prepareBulk();
-				pendingIndexRequests = 0;
+			try {
+				JsonNode rootNode = mapper.readValue(line, JsonNode.class);
+				if (currentLine % 2 != 0) {
+					JsonNode index = rootNode.get("index");
+					idUriParts = index.findValue("_id").asText().split("/");
+					id = idUriParts[idUriParts.length - 1].replace("#!", "");
+				} else {
+					Form nfc = Normalizer.Form.NFC;
+					data = Normalizer.isNormalized(line, nfc) ? line : Normalizer.normalize(line, nfc);
+					bulkRequest.add(
+							client.prepareIndex(indexName, config("index.type"), id).setSource(data, XContentType.JSON));
+					pendingIndexRequests++;
+				}
+				currentLine++;
+				if (pendingIndexRequests == BULK_SIZE) {
+					executeBulk(pendingIndexRequests);
+					bulkRequest = client.prepareBulk();
+					pendingIndexRequests = 0;
+				}
+			} catch (IOException e) {
+				Logger.error("Skipping line {}: {} in {}", currentLine, e.getMessage(), line);
+				currentLine++;
 			}
 		}
 		executeBulk(pendingIndexRequests);
