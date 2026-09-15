@@ -87,6 +87,17 @@ public class Convert {
 
 	static final Map<String, Object> context = load();
 
+	static final Set<String> NWBIO = loadNwbio();
+
+	private static Set<String> loadNwbio() {
+		try (Stream<String> lines = Files.lines(Paths.get("conf/nwbio.txt"))) {
+			return lines.collect(Collectors.toSet());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return Collections.emptySet();
+		}
+	}
+
 	static class ToAuthorityJson extends DefaultStreamPipe<ObjectReceiver<String>> {
 
 		private final XPath xPath = XPathFactory.newInstance().newXPath();
@@ -102,7 +113,14 @@ public class Convert {
 			} catch (XPathExpressionException e) {
 				throw new MetafactureException(String.format("XPath evaluation failed for '%s'", name), e);
 			}
+			// temp while working on https://github.com/hbz/nwbio/issues/3, TODO: revert for adding below
+			if(!NWBIO.contains(id)) {
+				return;
+			}
 			Model model = sourceModel(value);
+			model.add(model.createStatement(model.createResource("https://d-nb.info/gnd/" + id),
+					model.createProperty("http://www.w3.org/2002/07/owl#sameAs"),
+					model.createResource("https://nwbio-dev.lobid.org/" + id)));
 			String jsonLd = Convert.toJsonLd(id, model, false, deprecated);
 			if (jsonLd != null) {
 				getReceiver().process(jsonLd);
