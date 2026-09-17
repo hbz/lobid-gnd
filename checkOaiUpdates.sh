@@ -48,7 +48,7 @@ echo ""
 OAI_PMH_URL="https://services.dnb.de/oai/repository"
 
 # lobid-gnd API endpoint
-LOBD_API_URL="https://lobid.org/gnd/search"
+LOBID_API_URL="https://lobid.org/gnd/search"
 
 echo "============================================"
 echo "Checking OAI-PMH updates for date: $READ_DATE"
@@ -103,37 +103,37 @@ echo "OAI-PMH record count: $OAI_COUNT"
 echo ""
 
 echo "Querying lobid-gnd API..."
-echo "Search URL: ${LOBD_API_URL}?q=describedBy.dateModified:${READ_DATE}"
+echo "Search URL: ${LOBID_API_URL}?q=describedBy.dateModified:${READ_DATE}"
 echo ""
 
 # Query lobid-gnd API
-LOBD_RESPONSE=$(curl -s \
-    "${LOBD_API_URL}?q=describedBy.dateModified:${READ_DATE}&format=json")
+LOBID_RESPONSE=$(curl -s \
+    "${LOBID_API_URL}?q=describedBy.dateModified:${READ_DATE}&format=json")
 
 # Extract totalItems from the JSON response
-LOBD_COUNT=$(echo "$LOBD_RESPONSE" | grep -oP '"totalItems"\s*:\s*\K[0-9]+' || echo "0")
+LOBID_COUNT=$(echo "$LOBID_RESPONSE" | grep -oP '"totalItems"\s*:\s*\K[0-9]+' || echo "0")
 
 # If grep didn't find anything, try with python
-if [ -z "$LOBD_COUNT" ] || [ "$LOBD_COUNT" = "0" ]; then
-    LOBD_COUNT=$(echo "$LOBD_RESPONSE" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('totalItems', 0))" 2>/dev/null || echo "0")
+if [ -z "$LOBID_COUNT" ] || [ "$LOBID_COUNT" = "0" ]; then
+    LOBID_COUNT=$(echo "$LOBID_RESPONSE" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('totalItems', 0))" 2>/dev/null || echo "0")
 fi
 
-echo "lobid-gnd record count: $LOBD_COUNT"
+echo "lobid-gnd record count: $LOBID_COUNT"
 echo ""
 echo "============================================"
 echo "COMPARISON RESULT"
 echo "============================================"
 
-if [ "$OAI_COUNT" -eq "$LOBD_COUNT" ]; then
+if [ "$OAI_COUNT" -eq "$LOBID_COUNT" ]; then
     echo "✓ SUCCESS: Counts match!"
     echo "  OAI-PMH:    $OAI_COUNT"
-    echo "  lobid-gnd:  $LOBD_COUNT"
+    echo "  lobid-gnd:  $LOBID_COUNT"
     exit 0
 else
     echo "✗ MISMATCH: Counts differ!"
     echo "  OAI-PMH:    $OAI_COUNT"
-    echo "  lobid-gnd:  $LOBD_COUNT"
-    DIFF=$((OAI_COUNT - LOBD_COUNT))
+    echo "  lobid-gnd:  $LOBID_COUNT"
+    DIFF=$((OAI_COUNT - LOBID_COUNT))
     if [ $DIFF -lt 0 ]; then
         echo "  Difference: $DIFF (lobid-gnd has fewer records)"
     else
