@@ -114,7 +114,7 @@ public class Convert {
 				throw new MetafactureException(String.format("XPath evaluation failed for '%s'", name), e);
 			}
 			// temp while working on https://github.com/hbz/nwbio/issues/3, TODO: revert for adding below
-			if(!NWBIO.contains(id)) {
+			if(!NWBIO.contains(id) || !value.contains("DifferentiatedPerson")) {
 				return;
 			}
 			Model model = sourceModel(value);
