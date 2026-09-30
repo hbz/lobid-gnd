@@ -133,7 +133,7 @@ else
     echo "✗ MISMATCH: Counts differ!"
     echo "  OAI-PMH:    $OAI_COUNT"
     echo "  lobid-gnd:  $LOBID_COUNT"
-    DIFF=$((OAI_COUNT - LOBID_COUNT))
+    DIFF=$((LOBID_COUNT - OAI_COUNT))
     if [ $DIFF -lt 0 ]; then
         echo "  Difference: $DIFF (lobid-gnd has fewer records)"
     else
