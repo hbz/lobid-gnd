@@ -120,7 +120,7 @@ public class Convert {
 			Model model = sourceModel(value);
 			model.add(model.createStatement(model.createResource("https://d-nb.info/gnd/" + id),
 					model.createProperty("http://www.w3.org/2002/07/owl#sameAs"),
-					model.createResource("https://nwbio-dev.lobid.org/" + id)));
+					model.createResource("https://biographie.nrw/" + id)));
 			String jsonLd = Convert.toJsonLd(id, model, false, deprecated);
 			if (jsonLd != null) {
 				getReceiver().process(jsonLd);
