@@ -113,14 +113,12 @@ public class Convert {
 			} catch (XPathExpressionException e) {
 				throw new MetafactureException(String.format("XPath evaluation failed for '%s'", name), e);
 			}
-			// temp while working on https://github.com/hbz/nwbio/issues/3, TODO: revert for adding below
-			if(!NWBIO.contains(id) || !value.contains("DifferentiatedPerson")) {
-				return;
-			}
 			Model model = sourceModel(value);
-			model.add(model.createStatement(model.createResource("https://d-nb.info/gnd/" + id),
+			if(NWBIO.contains(id) && value.contains("DifferentiatedPerson")) {
+				model.add(model.createStatement(model.createResource("https://d-nb.info/gnd/" + id),
 					model.createProperty("http://www.w3.org/2002/07/owl#sameAs"),
 					model.createResource("https://biographie.nrw/" + id)));
+			}
 			String jsonLd = Convert.toJsonLd(id, model, false, deprecated);
 			if (jsonLd != null) {
 				getReceiver().process(jsonLd);
