@@ -87,6 +87,17 @@ public class Convert {
 
 	static final Map<String, Object> context = load();
 
+	static final Set<String> NWBIO = loadNwbio();
+
+	private static Set<String> loadNwbio() {
+		try (Stream<String> lines = Files.lines(Paths.get("conf/nwbio.txt"))) {
+			return lines.collect(Collectors.toSet());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return Collections.emptySet();
+		}
+	}
+
 	static class ToAuthorityJson extends DefaultStreamPipe<ObjectReceiver<String>> {
 
 		private final XPath xPath = XPathFactory.newInstance().newXPath();
@@ -103,6 +114,11 @@ public class Convert {
 				throw new MetafactureException(String.format("XPath evaluation failed for '%s'", name), e);
 			}
 			Model model = sourceModel(value);
+			if(NWBIO.contains(id) && value.contains("DifferentiatedPerson")) {
+				model.add(model.createStatement(model.createResource("https://d-nb.info/gnd/" + id),
+					model.createProperty("http://www.w3.org/2002/07/owl#sameAs"),
+					model.createResource("https://biographie.nrw/" + id)));
+			}
 			String jsonLd = Convert.toJsonLd(id, model, false, deprecated);
 			if (jsonLd != null) {
 				getReceiver().process(jsonLd);
