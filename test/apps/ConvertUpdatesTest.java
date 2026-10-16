@@ -5,13 +5,31 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class ConvertUpdatesTest {
+
+	@Test
+	public void testWriteSkippedUpdate() throws IOException {
+		File skippedUpdates = File.createTempFile("skipped-updates", ".txt");
+		skippedUpdates.deleteOnExit();
+		ZonedDateTime from = ZonedDateTime.parse("2022-06-22T11:08:23Z");
+		ZonedDateTime until = ZonedDateTime.parse("2022-06-23T18:08:23Z");
+
+		ConvertUpdates.writeSkippedUpdate(skippedUpdates, from, until);
+		ConvertUpdates.writeSkippedUpdate(skippedUpdates, until, until.plusDays(1));
+
+		assertEquals(Arrays.asList("2022-06-22T11:08:23Z 2022-06-23T18:08:23Z",
+				"2022-06-23T18:08:23Z 2022-06-24T18:08:23Z"), Files.readAllLines(skippedUpdates.toPath()));
+	}
 
 	@Test
 	public void testXmlParsing() throws IOException, FactoryConfigurationError, XMLStreamException {

@@ -81,6 +81,8 @@ public class ConvertUpdates {
 			if (dataUpdate.length() == 0) {
 				System.err.println("Tried " + tried
 						+ " times to get the data, but it remains empty. This may or may not be a problem on the side of the data provider. Going to send a mail...");
+				writeSkippedUpdate(new File(config("data.updates.skipped")), startAndEnd.getLeft(),
+						startAndEnd.getRight());
 				// see https://github.com/hbz/lobid-gnd/issues/350
 				// Email.sendEmail(config("mail.sender"), config("mail.recipient"), "GND updates fails :(", FAIL_MESSAGE);
 			} else {
@@ -221,6 +223,13 @@ public class ConvertUpdates {
 			writer.append(until.format(dateTimeFormatter));
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	static void writeSkippedUpdate(File file, ZonedDateTime from, ZonedDateTime until) throws IOException {
+		try (FileWriter writer = new FileWriter(file, true)) {
+			writer.append(from.format(dateTimeFormatter)).append(' ').append(until.format(dateTimeFormatter))
+					.append(System.lineSeparator());
 		}
 	}
 

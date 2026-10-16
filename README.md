@@ -126,6 +126,10 @@ Pass one or two arguments: get updates since (and optionally until) a given date
 
 The date of the most recent update is stored in `GND-lastSuccessfulUpdate.txt` (can be changed in the config).
 
+If no update data can be retrieved, the requested period is appended to `GND-skippedUpdates.txt` (configurable).
+Each line contains the start and end timestamps separated by a space; to retry a period, run `apps.ConvertUpdates` with the two timestamps from that line as arguments.
+When `cron.sh` starts a regular update run, it uses the latest skipped period's end time instead of the timestamp in `GND-lastSuccessfulUpdate.txt` if that end time is later. `ConvertUpdates` itself always uses the start time supplied on the command line, so manually retrying a skipped period with its recorded timestamps is not overridden.
+
 The original downloaded data and the converted data are stored in separate files. To convert the data again without downloading it, use the steps described above under 'Convert RDF/XML to JSON' with the update RDF data.
 
 ##### Index the updates
