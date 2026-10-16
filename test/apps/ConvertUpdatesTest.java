@@ -6,11 +6,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class ConvertUpdatesTest {
 
@@ -24,7 +27,7 @@ public class ConvertUpdatesTest {
 		ConvertUpdates.writeSkippedUpdate(skippedUpdates, from, until);
 		ConvertUpdates.writeSkippedUpdate(skippedUpdates, until, until.plusDays(1));
 
-		org.junit.Assert.assertEquals(java.util.Arrays.asList("2022-06-22T11:08:23Z 2022-06-23T18:08:23Z",
+		assertEquals(Arrays.asList("2022-06-22T11:08:23Z 2022-06-23T18:08:23Z",
 				"2022-06-23T18:08:23Z 2022-06-24T18:08:23Z"), Files.readAllLines(skippedUpdates.toPath()));
 	}
 
