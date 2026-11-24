@@ -38,6 +38,20 @@ public class ModelTest {
 				new AuthorityResource(Json.parse(jsonLdFor("4057120-8"))).location());
 	}
 
+	@Test
+	public void testAsGeoPointForPoint() throws IOException {
+		JsonNode geometry = Json.parse(jsonLdFor("4074335-4")).get("hasGeometry").elements().next();
+		Assert.assertEquals(51.508530, geometry.get("asGeoPoint").get("lat").asDouble(), 1e-6);
+		Assert.assertEquals(-0.125740, geometry.get("asGeoPoint").get("lon").asDouble(), 1e-6);
+	}
+
+	@Test
+	public void testAsGeoPointCentroidForPolygon() throws IOException {
+		JsonNode geometry = Json.parse(jsonLdFor("4057120-8")).get("hasGeometry").elements().next();
+		Assert.assertEquals(47.659166, geometry.get("asGeoPoint").get("lat").asDouble(), 1e-6);
+		Assert.assertEquals(8.867778, geometry.get("asGeoPoint").get("lon").asDouble(), 1e-6);
+	}
+
 	public static String jsonLdFor(String id) {
 		try {
 			Model sourceModel = ModelFactory.createDefaultModel();

@@ -34,6 +34,8 @@ libraryDependencies += "org.elasticsearch" % "elasticsearch" % "5.6.3"
 
 libraryDependencies += "org.elasticsearch.client" % "transport" % "5.6.3"
 
+libraryDependencies += "com.vividsolutions" % "jts" % "1.13"
+
 libraryDependencies += "org.dspace" % "oclc-harvester2" % "1.0.0"
 
 libraryDependencies += "org.jooq" % "joox-java-6" % "1.6.0"

@@ -6,9 +6,14 @@ import static org.junit.Assert.assertThat;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.elasticsearch.action.search.SearchPhaseExecutionException;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.geo.GeoPoint;
+import org.elasticsearch.index.query.GeoBoundingBoxQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -39,6 +44,21 @@ public class IndexQueryTest extends IndexTest {
 		Assert.assertEquals(1, index.query("preferredName:\"weizenbaum, joseph\"").getHits().getTotalHits());
 		Assert.assertEquals(0, index.query("id:\"Weizenbaum, Joseph\"").getHits().getTotalHits());
 		Assert.assertEquals(2, index.query("preferredName:\"Erdmann, Elisabeth von\"").getHits().getTotalHits());
+	}
+
+	@Test
+	public void testGeoBoundingBoxQuery() {
+		GeoBoundingBoxQueryBuilder centralEurope = QueryBuilders.geoBoundingBoxQuery("hasGeometry.asGeoPoint")
+				.setCorners(new GeoPoint(54.5, 5.0), new GeoPoint(47.0, 15.0));
+		SearchResponse response = index.query(centralEurope, "", null, "", 0, 10);
+		Assert.assertEquals(3, response.getHits().getTotalHits());
+		Set<String> labels = Stream.of(response.getHits().getHits())
+				.map(hit -> Json.parse(hit.getSourceAsString()).get("preferredName").asText())
+				.collect(Collectors.toSet());
+		Assert.assertTrue(labels.contains("Aachen"));
+		Assert.assertTrue(labels.contains("Berlin"));
+		Assert.assertTrue(labels.contains("Stein am Rhein"));
+		Assert.assertFalse(labels.contains("London"));
 	}
 
 	@Test

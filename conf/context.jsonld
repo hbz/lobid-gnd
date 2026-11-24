@@ -1069,6 +1069,7 @@
          "@container":"@set",
          "@type": "http://www.opengis.net/ont/geosparql#wktLiteral"
       },
+      "asGeoPoint": "https://schema.org/geo",
       "beginningOfPeriod": {
          "@id":"https://d-nb.info/standards/elementset/gnd#beginningOfPeriod",
          "@container":"@set"
