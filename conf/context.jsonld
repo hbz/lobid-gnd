@@ -505,7 +505,7 @@
          "@container":"@set"
       },
       "hasRelationship": {
-         "@id":"https://d-nb.info/standards/elementset/agrelon#hasRelationship",
+         "@id":"https://d-nb.info/standards/elementset/gnd#hasRelationship",
          "@type":"@id",
          "@container":"@set"
       },
