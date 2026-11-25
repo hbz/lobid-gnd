@@ -41,11 +41,11 @@
    "datePublished":"2018-07-11",
    "contactPoint":"https://lobid.org/team",
    "accrualPeriodicity":{
-      "id":"https://publications.europa.eu/resource/authority/frequency/HOURLY",
+      "id":"http://publications.europa.eu/resource/authority/frequency/30MIN",
       "type": "Concept",
       "name":{
-         "en":"Hourly",
-         "de":"Stündlich"
+         "en":"every thirty minutes",
+         "de":"halbstündlich"
       }
    },
    "inLanguage":[
