@@ -50,6 +50,7 @@
       "Pseudonym":"https://d-nb.info/standards/elementset/gnd#Pseudonym",
       "PseudonymNameOfThePerson":"https://d-nb.info/standards/elementset/gnd#PseudonymNameOfThePerson",
       "RealNameOfThePerson":"https://d-nb.info/standards/elementset/gnd#RealNameOfThePerson",
+      "Relationship": "https://d-nb.info/standards/elementset/gnd#Relationship",
       "ReligiousAdministrativeUnit":"https://d-nb.info/standards/elementset/gnd#ReligiousAdministrativeUnit",
       "ReligiousCorporateBody":"https://d-nb.info/standards/elementset/gnd#ReligiousCorporateBody",
       "ReligiousTerritory":"https://d-nb.info/standards/elementset/gnd#ReligiousTerritory",
@@ -503,6 +504,11 @@
          "@type":"@id",
          "@container":"@set"
       },
+      "hasRelationship": {
+         "@id":"https://d-nb.info/standards/elementset/gnd#hasRelationship",
+         "@type":"@id",
+         "@container":"@set"
+      },
       "hasSibling": {
          "@id":"https://d-nb.info/standards/elementset/agrelon#hasSibling",
          "@type":"@id",
@@ -821,6 +827,10 @@
          "@id":"https://d-nb.info/standards/elementset/gnd#realIdentity",
          "@type":"@id",
          "@container":"@set"
+      },
+      "relatedEntity":{
+         "@id":"https://d-nb.info/standards/elementset/gnd#relatedEntity",
+         "@type":"@id"
       },
       "relatedConferenceOrEvent":{
          "@id":"https://d-nb.info/standards/elementset/gnd#relatedConferenceOrEvent",
