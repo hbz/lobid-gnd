@@ -287,8 +287,7 @@ public class AuthorityResource {
 
 	private List<Double> scanGeoCoordinates(String geoString) {
 		List<Double> lonLat = new ArrayList<Double>();
-		try (@SuppressWarnings("resource") // it's the same scanner!
-		Scanner s = new Scanner(geoString).useLocale(Locale.US)) {
+		try (Scanner s = new Scanner(geoString).useLocale(Locale.US).useDelimiter("[\\s,]+")) {
 			while (s.hasNext()) {
 				if (s.hasNextDouble()) {
 					lonLat.add(s.nextDouble());

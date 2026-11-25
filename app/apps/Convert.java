@@ -52,6 +52,9 @@ import org.xml.sax.InputSource;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.jsonldjava.core.JsonLdOptions;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
 import com.google.common.collect.ImmutableMap;
@@ -310,9 +313,27 @@ public class Convert {
 				res.put("professionOrOccupation", stream(in.get("professionOrOccupation"))
 						.flatMap(node -> stream(node).filter(JsonNode::isObject)).collect(Collectors.toList()));
 			}
+			if (res.get("hasGeometry") instanceof List) {
+				@SuppressWarnings("unchecked")
+				List<Map<String, Object>> geometries = (List<Map<String, Object>>) res.get("hasGeometry");
+				geometries.forEach(geometry -> addAsGeoPoint(geometry));
+			}
 			result = Json.toJson(res);
 		}
 		return Json.stringify(withEntityFacts(id, result));
+	}
+
+	private static void addAsGeoPoint(Map<String, Object> geometry) {
+		@SuppressWarnings("unchecked")
+		List<String> wktList = (List<String>) geometry.get("asWKT");
+		if (wktList != null && !wktList.isEmpty()) {
+			try {
+				Coordinate center = new WKTReader().read(wktList.get(0)).getCentroid().getCoordinate();
+				geometry.put("asGeoPoint", ImmutableMap.of("lat", center.y, "lon", center.x));
+			} catch (ParseException e) {
+				Logger.warn("Could not parse WKT geometry: {}", wktList, e);
+			}
+		}
 	}
 
 	private static Stream<JsonNode> stream(JsonNode jsonNode) {

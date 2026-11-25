@@ -108,6 +108,13 @@
 					"type": "keyword",
 					"index": true
 				},
+				"hasGeometry": {
+					"properties" : {
+						"asGeoPoint": {
+							"type": "geo_point"
+						}
+					}
+				},
 				"preferredName": {
 					"type": "text",
 					"fields": {
