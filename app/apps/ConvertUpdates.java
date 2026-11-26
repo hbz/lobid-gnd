@@ -36,9 +36,10 @@ import javax.xml.stream.events.XMLEvent;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathException;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.oclc.oai.harvester2.app.RawWrite;
+import org.oclc.oai.harvester2.verb.ListRecords;
 import org.xml.sax.SAXException;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Configurable to-the-minute. Start time is read from file which was saved last time of successfully updating.
@@ -64,10 +65,10 @@ public class ConvertUpdates {
 			if (args.length == 3) {
 				rawDates = args[2].equals("--raw-dates");
 			}
-			Pair<ZonedDateTime, ZonedDateTime> startAndEnd = getUpdatesAndConvert(ZonedDateTime.parse(args[0]), endOfUpdates);
+			UpdateResult updateResult = getUpdatesAndConvert(ZonedDateTime.parse(args[0]), endOfUpdates);
 			File dataUpdate = new File(config("data.updates.data"));
 			short tried = 1;
-			while (dataUpdate.length() == 0 ) {
+			while (dataUpdate.length() == 0 && !updateResult.noRecordsMatchOnly) {
 				System.err.println("Tried " + tried + " times to get the data, but it's empty.");
 				if (MAX_TRIES >= tried) {
 					System.err.println(FAIL_MESSAGE);
@@ -75,36 +76,38 @@ public class ConvertUpdates {
 				}
 				System.err.println("Going to retry in " + WAIT_PER_RETRY / 1000 / 60 + " min");
 				Thread.sleep(WAIT_PER_RETRY);
-				startAndEnd = getUpdatesAndConvert(startAndEnd.getLeft(), endOfUpdates);
+				updateResult = getUpdatesAndConvert(updateResult.start, endOfUpdates);
 				tried++;
 			}
-			if (dataUpdate.length() == 0) {
+			if (dataUpdate.length() == 0 && !updateResult.noRecordsMatchOnly) {
 				System.err.println("Tried " + tried
 						+ " times to get the data, but it remains empty. This may or may not be a problem on the side of the data provider. Going to send a mail...");
-				writeSkippedUpdate(new File(config("data.updates.skipped")), startAndEnd.getLeft(),
-						startAndEnd.getRight());
+				writeSkippedUpdate(new File(config("data.updates.skipped")), updateResult.start,
+						updateResult.end);
 				// see https://github.com/hbz/lobid-gnd/issues/350
 				// Email.sendEmail(config("mail.sender"), config("mail.recipient"), "GND updates fails :(", FAIL_MESSAGE);
 			} else {
-				System.err.println("Success getting the update, tried " + tried + " times");
-				writeLastSuccessfulUpdate(startAndEnd.getRight());
+				System.err.println(updateResult.noRecordsMatchOnly
+						? "No records matched the update period; treating it as successful."
+						: "Success getting the update, tried " + tried + " times");
+				writeLastSuccessfulUpdate(updateResult.end);
 			}
-			backup(dataUpdate, startAndEnd.getLeft(), startAndEnd.getRight());
+			backup(dataUpdate, updateResult.start, updateResult.end);
 		} else {
 			System.err.println(
 					"Argument missing to get updates since (and optionally until) a given date in ISO format, e.g. 2019-06-13");
 		}
 	}
 
-	private static Pair<ZonedDateTime, ZonedDateTime> getUpdatesAndConvert(final ZonedDateTime startOfUpdates, final ZonedDateTime endOfUpdates) throws IOException {
-		Pair<ZonedDateTime, ZonedDateTime> startAndEnd = getUpdates(startOfUpdates, endOfUpdates);
-		backup(new File(config("data.updates.rdf")), startAndEnd.getLeft(), startAndEnd.getRight());
+	private static UpdateResult getUpdatesAndConvert(final ZonedDateTime startOfUpdates, final ZonedDateTime endOfUpdates) throws IOException {
+		UpdateResult updateResult = getUpdates(startOfUpdates, endOfUpdates);
+		backup(new File(config("data.updates.rdf")), updateResult.start, updateResult.end);
 		ConvertBaseline.main(new String[] { config("data.updates.rdf"), config("data.updates.data"),
 				config("index.delete.updates") });
-		return startAndEnd;
+		return updateResult;
 	}
 	
-	private static Pair<ZonedDateTime, ZonedDateTime> getUpdates(final ZonedDateTime startOfUpdates, final ZonedDateTime endOfUpdates) {
+	private static UpdateResult getUpdates(final ZonedDateTime startOfUpdates, final ZonedDateTime endOfUpdates) {
 		final int intervalInDaysSize = Convert.CONFIG.getInt("data.updates.interval");
 		ZonedDateTime start = startOfUpdates;
 		final ZonedDateTime givenEndOrNow = endOfUpdates != null ? endOfUpdates
@@ -121,6 +124,7 @@ public class ConvertUpdates {
 		String dataUpdateUrl = config("data.updates.url");
 		System.out.printf("Trying to get data using %s from %s CET until %s CET using a %s days interval , i.e. doing %s lookup(s)\n",
 				dataUpdateUrl, start.format(dateTimeFormatter), givenEndOrNow.format(dateTimeFormatter), intervalInDaysSize, intervalInDays);
+		boolean noRecordsMatchOnly = true;
 		for (int i = 0; i < intervalInDays; i++) {
 			if (i == intervalInDays - 1)
 				end = ZonedDateTime.from(givenEndOrNow);
@@ -129,9 +133,12 @@ public class ConvertUpdates {
 						: ZonedDateTime.from(addMinutes(start, givenEndOrNow,
 						(intervalInDaysSize) * DAY_IN_MINUTES /* 'until' is inclusive */));
 			try {
-				process(dataUpdateUrl, start, end, file);
+				if (!processListRecords(dataUpdateUrl, start, end, file)) {
+					noRecordsMatchOnly = false;
+				}
 			} catch (Throwable t) {
 				t.printStackTrace();
+				noRecordsMatchOnly = false;
 			}
 			start = ZonedDateTime.from(end);
 		}
@@ -140,7 +147,19 @@ public class ConvertUpdates {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return Pair.of(startOfUpdates, end);
+		return new UpdateResult(startOfUpdates, end, noRecordsMatchOnly);
+	}
+
+	private static final class UpdateResult {
+		private final ZonedDateTime start;
+		private final ZonedDateTime end;
+		private final boolean noRecordsMatchOnly;
+
+		private UpdateResult(ZonedDateTime start, ZonedDateTime end, boolean noRecordsMatchOnly) {
+			this.start = start;
+			this.end = end;
+			this.noRecordsMatchOnly = noRecordsMatchOnly;
+		}
 	}
 
 	/**
@@ -156,13 +175,54 @@ public class ConvertUpdates {
 			throws NoSuchFieldException, IOException, ParserConfigurationException, SAXException, TransformerException,
 			XMLStreamException, XPathException {
 
+		processListRecords(baseUrl, from, until, result);
+	}
+
+	private static boolean processListRecords(final String baseUrl, final ZonedDateTime from,
+			final ZonedDateTime until, File result) throws IOException, ParserConfigurationException, SAXException,
+			XPathException, NoSuchFieldException, FactoryConfigurationError, XMLStreamException {
 		String fromUtcFormatted = getUtcFromCet(from).minusMinutes(1).format(dateTimeFormatter);
 		String untilUtcFormatted = getUtcFromCet(until).format(dateTimeFormatter);
 
 		System.out.printf("Calling OAI-PMH at %s from %s UTC until %s UTC\n", baseUrl, fromUtcFormatted, untilUtcFormatted);
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		RawWrite.run(baseUrl, fromUtcFormatted, untilUtcFormatted, "RDFxml", "authorities", stream);
-		writeRdfDescriptions(result, stream);
+		ListRecords response = new ListRecords(baseUrl, fromUtcFormatted, untilUtcFormatted, "authorities", "RDFxml");
+		while (response != null) {
+			if (isNoRecordsMatch(response.getErrors())) {
+				System.out.println("OAI-PMH returned noRecordsMatch; treating this period as successfully processed.");
+				return true;
+			}
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			stream.write(response.toString().getBytes(StandardCharsets.UTF_8));
+			writeRdfDescriptions(result, stream);
+
+			String resumptionToken = response.getResumptionToken();
+			System.out.println("resumptionToken: " + resumptionToken);
+			response = resumptionToken == null || resumptionToken.isEmpty()
+					? null
+					: new ListRecords(baseUrl, resumptionToken);
+		}
+		return false;
+	}
+
+	static boolean isNoRecordsMatch(NodeList errors) throws IOException {
+		if (errors == null || errors.getLength() == 0) {
+			return false;
+		}
+		if (errors.getLength() == 1) {
+			Node code = errors.item(0).getAttributes().getNamedItem("code");
+			if (code != null && "noRecordsMatch".equals(code.getNodeValue())) {
+				return true;
+			}
+		}
+		StringBuilder errorCodes = new StringBuilder();
+		for (int i = 0; i < errors.getLength(); i++) {
+			if (i > 0) {
+				errorCodes.append(", ");
+			}
+			Node code = errors.item(i).getAttributes().getNamedItem("code");
+			errorCodes.append(code == null ? errors.item(i).getTextContent() : code.getNodeValue());
+		}
+		throw new IOException("OAI-PMH returned error(s): " + errorCodes);
 	}
 
 	private static ZonedDateTime getUtcFromCet(final ZonedDateTime cetTime) {
